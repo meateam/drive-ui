@@ -2,7 +2,12 @@
   <v-navigation-drawer absolute permanent right class="sidenav">
     <v-list nav>
       <v-list-item id="logo-container">
-        <img id="logo" src="@/assets/images/logo.png" />
+        <v-list-item-content>
+          <v-list-item-title class="title">
+            <img id="logo" src="@/assets/images/logo.png" />
+          </v-list-item-title>
+          <v-list-item-title id="version">{{version}}</v-list-item-title>
+        </v-list-item-content>
       </v-list-item>
       <router-link to="/my-drive">
         <v-list-item link>
@@ -76,7 +81,12 @@
 import Quota from "./quota/Quota";
 export default {
   name: "Sidenav",
-  components: { Quota }
+  components: { Quota },
+  data() {
+    return {
+      version: "2.0"
+    };
+  }
 };
 </script>
 
@@ -118,7 +128,7 @@ export default {
 #logo {
   display: block;
   margin: auto;
-  margin-top: 15px;
+  padding-bottom: 5px;
 }
 
 .icons {
@@ -136,5 +146,9 @@ export default {
 
 #quota-container {
   border-bottom: #255f53 solid 1px;
+}
+
+#version {
+  text-align: center;
 }
 </style>
