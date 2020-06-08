@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer absolute permanent right class="sidenav">
+  <v-navigation-drawer absolute permanent right id="sidenav">
     <v-list nav>
       <v-list-item id="logo-container">
         <v-list-item-content>
@@ -71,7 +71,7 @@
           </v-list-item-icon>
           <v-list-item-title>{{ $t("sidenav.Quota.Quota") }}</v-list-item-title>
         </v-list-item>
-        <Quota :quota="{used: 0, limit: 0}" />
+        <Quota :quota="quota" />
       </div>
     </v-list>
   </v-navigation-drawer>
@@ -79,20 +79,27 @@
 
 <script>
 import Quota from "./quota/Quota";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "Sidenav",
   components: { Quota },
-  data() {
-    return {
-      version: "2.0"
-    };
+    computed: {
+    ...mapGetters(['version', 'quota'])
+  },
+  methods: {
+    ...mapActions(['getQuota'])
+  },
+  created() {
+    this.getQuota();
   }
 };
 </script>
 
 <style scoped>
-.sidenav {
+#sidenav {
   background-image: linear-gradient(to bottom, #357e6f, #4d804d);
+  display: block;
 }
 
 .v-list {

@@ -12,29 +12,24 @@ const router = new Router({
   base: "",
   routes: [
     {
-      path: "*",
-      children: [
-        {
-          path: "/my-drive",
-          component: MyDrive,
-        },
-        {
-          path: "/shared-with-me",
-          component: SharedWithMe,
-        },
-        {
-          path: "/folders",
-          component: Folders,
-        },
-        {
-          path: "/last-upload",
-          component: LastUpload,
-        },
-        {
-          path: "/deleted-files",
-          component: DeletedFiles,
-        },
-      ],
+      path: "/my-drive",
+      component: MyDrive,
+    },
+    {
+      path: "/shared-with-me",
+      component: SharedWithMe,
+    },
+    {
+      path: "/folders",
+      component: Folders,
+    },
+    {
+      path: "/last-upload",
+      component: LastUpload,
+    },
+    {
+      path: "/deleted-files",
+      component: DeletedFiles,
     },
   ],
 });

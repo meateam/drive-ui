@@ -46,7 +46,7 @@ export default {
   position: absolute;
   margin-right: 300px;
   top: 20px;
-  width: 550px;
+  width: 500px;
 }
 
 #one-aman {

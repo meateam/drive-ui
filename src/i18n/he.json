@@ -18,5 +18,12 @@
     "autocomplete": {
         "NoResult": "לא נמצאו תוצאות",
         "Label": "חיפוש בדרייב..."
+    },
+    "myDrive": {
+        "header": "הדרייב שלי"
+    },
+    "fab": {
+        "UploadFile": "העלה קובץ",
+        "NewFolder": "צור תיקייה"
     }
 }

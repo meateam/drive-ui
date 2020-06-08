@@ -2,6 +2,10 @@
   font-family: Rubik;
   src: url("../assets/fonts/Rubik/Rubik-Regular.ttf");
 }
+@font-face {
+  font-family: Rubik-light;
+  src: url("../assets/fonts/Rubik/Rubik-Light.ttf");
+}
 
 html {
   font-family: sans-serif;
@@ -19,12 +23,25 @@ html {
   display: block;
 }
 
-.fab-icon {
-  width: 18px;
+.page-header {
+  color: #2c3448;
+  font-family: Rubik-light;
+  margin: 70px;
+  margin-left: 70px;
+  text-align: right;
+  padding-bottom: 8px;
+  font-size: 40px;
+  font-weight: 400;
+  display: block;
+  border-bottom: 2px solid #357e6f;
 }
 
-
+.fab-icon {
+  width: 18px;
+  font-size: 50px;
+}
 
 a {
   text-decoration: none;
+  display: flex;
 }
