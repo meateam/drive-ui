@@ -1,0 +1,30 @@
+@font-face {
+  font-family: Rubik;
+  src: url("../assets/fonts/Rubik/Rubik-Regular.ttf");
+}
+
+html {
+  font-family: sans-serif;
+  overflow: auto !important;
+}
+.v-application {
+  margin: 0;
+  direction: rtl;
+  background-color: #f0f3f8 !important;
+  font-family: Rubik !important;
+}
+
+.auto-margin {
+  margin: auto;
+  display: block;
+}
+
+.fab-icon {
+  width: 18px;
+}
+
+
+
+a {
+  text-decoration: none;
+}

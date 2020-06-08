@@ -1,0 +1,22 @@
+{
+    "sidenav": {
+        "MyDrive": "הדרייב שלי",
+        "SharedWithMe": "שיתפו אותי",
+        "Deleted": "קבצים שנמחקו",
+        "LastUpload": "הועלו לאחרונה",
+        "Folders": "תיקיות",
+        "Favorites": "מועדפים",
+        "Quota": {
+            "Quota": "אחסון",
+            "Usage": "{used} / {limit}"
+          }
+    },
+    "header": {
+        "connect": "צור קשר",
+        "notification": "עדכונים"
+    },
+    "autocomplete": {
+        "NoResult": "לא נמצאו תוצאות",
+        "Label": "חיפוש בדרייב..."
+    }
+}
