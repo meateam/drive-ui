@@ -22,6 +22,9 @@
     "myDrive": {
         "header": "הדרייב שלי"
     },
+    "shared": {
+        "header": "שיתפו איתי"
+    },
     "fab": {
         "UploadFile": "העלה קובץ",
         "NewFolder": "צור תיקייה"
