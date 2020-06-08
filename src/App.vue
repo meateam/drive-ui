@@ -32,8 +32,6 @@ export default {
 @import "./styles/global.css";
 #page {
   margin-right: 256px;
-}
-.container {
-  width: fit-content;
+  width: calc(100vw - 256px);
 }
 </style>
