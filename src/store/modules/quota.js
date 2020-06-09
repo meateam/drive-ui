@@ -1,4 +1,3 @@
-import axios from "axios";
 import { baseURL } from "@/utils/config";
 
 const state = {
@@ -14,7 +13,7 @@ const getters = {
 
 const actions = {
   async getQuota({ commit }) {
-    const res = await axios.get(`${baseURL}/api/user/quota`);
+    const res = await fetch(`${baseURL}/api/user/quota`);
     if (res.status === 200) {
       try {
         commit("setQuota", await res.json());

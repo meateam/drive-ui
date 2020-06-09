@@ -79,7 +79,7 @@
 
 <script>
 import Quota from "./quota/Quota";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Sidenav",
@@ -87,12 +87,12 @@ export default {
     computed: {
     ...mapGetters(['version', 'quota'])
   },
-  methods: {
-    ...mapActions(['getQuota'])
-  },
-  created() {
-    this.getQuota();
-  }
+  // methods: {
+  //   ...mapActions(['getQuota'])
+  // },
+  // created() {
+  //   this.getQuota();
+  // }
 };
 </script>
 

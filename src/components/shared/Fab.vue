@@ -8,7 +8,7 @@
     </template>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" fab color="#357e6f">
+        <v-btn v-on="on" fab big color="#357e6f">
           <img src="@/assets/icons/new.png" />
         </v-btn>
       </template>

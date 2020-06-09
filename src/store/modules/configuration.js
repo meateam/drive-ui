@@ -28,7 +28,6 @@ const actions = {
   async fetchConfig({ commit }) {
     const res = await fetch(`${state.baseURL}/api/config`);
     const config = await res.json();
-    console.log(config);
     commit("setConfig", config);
   },
 };
