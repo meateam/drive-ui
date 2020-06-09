@@ -29,12 +29,18 @@ const getters = {
 
 const actions = {
   /**
-   * fetch all the files in the root
+   * fetch all the files in the root and adds, the file owener id
    */
-  async fetchRootFiles({ commit }) {
+  async fetchRootFiles({ commit, dispatch }) {
     try {
       const res = await Axios.get(`${baseURL}/api/files`);
-      commit("setFiles", res.data);
+      const files = res.data;
+      await Promise.all(
+        files.map(async (file) => {
+          file.owner = await dispatch("getUserByID", file.ownerId);
+        })
+      );
+      commit("setFiles", files);
     } catch (err) {
       throw new Error(err);
     }

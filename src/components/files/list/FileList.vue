@@ -1,6 +1,6 @@
 <template>
   <div>
-    <File v-bind:key="file.id" v-for="file in files" v-bind:file="file" />
+    <File v-bind:key="file.id" v-for="file in files" v-bind:file="file"/>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import File from "./File";
 export default {
   name: "FileList",
   props: ["files"],
-  components: { File }
+  components: { File },
 };
 </script>
 
