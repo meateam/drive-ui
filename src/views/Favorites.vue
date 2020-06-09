@@ -5,7 +5,7 @@
 <script>
 import ComingSoon from "@/components/shared/ComingSoon";
 export default {
-  name: "DeletedFiles",
+  name: "Favorites",
   components: { ComingSoon }
 };
 </script>

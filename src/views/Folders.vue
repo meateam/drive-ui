@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-container">
     <h1 class="page-header">תיקייה</h1>
     <Fab />
   </div>

@@ -26,14 +26,18 @@ html {
 .page-header {
   color: #2c3448;
   font-family: Rubik-light;
-  margin: 70px;
-  margin-left: 70px;
   text-align: right;
   padding-bottom: 8px;
   font-size: 40px;
   font-weight: 400;
   display: block;
   border-bottom: 2px solid #357e6f;
+}
+
+.page-container {
+  margin: 70px;
+  margin-left: 70px;
+  display: block;
 }
 
 .fab-icon {

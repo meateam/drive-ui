@@ -31,5 +31,8 @@
     "fab": {
         "UploadFile": "העלה קובץ",
         "NewFolder": "צור תיקייה"
+    },
+    "File": {
+        "NotShare": "רק אני"
     }
 }

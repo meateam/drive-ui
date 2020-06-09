@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div class="page-container">
     <h1 class="page-header">{{$t('lastUpdate.header')}}</h1>
-    <Fab />
   </div>
 </template>
 

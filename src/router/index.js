@@ -8,6 +8,7 @@ import SharedWithMe from "@/views/SharedWithMe";
 import Folders from "@/views/Folders";
 import lastUpdate from "@/views/lastUpdate";
 import DeletedFiles from "@/views/DeletedFiles";
+import Favorites from "@/views/Favorites";
 
 Vue.use(Router);
 
@@ -46,6 +47,11 @@ const router = new Router({
       path: "/deleted-files",
       component: DeletedFiles,
       name: "Deleted Files",
+    },
+    {
+      path: "/favorites",
+      component: Favorites,
+      name: "Favorites",
     },
     {
       path: "/404",
