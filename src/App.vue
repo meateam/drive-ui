@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import Header from "./components/layout/Header/Header";
 import Sidenav from "@/components/layout/Sidenav/Sidenav";
 
@@ -19,12 +18,6 @@ export default {
     Header,
     Sidenav
   },
-  methods: {
-    ...mapActions(["fetchConfig"])
-  },
-  created() {
-    this.fetchConfig();
-  }
 };
 </script>
 

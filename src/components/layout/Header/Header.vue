@@ -8,8 +8,8 @@
         <img class="auto-margin" src="@/assets/icons/1-aman.png" />
       </div>
       <div id="info">
-        <p class="auto-margin">גון פונדה</p>
-        <Notification />
+        <p class="auto-margin user-name">{{getUserName()}}</p>
+        <!-- <Notification /> -->
         <Chat />
       </div>
     </v-container>
@@ -18,12 +18,26 @@
 
 <script>
 import Chat from "./Buttons/Chat";
-import Notification from "./Buttons/Notification";
+// import Notification from "./Buttons/Notification";
 import Search from "@/components/shared/Autocomplete";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Header",
-  components: { Chat, Notification, Search }
+  methods: {
+    getUserName() {
+      if (this.user) {
+        const firstName = this.user.name.firstName || "";
+        const lastName = this.user.name.lastName || "";
+        return `${firstName} ${lastName}`;
+      }
+      return "";
+    }
+  },
+  components: { Chat, Search },
+  computed: {
+    ...mapGetters(["user"])
+  }
 };
 </script>
 
@@ -68,5 +82,9 @@ export default {
 .container {
   height: 100%;
   padding: 0;
+}
+
+.user-name {
+  padding-right: 10px;
 }
 </style>

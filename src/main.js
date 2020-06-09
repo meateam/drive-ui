@@ -7,6 +7,11 @@ import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
+(async () => {
+  await store.dispatch("fetchConfig");
+  await store.dispatch("authenticate");
+})();
+
 new Vue({
   vuetify,
   i18n,

@@ -9,6 +9,7 @@
           <v-list-item-title id="version">{{version}}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
       <router-link to="/my-drive">
         <v-list-item link>
           <v-list-item-icon>
@@ -37,12 +38,12 @@
         </v-list-item>
       </router-link>
 
-      <router-link to="/last-upload">
+      <router-link to="/last-update">
         <v-list-item link>
           <v-list-item-icon>
             <img class="icons" src="@/assets/icons/latest.png" />
           </v-list-item-icon>
-          <v-list-item-title>{{ $t("sidenav.LastUpload") }}</v-list-item-title>
+          <v-list-item-title>{{ $t("sidenav.LastUpdate") }}</v-list-item-title>
         </v-list-item>
       </router-link>
 
@@ -79,20 +80,20 @@
 
 <script>
 import Quota from "./quota/Quota";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Sidenav",
   components: { Quota },
-    computed: {
-    ...mapGetters(['version', 'quota'])
+  computed: {
+    ...mapGetters(["version", "quota"])
   },
-  // methods: {
-  //   ...mapActions(['getQuota'])
-  // },
-  // created() {
-  //   this.getQuota();
-  // }
+  methods: {
+    ...mapActions(["getQuota"])
+  },
+  created() {
+    this.getQuota();
+  }
 };
 </script>
 

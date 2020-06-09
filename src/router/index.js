@@ -2,11 +2,11 @@
 import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store";
-import NotFound from "@/views/errors/404"
+import NotFound from "@/views/errors/404";
 import MyDrive from "@/views/MyDrive";
 import SharedWithMe from "@/views/SharedWithMe";
 import Folders from "@/views/Folders";
-import LastUpload from "@/views/LastUpload";
+import lastUpdate from "@/views/lastUpdate";
 import DeletedFiles from "@/views/DeletedFiles";
 
 Vue.use(Router);
@@ -25,40 +25,40 @@ const router = new Router({
     {
       path: "/my-drive",
       component: MyDrive,
-      name: 'My Drive',
+      name: "My Drive",
     },
     {
       path: "/shared-with-me",
       component: SharedWithMe,
-      name: 'Shared With Me',
+      name: "Shared With Me",
     },
     {
       path: "/folders",
       component: Folders,
-      name: 'Folders',
+      name: "Folders",
     },
     {
-      path: "/last-upload",
-      component: LastUpload,
-      name: 'Last Upload',
-    },    
+      path: "/last-update",
+      component: lastUpdate,
+      name: "Last Update",
+    },
     {
       path: "/deleted-files",
       component: DeletedFiles,
-      name: 'Deleted Files',
+      name: "Deleted Files",
     },
     {
       path: "/404",
       component: NotFound,
-      name: 'Not Found',
+      name: "Not Found",
     },
   ],
 });
 
-// router.beforeEach((to, from, next) => {
-//   console.log(store);
-//   if (store.getters.isAuthenticated) return next();
-//   store.dispatch("authenticate");
-// });
+router.beforeEach((to, from, next) => {
+  document.title = to.name;
+  if (store.state.configuration.authUrl) store.dispatch("authenticate");
+  next();
+});
 
 export default router;

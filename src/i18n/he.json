@@ -3,7 +3,7 @@
         "MyDrive": "הדרייב שלי",
         "SharedWithMe": "שיתפו אותי",
         "Deleted": "קבצים שנמחקו",
-        "LastUpload": "הועלו לאחרונה",
+        "LastUpdate": "שונו לאחרונה",
         "Folders": "תיקיות",
         "Favorites": "מועדפים",
         "Quota": {
@@ -21,6 +21,9 @@
     },
     "myDrive": {
         "header": "הדרייב שלי"
+    },
+    "lastUpdate": {
+        "header": "שונו לאחרונה"
     },
     "shared": {
         "header": "שיתפו איתי"
