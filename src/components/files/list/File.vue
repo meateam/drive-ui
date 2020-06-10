@@ -1,19 +1,26 @@
 <template>
   <div class="file-list-structure">
     <v-checkbox color="#357e6f"></v-checkbox>
-    <p id="file-name">{{file.name}}</p>
+    <div>
+      <img id="folder" v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
+    </div>
+    <p id="file-name" class="ltr">{{file.name}}</p>
     <p>{{file.owner}}</p>
     <p>{{formatedDate(file.updatedAt)}}</p>
-    <p id="file-size">{{formatBytes(file.size)}}</p>
+    <p class="ltr">{{formatBytes(file.size)}}</p>
   </div>
 </template>
 
 <script>
 import fileSize from "filesize";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ListFile",
   props: ["file"],
+  computed: {
+    ...mapGetters(["folderContentType"])
+  },
   methods: {
     /**
      * getDate return the formated creation date
@@ -37,21 +44,20 @@ export default {
     formatBytes(bytes) {
       if (bytes == 0) return "-";
       return fileSize(bytes);
+    },
+    isFolder(file) {
+      return file.type === this.folderContentType;
     }
   }
 };
 </script>
 
 <style scoped>
-#file:hover {
+.file-list-structure:hover {
   background-color: rgb(213, 221, 235);
 }
 #file-name {
   font-family: Rubik;
   font-size: 20px;
-  direction: ltr;
-}
-#file-size {
-  direction: ltr;
 }
 </style>

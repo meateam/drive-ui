@@ -20,11 +20,13 @@ const state = {
     "pdf",
   ],
   files: [],
+  folderContentType: "application/vnd.drive.folder",
 };
 
 const getters = {
   allowedFileTypes: (state) => state.allowedTypes,
   files: (state) => state.files,
+  folderContentType: (state) => state.folderContentType,
 };
 
 const actions = {

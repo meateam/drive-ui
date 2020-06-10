@@ -23,6 +23,10 @@ html {
   display: block;
 }
 
+.ltr {
+  direction: ltr;
+}
+
 .page-header {
   color: #2c3448;
   font-family: Rubik-light;
@@ -51,7 +55,8 @@ html {
   font-family: Rubik-Light;
   color: #2c3448;
   display: grid;
-  grid-template-columns: 10% 35% 15% 15% 15%;
+  grid-template-columns: 5% 5% 35% 15% 15% 15%;
+  grid-auto-rows: 70px;
 }
 
 .fab-icon {

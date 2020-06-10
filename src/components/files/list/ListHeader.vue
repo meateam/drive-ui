@@ -1,6 +1,7 @@
 <template>
   <div class="file-list-structure">
     <div></div>
+    <div></div>
     <p id="file-name">{{$t('file.Name')}}</p>
     <p>{{$t('file.Owner')}}</p>
     <p>{{$t('file.LastUpdate')}}</p>

@@ -1,6 +1,5 @@
 const state = {
   version: "2.0",
-  folderContentType: "application/vnd.drive.folder",
   baseURL: "http://localhost:8080",
   apmServerUrl: "",
   authUrl: "",
@@ -21,7 +20,6 @@ const getters = {
   externalShareName: (state) => state.externalShareName,
   enableExternalShare: (state) => state.enableExternalShare,
   version: (state) => state.version,
-  folderContentType: (state) => state.folderContentType,
 };
 
 const actions = {
