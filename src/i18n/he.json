@@ -32,7 +32,10 @@
         "UploadFile": "העלה קובץ",
         "NewFolder": "צור תיקייה"
     },
-    "File": {
-        "NotShare": "רק אני"
+    "file": {
+        "Name": "שם",
+        "Owner": "בעלים",
+        "LastUpdate": "השינוי האחרון",
+        "Size": "גודל הקובץ"
     }
 }

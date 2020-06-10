@@ -15,6 +15,14 @@ const actions = {
     const res = await axios.get(`${baseURL}/api/users/${id}`);
     return res.data.user;
   },
+  /**
+   * getUserNameByID returnes the user name with the received id
+   * @param id is the user id
+   */
+  async getUserNameByID({}, id) {
+    const res = await axios.get(`${baseURL}/api/users/${id}`);
+    return res.data.user.fullName;
+  },
 };
 
 const mutations = {};

@@ -31,13 +31,14 @@ const actions = {
   /**
    * fetch all the files in the root and adds, the file owener id
    */
-  async fetchRootFiles({ commit, dispatch }) {
+  async fetchRootFiles({ commit, dispatch, rootState }) {
     try {
       const res = await Axios.get(`${baseURL}/api/files`);
       const files = res.data;
       await Promise.all(
         files.map(async (file) => {
-          file.owner = await dispatch("getUserByID", file.ownerId);
+          if (file.ownerId === rootState.auth.user.id) file.owner = "אני";
+          else file.owner = await dispatch("getUserNameByID", file.ownerId);
         })
       );
       commit("setFiles", files);
@@ -47,7 +48,7 @@ const actions = {
   },
   /**
    * fetch all the files in the received folder
-   * @param {*} folderID the id of the current folder
+   * @param folderID the id of the current folder
    */
   async fetchFolderFiles({ commit }, folderID) {
     try {

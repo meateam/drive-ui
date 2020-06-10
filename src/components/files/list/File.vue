@@ -1,27 +1,26 @@
 <template>
-  <div id="file">
+  <div class="file-list-structure">
+    <v-checkbox color="#357e6f"></v-checkbox>
     <p id="file-name">{{file.name}}</p>
-    <p>{{file.owner.fullName}}</p>
-
-    <p>{{getFormatedDate()}}</p>
-    <p v-if="!file.shared">{{$t('File.NotShare')}}</p>
-    <!-- <UserAvatar v-else /> -->
+    <p>{{file.owner}}</p>
+    <p>{{formatedDate(file.updatedAt)}}</p>
+    <p id="file-size">{{formatBytes(file.size)}}</p>
   </div>
 </template>
 
 <script>
-// import UserAvatar from "@/components/shared/UserAvatar";
+import fileSize from "filesize";
 
 export default {
   name: "ListFile",
-  props: ["file",],
-  // components: { UserAvatar },
+  props: ["file"],
   methods: {
     /**
      * getDate return the formated creation date
+     * @param d is the date to format
      */
-    getFormatedDate() {
-      const date = new Date(this.file.createdAt);
+    formatedDate(d) {
+      const date = new Date(d);
 
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
@@ -30,31 +29,29 @@ export default {
       const minutes = date.getMinutes();
 
       return `${day}.${month}.${year} ${hour}:${minutes}`;
+    },
+    /**
+     * get the the formated size of the file
+     * @param bytes is the bytes to format
+     */
+    formatBytes(bytes) {
+      if (bytes == 0) return "-";
+      return fileSize(bytes);
     }
-  },
+  }
 };
 </script>
 
 <style scoped>
-#file {
-  cursor: pointer;
-  height: 70px;
-  line-height: 70px;
-  width: 100%;
-  border-bottom: rgb(213, 221, 235) 1px solid;
-  display: flex;
-  justify-content: space-evenly;
-}
-p {
-  text-align: right;
-  color: #2c3448;
-  font-size: 19px;
+#file:hover {
+  background-color: rgb(213, 221, 235);
 }
 #file-name {
-  font-size: 22px;
+  font-family: Rubik;
+  font-size: 20px;
   direction: ltr;
 }
-#flex {
-  display: flex;
+#file-size {
+  direction: ltr;
 }
 </style>
