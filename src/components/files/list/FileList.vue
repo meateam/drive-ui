@@ -1,7 +1,7 @@
 <template>
   <div>
     <ListHeader />
-    <File v-bind:key="file.id" v-for="file in files" v-bind:file="file" />
+    <File v-bind:key="file.id" v-for="file in files" v-bind:file="file" @checked="fileCheck" />
   </div>
 </template>
 
@@ -12,6 +12,22 @@ import ListHeader from "./ListHeader";
 export default {
   name: "FileList",
   props: ["files"],
-  components: { File, ListHeader }
+  data() {
+    return {
+      checkedFiles: []
+    };
+  },
+  components: { File, ListHeader },
+  methods: {
+    fileCheck(isChecked, fileID) {
+      if (isChecked) {
+        this.checkedFiles[this.checkedFiles.length] = fileID;
+      } else {
+        this.checkedFiles = this.checkedFiles.filter(file => {
+          return file !== fileID;
+        });
+      }
+    }
+  }
 };
 </script>

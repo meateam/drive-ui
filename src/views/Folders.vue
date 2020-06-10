@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Fab from "../components/shared/Fab";
+import Fab from "../components/shared/buttons/Fab";
 export default {
   name: "Folder",
   components: { Fab }

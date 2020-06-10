@@ -1,6 +1,10 @@
 <template>
   <div class="file-list-structure">
-    <v-checkbox color="#357e6f"></v-checkbox>
+    <v-checkbox
+      @change="$emit('checked', checked, file.id)"
+      v-model="checked"
+      color="#357e6f"
+    ></v-checkbox>
     <div>
       <img id="folder" v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
     </div>
@@ -18,6 +22,11 @@ import { mapGetters } from "vuex";
 export default {
   name: "ListFile",
   props: ["file"],
+  data() {
+    return {
+      checked: false
+    };
+  },
   computed: {
     ...mapGetters(["folderContentType"])
   },

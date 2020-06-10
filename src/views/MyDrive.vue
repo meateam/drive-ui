@@ -8,7 +8,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Fab from "@/components/shared/Fab";
+import Fab from "@/components/shared/buttons/Fab";
 import FileList from "@/components/files/list/FileList";
 
 export default {
@@ -22,7 +22,7 @@ export default {
   },
   created() {
     this.fetchRootFiles();
-  }
+  },
 };
 </script>
 

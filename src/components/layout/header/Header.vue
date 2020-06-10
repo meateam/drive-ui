@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import Chat from "./Buttons/Chat";
-// import Notification from "./Buttons/Notification";
+import Chat from "./buttons/Chat";
+// import Notification from "./buttons/Notification";
 import Search from "@/components/shared/Autocomplete";
 import { mapGetters } from "vuex";
 

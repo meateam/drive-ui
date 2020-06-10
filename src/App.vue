@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Header from "./components/layout/Header/Header";
-import Sidenav from "@/components/layout/Sidenav/Sidenav";
+import Header from "@/components/layout/header/Header";
+import Sidenav from "@/components/layout/sidenav/Sidenav";
 
 export default {
   name: "App",
