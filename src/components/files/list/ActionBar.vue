@@ -1,5 +1,5 @@
 <template>
-  <div id="action-bar" v-if="show">
+  <div id="action-bar" v-if="checkedFiles.length">
     <Download @click="downloadFiles" />
     <Delete @click="deleteFiles" />
     <Move @click="moveFiles" />
@@ -12,14 +12,24 @@ import Download from "@/components/shared/buttons/Download";
 import Delete from "@/components/shared/buttons/Delete";
 import Move from "@/components/shared/buttons/Move";
 import Share from "@/components/shared/buttons/Share";
+import { mapActions } from "vuex";
 
 export default {
   name: "ActionBar",
-  props: ["show"],
+  props: ["checkedFiles"],
   components: { Download, Delete, Move, Share },
   methods: {
-    downloadFiles() {},
-    deleteFiles() {},
+    ...mapActions(["deleteFile, downloadFile"]),
+    downloadFiles() {
+      this.checkedFiles.forEach(fileID => {
+        this.downloadFile(fileID);
+      });
+    },
+    deleteFiles() {
+      this.checkedFiles.forEach(fileID => {
+        this.deleteFile(fileID);
+      });
+    },
     moveFiles() {},
     shareFiles() {}
   }
@@ -34,7 +44,7 @@ export default {
   box-shadow: 0px 30px 38px 0 rgba(53, 126, 111, 0.42);
   background-color: #357e6f;
   position: fixed;
-  animation: grow .25s;
+  animation: grow 0.25s;
   bottom: 50px;
   display: flex;
   justify-content: space-evenly;

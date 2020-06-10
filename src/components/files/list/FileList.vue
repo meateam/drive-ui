@@ -2,7 +2,7 @@
   <div>
     <ListHeader />
     <File v-bind:key="file.id" v-for="file in files" v-bind:file="file" @checked="fileCheck" />
-    <ActionBar v-bind:show="checkedFiles.length" />
+    <ActionBar v-bind:checkedFiles="checkedFiles" />
   </div>
 </template>
 

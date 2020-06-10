@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-pattern */
 import Axios from "axios";
 import { baseURL } from "@/utils/config";
 
@@ -21,6 +22,7 @@ const state = {
   ],
   files: [],
   folderContentType: "application/vnd.drive.folder",
+  currentFolder: undefined,
 };
 
 const getters = {
@@ -43,7 +45,7 @@ const actions = {
           else file.owner = await dispatch("getUserNameByID", file.ownerId);
         })
       );
-      commit("setFiles", files);
+      commit("fetchFiles", files);
     } catch (err) {
       throw new Error(err);
     }
@@ -55,7 +57,7 @@ const actions = {
   async fetchFolderFiles({ commit }, folderID) {
     try {
       const res = await Axios.get(`${baseURL}/api/files?parent=${folderID}`);
-      commit("setFiles", res.data);
+      commit("fetchFiles", res.data);
     } catch (err) {
       throw new Error(err);
     }
@@ -72,20 +74,77 @@ const actions = {
       throw new Error(err);
     }
   },
-  // async uploadFile({ commit }) {},
+  /**
+   * uploadFile uploads file by size
+   */
+  async uploadFile({ dispatch }, file) {
+    if (file.size <= 5 << 20) {
+      await dispatch("multipartUpload", file);
+    } else {
+      await dispatch("resumableUpload", file);
+    }
+  },
+  /**
+   *
+   * @param multipartUpload
+   * @param file
+   */
+  async multipartUpload({ commit, rootState }, file) {
+    try {
+      let request = new XMLHttpRequest();
+      request.open(
+        "POST",
+        `${baseURL}/api/upload?uploadType=multipart${
+          state.currentFolder ? `&parent=${state.currentFolder}` : ""
+        }`,
+        true
+      );
+      request.withCredentials = true;
+      request.setRequestHeader(
+        "Authorization",
+        `Bearer ${rootState.auth.token}`
+      );
+
+      request.onload = () => {
+        if (request.status === 200) {
+          commit("uploadFile", request.responseText);
+        } else if (request.status === 409) {
+          throw new Error(request.status);
+        } else {
+          throw new Error(request.responseText);
+        }
+      };
+
+      request.onerror = (err) => {
+        throw new Error(err);
+      };
+
+      const formData = new FormData();
+      formData.append("file", file, file.name);
+
+      request.send(formData);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
   // async uploadFolder({ commit }) {},
   // async moveFile({ commit }) {},
   // async unShareFile({ commit }) {},
-  // async downloadFile({ commit }) {},
+  async downloadFile({}, fileID) {
+    window.open(`${baseURL}/api/files/${fileID}?alt=media`);
+  },
   // async previewFile({ commit }) {},
 };
 
 const mutations = {
-  setFiles: (state, files) => (state.files = files),
+  fetchFiles: (state, files) => (state.files = files),
   deleteFile: (state, fileID) => {
     state.files.filter((file) => {
       return file.id !== fileID;
     });
+  },
+  uploadFile: (state, file) => {
+    if (state.currentFolder === file.parent) state.files.push(file);
   },
 };
 
