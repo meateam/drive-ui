@@ -12,26 +12,35 @@
           <img src="@/assets/icons/new.png" />
         </v-btn>
       </template>
-      <span>{{ $t("fab.NewFolder") }}</span>
+      <span>{{ $t("buttons.NewFolder") }}</span>
     </v-tooltip>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" fab color="#357e6f">
+        <v-btn v-on="on" fab color="#357e6f" @click="upload">
+          <Upload />
           <img src="@/assets/icons/upload.png" />
         </v-btn>
       </template>
-      <span>{{ $t("fab.UploadFile") }}</span>
+      <span>{{ $t("buttons.UploadFile") }}</span>
     </v-tooltip>
   </v-speed-dial>
 </template>
 
 <script>
+import Upload from "./Upload";
+
 export default {
   name: "Fab",
   data() {
     return {
       fab: false
     };
+  },
+  components: { Upload },
+  methods: {
+    upload() {
+      document.getElementById("upload-input").click();
+    }
   }
 };
 </script>

@@ -28,14 +28,18 @@
     "shared": {
         "header": "שיתפו איתי"
     },
-    "fab": {
-        "UploadFile": "העלה קובץ",
-        "NewFolder": "צור תיקייה"
-    },
     "file": {
         "Name": "שם",
         "Owner": "בעלים",
         "LastUpdate": "השינוי האחרון",
         "Size": "גודל הקובץ"
+    },
+    "buttons": {
+        "UploadFile": "העלה קובץ",
+        "NewFolder": "צור תיקייה",
+        "Move": "העברה",
+        "Delete": "מחיקה",
+        "Share": "שיתוף",
+        "Download": "הורדה"
     }
 }

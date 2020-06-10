@@ -59,7 +59,7 @@
       <router-link to="/deleted-files">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/deleted.png" />
+            <img class="icons" src="@/assets/icons/delete.png" />
           </v-list-item-icon>
           <v-list-item-title>{{ $t("sidenav.Deleted") }}</v-list-item-title>
         </v-list-item>
