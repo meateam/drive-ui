@@ -12,22 +12,20 @@ import Download from "@/components/shared/buttons/Download";
 import Delete from "@/components/shared/buttons/Delete";
 import Move from "@/components/shared/buttons/Move";
 import Share from "@/components/shared/buttons/Share";
-import { mapActions } from "vuex";
 
 export default {
   name: "ActionBar",
   props: ["checkedFiles"],
   components: { Download, Delete, Move, Share },
   methods: {
-    ...mapActions(["deleteFile, downloadFile"]),
     downloadFiles() {
       this.checkedFiles.forEach(fileID => {
-        this.downloadFile(fileID);
+        this.$store.dispatch("downloadFile", fileID);
       });
     },
     deleteFiles() {
       this.checkedFiles.forEach(fileID => {
-        this.deleteFile(fileID);
+        this.$store.dispatch("deleteFile", fileID);
       });
     },
     moveFiles() {},
