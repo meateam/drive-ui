@@ -14,6 +14,3 @@ export default {
   name:"Delete"
 };
 </script>
-
-<style>
-</style>

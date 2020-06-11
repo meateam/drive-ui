@@ -1,5 +1,5 @@
 <template>
-  <div id="action-bar" v-if="checkedFiles.length">
+  <div id="action-bar" v-if="chosenFiles.length">
     <Download @click="downloadFiles" />
     <Delete @click="deleteFiles" />
     <Move @click="moveFiles" />
@@ -12,21 +12,20 @@ import Download from "@/components/shared/buttons/Download";
 import Delete from "@/components/shared/buttons/Delete";
 import Move from "@/components/shared/buttons/Move";
 import Share from "@/components/shared/buttons/Share";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ActionBar",
-  props: ["checkedFiles"],
+  computed: {
+    ...mapGetters(["chosenFiles"])
+  },
   components: { Download, Delete, Move, Share },
   methods: {
     downloadFiles() {
-      this.checkedFiles.forEach(fileID => {
-        this.$store.dispatch("downloadFile", fileID);
-      });
+      this.$store.dispatch("downloadFiles");
     },
     deleteFiles() {
-      this.checkedFiles.forEach(fileID => {
-        this.$store.dispatch("deleteFile", fileID);
-      });
+      this.$store.dispatch("deleteFiles");
     },
     moveFiles() {},
     shareFiles() {}

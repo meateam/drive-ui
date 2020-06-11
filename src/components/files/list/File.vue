@@ -1,10 +1,6 @@
 <template>
   <div class="file-list-structure">
-    <v-checkbox
-      @change="$emit('checked', checked, file.id)"
-      v-model="checked"
-      color="#357e6f"
-    ></v-checkbox>
+    <v-checkbox @change="checkFile" v-model="isChecked" color="#357e6f"></v-checkbox>
     <div>
       <img id="folder" v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
     </div>
@@ -24,7 +20,7 @@ export default {
   props: ["file"],
   data() {
     return {
-      checked: false
+      isChecked: false
     };
   },
   computed: {
@@ -56,6 +52,12 @@ export default {
     },
     isFolder(file) {
       return file.type === this.folderContentType;
+    },
+    checkFile() {
+      this.$store.commit("chooseFile", {
+        isChecked: this.isChecked,
+        fileID: this.file.id
+      });
     }
   }
 };

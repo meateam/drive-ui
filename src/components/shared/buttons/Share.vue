@@ -14,6 +14,3 @@ export default {
   name:"Share"
 };
 </script>
-
-<style>
-</style>

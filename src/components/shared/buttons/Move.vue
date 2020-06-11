@@ -14,6 +14,3 @@ export default {
   name:"Move"
 };
 </script>
-
-<style>
-</style>

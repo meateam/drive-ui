@@ -1,8 +1,8 @@
 <template>
   <div>
     <ListHeader />
-    <File v-bind:key="file.id" v-for="file in files" v-bind:file="file" @checked="fileCheck" />
-    <ActionBar v-bind:checkedFiles="checkedFiles" />
+    <File v-bind:key="file.id" v-for="file in files" v-bind:file="file" />
+    <ActionBar />
   </div>
 </template>
 
@@ -14,23 +14,6 @@ import ActionBar from "./ActionBar";
 export default {
   name: "FileList",
   props: ["files"],
-  data() {
-    return {
-      checkedFiles: []
-    };
-  },
-  watch: {},
   components: { File, ListHeader, ActionBar },
-  methods: {
-    fileCheck(isChecked, fileID) {
-      if (isChecked && !this.checkedFiles.includes(fileID)) {
-        this.checkedFiles.push(fileID);
-      } else {
-        this.checkedFiles = this.checkedFiles.filter(file => {
-          return file !== fileID;
-        });
-      }
-    }
-  }
 };
 </script>

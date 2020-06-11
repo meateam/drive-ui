@@ -18,10 +18,10 @@ export default {
     ...mapGetters(["files"])
   },
   methods: {
-    ...mapActions(["fetchRootFiles"])
+    ...mapActions(["fetchFiles"])
   },
   created() {
-    this.fetchRootFiles();
+    this.fetchFiles();
   },
 };
 </script>
