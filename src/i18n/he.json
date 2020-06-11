@@ -17,7 +17,7 @@
     },
     "autocomplete": {
         "NoResult": "לא נמצאו תוצאות",
-        "Label": "חיפוש בדרייב..."
+        "Placeholder": "חיפוש בדרייב..."
     },
     "myDrive": {
         "header": "הדרייב שלי"
@@ -42,5 +42,8 @@
         "Share": "שיתוף",
         "Download": "הורדה",
         "Confirm": "אישור"
+    },
+    "folder": {
+        "Upload": "יצירת תיקייה חדשה"
     }
 }

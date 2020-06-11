@@ -1,8 +1,9 @@
 <template>
-  <v-dialog v-model="dialog" id="folder-dialog">
+  <v-dialog v-model="isOpen" id="folder-dialog">
     <v-card>
       <div id="popup-header">
-        <v-card-title class="headline">Use Google's location service?</v-card-title>
+        <img src="@/assets/icons/newFolder.png" />
+        <v-card-title>{{$t('folder.Upload')}}</v-card-title>
       </div>
       <div id="popup-body">
         <v-card-actions id="actions">
@@ -17,8 +18,13 @@
 import Confirm from "../buttons/Confirm";
 
 export default {
-  props: ["dialog"],
-  components: { Confirm }
+  props: ["open"],
+  components: { Confirm },
+  data() {
+    return {
+      isOpen: this.open
+    };
+  }
 };
 </script>
 

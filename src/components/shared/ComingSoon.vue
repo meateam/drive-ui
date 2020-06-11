@@ -7,6 +7,3 @@ export default {
   name: "ComingSoon"
 };
 </script>
-
-<style>
-</style>

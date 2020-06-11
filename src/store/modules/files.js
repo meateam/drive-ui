@@ -20,7 +20,7 @@ const actions = {
   /**
    * fetch all the files in the root and adds, the file owener id
    */
-  async fetchFiles({ commit, dispatch, rootState }) {
+  async fetchFiles({ commit, dispatch }) {
     try {
       const res = await Axios.get(
         `${baseURL}/api/files${
@@ -30,14 +30,18 @@ const actions = {
       const files = res.data;
       await Promise.all(
         files.map(async (file) => {
-          if (file.ownerId === rootState.auth.user.id) file.owner = "אני";
-          else file.owner = await dispatch("getUserNameByID", file.ownerId);
+          dispatch("formatFile", file);
         })
       );
       commit("fetchFiles", files);
     } catch (err) {
       throw new Error(err);
     }
+  },
+  async formatFile({ dispatch, rootState }, file) {
+    if (file.ownerId === rootState.auth.user.id) file.owner = "אני";
+    else file.owner = await dispatch("getUserNameByID", file.ownerId);
+    return file;
   },
   async getFileByID({}, fileID) {
     const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
@@ -98,7 +102,9 @@ const actions = {
       request.onload = async () => {
         if (request.status === 200) {
           const file = await dispatch("getFileByID", request.responseText);
+          dispatch("formatFile", file);
           commit("uploadFile", file);
+          dispatch("getQuota");
         } else if (request.status === 409) {
           throw new Error(request.status);
         } else {
@@ -138,7 +144,9 @@ const actions = {
       request.onload = async () => {
         if (request.status === 200) {
           const file = await dispatch("getFileByID", request.responseText);
+          dispatch("formatFile", file);
           commit("uploadFile", file);
+          dispatch("getQuota");
         } else if (request.status === 409) {
           throw new Error(request.status);
         } else {
