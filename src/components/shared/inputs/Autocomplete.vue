@@ -7,7 +7,7 @@
     dense
     append-icon="search"
     background-color="#f0f4f7"
-    :placeholder="$t('autocomplete.Placeholder')"
+    :placeholder="placeholder"
   >
     <template v-slot:no-data>
       <v-list-item>
@@ -21,7 +21,7 @@
 export default {
   data: () => ({
     value: null,
-    items: []
-  })
+  }),
+  props: ["placeholder", "items"]
 };
 </script>

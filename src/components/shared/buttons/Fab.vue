@@ -8,8 +8,8 @@
     </template>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn v-on:click="togglePopup" v-on="on" fab big color="#357e6f">
-          <!-- <NewFolder :open="showPopup" /> -->
+        <v-btn @click.stop="openDialog" v-on="on" fab big color="#357e6f">
+          <NewFolder ref="folderPopup" />
           <img src="@/assets/icons/new.png" />
         </v-btn>
       </template>
@@ -17,7 +17,7 @@
     </v-tooltip>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" fab color="#357e6f" @click="upload">
+        <v-btn v-on="on" fab color="#357e6f" @click="uploadFile">
           <Upload />
           <!-- transparent input for upload files -->
           <img src="@/assets/icons/upload.png" />
@@ -30,24 +30,22 @@
 
 <script>
 import Upload from "./Upload";
-// import NewFolder from "../popups/NewFolder";
+import NewFolder from "../popups/NewFolder";
 
 export default {
   name: "Fab",
   data() {
     return {
-      fab: false,
-      showPopup: false
+      fab: false
     };
   },
-  components: { Upload },
+  components: { Upload, NewFolder },
   methods: {
-    upload() {
+    uploadFile() {
       document.getElementById("upload-input").click();
     },
-    togglePopup() {
-      this.showPopup = !this.showPopup;
-      console.log("aaa")
+    openDialog() {
+      this.$refs.folderPopup.open();
     }
   }
 };

@@ -4,9 +4,10 @@ import { baseURL } from "@/utils/config";
 
 const state = {
   files: [],
+  chosenFiles: [],
   folderContentType: "application/vnd.drive.folder",
   currentFolder: undefined,
-  chosenFiles: [],
+  folderRoles: ["READ", "WRITE"]
 };
 
 const getters = {
@@ -14,6 +15,8 @@ const getters = {
   files: (state) => state.files,
   folderContentType: (state) => state.folderContentType,
   chosenFiles: (state) => state.chosenFiles,
+  folderRoles: (state) => state.folderRoles,
+  folders: (state) => state.files.filter(file => file.type === state.folderContentType),
 };
 
 const actions = {
@@ -24,7 +27,7 @@ const actions = {
     try {
       const res = await Axios.get(
         `${baseURL}/api/files${
-          state.currentFolder ? `&parent=${state.currentFolder}` : ""
+        state.currentFolder ? `&parent=${state.currentFolder}` : ""
         }`
       );
       const files = res.data;
@@ -43,7 +46,7 @@ const actions = {
     else file.owner = await dispatch("getUserNameByID", file.ownerId);
     return file;
   },
-  async getFileByID({}, fileID) {
+  async getFileByID({ }, fileID) {
     const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
     return res.data;
   },
@@ -85,11 +88,12 @@ const actions = {
    */
   async multipartUpload({ dispatch, commit, rootState }, file) {
     try {
+      if (dispatch('isNameNotValid', file.name)) throw new Error("Name already exists in the root");
       const request = new XMLHttpRequest();
       request.open(
         "POST",
         `${baseURL}/api/upload?uploadType=multipart${
-          state.currentFolder ? `&parent=${state.currentFolder}` : ""
+        state.currentFolder ? `&parent=${state.currentFolder}` : ""
         }`,
         true
       );
@@ -103,7 +107,7 @@ const actions = {
         if (request.status === 200) {
           const file = await dispatch("getFileByID", request.responseText);
           dispatch("formatFile", file);
-          commit("uploadFile", file);
+          commit("updateFiles", file);
           dispatch("getQuota");
         } else if (request.status === 409) {
           throw new Error(request.status);
@@ -122,12 +126,13 @@ const actions = {
   },
   async resumableUpload({ dispatch, commit, rootState }, file) {
     try {
+      if (dispatch('isNameNotValid', file.name)) throw new Error("Name already exists in the root");
       const uploadID = await dispatch("getUploadID", file);
       const request = new XMLHttpRequest();
       request.open(
         "POST",
         `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${
-          state.currentFolder ? `&parent=${state.currentFolder}` : ""
+        state.currentFolder ? `&parent=${state.currentFolder}` : ""
         }`,
         true
       );
@@ -145,7 +150,7 @@ const actions = {
         if (request.status === 200) {
           const file = await dispatch("getFileByID", request.responseText);
           dispatch("formatFile", file);
-          commit("uploadFile", file);
+          commit("updateFiles", file);
           dispatch("getQuota");
         } else if (request.status === 409) {
           throw new Error(request.status);
@@ -162,7 +167,7 @@ const actions = {
       throw new Error(err);
     }
   },
-  async getUploadID({}, file) {
+  async getUploadID({ }, file) {
     try {
       const res = await Axios.post(
         `${baseURL}/api/upload`,
@@ -186,7 +191,7 @@ const actions = {
    * downloadFile downloads the file with the
    * @param fileID is the id of the file to download
    */
-  downloadFile({}, fileID) {
+  downloadFile({ }, fileID) {
     window.open(`${baseURL}/api/files/${fileID}?alt=media`, "_blank");
   },
   /**
@@ -197,20 +202,39 @@ const actions = {
       dispatch("downloadFile", fileID);
     });
   },
-  // async uploadFolder({ commit }, name) {
-  //   const folder = await Axios.post(
-  //     `${baseURL}/api/upload?uploadType=multipart${
-  //       state.currentFolder ? `&parent=${state.currentFolder}` : ""
-  //     }`,
-  //     {},
-  //     {
-  //       headers: {
-  //         "Content-Type": state.folderContentType,
-  //         "Content-Disposition": `filename=${encodeURIComponent(name)}`,
-  //       },
-  //     }
-  //   );
-  // },
+  /**
+   * uploadFolder in the current folder
+   * @param name is the name of the folder
+   */
+  async uploadFolder({ commit, dispatch }, name) {
+    try {
+      if (dispatch('isNameNotValid', name)) throw new Error("Name already exists in the root");
+      const res = await Axios.post(
+        `${baseURL}/api/upload?uploadType=multipart${
+        state.currentFolder ? `&parent=${state.currentFolder}` : ""
+        }`,
+        {},
+        {
+          headers: {
+            "Content-Type": state.folderContentType,
+            "Content-Disposition": `filename=${encodeURIComponent(name)}`,
+          },
+        }
+      );
+      const folder = await dispatch("getFileByID", res.data);
+      dispatch("formatFile", folder);
+      commit('updateFiles', folder)
+    } catch (err) {
+      throw new Error(err)
+    }
+  },
+  isNameNotValid({ }, name) {
+    if (!name) return true;
+    state.files.forEach(file => {
+      return file.name == name;
+    });
+    return false;
+  },
   // async moveFile({ commit }) {},
   // async unShareFile({ commit }) {},
   // async previewFile({ commit }) {},
@@ -221,7 +245,7 @@ const mutations = {
   deleteFile: (state, fileID) => {
     state.files = state.files.filter((file) => file.id !== fileID);
   },
-  uploadFile: (state, file) => {
+  updateFiles: (state, file) => {
     if (state.currentFolder === file.parent) {
       state.files.push(file);
     }

@@ -11,22 +11,26 @@ html {
   font-family: sans-serif;
   overflow: auto !important;
 }
+a {
+  text-decoration: none;
+  display: flex;
+}
 .v-application {
   margin: 0;
   direction: rtl;
   background-color: #f0f3f8 !important;
   font-family: Rubik !important;
 }
-
+.v-application p {
+  margin-bottom: 0 !important;
+}
 .auto-margin {
   margin: auto;
   display: block;
 }
-
 .ltr {
   direction: ltr;
 }
-
 .page-header {
   color: #2c3448;
   font-family: Rubik-light;
@@ -37,13 +41,11 @@ html {
   display: block;
   border-bottom: 2px solid #357e6f;
 }
-
 .page-container {
   margin: 70px;
   margin-left: 70px;
   display: block;
 }
-
 .file-list-structure {
   height: 70px;
   line-height: 70px;
@@ -58,13 +60,17 @@ html {
   grid-template-columns: 5% 5% 35% 15% 15% 15%;
   grid-auto-rows: 70px;
 }
-
 .fab-icon {
   width: 18px;
   font-size: 50px;
 }
-
-a {
-  text-decoration: none;
-  display: flex;
+.d-title {
+  font-size: 34px !important;
+  color: #353446;
+  text-align: center;
+}
+.d-subtitle {
+  font-size: 22px;
+  padding-bottom: 20px;
+  color: #353446;
 }

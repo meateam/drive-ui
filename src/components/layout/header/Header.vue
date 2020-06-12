@@ -1,7 +1,7 @@
 <template>
   <v-card class="header">
     <v-container class="search">
-      <Search />
+      <Search :placeholder="$t('autocomplete.Placeholder')" />
     </v-container>
     <v-container class="left">
       <div id="drive">
@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import Chat from "./buttons/Chat";
-// import Notification from "./buttons/Notification";
-import Search from "@/components/shared/Autocomplete";
+import Chat from "@/components/shared/buttons/Chat";
+// import Notification from "@/components/shared/buttons/Notification";
+import Search from "@/components/shared/inputs/Autocomplete";
 import { mapGetters } from "vuex";
 
 export default {
@@ -79,6 +79,7 @@ export default {
   padding: 0;
 }
 .user-name {
+  margin: auto !important;
   padding-right: 10px;
 }
 .drive-icon {
