@@ -61,9 +61,10 @@ const router = new Router({
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   document.title = to.name;
-  if (store.state.configuration.authUrl) store.dispatch("authenticate");
+  if (store.state.configuration.authUrl) await store.dispatch("authenticate");
+  await store.dispatch("onFolderChange", to.query.id);
   next();
 });
 

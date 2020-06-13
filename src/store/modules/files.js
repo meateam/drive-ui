@@ -7,7 +7,6 @@ const state = {
   chosenFiles: [],
   folderContentType: "application/vnd.drive.folder",
   currentFolder: undefined,
-  folderRoles: ["READ", "WRITE"]
 };
 
 const getters = {
@@ -16,6 +15,7 @@ const getters = {
   folderContentType: (state) => state.folderContentType,
   chosenFiles: (state) => state.chosenFiles,
   folderRoles: (state) => state.folderRoles,
+  currentFolder: (state) => state.currentFolder,
   folders: (state) => state.files.filter(file => file.type === state.folderContentType),
 };
 
@@ -27,7 +27,7 @@ const actions = {
     try {
       const res = await Axios.get(
         `${baseURL}/api/files${
-        state.currentFolder ? `&parent=${state.currentFolder}` : ""
+        state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
         }`
       );
       const files = res.data;
@@ -47,8 +47,12 @@ const actions = {
     return file;
   },
   async getFileByID({ }, fileID) {
-    const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
-    return res.data;
+    try {
+      const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
+      return res.data;
+    } catch (err) {
+      throw new Error(err)
+    }
   },
   /**
    * deleteFile gets a file id and delete it
@@ -93,7 +97,7 @@ const actions = {
       request.open(
         "POST",
         `${baseURL}/api/upload?uploadType=multipart${
-        state.currentFolder ? `&parent=${state.currentFolder}` : ""
+        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
         }`,
         true
       );
@@ -132,7 +136,7 @@ const actions = {
       request.open(
         "POST",
         `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${
-        state.currentFolder ? `&parent=${state.currentFolder}` : ""
+        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
         }`,
         true
       );
@@ -211,7 +215,7 @@ const actions = {
       if (dispatch('isNameNotValid', name)) throw new Error("Name already exists in the root");
       const res = await Axios.post(
         `${baseURL}/api/upload?uploadType=multipart${
-        state.currentFolder ? `&parent=${state.currentFolder}` : ""
+        state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
         }`,
         {},
         {
@@ -234,6 +238,15 @@ const actions = {
       return file.name == name;
     });
     return false;
+  },
+  async onFolderChange({ dispatch, commit }, folderID) {
+    try {
+      if (!folderID) return commit('setCurrentFolder', undefined)
+      const folder = await dispatch('getFileByID', folderID);
+      commit('setCurrentFolder', folder)
+    } catch (err) {
+      throw new Error(err)
+    }
   },
   // async moveFile({ commit }) {},
   // async unShareFile({ commit }) {},
@@ -259,6 +272,7 @@ const mutations = {
       });
     }
   },
+  setCurrentFolder: (state, folder) => state.currentFolder = folder,
 };
 
 export default {

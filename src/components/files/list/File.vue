@@ -1,5 +1,5 @@
 <template>
-  <div class="file-list-structure">
+  <div id="file" class="file-list-structure" @dblclick="onFileClick">
     <v-checkbox @change="checkFile" v-model="isChecked" color="#357e6f"></v-checkbox>
     <div>
       <img id="folder" v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
@@ -58,13 +58,20 @@ export default {
         isChecked: this.isChecked,
         fileID: this.file.id
       });
+    },
+    onFileClick() {
+      if (this.isFolder(this.file))
+        this.$router.push({ path: "/folders", query: { id: this.file.id } });
     }
   }
 };
 </script>
 
 <style scoped>
-.file-list-structure:hover {
+#file {
+  cursor: pointer;
+}
+#file:hover {
   background-color: rgb(213, 221, 235);
 }
 #file-name {
