@@ -1,16 +1,18 @@
 <template>
-  <v-dialog v-model="dialog" max-width="720" id="folder-dialog">
+  <v-dialog v-model="dialog" max-width="600" class="popup">
     <v-card>
-      <div id="popup-header">
-        <img id="folder-icon" class="auto-margin" src="@/assets/icons/newFolder.png" />
+      <div class="popup-header">
+        <img class="popup-icon auto-margin" src="@/assets/icons/newFolder.png" />
         <p class="d-title">{{$t('folder.Upload')}}</p>
       </div>
-      <div id="popup-body">
-        <div class="section">
-          <p class="d-subtitle">{{$t('folder.FolderName')}}</p>
-          <TextField @input="onNameChange" :placeholder="$t('folder.NewFolder')" />
-        </div>
-        <v-card-actions id="confirm">
+      <div class="popup-body">
+        <p class="d-subtitle">{{$t('folder.FolderName')}}</p>
+        <TextField
+          @keyup.enter.native="onConfirm"
+          @input="onNameChange"
+          :placeholder="$t('folder.NewFolder')"
+        />
+        <v-card-actions class="popup-confirm">
           <Confirm @click="onConfirm" />
         </v-card-actions>
       </div>
@@ -47,29 +49,4 @@ export default {
 </script>
 
 <style scoped>
-#folder-dialog {
-  border-radius: 10px;
-  position: relative;
-}
-#popup-header {
-  padding-bottom: 20px;
-  background-color: #ffffff;
-  width: 100%;
-}
-#folder-icon {
-  padding: 60px 0 15px;
-}
-#popup-body {
-  height: 250px;
-  background-color: #f0f4f7;
-  width: 100%;
-}
-#confirm {
-  position: absolute;
-  bottom: 50px;
-  left: 50px;
-}
-.section {
-  padding: 30px 60px 0px 60px;
-}
 </style>

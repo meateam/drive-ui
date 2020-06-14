@@ -8,7 +8,7 @@
     </template>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn @click.stop="openDialog" v-on="on" fab big color="#357e6f">
+        <v-btn @click.stop="$refs.folderPopup.open()" v-on="on" fab big color="#357e6f">
           <NewFolder ref="folderPopup" />
           <img src="@/assets/icons/new.png" />
         </v-btn>
@@ -44,9 +44,6 @@ export default {
     uploadFile() {
       document.getElementById("upload-input").click();
     },
-    openDialog() {
-      this.$refs.folderPopup.open();
-    }
   }
 };
 </script>

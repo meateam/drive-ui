@@ -26,7 +26,6 @@
         <v-list-item-title>{{ $t("sidenav.Folders") }}</v-list-item-title>
         <v-list-item-icon>
           <img src="@/assets/icons/arrow.svg" />
-          <Folders ref="folderPopup" />
         </v-list-item-icon>
       </v-list-item>
 
@@ -76,24 +75,24 @@
         <Quota :quota="quota" />
       </div>
     </v-list>
+    <img id="yesodot" class="icons" src="@/assets/images/yesodot.svg" />
   </v-navigation-drawer>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Quota from "./quota/Quota";
-import Folders from "@/components/shared/popups/Folders";
 
 export default {
   name: "Sidenav",
-  components: { Quota, Folders },
+  components: { Quota },
   computed: {
     ...mapGetters(["version", "quota"])
   },
   methods: {
     ...mapActions(["getQuota"]),
     openFolders() {
-      this.$refs.folderPopup.open();
+      // this.$refs.folderPopup.toggle();
     }
   },
   created() {
@@ -133,6 +132,12 @@ export default {
 }
 #logo {
   padding-bottom: 5px;
+}
+#yesodot {
+  position: absolute;
+  bottom: 30px;
+  right: 35%;
+  width: 30%;
 }
 .icons {
   width: 18px;

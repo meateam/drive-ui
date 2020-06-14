@@ -47,5 +47,14 @@
         "Upload": "יצירת תיקייה חדשה",
         "FolderName": "שם התיקייה",
         "NewFolder": "תיקייה חדשה..."
+    },
+    "fileInfo": {
+        "Info": "פרטי הקובץ",
+        "Owner": "יוצר",
+        "Name": "שם",
+        "Type": "סוג",
+        "Size": "גודל",
+        "CreatedAt": "נוצר",
+        "UpdatedAt": "שונה"
     }
 }

@@ -65,6 +65,7 @@ router.beforeEach(async (to, from, next) => {
   document.title = to.name;
   if (store.state.configuration.authUrl) await store.dispatch("authenticate");
   await store.dispatch("onFolderChange", to.query.id);
+  await store.dispatch("fetchFiles");
   next();
 });
 

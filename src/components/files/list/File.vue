@@ -1,19 +1,26 @@
 <template>
-  <div id="file" class="file-list-structure" @dblclick="onFileClick">
-    <v-checkbox @change="checkFile" v-model="isChecked" color="#357e6f"></v-checkbox>
+  <div
+    id="file"
+    class="file-list-structure"
+    @dblclick="onFileClick"
+    @contextmenu.prevent="$refs.fileInfo.open()"
+  >
+    <v-checkbox @change="onFileChoose" v-model="isChecked" color="#357e6f"></v-checkbox>
     <div>
-      <img id="folder" v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
+      <img v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
     </div>
     <p id="file-name" class="ltr">{{file.name}}</p>
     <p>{{file.owner}}</p>
     <p>{{formatedDate(file.updatedAt)}}</p>
     <p class="ltr">{{formatBytes(file.size)}}</p>
+    <FileInfo ref="fileInfo" :file="file" />
   </div>
 </template>
 
 <script>
-import fileSize from "filesize";
 import { mapGetters } from "vuex";
+import fileSize from "filesize";
+import FileInfo from "../../../components/shared/popups/FileInfo";
 
 export default {
   name: "ListFile",
@@ -23,6 +30,7 @@ export default {
       isChecked: false
     };
   },
+  components: { FileInfo },
   computed: {
     ...mapGetters(["folderContentType"])
   },
@@ -53,8 +61,8 @@ export default {
     isFolder(file) {
       return file.type === this.folderContentType;
     },
-    checkFile() {
-      this.$store.commit("chooseFile", {
+    onFileChoose() {
+      this.$store.commit("onFileChoose", {
         isChecked: this.isChecked,
         fileID: this.file.id
       });

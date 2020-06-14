@@ -1,17 +1,19 @@
 <template>
-  <v-menu v-model="menu">
-    <v-list>
-      <router-link
-        v-for="folder in folders"
-        :key="folder.id"
-        :to="{ path: '/folders', query: { id: folder.id }}"
-      >
-        <v-list-item>
-          <v-list-item-title>{{ folder.name }}</v-list-item-title>
-        </v-list-item>
-      </router-link>
-    </v-list>
-  </v-menu>
+  <v-expansion-panels v-model="panel">
+    <v-expansion-panel expand>
+      <v-list>
+        <router-link
+          v-for="folder in folders"
+          :key="folder.id"
+          :to="{ path: '/folders', query: { id: folder.id }}"
+        >
+          <v-list-item>
+            <v-list-item-title>{{ folder.name }}</v-list-item-title>
+          </v-list-item>
+        </router-link>
+      </v-list>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>
 
 <script>
@@ -24,12 +26,12 @@ export default {
   },
   data() {
     return {
-      menu: false
+      panel: []
     };
   },
   methods: {
-    open() {
-      this.menu = true;
+    toggle() {
+      this.panel = [0];
     }
   }
 };

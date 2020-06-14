@@ -1,6 +1,13 @@
 <template>
   <div class="page-container">
-    <h1 class="page-header">{{currentFolder.name}}</h1>
+    <div class="page-header" v-if="currentFolder">
+      <router-link to="my-drive">{{$t('myDrive.header')}}</router-link>
+      <span class="space-right">></span>
+      <div>
+        <!-- <img class="space-right" id="folder" src="@/assets/icons/folderType.png" /> -->
+      </div>
+      <span class="space-right">{{`${currentFolder.name}`}}</span>
+    </div>
     <Fab />
     <FileList v-bind:files="files" />
   </div>
@@ -16,7 +23,6 @@ export default {
   components: { Fab, FileList },
   created() {
     document.title = this.currentFolder.name;
-    this.$store.dispatch("fetchFiles");
   },
   computed: {
     ...mapGetters(["files", "currentFolder"])
@@ -25,4 +31,8 @@ export default {
 </script>
 
 <style scoped>
+#folder {
+  width: 30px;
+  height: 26px;
+}
 </style>

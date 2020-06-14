@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import Fab from "@/components/shared/buttons/Fab";
 import FileList from "@/components/files/list/FileList";
 
@@ -16,12 +16,6 @@ export default {
   components: { Fab, FileList },
   computed: {
     ...mapGetters(["files"])
-  },
-  methods: {
-    ...mapActions(["fetchFiles"])
-  },
-  created() {
-    this.fetchFiles();
   },
 };
 </script>
