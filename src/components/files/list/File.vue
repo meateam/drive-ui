@@ -20,7 +20,7 @@
 <script>
 import { mapGetters } from "vuex";
 import fileSize from "filesize";
-import Info from "../../../components/shared/popups/Info";
+import Info from "@/components/popups/Info";
 
 export default {
   name: "ListFile",

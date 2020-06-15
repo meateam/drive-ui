@@ -27,8 +27,8 @@
 </template>
 <script>
 import fileSize from "filesize";
-import KeyValue from "../KeyValue";
-import AvatarList from "../avatar/AvatarList";
+import KeyValue from "@/components/shared/KeyValue";
+import AvatarList from "@/components/avatar/AvatarList";
 
 export default {
   name: "FileInfo",

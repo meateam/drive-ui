@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import Download from "@/components/shared/buttons/Download";
-import Delete from "@/components/shared/buttons/Delete";
-import Move from "@/components/shared/buttons/Move";
-import Share from "@/components/shared/buttons/Share";
+import Download from "@/components/buttons/Download";
+import Delete from "@/components/buttons/Delete";
+import Move from "@/components/buttons/Move";
+import Share from "@/components/buttons/Share";
 import { mapGetters } from "vuex";
 
 export default {

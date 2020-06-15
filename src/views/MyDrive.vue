@@ -8,7 +8,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Fab from "@/components/shared/buttons/Fab";
+import Fab from "@/components/buttons/Fab";
 import FileList from "@/components/files/list/FileList";
 
 export default {

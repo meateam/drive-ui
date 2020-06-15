@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import Chat from "@/components/shared/buttons/Chat";
-// import Notification from "@/components/shared/buttons/Notification";
-import Search from "@/components/shared/inputs/Autocomplete";
 import { mapGetters } from "vuex";
+import Chat from "@/components/buttons/Chat";
+import Search from "@/components/inputs/Autocomplete";
+// import Notification from "@/components/buttons/Notification";
 
 export default {
   name: "Header",
