@@ -46,6 +46,8 @@ const actions = {
   async formatFile({ dispatch, rootState }, file) {
     if (file.ownerId === rootState.auth.user.id) file.owner = "אני";
     else file.owner = await dispatch("getUserNameByID", file.ownerId);
+    file.createdAt = await dispatch("formatDate", file.createdAt);
+    file.updatedAt = await dispatch("formatDate", file.updatedAt);
     return file;
   },
   async getFileByID({}, fileID) {
@@ -143,7 +145,7 @@ const actions = {
       const request = new XMLHttpRequest();
       request.open(
         "POST",
-        `${baseURL}/api/upload?uploadType=resumable?uploadId=${uploadID}${
+        `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${
           state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
         }`,
         true
@@ -272,6 +274,21 @@ const actions = {
     } catch (err) {
       throw new Error(err);
     }
+  },
+  /**
+   * getDate return the formated creation date
+   * @param d is the date to format
+   */
+  formatDate({}, d) {
+    const date = new Date(d);
+
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate() + 1;
+    const hour = date.getHours();
+    const minutes = date.getMinutes();
+
+    return `${day}.${month}.${year} ${hour}:${minutes}`;
   },
   // async moveFile({ commit }) {},
   // async unShareFile({ commit }) {},

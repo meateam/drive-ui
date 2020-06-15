@@ -94,13 +94,11 @@ a {
   padding: 60px 0 15px;
 }
 .popup-body {
-  height: 250px;
   background-color: #f0f4f7;
   width: 100%;
-  padding: 30px 60px 0px 60px;
+  padding: 30px 60px;
 }
 .popup-confirm {
-  position: absolute;
-  bottom: 50px;
-  left: 50px;
+  padding: 0;
+  flex-direction: row-reverse;
 }

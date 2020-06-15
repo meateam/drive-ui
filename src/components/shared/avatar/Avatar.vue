@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: "UserAvatar",
+  name: "Avatar",
   props: ["user"],
   methods: {
     /**

@@ -11,16 +11,16 @@
     </div>
     <p id="file-name" class="ltr">{{file.name}}</p>
     <p>{{file.owner}}</p>
-    <p>{{formatedDate(file.updatedAt)}}</p>
+    <p>{{file.updatedAt}}</p>
     <p class="ltr">{{formatBytes(file.size)}}</p>
-    <FileInfo ref="fileInfo" :file="file" />
+    <Info ref="fileInfo" :file="file" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import fileSize from "filesize";
-import FileInfo from "../../../components/shared/popups/FileInfo";
+import Info from "../../../components/shared/popups/Info";
 
 export default {
   name: "ListFile",
@@ -30,26 +30,11 @@ export default {
       isChecked: false
     };
   },
-  components: { FileInfo },
+  components: { Info },
   computed: {
-    ...mapGetters(["folderContentType"])
+    ...mapGetters(["folderContentType"]),
   },
   methods: {
-    /**
-     * getDate return the formated creation date
-     * @param d is the date to format
-     */
-    formatedDate(d) {
-      const date = new Date(d);
-
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate() + 1;
-      const hour = date.getHours();
-      const minutes = date.getMinutes();
-
-      return `${day}.${month}.${year} ${hour}:${minutes}`;
-    },
     /**
      * get the the formated size of the file
      * @param bytes is the bytes to format
@@ -57,6 +42,11 @@ export default {
     formatBytes(bytes) {
       if (bytes == 0) return "-";
       return fileSize(bytes);
+    },
+    formatFile(file) {
+      file.size = this.formatBytes(file.size);
+      file.createdAt = this.formatDate(file.createdAt);
+      file.updatedAt = this.formatDate(file.updatedAt);
     },
     isFolder(file) {
       return file.type === this.folderContentType;
@@ -71,7 +61,7 @@ export default {
       if (this.isFolder(this.file))
         this.$router.push({ path: "/folders", query: { id: this.file.id } });
     }
-  }
+  },
 };
 </script>
 

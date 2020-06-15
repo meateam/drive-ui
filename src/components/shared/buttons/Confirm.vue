@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click="$emit('click')" class="auto-margin" id="confirm-button">
+  <v-btn @click="$emit('click')" id="confirm-button">
     <p>{{$t('buttons.Confirm')}}</p>
   </v-btn>
 </template>

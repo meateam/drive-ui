@@ -55,6 +55,8 @@
         "Type": "סוג",
         "Size": "גודל",
         "CreatedAt": "נוצר",
-        "UpdatedAt": "שונה"
+        "UpdatedAt": "שונה",
+        "Shared": "שיתפים",
+        "ExternalShare": "שיתופים חיצוניים"
     }
 }
