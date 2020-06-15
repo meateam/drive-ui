@@ -1,7 +1,7 @@
 <template>
   <v-card class="header">
     <v-container class="search">
-      <Search :placeholder="$t('autocomplete.Placeholder')" />
+      <Search background="#f0f4f7" :placeholder="$t('autocomplete.Drive')" />
     </v-container>
     <v-container class="left">
       <div id="drive">

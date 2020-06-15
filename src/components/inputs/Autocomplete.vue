@@ -6,7 +6,7 @@
     filled
     dense
     append-icon="search"
-    background-color="#f0f4f7"
+    :background-color="background"
     :placeholder="placeholder"
   >
     <template v-slot:no-data>
@@ -22,6 +22,6 @@ export default {
   data: () => ({
     value: null,
   }),
-  props: ["placeholder", "items"]
+  props: ["placeholder", "items", "background"]
 };
 </script>

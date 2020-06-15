@@ -17,7 +17,8 @@
     },
     "autocomplete": {
         "NoResult": "לא נמצאו תוצאות",
-        "Placeholder": "חיפוש בדרייב..."
+        "Drive": "חיפוש בדרייב...",
+        "Users": "הוסיפו אנשים..."
     },
     "myDrive": {
         "header": "הדרייב שלי"
@@ -58,5 +59,11 @@
         "UpdatedAt": "שונה",
         "Shared": "שיתפים",
         "ExternalShare": "שיתופים חיצוניים"
+    },
+    "share": {
+        "DriveShare": "שיתוף דרך דרייב",
+        "ExternalShare": "שיתוף דרך רשת חיצונית",
+        "Header": "שיתוף קובץ",
+        "DriveChoose": "בחרו עם מי תרצו לשתף את הקובץ"
     }
 }

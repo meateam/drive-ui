@@ -53,6 +53,9 @@ a {
 .space-right {
   margin: 0 13px 0 0;
 }
+.space {
+  margin: 0 3px;
+}
 .file-list-structure {
   height: 70px;
   line-height: 70px;
@@ -75,6 +78,7 @@ a {
   font-size: 34px !important;
   color: #353446;
   text-align: center;
+  padding-bottom: 20px;
 }
 .d-subtitle {
   font-size: 22px;
@@ -86,7 +90,6 @@ a {
   position: relative;
 }
 .popup-header {
-  padding-bottom: 20px;
   background-color: #ffffff;
   width: 100%;
 }

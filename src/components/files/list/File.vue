@@ -32,7 +32,7 @@ export default {
   },
   components: { Info },
   computed: {
-    ...mapGetters(["folderContentType"]),
+    ...mapGetters(["folderContentType"])
   },
   methods: {
     /**
@@ -54,14 +54,14 @@ export default {
     onFileChoose() {
       this.$store.commit("onFileChoose", {
         isChecked: this.isChecked,
-        fileID: this.file.id
+        file: this.file
       });
     },
     onFileClick() {
       if (this.isFolder(this.file))
         this.$router.push({ path: "/folders", query: { id: this.file.id } });
     }
-  },
+  }
 };
 </script>
 

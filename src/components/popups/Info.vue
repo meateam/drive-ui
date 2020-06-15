@@ -56,7 +56,10 @@ export default {
     async getSharedUsers(fileID) {
       const shared = await this.$store.dispatch("getFileSharedUsers", fileID);
       this.shared = shared;
-      const externalShared = await this.$store.dispatch("getFileExternalSharedUsers", fileID);
+      const externalShared = await this.$store.dispatch(
+        "getFileExternalSharedUsers",
+        fileID
+      );
       this.externalShared = externalShared;
     }
   },
@@ -70,6 +73,9 @@ export default {
 .file-info {
   display: grid;
   grid-template-columns: auto auto;
+}
+.popup-header {
+  padding-bottom: 0;
 }
 #divider {
   margin: 25px 0;

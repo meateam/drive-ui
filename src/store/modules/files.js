@@ -66,7 +66,6 @@ const actions = {
     try {
       const res = await Axios.delete(`${baseURL}/api/files/${fileID}`);
       commit("deleteFile", res.data[0]);
-      commit("onFileChoose", { isChecked: false, fileID: res.data[0] });
       dispatch("getQuota");
     } catch (err) {
       throw new Error(err);
@@ -75,9 +74,9 @@ const actions = {
   /**
    * deleteFiles uses the method delete file to delete all the files in the chosen array
    */
-  deleteFiles({ dispatch }) {
-    state.chosenFiles.forEach(async (fileID) => {
-      await dispatch("deleteFile", fileID);
+  deleteFiles({ dispatch }, files) {
+    files.forEach(async (file) => {
+      await dispatch("deleteFile", file.id);
     });
   },
   /**
@@ -218,9 +217,9 @@ const actions = {
   /**
    * downloadFiles downloads all the files that where chosen
    */
-  downloadFiles({ dispatch }) {
-    state.chosenFiles.forEach((fileID) => {
-      dispatch("downloadFile", fileID);
+  downloadFiles({ dispatch }, files) {
+    files.forEach((file) => {
+      dispatch("downloadFile", file.id);
     });
   },
   /**
@@ -299,6 +298,9 @@ const mutations = {
   fetchFiles: (state, files) => (state.files = files),
   deleteFile: (state, fileID) => {
     state.files = state.files.filter((file) => file.id !== fileID);
+    state.chosenFiles = state.chosenFiles.filter((file) => {
+      return file.id !== fileID;
+    });
   },
   updateFiles: (state, file) => {
     if (
@@ -308,12 +310,12 @@ const mutations = {
       state.files.push(file);
     }
   },
-  onFileChoose: (state, { isChecked, fileID }) => {
-    if (isChecked && !state.chosenFiles.includes(fileID)) {
-      state.chosenFiles.push(fileID);
+  onFileChoose: (state, { isChecked, file }) => {
+    if (isChecked && !state.chosenFiles.includes(file)) {
+      state.chosenFiles.push(file);
     } else {
-      state.chosenFiles = state.chosenFiles.filter((file) => {
-        return file !== fileID;
+      state.chosenFiles = state.chosenFiles.filter((chosenFile) => {
+        return chosenFile !== file;
       });
     }
   },

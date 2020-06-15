@@ -8,7 +8,7 @@ const getters = {};
 
 const actions = {
   /**
-   *getUserByID returns the user with the received id
+   * getUserByID returns the user with the received id
    * @param id is the user id
    */
   async getUserByID({}, id) {
@@ -31,6 +31,36 @@ const actions = {
       throw new Error();
     }
   },
+  /**
+   * getAllUsers returns all the users
+   */
+  async getAllUsers({ dispatch }) {
+    try {
+      const users = await dispatch("searchUsersByName");
+      return users;
+    } catch (err) {
+      throw new Error();
+    }
+  },
+  /**
+   * searchUsersByName gets all the users with the received name
+   * @param name is the name of the users
+   */
+  async searchUsersByName({}, name) {
+    try {
+      const res = await Axios.get(
+        `${baseURL}/api/users`,
+        name ? { query: { partial: name } } : {}
+      );
+      return res.data;
+    } catch (err) {
+      throw new Error();
+    }
+  },
+  /**
+   * getExternalUserByID returns the external user with the received id
+   * @param id is the user id
+   */
   async getExternalUserByID({}, id) {
     try {
       const res = await Axios.get(`${baseURL}/api/delegators/${id}`);
@@ -38,6 +68,17 @@ const actions = {
       res.user.lastName = res.user.last_name;
       res.user.fullName = res.user.full_name;
       return res.data.user;
+    } catch (err) {
+      throw new Error();
+    }
+  },
+  async searchExternalUsersByName({}, name) {
+    try {
+      const res = await Axios.get(
+        `${baseURL}/api/delegators`,
+        name ? { query: { partial: name } } : {}
+      );
+      return res.data;
     } catch (err) {
       throw new Error();
     }
