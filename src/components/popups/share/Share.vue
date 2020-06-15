@@ -15,7 +15,7 @@
       <div class="popup-body">
         <v-tabs-items v-model="tab">
           <v-tab-item value="DRIVE">
-            <DriveShare :files="files" />
+            <DriveShare @close="dialog = false" :files="files" />
           </v-tab-item>
           <v-tab-item value="EXTERNAL">sss</v-tab-item>
         </v-tabs-items>

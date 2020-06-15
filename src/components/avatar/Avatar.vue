@@ -1,9 +1,9 @@
 <template>
-  <v-tooltip bottom>
+  <v-tooltip top>
     <template v-slot:activator="{ on }">
-      <v-avatar :v-on="on" :color="getColor()">{{getUserName()}}</v-avatar>
+      <v-avatar size="35" :v-on="on" id="avatar" :color="getColor()">{{getUserName()}}</v-avatar>
     </template>
-    <span>{{`${user.firstName} ${user.lastName}`}}</span>
+    <span>{{user.fullName}}</span>
   </v-tooltip>
 </template>
 
@@ -32,4 +32,7 @@ export default {
 </script>
 
 <style scoped>
+#avatar {
+  margin: 5px;
+}
 </style>

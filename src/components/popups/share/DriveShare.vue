@@ -49,6 +49,7 @@ export default {
         users: this.selectedUsers,
         role: "READ"
       });
+      this.$emit('close')
     }
   },
   created() {
