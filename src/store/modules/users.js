@@ -2,9 +2,13 @@
 import { baseURL } from "@/utils/config";
 import Axios from "axios";
 
-const state = {};
+const state = {
+  users: [],
+};
 
-const getters = {};
+const getters = {
+  users: (state) => state.users,
+};
 
 const actions = {
   /**
@@ -32,27 +36,15 @@ const actions = {
     }
   },
   /**
-   * getAllUsers returns all the users
-   */
-  async getAllUsers({ dispatch }) {
-    try {
-      const users = await dispatch("searchUsersByName");
-      return users;
-    } catch (err) {
-      throw new Error();
-    }
-  },
-  /**
    * searchUsersByName gets all the users with the received name
    * @param name is the name of the users
    */
-  async searchUsersByName({}, name) {
+  async searchUsersByName({ commit }, name) {
     try {
-      const res = await Axios.get(
-        `${baseURL}/api/users`,
-        name ? { query: { partial: name } } : {}
-      );
-      return res.data;
+      const res = await Axios.get(`${baseURL}/api/users`, {
+        params: { partial: name },
+      });
+      commit("setUsers", res.data.users);
     } catch (err) {
       throw new Error();
     }
@@ -67,25 +59,31 @@ const actions = {
       res.user.firstName = res.user.first_name;
       res.user.lastName = res.user.last_name;
       res.user.fullName = res.user.full_name;
+      res.user.hierarchyFlat = res.user.hierarchy;
       return res.data.user;
     } catch (err) {
       throw new Error();
     }
   },
-  async searchExternalUsersByName({}, name) {
+  /**
+   * searchExternalUsersByName sets the current users to the external users with the received name
+   * @param name
+   */
+  async searchExternalUsersByName({ commit }, name) {
     try {
-      const res = await Axios.get(
-        `${baseURL}/api/delegators`,
-        name ? { query: { partial: name } } : {}
-      );
-      return res.data;
+      const res = await Axios.get(`${baseURL}/api/delegators`, {
+        params: { partial: name },
+      });
+      commit("setUsers", res.data.users);
     } catch (err) {
       throw new Error();
     }
   },
 };
 
-const mutations = {};
+const mutations = {
+  setUsers: (state, users) => (state.users = users),
+};
 
 export default {
   state,

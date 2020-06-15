@@ -15,26 +15,22 @@
       <div class="popup-body">
         <v-tabs-items v-model="tab">
           <v-tab-item value="DRIVE">
-            <DriveShare />
+            <DriveShare :files="files" />
           </v-tab-item>
           <v-tab-item value="EXTERNAL">sss</v-tab-item>
         </v-tabs-items>
-        <v-card-actions class="popup-confirm">
-          <Confirm @click="onConfirm" />
-        </v-card-actions>
       </div>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import Confirm from "@/components/buttons/Confirm";
 import DriveShare from "./DriveShare";
 
 export default {
   name: "NewFolder",
   props: ["files"],
-  components: { Confirm, DriveShare },
+  components: { DriveShare },
   data() {
     return {
       dialog: false,

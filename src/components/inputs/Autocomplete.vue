@@ -5,7 +5,7 @@
     rounded
     filled
     dense
-    append-icon="search"
+    :append-icon="icon"
     :background-color="background"
     :placeholder="placeholder"
   >
@@ -22,6 +22,6 @@ export default {
   data: () => ({
     value: null,
   }),
-  props: ["placeholder", "items", "background"]
+  props: ["placeholder", "items", "background", "icon"]
 };
 </script>

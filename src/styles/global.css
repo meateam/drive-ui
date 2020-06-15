@@ -18,7 +18,7 @@ a {
 }
 .v-application {
   margin: 0;
-  direction: rtl;
+  direction: rtl !important;
   background-color: #f0f3f8 !important;
   font-family: Rubik !important;
 }

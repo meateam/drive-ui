@@ -19,7 +19,7 @@
           <p>{{$t('fileInfo.Shared')}}</p>
           <AvatarList :users="shared" />
           <p>{{$t('fileInfo.ExternalShare')}}</p>
-          <AvatarList :users="shared" />
+          <AvatarList :users="externalShared" />
         </div>
       </div>
     </v-card>
