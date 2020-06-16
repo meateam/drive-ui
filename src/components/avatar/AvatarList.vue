@@ -1,12 +1,10 @@
 <template>
-    <div>
-        <div v-if="users.length!==0">
-            <Avatar v-for="user in users" :key="user.id" :user="user" />
-        </div>
-        <div v-else>
-           -
-        </div>
+  <div>
+    <div v-if="users && users.length!==0">
+      <Avatar v-for="user in users" :key="user.id" :user="user" />
     </div>
+    <div v-else>-</div>
+  </div>
 </template>
 
 <script>

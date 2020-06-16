@@ -17,9 +17,9 @@
         <v-divider id="divider"></v-divider>
         <div>
           <p>{{$t('fileInfo.Shared')}}</p>
-          <AvatarList :users="shared" />
+          <AvatarList :users="sharedUsers" />
           <p>{{$t('fileInfo.ExternalShare')}}</p>
-          <AvatarList :users="externalShared" />
+          <AvatarList :users="externalSharedUsers" />
         </div>
       </div>
     </v-card>
@@ -37,13 +37,14 @@ export default {
   data() {
     return {
       dialog: false,
-      shared: [],
-      externalShared: []
+      sharedUsers: [],
+      externalSharedUsers: []
     };
   },
   methods: {
     open() {
       this.dialog = true;
+      this.getSharedUsers(this.file.id);
     },
     /**
      * get the the formated size of the file
@@ -54,17 +55,15 @@ export default {
       return fileSize(bytes);
     },
     async getSharedUsers(fileID) {
-      const shared = await this.$store.dispatch("getFileSharedUsers", fileID);
-      this.shared = shared;
-      const externalShared = await this.$store.dispatch(
+      this.sharedUsers = await this.$store.dispatch(
+        "getFileSharedUsers",
+        fileID
+      );
+      this.externalSharedUsers = await this.$store.dispatch(
         "getFileExternalSharedUsers",
         fileID
       );
-      this.externalShared = externalShared;
     }
-  },
-  created() {
-    this.getSharedUsers(this.file.id);
   }
 };
 </script>

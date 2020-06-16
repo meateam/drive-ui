@@ -63,17 +63,13 @@ const actions = {
    * @param userID is the id of the user ro share
    * @param role is the role of the share
    */
-  async shareUser({}, { fileID, userID, role }) {
+  async shareUser({}, { file, user, role }) {
     try {
-      const res = await Axios.put(
-        `${baseURL}/api/files/${fileID}/permissions`,
-        {
-          userID,
-          role,
-          override: true,
-        }
-      );
-      return res.data;
+      await Axios.put(`${baseURL}/api/files/${file.id}/permissions`, {
+        userID: user.id,
+        role,
+        override: true,
+      });
     } catch (err) {
       throw new Error(err);
     }
@@ -87,7 +83,7 @@ const actions = {
   shareUsers({ dispatch }, { files, users, role }) {
     users.forEach(async (user) => {
       files.forEach(async (file) => {
-        await dispatch("shareUser", { fileID: file.id, userID: user.id, role });
+        await dispatch("shareUser", { file, user, role });
       });
     });
   },

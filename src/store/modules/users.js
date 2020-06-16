@@ -39,12 +39,18 @@ const actions = {
    * searchUsersByName gets all the users with the received name
    * @param name is the name of the users
    */
-  async searchUsersByName({ commit }, name) {
+  async searchUsersByName({}, name) {
     try {
       const res = await Axios.get(`${baseURL}/api/users`, {
         params: { partial: name },
       });
-      commit("setUsers", res.data.users);
+      if (!res.data.users) return [];
+      const users = res.data.users.map((user) => {
+        return `${user.firstName} ${user.lastName ? user.lastName : ""} > ${
+          user.hierarchyFlat
+        }`;
+      });
+      return users;
     } catch (err) {
       throw new Error();
     }
@@ -69,21 +75,25 @@ const actions = {
    * searchExternalUsersByName sets the current users to the external users with the received name
    * @param name
    */
-  async searchExternalUsersByName({ commit }, name) {
+  async searchExternalUsersByName({}, name) {
     try {
       const res = await Axios.get(`${baseURL}/api/delegators`, {
         params: { partial: name },
       });
-      commit("setUsers", res.data.users);
+      if (!res.data.users) return [];
+      const users = res.data.users.map((user) => {
+        return `${user.firstName} ${user.lastName ? user.lastName : ""} > ${
+          user.hierarchyFlat
+        }`;
+      });
+      return users;
     } catch (err) {
       throw new Error();
     }
   },
 };
 
-const mutations = {
-  setUsers: (state, users) => (state.users = users),
-};
+const mutations = {};
 
 export default {
   state,

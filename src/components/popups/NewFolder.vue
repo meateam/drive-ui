@@ -13,7 +13,7 @@
           :placeholder="$t('folder.NewFolder')"
         />
         <v-card-actions class="popup-confirm">
-          <Confirm @click="onConfirm" />
+          <Confirm @click="onConfirm" :label="$t('buttons.Confirm')" />
         </v-card-actions>
       </div>
     </v-card>

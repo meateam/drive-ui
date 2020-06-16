@@ -46,6 +46,7 @@ const actions = {
   async formatFile({ dispatch, rootState }, file) {
     if (file.ownerId === rootState.auth.user.id) file.owner = "אני";
     else file.owner = await dispatch("getUserNameByID", file.ownerId);
+
     file.createdAt = await dispatch("formatDate", file.createdAt);
     file.updatedAt = await dispatch("formatDate", file.updatedAt);
     return file;
@@ -115,7 +116,7 @@ const actions = {
         if (request.status === 200) {
           const file = await dispatch("getFileByID", request.responseText);
           dispatch("formatFile", file);
-          commit("updateFiles", file);
+          commit("addFile", file);
           dispatch("getQuota");
         } else if (request.status === 409) {
           throw new Error(request.status);
@@ -163,7 +164,7 @@ const actions = {
         if (request.status === 200) {
           const file = await dispatch("getFileByID", request.responseText);
           dispatch("formatFile", file);
-          commit("updateFiles", file);
+          commit("addFile", file);
           dispatch("getQuota");
         } else if (request.status === 409) {
           throw new Error(request.status);
@@ -244,7 +245,7 @@ const actions = {
       );
       const folder = await dispatch("getFileByID", res.data);
       dispatch("formatFile", folder);
-      commit("updateFiles", folder);
+      commit("addFile", folder);
     } catch (err) {
       throw new Error(err);
     }
@@ -302,7 +303,7 @@ const mutations = {
       return file.id !== fileID;
     });
   },
-  updateFiles: (state, file) => {
+  addFile: (state, file) => {
     if (
       state.currentFolder === file.parent ||
       state.currentFolder.id === file.parent

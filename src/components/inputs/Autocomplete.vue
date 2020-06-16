@@ -1,6 +1,7 @@
 <template>
   <v-autocomplete
     v-model="value"
+    @input="$emit('input', value)"
     :items="items"
     rounded
     filled
@@ -20,7 +21,7 @@
 <script>
 export default {
   data: () => ({
-    value: null,
+    value: null
   }),
   props: ["placeholder", "items", "background", "icon"]
 };

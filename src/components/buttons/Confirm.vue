@@ -1,12 +1,13 @@
 <template>
   <v-btn @click="$emit('click')" id="confirm-button">
-    <p>{{$t('buttons.Confirm')}}</p>
+    <p>{{label}}</p>
   </v-btn>
 </template>
 
 <script>
 export default {
-  name: "Confirm"
+  name: "Confirm",
+  props: ["label"]
 };
 </script>
 <style scoped>
