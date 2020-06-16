@@ -6,7 +6,8 @@
       background="white"
       :placeholder="$t('autocomplete.Users')"
       :items="users"
-      @input="onType"
+      @select="onSelect"
+      @type="onType"
       @keyup.enter.native="onConfirm"
     />
     <div>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+import debounce from "lodash/debounce";
 import Chips from "@/components/shared/Chips";
 import Autocomplete from "@/components/inputs/Autocomplete";
 import Confirm from "@/components/buttons/Confirm";
@@ -37,11 +39,11 @@ export default {
     async getUsersByName(name) {
       this.users = await this.$store.dispatch("searchUsersByName", name);
     },
-    onType(value) {
-      console.log(value)
-      // this.getUsersByName(value);
-    },
+    onType: debounce(function(value) {
+      this.getUsersByName(value);
+    }, 500),
     onSelect(user) {
+      if (this.selectedUsers.includes(user)) return this.remove(user);
       this.selectedUsers.push(user);
     },
     remove(item) {
@@ -57,9 +59,6 @@ export default {
       });
       this.$emit("close");
     }
-  },
-  created() {
-    this.getUsersByName("נ");
   }
 };
 </script>

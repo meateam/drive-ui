@@ -21,7 +21,7 @@ export default {
   margin-left: 5px;
 }
 #chip {
-  margin-bottom: 9px;
+  margin: 6px 4px;
   color: white;
 }
 #close-icon {
