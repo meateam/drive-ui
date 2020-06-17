@@ -73,7 +73,7 @@ export default {
       this.selectedUsers = [];
       this.$emit("close");
     }
-  }
+  },
 };
 </script>
 

@@ -5,7 +5,7 @@
     @dblclick="onFileClick"
     @contextmenu.prevent="$refs.fileInfo.open()"
   >
-    <v-checkbox @change="onFileChoose" v-model="isChecked" color="#357e6f"></v-checkbox>
+    <v-checkbox @change="onFileChoose(isChecked)" v-model="isChecked" color="#357e6f"></v-checkbox>
     <div>
       <img v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
     </div>
@@ -43,24 +43,31 @@ export default {
       if (bytes == 0) return "-";
       return fileSize(bytes);
     },
-    formatFile(file) {
-      file.size = this.formatBytes(file.size);
-      file.createdAt = this.formatDate(file.createdAt);
-      file.updatedAt = this.formatDate(file.updatedAt);
-    },
     isFolder(file) {
       return file.type === this.folderContentType;
     },
-    onFileChoose() {
+    onFileChoose(isChecked) {
       this.$store.commit("onFileChoose", {
-        isChecked: this.isChecked,
+        isChecked,
         file: this.file
       });
     },
     onFileClick() {
       if (this.isFolder(this.file))
         this.$router.push({ path: "/folders", query: { id: this.file.id } });
+    },
+    checkFile() {
+      this.isChecked = true;
+      this.onFileChoose(this.isChecked);
     }
+  },
+  created() {
+    window.addEventListener("keydown", event => {
+      event.preventDefault();
+      if (event.key === "a" && event.ctrlKey) {
+        this.checkFile();
+      }
+    });
   }
 };
 </script>

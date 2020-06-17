@@ -38,6 +38,6 @@ export default {
     onSearch: debounce(function(value) {
       if (value && value.length >= 2) this.$emit("type", value);
     }, 500)
-  }
+  },
 };
 </script>

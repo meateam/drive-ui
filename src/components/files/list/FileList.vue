@@ -14,6 +14,6 @@ import ActionBar from "./ActionBar";
 export default {
   name: "FileList",
   props: ["files"],
-  components: { File, ListHeader, ActionBar },
+  components: { File, ListHeader, ActionBar }
 };
 </script>

@@ -1,9 +1,11 @@
 <template>
   <v-tooltip top>
     <template v-slot:activator="{ on }">
-      <v-avatar size="35" :v-on="on" id="avatar" :color="getColor()">{{user}}</v-avatar>
+      <div>
+        <v-avatar size="35" :v-on="on" id="avatar" :color="getColor()">{{getUserName()}}</v-avatar>
+      </div>
     </template>
-    <!-- <span>{{user.fullName}}</span> -->
+    <span>{{user.fullName}}</span>
   </v-tooltip>
 </template>
 
@@ -26,7 +28,7 @@ export default {
     getColor() {
       const color = randomColor();
       return color;
-    },
+    }
   }
 };
 </script>

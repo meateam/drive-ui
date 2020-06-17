@@ -6,7 +6,7 @@ import NotFound from "@/views/errors/404";
 import MyDrive from "@/views/MyDrive";
 import SharedWithMe from "@/views/SharedWithMe";
 import Folders from "@/views/Folders";
-import lastUpdate from "@/views/lastUpdate";
+import LastUpdate from "@/views/LastUpdate";
 import DeletedFiles from "@/views/DeletedFiles";
 import Favorites from "@/views/Favorites";
 
@@ -40,7 +40,7 @@ const router = new Router({
     },
     {
       path: "/last-update",
-      component: lastUpdate,
+      component: LastUpdate,
       name: "Last Update",
     },
     {
@@ -65,10 +65,13 @@ router.beforeEach(async (to, from, next) => {
   document.title = to.name;
   if (store.state.configuration.authUrl) await store.dispatch("authenticate");
   await store.dispatch("onFolderChange", to.query.id);
-  if (to.name === "Shared With Me") await store.dispatch("fetchSharedFiles");
-  else if (to.name === "Last Update")
+  if (to.name === "Shared With Me") {
+    await store.dispatch("fetchSharedFiles");
+  } else if (to.name === "Last Update") {
     await store.dispatch("fetchLastUpdateddFiles");
-  else await store.dispatch("fetchFiles");
+  } else {
+    await store.dispatch("fetchFiles");
+  }
   next();
 });
 

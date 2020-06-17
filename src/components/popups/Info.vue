@@ -19,14 +19,22 @@
           <p>{{$t('fileInfo.Shared')}}</p>
           <div>
             <div v-if="file.permissions && file.permissions.length!==0">
-              <Avatar v-for="user in file.permissions" :key="user.id" :user="user" />
+              <Avatar
+                v-for="user in file.permissions"
+                :key="user.id"
+                :user="user"
+              />
             </div>
             <div v-else>-</div>
           </div>
           <p>{{$t('fileInfo.ExternalShare')}}</p>
           <div>
             <div v-if="file.permits && file.permits.length!==0">
-              <Avatar v-for="user in file.permits" :key="user.id" :user="user" />
+              <Avatar
+                v-for="user in file.permits"
+                :key="user.id"
+                :user="user"
+              />
             </div>
             <div v-else>-</div>
           </div>
@@ -47,6 +55,8 @@ export default {
   data() {
     return {
       dialog: false,
+      users: [],
+      externalUsers: []
     };
   },
   methods: {
@@ -60,7 +70,7 @@ export default {
     formatBytes(bytes) {
       if (bytes == 0) return "-";
       return fileSize(bytes);
-    },
+    }
   }
 };
 </script>

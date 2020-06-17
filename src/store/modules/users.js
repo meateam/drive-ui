@@ -28,12 +28,11 @@ const actions = {
    * @param users is the array of the idws
    */
   async getUsersByIDs({ dispatch }, userIDs) {
-    const users = await Promise.all(
-      userIDs.map(async (id) => {
-        return await dispatch("getUserByID", id);
+    return Promise.all(
+      userIDs.map((id) => {
+        return dispatch("getUserByID", id);
       })
     );
-    return users;
   },
   /**
    * getUserNameByID returnes the user name with the received id
@@ -51,15 +50,15 @@ const actions = {
    * searchUsersByName gets all the users with the received name
    * @param name is the name of the users
    */
-  async searchUsersByName({ dispatch }, name) {
+  async searchUsersByName({ dispatch, rootState }, name) {
     try {
       const res = await Axios.get(`${baseURL}/api/users`, {
         params: { partial: name },
       });
-      const users = res.data.users || [];
-      return await Promise.all(
-        users.map((user) => dispatch("formatUser", user))
-      );
+      const users = res.data.users.filter((user) => {
+        return user.id !== rootState.auth.user.id;
+      });
+      return Promise.all(users.map((user) => dispatch("formatUser", user)));
     } catch (err) {
       throw new Error();
     }
@@ -68,7 +67,7 @@ const actions = {
    * getExternalUserByID returns the external user with the received id
    * @param id is the user id
    */
-  async getExternalUserByID({ dispatch }, id) {
+  async getExternalUserByIDs({ dispatch }, id) {
     try {
       const res = await Axios.get(`${baseURL}/api/delegators/${id}`);
       const user = res.user;
@@ -85,13 +84,12 @@ const actions = {
    * getUsersByIDs returns the array of the users with the id
    * @param users is the array of the idws
    */
-  async getExternaUsersByIDs({ dispatch }, userIDs) {
-    const users = await Promise.all(
+  async getExternalUsersByIDs({ dispatch }, userIDs) {
+    return Promise.all(
       userIDs.map(async (id) => {
         return await dispatch("getExternalUserByID", id);
       })
     );
-    return users;
   },
   /**
    * searchExternalUsersByName sets the current users to the external users with the received name
@@ -103,9 +101,7 @@ const actions = {
         params: { partial: name },
       });
       const users = res.data.users || [];
-      return await Promise.all(
-        users.map((user) => dispatch("formatUser", user))
-      );
+      return Promise.all(users.map((user) => dispatch("formatUser", user)));
     } catch (err) {
       throw new Error();
     }

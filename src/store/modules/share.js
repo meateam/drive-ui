@@ -11,10 +11,14 @@ const actions = {
    * getPermissions returns all the user id`s of the users that was shared with the file
    * @param fileID the id of the file
    */
-  async getPermissions({}, fileID) {
+  async getPermissions({ dispatch }, fileID) {
     try {
       const res = await Axios.get(`${baseURL}/api/files/${fileID}/permissions`);
-      return res.data;
+      const users = await dispatch(
+        "getUsersByIDs",
+        res.data.map((permission) => permission.userID)
+      );
+      return users;
     } catch (err) {
       throw new Error(err);
     }
@@ -23,10 +27,14 @@ const actions = {
    * getExternalPermissions returns all the user id`s of the extenal users that was shared with the file
    * @param fileID the id of the file
    */
-  async getExternalPermissions({}, fileID) {
+  async getExternalPermissions({ dispatch }, fileID) {
     try {
       const res = await Axios.get(`${baseURL}/api/files/${fileID}/permits`);
-      return res.data || [];
+      const users = await dispatch(
+        "getExternalUsersByIDs",
+        res.data ? res.data.map((permit) => permit.userID) : []
+      );
+      return users || [];
     } catch (err) {
       throw new Error(err);
     }
@@ -37,14 +45,18 @@ const actions = {
    * @param userID is the id of the user ro share
    * @param role is the role of the share
    */
-  async shareUser({ commit }, { fileID, userID, role }) {
+  async shareUser({ commit, dispatch }, { fileID, userID, role }) {
     try {
-      const res = await Axios.put(`${baseURL}/api/files/${fileID}/permissions`, {
-        userID,
-        role,
-        override: true,
-      });
-      commit("onUserShare", { fileID, permission: res.data });
+      const res = await Axios.put(
+        `${baseURL}/api/files/${fileID}/permissions`,
+        {
+          userID,
+          role,
+          override: true,
+        }
+      );
+      const user = await dispatch("getUserByID", res.data.userID);
+      commit("onUserShare", { fileID, user });
     } catch (err) {
       throw new Error(err);
     }
@@ -64,8 +76,7 @@ const actions = {
   },
 };
 
-const mutations = {
-};
+const mutations = {};
 
 export default {
   state,

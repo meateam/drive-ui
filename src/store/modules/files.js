@@ -33,7 +33,7 @@ const actions = {
         }`
       );
       const files = res.data;
-      await Promise.all(
+      Promise.all(
         files.map((file) => {
           dispatch("formatFile", file);
         })
@@ -50,7 +50,7 @@ const actions = {
     try {
       const res = await Axios.get(`${baseURL}/api/files?shares`);
       const files = res.data;
-      await Promise.all(
+      Promise.all(
         files.map((file) => {
           dispatch("formatFile", file);
         })
@@ -67,7 +67,7 @@ const actions = {
     try {
       const res = await Axios.get(`${baseURL}/api/files`);
       const files = res.data;
-      await Promise.all(
+      Promise.all(
         files.filter((file) => {
           dispatch("formatFile", file);
           return file.updatedAt === new Date();
@@ -137,7 +137,7 @@ const actions = {
    * @param files is the files to upload
    */
   async uploadFiles({ dispatch }, files) {
-    await Promise.all(
+    Promise.all(
       Object.values(files).map((file) => {
         dispatch("uploadFile", file);
       })
@@ -367,6 +367,8 @@ const mutations = {
   onFileChoose: (state, { isChecked, file }) => {
     if (isChecked && !state.chosenFiles.includes(file)) {
       state.chosenFiles.push(file);
+    } else if (isChecked) {
+      return;
     } else {
       state.chosenFiles = state.chosenFiles.filter((chosenFile) => {
         return chosenFile !== file;
@@ -378,9 +380,9 @@ const mutations = {
     state.chosenFiles = [];
     state.files = [];
   },
-  onUserShare: (state, { fileID, permission }) => {
+  onUserShare: (state, { fileID, user }) => {
     state.files.map((file) => {
-      if (file.id === fileID) file.permissions.push(permission);
+      if (file.id === fileID) file.permissions.push(user);
     });
   },
 };
