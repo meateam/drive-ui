@@ -23,7 +23,7 @@ const getters = {
 
 const actions = {
   /**
-   * fetch all the files in the root and adds, the file owener id
+   * fetchFiles fetch all the files in the current folder
    */
   async fetchFiles({ commit, dispatch }) {
     try {
@@ -34,8 +34,43 @@ const actions = {
       );
       const files = res.data;
       await Promise.all(
-        files.map(async (file) => {
+        files.map((file) => {
           dispatch("formatFile", file);
+        })
+      );
+      commit("fetchFiles", files);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+  /**
+   * fetchSharedFiles fetch all the shared files in the current folder
+   */
+  async fetchSharedFiles({ commit, dispatch }) {
+    try {
+      const res = await Axios.get(`${baseURL}/api/files?shares`);
+      const files = res.data;
+      await Promise.all(
+        files.map((file) => {
+          dispatch("formatFile", file);
+        })
+      );
+      commit("fetchFiles", files);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+  /**
+   * fetchLastUpdateddFiles fetch all the files that where updated today in the current folder
+   */
+  async fetchLastUpdateddFiles({ commit, dispatch }) {
+    try {
+      const res = await Axios.get(`${baseURL}/api/files`);
+      const files = res.data;
+      await Promise.all(
+        files.filter((file) => {
+          dispatch("formatFile", file);
+          return file.updatedAt === new Date();
         })
       );
       commit("fetchFiles", files);
@@ -80,12 +115,15 @@ const actions = {
    * deleteFiles uses the method delete file to delete all the files in the chosen array
    */
   deleteFiles({ dispatch }, files) {
-    files.forEach(async (file) => {
-      await dispatch("deleteFile", file.id);
-    });
+    Promise.all(
+      files.map(async (file) => {
+        await dispatch("deleteFile", file.id);
+      })
+    );
   },
   /**
    * uploadFile create multipart or resumable upload by the file size
+   * @param file is the file to upload
    */
   async uploadFile({ dispatch }, file) {
     if (file.size <= 5 << 20) {
@@ -93,6 +131,17 @@ const actions = {
     } else {
       await dispatch("resumableUpload", file);
     }
+  },
+  /**
+   * uploadFiles uploads all the files async
+   * @param files is the files to upload
+   */
+  async uploadFiles({ dispatch }, files) {
+    await Promise.all(
+      Object.values(files).map((file) => {
+        dispatch("uploadFile", file);
+      })
+    );
   },
   /**
    * multipartUpload create an upload with small size

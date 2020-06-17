@@ -3,18 +3,15 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "Upload",
   computed: {
     ...mapGetters(["currentFolder"])
   },
   methods: {
-    ...mapActions(["uploadFile"]),
     uploadInput(event) {
-      event.currentTarget.files.forEach(file => {
-        this.uploadFile(file);
-      });
+      this.$store.dispatch("uploadFiles", event.currentTarget.files);
       event.currentTarget.value = ""; // resets file choice
     }
   }
