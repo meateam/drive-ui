@@ -56,18 +56,10 @@ export default {
       if (this.isFolder(this.file))
         this.$router.push({ path: "/folders", query: { id: this.file.id } });
     },
-    checkFile() {
-      this.isChecked = true;
+    checkFile(event) {
+      this.isChecked = event;
       this.onFileChoose(this.isChecked);
     }
-  },
-  created() {
-    window.addEventListener("keydown", event => {
-      event.preventDefault();
-      if (event.key === "a" && event.ctrlKey) {
-        this.checkFile();
-      }
-    });
   }
 };
 </script>

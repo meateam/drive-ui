@@ -14,7 +14,7 @@ export default {
   components: { FileList },
   computed: {
     ...mapGetters(["files"])
-  }
+  },
 };
 </script>
 

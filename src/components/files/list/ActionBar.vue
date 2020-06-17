@@ -14,13 +14,10 @@ import Delete from "@/components/buttons/Delete";
 import Move from "@/components/buttons/Move";
 import Share from "@/components/buttons/Share";
 import SharePopup from "@/components/popups/share/Share";
-import { mapGetters } from "vuex";
 
 export default {
   name: "ActionBar",
-  computed: {
-    ...mapGetters(["chosenFiles"])
-  },
+  props: ["chosenFiles"],
   components: { Download, Delete, Move, Share, SharePopup },
   methods: {
     downloadFiles() {
@@ -29,7 +26,7 @@ export default {
     deleteFiles() {
       this.$store.dispatch("deleteFiles", this.chosenFiles);
     },
-    moveFiles() {},
+    moveFiles() {}
   }
 };
 </script>

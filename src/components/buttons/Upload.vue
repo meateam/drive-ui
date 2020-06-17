@@ -13,6 +13,9 @@ export default {
     uploadInput(event) {
       this.$store.dispatch("uploadFiles", event.currentTarget.files);
       event.currentTarget.value = ""; // resets file choice
+    },
+    open() {
+      document.getElementById("upload-input").click();
     }
   }
 };

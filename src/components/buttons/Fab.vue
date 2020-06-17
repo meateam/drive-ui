@@ -5,6 +5,7 @@
         <v-icon color="white" v-if="fab">close</v-icon>
         <v-icon color="white" v-else>add</v-icon>
       </v-btn>
+      <Upload ref="upload" />
     </template>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
@@ -17,8 +18,7 @@
     </v-tooltip>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" fab color="#357e6f" @click="uploadFile">
-          <Upload />
+        <v-btn v-on="on" fab color="#357e6f" @click="$refs.upload.open()">
           <!-- transparent input for upload files -->
           <img src="@/assets/icons/upload.png" />
         </v-btn>
@@ -41,9 +41,17 @@ export default {
   },
   components: { Upload, NewFolder },
   methods: {
-    uploadFile() {
-      document.getElementById("upload-input").click();
-    },
+    init() {
+      window.addEventListener("keydown", event => {
+        if (event.key === "o" && event.ctrlKey) {
+          event.preventDefault();
+          this.$refs.upload.open();
+        }
+      });
+    }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>
