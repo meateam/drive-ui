@@ -1,12 +1,16 @@
 <template>
   <v-autocomplete
     v-model="value"
-    @change="onChange"
+    @input="onSelect"
     @update:search-input="onSearch"
     :items="items"
+    :loading="isLoading"
     rounded
     filled
     dense
+    hide-no-data
+    item-text="display"
+    return-object
     :append-icon="icon"
     :background-color="background"
     :placeholder="placeholder"
@@ -16,25 +20,24 @@
         <v-list-item-title>{{ $t('autocomplete.NoResult')}}</v-list-item-title>
       </v-list-item>
     </template>
-    <template v-slot:item="{ item }">{{item.display}}</template>
-    <template v-slot:selection />
   </v-autocomplete>
 </template>
 
 <script>
+import debounce from "lodash/debounce";
+
 export default {
   data: () => ({
     value: ""
   }),
-  props: ["placeholder", "items", "background", "icon"],
+  props: ["placeholder", "items", "background", "icon", "isLoading"],
   methods: {
-    onChange() {
+    onSelect() {
       this.$emit("select", this.value);
-      this.value = "";
     },
-    onSearch(value) {
-      if (value && value.length > 2) this.$emit("type", value);
-    }
+    onSearch: debounce(function(value) {
+      if (value && value.length >= 2) this.$emit("type", value);
+    }, 500)
   }
 };
 </script>

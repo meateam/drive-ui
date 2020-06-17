@@ -24,6 +24,18 @@ const actions = {
     }
   },
   /**
+   * getUsersByIDs returns the array of the users with the id
+   * @param users is the array of the idws
+   */
+  async getUsersByIDs({ dispatch }, userIDs) {
+    const users = await Promise.all(
+      userIDs.map(async (id) => {
+        return await dispatch("getUserByID", id);
+      })
+    );
+    return users;
+  },
+  /**
    * getUserNameByID returnes the user name with the received id
    * @param id is the user id
    */
@@ -68,6 +80,18 @@ const actions = {
     } catch (err) {
       throw new Error();
     }
+  },
+  /**
+   * getUsersByIDs returns the array of the users with the id
+   * @param users is the array of the idws
+   */
+  async getExternaUsersByIDs({ dispatch }, userIDs) {
+    const users = await Promise.all(
+      userIDs.map(async (id) => {
+        return await dispatch("getExternalUserByID", id);
+      })
+    );
+    return users;
   },
   /**
    * searchExternalUsersByName sets the current users to the external users with the received name

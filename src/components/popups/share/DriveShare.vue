@@ -6,12 +6,12 @@
       background="white"
       :placeholder="$t('autocomplete.Users')"
       :items="users"
+      :isLoading="isLoading"
       @select="onSelect"
-      @type="onType"
-      @keyup.enter.native="onConfirm"
+      @type="getUsersByName"
     />
     <div>
-      <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="remove" />
+      <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
     </div>
     <v-card-actions class="popup-confirm">
       <Confirm @click="onConfirm" :label="$t('buttons.Share')" />
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import debounce from "lodash/debounce";
 import Chips from "@/components/shared/Chips";
 import Autocomplete from "@/components/inputs/Autocomplete";
 import Confirm from "@/components/buttons/Confirm";
@@ -32,24 +31,38 @@ export default {
   data() {
     return {
       selectedUsers: [],
-      users: []
+      users: [],
+      isLoading: false
     };
   },
   methods: {
-    async getUsersByName(name) {
-      this.users = await this.$store.dispatch("searchUsersByName", name);
+    getUsersByName(name) {
+      if (this.isLoading) return;
+      this.isLoading = true;
+      this.$store
+        .dispatch("searchUsersByName", name)
+        .then(users => {
+          this.users = users;
+        })
+        .catch(err => {
+          throw new Error(err);
+        })
+        .finally(() => (this.isLoading = false));
     },
-    onType: debounce(function(value) {
-      this.getUsersByName(value);
-    }, 500),
     onSelect(user) {
-      if (this.selectedUsers.includes(user)) return this.remove(user);
-      this.selectedUsers.push(user);
+      this.users = [];
+      if (!user) return;
+      else if (this.isUserExists(this.selectedUsers, user.id))
+        this.remove(user);
+      else this.selectedUsers.push(user);
     },
-    remove(item) {
+    onRemove(item) {
       this.selectedUsers = this.selectedUsers.filter(user => {
-        return user !== item;
+        return user.id !== item.id;
       });
+    },
+    isUserExists(users, id) {
+      return users.some(user => user.id === id);
     },
     onConfirm() {
       this.$store.dispatch("shareUsers", {
@@ -57,6 +70,7 @@ export default {
         users: this.selectedUsers,
         role: "READ"
       });
+      this.selectedUsers = [];
       this.$emit("close");
     }
   }

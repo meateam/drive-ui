@@ -49,6 +49,10 @@ const actions = {
 
     file.createdAt = await dispatch("formatDate", file.createdAt);
     file.updatedAt = await dispatch("formatDate", file.updatedAt);
+
+    file.permissions = await dispatch("getPermissions", file.id);
+    file.permits = await dispatch("getExternalPermissions", file.id);
+
     return file;
   },
   async getFileByID({}, fileID) {
@@ -324,6 +328,11 @@ const mutations = {
     state.currentFolder = folder;
     state.chosenFiles = [];
     state.files = [];
+  },
+  onUserShare: (state, { fileID, permission }) => {
+    state.files.map((file) => {
+      if (file.id === fileID) file.permissions.push(permission);
+    });
   },
 };
 

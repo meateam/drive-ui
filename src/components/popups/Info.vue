@@ -17,9 +17,19 @@
         <v-divider id="divider"></v-divider>
         <div>
           <p>{{$t('fileInfo.Shared')}}</p>
-          <AvatarList :users="sharedUsers" />
+          <div>
+            <div v-if="file.permissions && file.permissions.length!==0">
+              <Avatar v-for="user in file.permissions" :key="user.id" :user="user" />
+            </div>
+            <div v-else>-</div>
+          </div>
           <p>{{$t('fileInfo.ExternalShare')}}</p>
-          <AvatarList :users="externalSharedUsers" />
+          <div>
+            <div v-if="file.permits && file.permits.length!==0">
+              <Avatar v-for="user in file.permits" :key="user.id" :user="user" />
+            </div>
+            <div v-else>-</div>
+          </div>
         </div>
       </div>
     </v-card>
@@ -28,23 +38,20 @@
 <script>
 import fileSize from "filesize";
 import KeyValue from "@/components/shared/KeyValue";
-import AvatarList from "@/components/avatar/AvatarList";
+import Avatar from "@/components/shared/Avatar";
 
 export default {
   name: "FileInfo",
   props: ["file"],
-  components: { KeyValue, AvatarList },
+  components: { KeyValue, Avatar },
   data() {
     return {
       dialog: false,
-      sharedUsers: [],
-      externalSharedUsers: []
     };
   },
   methods: {
     open() {
       this.dialog = true;
-      this.getSharedUsers(this.file.id);
     },
     /**
      * get the the formated size of the file
@@ -54,16 +61,6 @@ export default {
       if (bytes == 0) return "-";
       return fileSize(bytes);
     },
-    async getSharedUsers(fileID) {
-      this.sharedUsers = await this.$store.dispatch(
-        "getFileSharedUsers",
-        fileID
-      );
-      this.externalSharedUsers = await this.$store.dispatch(
-        "getFileExternalSharedUsers",
-        fileID
-      );
-    }
   }
 };
 </script>
