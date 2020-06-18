@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ListHeader @check="checkFiles" ref="header" />
+    <ListHeader @check="toggleFilesCheck" ref="header" />
     <File v-bind:key="file.id" v-for="file in files" v-bind:file="file" ref="files" />
     <ActionBar :chosenFiles="chosenFiles" ref="file" />
   </div>
@@ -19,30 +19,32 @@ export default {
   computed: {
     ...mapGetters(["chosenFiles"])
   },
+  data() {
+    return {
+      isChecked: false
+    };
+  },
   watch: {
-    chosenFiles: val => {
-      console.log(val);
-      if (val.length === 0) this.$refs.header.check(false);
+    chosenFiles: function(val) {
+      this.$refs.header.check(
+        val.length === this.files.length && val.length !== 0
+      );
     }
   },
   methods: {
-    checkFiles(event) {
-      if (this.$refs.files)
-        this.$refs.files.forEach(file => {
-          file.checkFile(event);
-        });
-    },
-    init() {
-      window.addEventListener("keydown", event => {
-        if (event.key === "a" && event.ctrlKey) {
-          event.preventDefault();
-          this.checkFiles(event);
-        }
+    toggleFilesCheck(event) {
+      this.$refs.files.forEach(file => {
+        file.checkFile(event);
       });
     }
   },
   created() {
-    this.init();
+    window.addEventListener("keydown", event => {
+      if (event.key === "a" && event.ctrlKey) {
+        event.preventDefault();
+        this.toggleFilesCheck(true);
+      }
+    });
   }
 };
 </script>

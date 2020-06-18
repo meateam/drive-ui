@@ -43,6 +43,18 @@ const actions = {
       throw new Error(err);
     }
   },
+  async getFilesByFolder({}, folder) {
+    try {
+      const res = await Axios.get(
+        `${baseURL}/api/files?type=${state.folderContentType}${
+          folder.id ? `&parent=${folder.id}` : ""
+        }`
+      );
+      return res.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
   /**
    * fetchSharedFiles fetch all the shared files in the current folder
    */
@@ -241,7 +253,9 @@ const actions = {
   async getUploadID({}, file) {
     try {
       const res = await Axios.post(
-        `${baseURL}/api/upload`,
+        `${baseURL}/api/upload${
+          state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
+        }`,
         {
           title: file.name,
           mimeType: file.type,

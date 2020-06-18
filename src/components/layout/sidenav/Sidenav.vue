@@ -19,15 +19,9 @@
         </v-list-item>
       </router-link>
 
-      <v-list-item link @click.stop="openFolders" id="folder-item">
-        <v-list-item-icon>
-          <img class="icons" src="@/assets/icons/folder.png" />
-        </v-list-item-icon>
-        <v-list-item-title>{{ $t("sidenav.Folders") }}</v-list-item-title>
-        <v-list-item-icon>
-          <img src="@/assets/icons/arrow.svg" />
-        </v-list-item-icon>
-      </v-list-item>
+      <div class="folders">
+        <FolderTree />
+      </div>
 
       <router-link to="/shared-with-me">
         <v-list-item link>
@@ -81,11 +75,12 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import FolderTree from "@/components/shared/FolderTree";
 import Quota from "./quota/Quota";
 
 export default {
   name: "Sidenav",
-  components: { Quota },
+  components: { Quota, FolderTree },
   computed: {
     ...mapGetters(["version", "quota"])
   },
@@ -114,6 +109,9 @@ export default {
   margin: 0;
   height: 70px;
   font-weight: 700;
+}
+.folders {
+  border-bottom: #255f53 solid 1px;
 }
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
   color: #c8d9d5 !important;

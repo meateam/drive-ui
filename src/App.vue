@@ -18,6 +18,15 @@ export default {
     Header,
     Sidenav
   },
+  created() {
+    window.addEventListener("keydown", event => {
+      // ctrl o shortcut to upload file
+      if (event.keyCode === 79 && event.ctrlKey) {
+        event.preventDefault();
+        document.getElementById("upload-input").click();
+      }
+    });
+  }
 };
 </script>
 

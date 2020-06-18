@@ -16,7 +16,7 @@ export default {
   components: { Fab, FileList },
   computed: {
     ...mapGetters(["files"])
-  },
+  }
 };
 </script>
 

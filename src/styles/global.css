@@ -25,6 +25,12 @@ a {
 .v-application p {
   margin-bottom: 0 !important;
 }
+.v-application--is-ltr .v-treeview-node__toggle {
+  transform: rotate(90deg) !important;
+}
+.v-application--is-ltr .v-treeview-node__toggle--open {
+  transform: none !important;
+}
 .auto-margin {
   margin: auto;
   display: block;

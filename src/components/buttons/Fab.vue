@@ -40,19 +40,6 @@ export default {
     };
   },
   components: { Upload, NewFolder },
-  methods: {
-    init() {
-      window.addEventListener("keydown", event => {
-        if (event.key === "o" && event.ctrlKey) {
-          event.preventDefault();
-          this.$refs.upload.open();
-        }
-      });
-    }
-  },
-  mounted() {
-    this.init();
-  }
 };
 </script>
 
