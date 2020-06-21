@@ -1,12 +1,15 @@
 <template>
   <div class="page-container">
-    <div class="page-header" v-if="currentFolder">
-      <router-link to="my-drive">{{$t('myDrive.header')}}</router-link>
-      <span class="space-right">></span>
-      <div>
-        <!-- <img class="space-right" id="folder" src="@/assets/icons/folderType.png" /> -->
+    <div class="page-header" id="folders-header" v-if="currentFolder">
+      <router-link to="my-drive">
+        {{$t('myDrive.header')}}
+        <span class="space">></span>
+      </router-link>
+      <div v-for="folder in currentFolderHierarchy" :key="folder.id">
+        <span @click="onFolderClick(folder.id)" class="pointer">{{folder.name}}</span>
+        <span class="space">></span>
       </div>
-      <span class="space-right">{{`${currentFolder.name}`}}</span>
+      <span>{{`${currentFolder.name}`}}</span>
     </div>
     <Fab />
     <FileList v-bind:files="files" />
@@ -25,7 +28,12 @@ export default {
     document.title = this.currentFolder.name;
   },
   computed: {
-    ...mapGetters(["files", "currentFolder"])
+    ...mapGetters(["files", "currentFolder", "currentFolderHierarchy"])
+  },
+  methods: {
+    onFolderClick(folderID) {
+      this.$router.push({ path: "/folders", query: { id: folderID } });
+    }
   }
 };
 </script>
@@ -34,5 +42,11 @@ export default {
 #folder {
   width: 30px;
   height: 26px;
+}
+#folders-header {
+  font-size: 30px;
+}
+.space {
+  margin: 0 8px;
 }
 </style>

@@ -19,6 +19,7 @@ const getters = {
   currentFolder: (state) => state.currentFolder,
   folders: (state) =>
     state.files.filter((file) => file.type === state.folderContentType),
+  currentFolderHierarchy: (state) => state.currentFolderHierarchy,
 };
 
 const actions = {
@@ -334,10 +335,14 @@ const actions = {
    */
   async onFolderChange({ dispatch, commit }, folderID) {
     try {
-      if (!folderID) return commit("setCurrentFolder", undefined);
-
-      const folder = await dispatch("getFileByID", folderID);
-      commit("setCurrentFolder", folder);
+      if (!folderID) {
+        commit("setCurrentFolder", undefined);
+        commit("setHierarchy", []);
+      } else {
+        const folder = await dispatch("getFileByID", folderID);
+        commit("setCurrentFolder", folder);
+        dispatch("getAncestors", folder.id);
+      }
     } catch (err) {
       throw new Error(err);
     }
@@ -356,6 +361,12 @@ const actions = {
     const minutes = date.getMinutes();
 
     return `${day}.${month}.${year} ${hour}:${minutes}`;
+  },
+  async getAncestors({ commit }, folderID) {
+    const ancestors = await Axios.get(
+      `${baseURL}/api/files/${folderID}/ancestors`
+    );
+    commit("setHierarchy", ancestors ? ancestors.data : []);
   },
   // async moveFile({ commit }) {},
   // async unShareFile({ commit }) {},
@@ -398,6 +409,9 @@ const mutations = {
     state.files.map((file) => {
       if (file.id === fileID) file.permissions.push(user);
     });
+  },
+  setHierarchy: (state, hieratchy) => {
+    state.currentFolderHierarchy = hieratchy;
   },
 };
 

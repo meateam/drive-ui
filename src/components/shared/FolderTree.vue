@@ -1,7 +1,13 @@
 <template>
-  <v-treeview :items="items" :load-children="fetchFolders" open-on-click expand-icon>
+  <v-treeview
+    :items="items"
+    :load-children="fetchFolders"
+    open-on-click
+    expand-icon
+    item-key="folder"
+  >
     <template v-slot:prepend="{ item }">
-      <div id="folder" @click="fetchFolders(item)">
+      <div id="folder">
         <img class="icons" id="folder-icon" src="@/assets/icons/folder.png" />
         <v-icon v-if="item.children" :v-text="item.name"></v-icon>
       </div>
@@ -20,10 +26,11 @@ export default {
   },
   methods: {
     async fetchFolders(item) {
+      if (item.children.length) return;
       const folders = await this.$store.dispatch("getFilesByFolder", item);
-      this.open = item;
+      folders.forEach(folder => (folder.children = []));
       item.children.push(...folders);
-    }
+    },
   },
   computed: {
     items() {
@@ -33,13 +40,6 @@ export default {
           children: []
         }
       ];
-    },
-    selected() {
-      if (!this.active.length) return undefined;
-
-      const id = this.active[0];
-
-      return this.users.find(user => user.id === id);
     }
   }
 };
@@ -55,5 +55,6 @@ export default {
 }
 #folder {
   line-height: 70px;
+  height: 70px;
 }
 </style>

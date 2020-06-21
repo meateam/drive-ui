@@ -41,6 +41,9 @@ a {
 .ltr {
   direction: ltr;
 }
+.pointer {
+  cursor: pointer;
+}
 .page-header {
   color: #2c3448;
   font-family: Rubik-light;
