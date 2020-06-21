@@ -42,7 +42,8 @@
         "Delete": "מחיקה",
         "Share": "שיתוף",
         "Download": "הורדה",
-        "Confirm": "אישור"
+        "Confirm": "אישור",
+        "Continue": "הבא"
     },
     "folder": {
         "Upload": "יצירת תיקייה חדשה",
@@ -65,5 +66,13 @@
         "ExternalShare": "שיתוף דרך רשת חיצונית",
         "Header": "שיתוף קובץ",
         "DriveChoose": "בחרו עם מי תרצו לשתף את הקובץ"
+    },
+    "externalShare": {
+        "Destination": "יעד",
+        "Approval": "מאשר",
+        "AddInfo": "מידע נוסף",
+        "ApprovalChoose": "בחרו מי יאשר את השיתוף",
+        "MoreInfo": "כתבו מידע על הקובץ",
+        "Describe": "תארו את הדברים העיקריים שמכיל המסמך..."
     }
 }

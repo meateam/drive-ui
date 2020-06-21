@@ -16,9 +16,10 @@ export default {
   height: 44px;
   line-height: 44px;
   border-radius: 22px;
-  box-shadow: 0px 3px 8px 0 rgba(44, 52, 72, 0.4);
+  box-shadow: 0 3px 8px 0 rgba(44, 52, 72, 0.4);
   background-color: #2c3448;
   color: white;
+  margin: 0 3px 8px 0;
   font-size: 20px;
 }
 </style>

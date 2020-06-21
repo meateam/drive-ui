@@ -17,7 +17,9 @@
           <v-tab-item value="DRIVE">
             <DriveShare @close="dialog = false" :files="files" />
           </v-tab-item>
-          <v-tab-item value="EXTERNAL">sss</v-tab-item>
+          <v-tab-item value="EXTERNAL" @close="dialog = false" :files="files">
+            <ExternalShare />
+          </v-tab-item>
         </v-tabs-items>
       </div>
     </v-card>
@@ -26,11 +28,12 @@
 
 <script>
 import DriveShare from "./DriveShare";
+import ExternalShare from "./ExternalShare";
 
 export default {
   name: "NewFolder",
   props: ["files"],
-  components: { DriveShare },
+  components: { DriveShare, ExternalShare },
   data() {
     return {
       dialog: false,

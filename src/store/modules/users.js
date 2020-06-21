@@ -55,12 +55,14 @@ const actions = {
       const res = await Axios.get(`${baseURL}/api/users`, {
         params: { partial: name },
       });
-      const users = res.data.users.filter((user) => {
-        return user.id !== rootState.auth.user.id;
-      });
+      const users = res.data.users
+        ? res.data.users.filter((user) => {
+            return user.id !== rootState.auth.user.id;
+          })
+        : [];
       return Promise.all(users.map((user) => dispatch("formatUser", user)));
     } catch (err) {
-      throw new Error();
+      throw new Error(err);
     }
   },
   /**
@@ -101,7 +103,9 @@ const actions = {
         params: { partial: name },
       });
       const users = res.data.users || [];
-      return Promise.all(users.map((user) => dispatch("formatUser", user)));
+      return Promise.all(
+        users.map((user) => dispatch("formatExternalUser", user))
+      );
     } catch (err) {
       throw new Error();
     }
@@ -111,6 +115,13 @@ const actions = {
     formatedUser.display = `${user.firstName} ${
       user.lastName ? user.lastName : ""
     } > ${user.hierarchyFlat}`;
+    return formatedUser;
+  },
+  formatExternalUser({}, user) {
+    const formatedUser = user;
+    formatedUser.display = `${user.hierarchy} < ${user.full_name}`;
+    formatedUser.firstName = user.first_name;
+    formatedUser.lastName = user.last_name;
     return formatedUser;
   },
 };
