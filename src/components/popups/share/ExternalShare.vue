@@ -18,11 +18,15 @@
       </v-stepper-content>
 
       <v-stepper-content step="2">
-        <Approval @continue="currentStep = 3" />
+        <Approval @continue="onApprovalComplete" />
       </v-stepper-content>
 
       <v-stepper-content step="3">
-        <AddInfo @continue="currentStep = currentStep = 1" />
+        <AddInfo @continue="onInfoComplete" />
+      </v-stepper-content>
+
+      <v-stepper-content step="4">
+        <AddInfo @complete="onComplete" />
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -40,7 +44,9 @@ export default {
     return {
       currentStep: 1,
       destination: [],
-      approval: undefined
+      approval: undefined,
+      classification: undefined,
+      info: undefined
     };
   },
   methods: {
@@ -51,6 +57,14 @@ export default {
     onApprovalComplete(user) {
       this.approval = user;
       this.currentStep = 3;
+    },
+    onInfoComplete(info, classification) {
+      this.info = info;
+      this.classification = classification;
+      this.currentStep = 4;
+    },
+    onComplete() {
+      console.log("complete");
     }
   }
 };

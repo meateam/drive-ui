@@ -8,24 +8,19 @@
         :placeholder="$t('autocomplete.Users')"
         :items="users"
         :isLoading="isLoading"
-        @select="onSelect"
+        @select="onConfirm"
         @type="getUsersByName"
       />
     </div>
-    <v-card-actions class="popup-confirm">
-      <Confirm @click="onConfirm" :label="$t('buttons.Continue')" />
-    </v-card-actions>
   </div>
 </template>
 
 <script>
-import Confirm from "@/components/buttons/Confirm";
 import Autocomplete from "@/components/inputs/Autocomplete";
 
 export default {
   name: "Approval",
-  components: { Confirm, Autocomplete },
-  props: ["files"],
+  components: { Autocomplete },
   data() {
     return {
       users: [],
@@ -47,11 +42,8 @@ export default {
         })
         .finally(() => (this.isLoading = false));
     },
-    onSelect(user) {
-      this.approval = user;
-    },
-    onConfirm() {
-      this.$emit("continue", this.approval);
+    onConfirm(user) {
+      this.$emit("continue", user);
     }
   }
 };

@@ -2,9 +2,11 @@
 import { baseURL } from "@/utils/config";
 import Axios from "axios";
 
-const state = {};
+const state = {
+};
 
-const getters = {};
+const getters = {
+};
 
 const actions = {
   /**

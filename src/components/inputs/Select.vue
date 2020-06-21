@@ -3,8 +3,9 @@
     rounded
     dense
     filled
-    background-color="white"
+    :background-color="background"
     :items="items"
+    :placeholder="placeholder"
     v-model="value"
     @change="$emit('change', value)"
   ></v-select>
@@ -13,7 +14,7 @@
 <script>
 export default {
   name: "Select",
-  props: ["items"],
+  props: ["items", "background", "placeholder"],
   data() {
     return {
       value: null
@@ -21,3 +22,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.v-select__slot {
+  width: 100px;
+}
+</style>
