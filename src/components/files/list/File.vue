@@ -52,7 +52,8 @@ export default {
         file: this.file
       });
     },
-    onFileClick() {
+    onFileClick(event) {
+      event.preventDefault();
       if (this.isFolder(this.file))
         this.$router.push({ path: "/folders", query: { id: this.file.id } });
     },

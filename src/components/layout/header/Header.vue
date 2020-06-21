@@ -1,7 +1,15 @@
 <template>
   <v-card class="header">
     <v-container class="search">
-      <Search background="#f0f4f7" :placeholder="$t('autocomplete.Drive')" icon="search" />
+      <Search
+        background="#f0f4f7"
+        :placeholder="$t('autocomplete.Drive')"
+        icon="search"
+        :items="results"
+        :isLoading="isLoading"
+        @select="onSelect"
+        @type="getSearchResults"
+      />
     </v-container>
     <v-container class="left">
       <div id="drive">
@@ -24,6 +32,12 @@ import Search from "@/components/inputs/Autocomplete";
 
 export default {
   name: "Header",
+  data() {
+    return {
+      results: [],
+      isLoading: false
+    };
+  },
   methods: {
     getUserName() {
       if (this.user) {
@@ -32,6 +46,24 @@ export default {
         return `${firstName} ${lastName}`;
       }
       return "";
+    },
+    getSearchResults(query) {
+      if (this.isLoading) return;
+      this.isLoading = true;
+      this.$store
+        .dispatch("search", query)
+        .then(results => {
+          results.forEach(res => (res.display = `${res.name}`));
+          this.results = results;
+        })
+        .catch(err => {
+          throw new Error(err);
+        })
+        .finally(() => (this.isLoading = false));
+    },
+    onSelect(result) {
+      //TODO: preview result
+      console.log(result);
     }
   },
   components: { Chat, Search },
