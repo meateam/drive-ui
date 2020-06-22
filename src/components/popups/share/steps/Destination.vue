@@ -14,7 +14,7 @@
       <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
     </div>
     <v-card-actions class="popup-confirm">
-      <Confirm @click="onConfirm" :label="$t('buttons.Continue')" />
+      <Confirm @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
     </v-card-actions>
   </div>
 </template>
@@ -31,8 +31,14 @@ export default {
     return {
       selectedUsers: [],
       users: [],
-      isLoading: false
+      isLoading: false,
+      disabled: true,
     };
+  },
+  watch: {
+    selectedUsers: function(users) {
+      users.length ? (this.disabled = false) : (this.disabled = true);
+    }
   },
   methods: {
     getExternalUsersByName(name) {

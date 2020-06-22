@@ -1,11 +1,11 @@
 <template>
   <div>
     <div>
-      <div id="approval-header">
+      <div id="approval-header" class="space-between">
         <p id="choose">{{$t('externalShare.ApprovalChoose')}}</p>
         <v-tooltip top>
           <template v-slot:activator="{ on }">
-            <v-icon color="#255f53" v-on="on">info</v-icon>
+            <v-icon color="#2c3448" v-on="on">info</v-icon>
           </template>
           <span>{{$t('externalShare.ApprovalInstructions')}}</span>
         </v-tooltip>
@@ -25,7 +25,7 @@
       <Chips v-for="user in selectedApprovals" :key="user.id" :user="user" @remove="onRemove" />
     </div>
     <v-card-actions class="popup-confirm">
-      <Confirm @click="onConfirm" :label="$t('buttons.Share')" />
+      <Confirm @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
     </v-card-actions>
   </div>
 </template>
@@ -43,11 +43,17 @@ export default {
     return {
       users: [],
       isLoading: false,
-      selectedApprovals: []
+      selectedApprovals: [],
+      disabled: true
     };
   },
   computed: {
     ...mapGetters(["approvalServiceUrl"])
+  },
+  watch: {
+    selectedApprovals: function(users) {
+      users.length ? (this.disabled = false) : (this.disabled = true);
+    }
   },
   methods: {
     getUsersByName(name) {
@@ -91,8 +97,6 @@ export default {
   padding-bottom: 15px;
 }
 #approval-header {
-  display: flex;
-  justify-content: space-between;
   padding: 3px;
 }
 </style>

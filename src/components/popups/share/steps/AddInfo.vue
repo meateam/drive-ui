@@ -2,15 +2,20 @@
   <div>
     <p id="choose">{{$t('externalShare.MoreInfo')}}</p>
     <Textarea @input="onInfoChange" :placeholder="$t('externalShare.Describe')" />
-    <Select
-      :items="classifications"
-      background="transparent"
-      @change="onClassificationChange"
-      :placeholder="$t('externalShare.ChooseClassification')"
-    />
-    <v-card-actions class="popup-confirm">
-      <Confirm @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
-    </v-card-actions>
+    <div class="space-between">
+      <div class="select-container">
+        <Select
+          :items="classifications"
+          background="transparent"
+          @change="onClassificationChange"
+          :placeholder="$t('externalShare.ChooseClassification')"
+        />
+      </div>
+
+      <v-card-actions class="popup-confirm">
+        <Confirm @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
+      </v-card-actions>
+    </div>
   </div>
 </template>
 

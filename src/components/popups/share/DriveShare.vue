@@ -14,7 +14,7 @@
       <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
     </div>
     <div class="space-between">
-      <div id="select-container">
+      <div class="select-container">
         <Select
           :items="roles"
           background="transparent"
@@ -111,9 +111,5 @@ export default {
 #choose {
   font-size: 18px;
   padding-bottom: 15px;
-}
-#select-container {
-  margin-top: 10px;
-  width: 150px;
 }
 </style>
