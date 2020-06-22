@@ -44,7 +44,7 @@ export default {
     return {
       currentStep: 1,
       destination: [],
-      approval: undefined,
+      approvals: [],
       classification: undefined,
       info: undefined
     };
@@ -54,8 +54,8 @@ export default {
       this.destination = users;
       this.currentStep = 2;
     },
-    onApprovalComplete(user) {
-      this.approval = user;
+    onApprovalComplete(users) {
+      this.approvals = users;
       this.currentStep = 3;
     },
     onInfoComplete(info, classification) {

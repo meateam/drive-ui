@@ -6,6 +6,8 @@
     :background-color="background"
     :items="items"
     :placeholder="placeholder"
+    item-text="text"
+    item-value="value"
     v-model="value"
     @change="$emit('change', value)"
   ></v-select>

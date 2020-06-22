@@ -65,7 +65,12 @@
         "DriveShare": "שיתוף דרך דרייב",
         "ExternalShare": "שיתוף דרך רשת חיצונית",
         "Header": "שיתוף קובץ",
-        "DriveChoose": "בחרו עם מי תרצו לשתף את הקובץ"
+        "DriveChoose": "בחרו עם מי תרצו לשתף את הקובץ",
+        "ChoosePermission": "סוג שיתוף",
+        "role": {
+            "read": "קריאה",
+            "write": "כתיבה"
+        }
     },
     "externalShare": {
         "Destination": "יעד",
@@ -75,6 +80,8 @@
         "MoreInfo": "כתבו מידע על הקובץ",
         "Describe": "תארו את הדברים העיקריים שמכיל המסמך...",
         "ChooseClassification": "רמת סיווג",
-        "Classifications": ["שמור", "סודי", "סודי ביותר" ]
+        "Classifications": ["שמור", "סודי", "סודי ביותר" ],
+        "ApprovalInstructions": "המאשרים שנבחרו יצטרכו לאשר באופן ידני את ההעברה במערכת האישורים",
+        "ApprovalService": "במערכת האישורים"
     }
 }
