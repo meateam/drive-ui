@@ -2,7 +2,7 @@
   <div>
     <div>
       <div id="approval-header" class="space-between">
-        <p id="choose">{{$t('externalShare.ApprovalChoose')}}</p>
+        <p class="popup-text">{{$t('externalShare.ApprovalChoose')}}</p>
         <v-tooltip top>
           <template v-slot:activator="{ on }">
             <v-icon color="#2c3448" v-on="on">info</v-icon>
@@ -95,10 +95,6 @@ export default {
 </script>
 
 <style scoped>
-#choose {
-  font-size: 18px;
-  padding-bottom: 15px;
-}
 #approval-header {
   padding: 3px;
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p id="choose">{{$t('externalShare.MoreInfo')}}</p>
+    <p class="popup-text">{{$t('externalShare.MoreInfo')}}</p>
     <Textarea @input="onInfoChange" :placeholder="$t('externalShare.Describe')" />
     <div class="space-between">
       <div class="select-container">
@@ -54,10 +54,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-#choose {
-  font-size: 18px;
-  padding-bottom: 15px;
-}
-</style>

@@ -17,12 +17,19 @@
           <v-tab-item value="DRIVE">
             <DriveShare @close="dialog = false" :files="files" />
           </v-tab-item>
-          <v-tab-item
-            value="EXTERNAL"
-            @close="dialog = false"
-            v-if="files.length===1"
-          >
-            <ExternalShare :file="files[0]" @close="dialog = false"/>
+          <v-tab-item value="EXTERNAL">
+            <ExternalShare
+              v-if="files.length===1 && isFileAllowed(files[0])"
+              :file="files[0]"
+              @close="dialog = false"
+            />
+            <div v-else id="error">
+              <div v-if="files.length!==1" class="popup-text">{{$t('externalShare.errors.OneFileOnly')}}</div>
+              <div v-else-if="!isFileAllowed(files[0])">
+                <p class="popup-text">{{$t('externalShare.errors.FileType')}}</p>
+                <p>{{getAllowedTypes()}}</p>
+              </div>
+            </div>
           </v-tab-item>
         </v-tabs-items>
       </div>
@@ -31,6 +38,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import DriveShare from "./DriveShare";
 import ExternalShare from "./ExternalShare";
 
@@ -44,12 +52,23 @@ export default {
       tab: null
     };
   },
+  computed: {
+    ...mapGetters(["allowedFileTypes"])
+  },
   methods: {
     open() {
       this.dialog = true;
     },
-    onConfirm() {
-      this.dialog = false;
+    isFileAllowed(file) {
+      const nameArray = file.name.split(".");
+      const fileType = nameArray[nameArray.length - 1];
+      return this.allowedFileTypes.includes(fileType.toLowerCase());
+    },
+    getAllowedTypes() {
+      return this.allowedFileTypes
+        .toString()
+        .split(",")
+        .join(", ");
     }
   }
 };
@@ -66,5 +85,8 @@ export default {
 }
 .theme--light.v-tabs-items {
   background-color: transparent;
+}
+#error {
+  text-align: center;
 }
 </style>

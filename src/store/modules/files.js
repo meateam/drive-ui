@@ -3,6 +3,23 @@ import Axios from "axios";
 import { baseURL } from "@/utils/config";
 
 const state = {
+  allowedTypes: [
+    "png",
+    "xlsx",
+    "docx",
+    "jpg",
+    "pptx",
+    "txt",
+    "jpeg",
+    "mp4",
+    "mpg",
+    "mpeg",
+    "bmp",
+    "gif",
+    "wav",
+    "wave",
+    "pdf",
+  ],
   files: [],
   chosenFiles: [],
   folderContentType: "application/vnd.drive.folder",
@@ -356,7 +373,7 @@ const actions = {
 
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
-    const day = date.getDate() + 1;
+    const day = date.getDate();
     const hour = date.getHours();
     const minutes = date.getMinutes();
 

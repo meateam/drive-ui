@@ -58,6 +58,10 @@ a {
   text-align: right !important;
   padding-right: 5px;
 }
+.popup-text {
+  font-size: 18px;
+  padding-bottom: 15px;
+}
 .page-container {
   margin: 70px;
   margin-left: 70px;

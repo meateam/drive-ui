@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p id="choose">{{$t('share.DriveChoose')}}</p>
+    <p class="popup-text">{{$t('share.DriveChoose')}}</p>
     <Autocomplete
       icon
       background="white"
@@ -106,10 +106,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-#choose {
-  font-size: 18px;
-  padding-bottom: 15px;
-}
-</style>
