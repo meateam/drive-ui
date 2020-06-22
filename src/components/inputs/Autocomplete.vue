@@ -15,11 +15,7 @@
     :background-color="background"
     :placeholder="placeholder"
   >
-    <template v-slot:no-data>
-      <v-list-item>
-        <v-list-item-title>{{ $t('autocomplete.NoResult')}}</v-list-item-title>
-      </v-list-item>
-    </template>
+    <template v-slot:no-data>{{ $t('autocomplete.NoResult')}}</template>
   </v-autocomplete>
 </template>
 
@@ -28,7 +24,7 @@ import debounce from "lodash/debounce";
 
 export default {
   data: () => ({
-    value: ""
+    value: []
   }),
   props: ["placeholder", "items", "background", "icon", "isLoading"],
   methods: {
@@ -38,6 +34,6 @@ export default {
     onSearch: debounce(function(value) {
       if (value && value.length >= 2) this.$emit("type", value);
     }, 500)
-  },
+  }
 };
 </script>
