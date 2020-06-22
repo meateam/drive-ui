@@ -1,8 +1,15 @@
 <template>
   <div>
     <ListHeader @check="toggleFilesCheck" ref="header" />
-    <File v-bind:key="file.id" v-for="file in files" v-bind:file="file" ref="files" />
-    <ActionBar :chosenFiles="chosenFiles" ref="file" />
+    <File
+      v-bind:key="file.id"
+      v-for="file in files"
+      v-bind:file="file"
+      ref="files"
+      @rightclick="$refs.menu.show($event)"
+    />
+    <FilesMenu :chosenFiles="chosenFiles" ref="file" />
+    <FileMenu ref="menu" :files="chosenFiles" />
   </div>
 </template>
 
@@ -10,12 +17,13 @@
 import { mapGetters } from "vuex";
 import File from "./File";
 import ListHeader from "./ListHeader";
-import ActionBar from "./ActionBar";
+import FilesMenu from "@/components/popups/FilesMenu";
+import FileMenu from "@/components/popups/FileMenu";
 
 export default {
   name: "FileList",
   props: ["files"],
-  components: { File, ListHeader, ActionBar },
+  components: { File, ListHeader, FilesMenu, FileMenu },
   computed: {
     ...mapGetters(["chosenFiles"])
   },
@@ -36,7 +44,7 @@ export default {
       this.$refs.files.forEach(file => {
         file.checkFile(event);
       });
-    }
+    },
   },
   created() {
     window.addEventListener("keydown", event => {

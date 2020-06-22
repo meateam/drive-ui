@@ -75,11 +75,13 @@ const actions = {
     });
   },
   async shareExternalUsers(
-    {},
+    { commit },
     { fileID, users, classification, info, approvers, fileName }
   ) {
     const body = { users, classification, info, approvers, fileName };
     const res = await Axios.put(`${baseURL}/api/files/${fileID}/permits`, body);
+    users.forEach((user) => commit("onExternalUserShare", { fileID, user }));
+
     return res.data;
   },
 };

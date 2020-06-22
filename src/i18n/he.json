@@ -44,7 +44,9 @@
         "Share": "שיתוף",
         "Download": "הורדה",
         "Confirm": "אישור",
-        "Continue": "הבא"
+        "Continue": "הבא",
+        "Info": "פרטי הקובץ",
+        "Edit": "שינוי שם"
     },
     "folder": {
         "Upload": "יצירת תיקייה חדשה",

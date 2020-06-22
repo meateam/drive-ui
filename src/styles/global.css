@@ -37,6 +37,7 @@ a {
 }
 .flex {
   display: flex;
+  flex-wrap: wrap;
 }
 .ltr {
   direction: ltr;

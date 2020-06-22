@@ -3,7 +3,7 @@
     id="file"
     class="file-list-structure"
     @dblclick="onFileClick"
-    @contextmenu.prevent="$refs.fileInfo.open()"
+    @contextmenu.prevent="$emit('rightclick', $event)"
   >
     <v-checkbox @change="onFileChoose(isChecked)" v-model="isChecked" color="#357e6f"></v-checkbox>
     <div>
@@ -13,14 +13,12 @@
     <p>{{file.owner}}</p>
     <p>{{file.updatedAt}}</p>
     <p class="ltr">{{formatBytes(file.size)}}</p>
-    <Info ref="fileInfo" :file="file" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import fileSize from "filesize";
-import Info from "@/components/popups/Info";
 
 export default {
   name: "ListFile",
@@ -30,7 +28,6 @@ export default {
       isChecked: false
     };
   },
-  components: { Info },
   computed: {
     ...mapGetters(["folderContentType"])
   },

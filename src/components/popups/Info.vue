@@ -18,7 +18,7 @@
         <div>
           <p>{{$t('fileInfo.Shared')}}</p>
           <div>
-            <div v-if="file.permissions && file.permissions.length!==0">
+            <div v-if="file.permissions && file.permissions.length!==0" class="flex">
               <Avatar
                 v-for="user in file.permissions"
                 :key="user.id"
@@ -29,7 +29,7 @@
           </div>
           <p>{{$t('fileInfo.ExternalShare')}}</p>
           <div>
-            <div v-if="file.permits && file.permits.length!==0">
+            <div v-if="file.permits && file.permits.length!==0" class="flex">
               <Avatar
                 v-for="user in file.permits"
                 :key="user.id"
