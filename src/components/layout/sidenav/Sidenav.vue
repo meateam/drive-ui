@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer absolute permanent right id="sidenav">
+  <v-navigation-drawer permanent app right id="sidenav">
     <v-list nav>
       <v-list-item id="logo-container">
         <v-list-item-content>
