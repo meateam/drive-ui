@@ -69,27 +69,22 @@ const actions = {
    * getExternalUserByID returns the external user with the received id
    * @param id is the user id
    */
-  async getExternalUserByIDs({ dispatch }, id) {
+  async getExternalUserByID({ dispatch }, id) {
     try {
       const res = await Axios.get(`${baseURL}/api/delegators/${id}`);
-      const user = res.user;
-      user.firstName = res.user.first_name;
-      user.lastName = res.user.last_name;
-      user.fullName = res.user.full_name;
-      user.hierarchyFlat = res.user.hierarchy;
-      return dispatch("formatUser", user);
+      return dispatch("formatExternalUser", res.data.user);
     } catch (err) {
-      throw new Error();
+      throw new Error(err);
     }
   },
   /**
    * getUsersByIDs returns the array of the users with the id
-   * @param users is the array of the idws
+   * @param userIDs is the array of the ids
    */
-  async getExternalUsersByIDs({ dispatch }, userIDs) {
+  getExternalUsersByIDs({ dispatch }, userIDs) {
     return Promise.all(
-      userIDs.map(async (id) => {
-        return await dispatch("getExternalUserByID", id);
+      userIDs.map((id) => {
+        return dispatch("getExternalUserByID", id);
       })
     );
   },
@@ -122,6 +117,8 @@ const actions = {
     formatedUser.display = `${user.hierarchy} < ${user.full_name}`;
     formatedUser.firstName = user.first_name;
     formatedUser.lastName = user.last_name;
+    formatedUser.fullName = user.full_name;
+    formatedUser.hierarchyFlat = user.hierarchy;
     return formatedUser;
   },
 };

@@ -2,11 +2,9 @@
 import { baseURL } from "@/utils/config";
 import Axios from "axios";
 
-const state = {
-};
+const state = {};
 
-const getters = {
-};
+const getters = {};
 
 const actions = {
   /**
@@ -34,9 +32,9 @@ const actions = {
       const res = await Axios.get(`${baseURL}/api/files/${fileID}/permits`);
       const users = await dispatch(
         "getExternalUsersByIDs",
-        res.data ? res.data.map((permit) => permit.userID) : []
+        res.data ? res.data.map((permit) => permit.userId) : []
       );
-      return users || [];
+      return users;
     } catch (err) {
       throw new Error(err);
     }
@@ -75,6 +73,14 @@ const actions = {
         await dispatch("shareUser", { fileID: file.id, userID: user.id, role });
       });
     });
+  },
+  async shareExternalUsers(
+    {},
+    { fileID, users, classification, info, approvers, fileName }
+  ) {
+    const body = { users, classification, info, approvers, fileName };
+    const res = await Axios.put(`${baseURL}/api/files/${fileID}/permits`, body);
+    return res.data;
   },
 };
 

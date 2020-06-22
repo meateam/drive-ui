@@ -70,7 +70,10 @@ export default {
         .finally(() => (this.isLoading = false));
     },
     onConfirm() {
-      this.$emit("continue", this.selectedApprovals);
+      this.$emit(
+        "continue",
+        this.selectedApprovals.map(user => user.id)
+      );
     },
     onSelect(user) {
       this.users = [];

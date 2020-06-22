@@ -17,8 +17,12 @@
           <v-tab-item value="DRIVE">
             <DriveShare @close="dialog = false" :files="files" />
           </v-tab-item>
-          <v-tab-item value="EXTERNAL" @close="dialog = false" :files="files">
-            <ExternalShare />
+          <v-tab-item
+            value="EXTERNAL"
+            @close="dialog = false"
+            v-if="files.length===1"
+          >
+            <ExternalShare :file="files[0]" @close="dialog = false"/>
           </v-tab-item>
         </v-tabs-items>
       </div>

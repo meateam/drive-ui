@@ -32,7 +32,7 @@ export default {
       selectedUsers: [],
       users: [],
       isLoading: false,
-      disabled: true,
+      disabled: true
     };
   },
   watch: {
@@ -68,7 +68,12 @@ export default {
       return users.some(user => user.id === id);
     },
     onConfirm() {
-      this.$emit("continue", this.selectedUsers);
+      this.$emit(
+        "continue",
+        this.selectedUsers.map(user => {
+          return { id: user.id, full_name: user.full_name };
+        })
+      );
     }
   }
 };

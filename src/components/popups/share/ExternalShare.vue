@@ -1,52 +1,53 @@
 <template>
-  <v-stepper v-model="currentStep" alt-labels>
-    <v-stepper-header>
-      <v-stepper-step :complete="currentStep > 1" step="1">{{$t('externalShare.Destination')}}</v-stepper-step>
+  <div>
+    <v-stepper v-model="currentStep" alt-labels v-if="!complete">
+      <v-stepper-header>
+        <v-stepper-step :complete="currentStep > 1" step="1">{{$t('externalShare.Destination')}}</v-stepper-step>
 
-      <v-divider></v-divider>
+        <v-divider></v-divider>
 
-      <v-stepper-step :complete="currentStep > 2" step="2">{{$t('externalShare.Approval')}}</v-stepper-step>
+        <v-stepper-step :complete="currentStep > 2" step="2">{{$t('externalShare.Approval')}}</v-stepper-step>
 
-      <v-divider></v-divider>
+        <v-divider></v-divider>
 
-      <v-stepper-step step="3">{{$t('externalShare.AddInfo')}}</v-stepper-step>
-    </v-stepper-header>
+        <v-stepper-step step="3">{{$t('externalShare.AddInfo')}}</v-stepper-step>
+      </v-stepper-header>
 
-    <v-stepper-items>
-      <v-stepper-content step="1">
-        <Destination @continue="onDestinationComplete" />
-      </v-stepper-content>
+      <v-stepper-items>
+        <v-stepper-content step="1">
+          <Destination @continue="onDestinationComplete" />
+        </v-stepper-content>
 
-      <v-stepper-content step="2">
-        <Approval @continue="onApprovalComplete" />
-      </v-stepper-content>
+        <v-stepper-content step="2">
+          <Approval @continue="onApprovalComplete" />
+        </v-stepper-content>
 
-      <v-stepper-content step="3">
-        <AddInfo @continue="onInfoComplete" />
-      </v-stepper-content>
-
-      <v-stepper-content step="4">
-        <AddInfo @complete="onComplete" />
-      </v-stepper-content>
-    </v-stepper-items>
-  </v-stepper>
+        <v-stepper-content step="3">
+          <AddInfo @continue="onInfoComplete" />
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
+    <Note @complete="onComplete" v-if="complete" />
+  </div>
 </template>
 
 <script>
 import AddInfo from "./steps/AddInfo";
 import Destination from "./steps/Destination";
 import Approval from "./steps/Approval";
+import Note from "./steps/Note";
 
 export default {
-  components: { AddInfo, Destination, Approval },
-  props: ["files"],
+  components: { AddInfo, Destination, Approval, Note },
+  props: ["file"],
   data() {
     return {
       currentStep: 1,
       destination: [],
-      approvals: [],
+      approvers: [],
       classification: undefined,
-      info: undefined
+      info: undefined,
+      complete: false
     };
   },
   methods: {
@@ -55,16 +56,25 @@ export default {
       this.currentStep = 2;
     },
     onApprovalComplete(users) {
-      this.approvals = users;
+      this.approvers = users;
       this.currentStep = 3;
     },
     onInfoComplete(info, classification) {
       this.info = info;
       this.classification = classification;
-      this.currentStep = 4;
+      this.currentStep = 0;
+      this.complete = true;
     },
     onComplete() {
-      console.log("complete");
+      this.$store.dispatch("shareExternalUsers", {
+        users: this.destination,
+        fileID: this.file.id,
+        fileName: this.file.name,
+        info: this.info,
+        classification: this.classification,
+        approvers: this.approvers
+      });
+      this.$emit("close");
     }
   }
 };

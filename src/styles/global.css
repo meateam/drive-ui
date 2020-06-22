@@ -54,6 +54,10 @@ a {
   font-weight: 400;
   border-bottom: 2px solid #357e6f;
 }
+.v-label {
+  text-align: right !important;
+  padding-right: 5px;
+}
 .page-container {
   margin: 70px;
   margin-left: 70px;
