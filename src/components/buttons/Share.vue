@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top>
+  <v-tooltip top :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn @click="$refs.share.open()" v-on="on" :icon="icon" class="auto-margin" text>
         <img class="fab-icon" src="@/assets/icons/share.png" />

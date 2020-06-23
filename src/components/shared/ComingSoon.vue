@@ -39,7 +39,7 @@ export default {
   list-style: none;
   width: 25px;
   height: 25px;
-  animation: animate 20s linear infinite;
+  animation: animate 10s linear infinite;
   bottom: -150px;
 }
 
