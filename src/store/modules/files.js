@@ -386,10 +386,15 @@ const actions = {
     commit("setHierarchy", ancestors ? ancestors.data : []);
   },
   async editFile({ commit }, { file, name }) {
-    await Axios.put(`${baseURL}/api/files/${file.id}`, {
-      name,
-    });
-    commit("onFileRename", { file, name });
+    try {
+      const res = await Axios.put(`${baseURL}/api/files/${file.id}`, {
+        name,
+      });
+      if (res.data) throw new Error(res.data.error);
+      commit("onFileRename", { file, name });
+    } catch (err) {
+      throw new Error(err);
+    }
   },
   // async moveFile({ commit }) {},
   // async unShareFile({ commit }) {},
