@@ -43,8 +43,8 @@ export default {
     isFolder(file) {
       return file.type === this.folderContentType;
     },
-    onRightClick(event, file) {
-      this.$emit("rightclick", event, file);
+    onRightClick(event) {
+      this.$emit("rightclick", event, this.file);
       if (!this.isChecked) this.checkFile(true);
     },
     onFileChoose(isChecked) {

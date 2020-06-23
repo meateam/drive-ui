@@ -9,8 +9,13 @@
     </template>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn @click.stop="$refs.folderPopup.open()" v-on="on" fab big color="#357e6f">
-          <NewFolder ref="folderPopup" />
+        <v-btn @click.stop="$refs.newFolder.open()" v-on="on" fab big color="#357e6f">
+          <CreatePopup
+            img="newFolder.png"
+            ref="newFolder"
+            type="folder"
+            @confirm="onFolderConfirm"
+          />
           <img src="@/assets/icons/new.png" />
         </v-btn>
       </template>
@@ -30,7 +35,7 @@
 
 <script>
 import Upload from "./Upload";
-import NewFolder from "../popups/NewFolder";
+import CreatePopup from "../popups/CreatePopup";
 
 export default {
   name: "Fab",
@@ -39,7 +44,12 @@ export default {
       fab: false
     };
   },
-  components: { Upload, NewFolder },
+  components: { Upload, CreatePopup },
+  methods: {
+    onFolderConfirm(name) {
+      this.$store.dispatch("uploadFolder", name);
+    }
+  }
 };
 </script>
 

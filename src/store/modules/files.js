@@ -385,6 +385,12 @@ const actions = {
     );
     commit("setHierarchy", ancestors ? ancestors.data : []);
   },
+  async editFile({ commit }, { file, name }) {
+    await Axios.put(`${baseURL}/api/files/${file.id}`, {
+      name,
+    });
+    commit("onFileRename", { file, name });
+  },
   // async moveFile({ commit }) {},
   // async unShareFile({ commit }) {},
   // async previewFile({ commit }) {},
@@ -397,6 +403,13 @@ const mutations = {
     state.chosenFiles = state.chosenFiles.filter((file) => {
       return file.id !== fileID;
     });
+  },
+  onFileRename: (state, { name, file }) => {
+    if (state.files.includes(file)) {
+      state.files.forEach((item) => {
+        if (file === item) item.name = name;
+      });
+    }
   },
   addFile: (state, file) => {
     if (
