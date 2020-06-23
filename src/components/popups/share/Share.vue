@@ -5,7 +5,7 @@
         <img class="popup-icon auto-margin" src="@/assets/icons/popupShare.png" />
         <p class="d-title">{{$t('share.Header')}}</p>
         <div class="files">
-          <p class="ltr space" v-for="file in files" :key="file.id">{{file.name}}</p>
+          <p class="ltr space" v-for="file in chosenFiles" :key="file.id">{{file.name}}</p>
         </div>
         <v-tabs v-model="tab" slider-color="#357e6f" color="black">
           <v-tab href="#DRIVE" key="DRIVE">{{$t('share.DriveShare')}}</v-tab>
@@ -15,17 +15,17 @@
       <div class="popup-body">
         <v-tabs-items v-model="tab">
           <v-tab-item value="DRIVE">
-            <DriveShare @close="dialog = false" :files="files" />
+            <DriveShare @close="dialog = false" :files="chosenFiles" />
           </v-tab-item>
           <v-tab-item value="EXTERNAL">
             <ExternalShare
-              v-if="files.length===1 && isFileAllowed(files[0])"
-              :file="files[0]"
+              v-if="chosenFiles.length===1 && isFileAllowed(chosenFiles[0])"
+              :file="chosenFiles[0]"
               @close="dialog = false"
             />
             <div v-else id="error">
-              <div v-if="files.length!==1" class="popup-text">{{$t('externalShare.errors.OneFileOnly')}}</div>
-              <div v-else-if="!isFileAllowed(files[0])">
+              <div v-if="chosenFiles.length!==1" class="popup-text">{{$t('externalShare.errors.OneFileOnly')}}</div>
+              <div v-else-if="!isFileAllowed(chosenFiles[0])">
                 <p class="popup-text">{{$t('externalShare.errors.FileType')}}</p>
                 <p>{{getAllowedTypes()}}</p>
               </div>
@@ -44,7 +44,6 @@ import ExternalShare from "./ExternalShare";
 
 export default {
   name: "NewFolder",
-  props: ["files"],
   components: { DriveShare, ExternalShare },
   data() {
     return {
@@ -53,7 +52,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["allowedFileTypes"])
+    ...mapGetters(["allowedFileTypes", "chosenFiles"])
   },
   methods: {
     open() {

@@ -1,7 +1,7 @@
 <template>
   <v-tooltip top>
     <template v-slot:activator="{ on }">
-      <v-btn @click="$emit('click')" v-on="on" icon class="auto-margin">
+      <v-btn @click="onDelete" v-on="on" :icon="icon"  class="auto-margin" text>
         <img class="fab-icon" src="@/assets/icons/delete.png" />
       </v-btn>
     </template>
@@ -10,7 +10,17 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name:"Delete"
+  name: "Delete",
+  props: ["icon"],
+  methods: {
+    onDelete() {
+      this.$store.dispatch("deleteFiles", this.chosenFiles);
+    }
+  },
+  computed: {
+    ...mapGetters(["chosenFiles"])
+  }
 };
 </script>

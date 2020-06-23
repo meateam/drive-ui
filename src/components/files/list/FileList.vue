@@ -6,7 +6,7 @@
       v-for="file in files"
       v-bind:file="file"
       ref="files"
-      @rightclick="$refs.menu.show($event)"
+      @rightclick="onRightClick"
     />
     <FilesMenu :chosenFiles="chosenFiles" ref="file" />
     <FileMenu ref="menu" :files="chosenFiles" />
@@ -45,6 +45,12 @@ export default {
         file.checkFile(event);
       });
     },
+    onRightClick(event, file) {
+      if (!this.chosenFiles.includes(file)) {
+        this.toggleFilesCheck(false);
+      }
+      this.$refs.menu.show(event);
+    }
   },
   created() {
     window.addEventListener("keydown", event => {

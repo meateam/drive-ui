@@ -1,26 +1,13 @@
 <template>
   <v-menu v-model="showMenu" :position-x="x" :position-y="y" absolute offset-y id="menu">
     <v-list color="#357e6f">
-      <v-list-item>
-        <Download @click="downloadFile" />
-      </v-list-item>
-      <v-list-item>
-        <Share @click="$refs.share.open()" />
-      </v-list-item>
-      <v-list-item>
-        <Delete @click="downloadFile" />
-      </v-list-item>
-      <v-list-item>
-        <Move />
-      </v-list-item>
-      <v-list-item>
-        <Info />
-      </v-list-item>
-      <v-list-item>
-        <Edit />
-      </v-list-item>
+      <Download />
+      <Share />
+      <Delete />
+      <Move />
+      <Info />
+      <Edit />
     </v-list>
-    <SharePopup ref="share" :files="[file]" />
   </v-menu>
 </template>
 
@@ -31,12 +18,10 @@ import Move from "@/components/buttons/Move";
 import Edit from "@/components/buttons/Edit";
 import Info from "@/components/buttons/Info";
 import Share from "@/components/buttons/Share";
-import SharePopup from "@/components/popups/share/Share";
 
 export default {
   name: "FileMenu",
-  props: ["file"],
-  components: { Download, Share, SharePopup, Move, Delete, Info, Edit },
+  components: { Download, Share, Move, Delete, Info, Edit },
   data() {
     return {
       showMenu: false,
@@ -53,12 +38,6 @@ export default {
       this.$nextTick(() => {
         this.showMenu = true;
       });
-    },
-    downloadFile() {
-      this.$store.dispatch("downloadFile", this.file.id);
-    },
-    deleteFile() {
-      this.$store.dispatch("deleteFiles", this.file.id);
     }
   }
 };

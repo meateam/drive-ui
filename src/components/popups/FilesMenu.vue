@@ -1,28 +1,26 @@
 <template>
   <div id="action-bar" v-if="chosenFiles.length">
-    <Delete @click="deleteFiles" />
-    <Move @click="moveFiles" />
-    <Share @click="$refs.share.open()" />
-    <SharePopup ref="share" :files="chosenFiles" />
+    <Download :icon="true" />
+    <Share :icon="true" />
+    <Delete :icon="true" />
+    <Move :icon="true" />
+    <Info :icon="true" />
+    <Edit :icon="true" />
   </div>
 </template>
 
 <script>
+import Download from "@/components/buttons/Download";
 import Delete from "@/components/buttons/Delete";
 import Move from "@/components/buttons/Move";
+import Edit from "@/components/buttons/Edit";
+import Info from "@/components/buttons/Info";
 import Share from "@/components/buttons/Share";
-import SharePopup from "@/components/popups/share/Share";
 
 export default {
   name: "ActionBar",
   props: ["chosenFiles"],
-  components: { Delete, Move, Share, SharePopup },
-  methods: {
-    deleteFiles() {
-      this.$store.dispatch("deleteFiles", this.chosenFiles);
-    },
-    moveFiles() {}
-  }
+  components: { Download, Share, Move, Delete, Info, Edit }
 };
 </script>
 

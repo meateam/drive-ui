@@ -1,7 +1,7 @@
 <template>
   <v-tooltip top>
     <template v-slot:activator="{ on }">
-      <v-btn @click="$emit('click')" v-on="on" icon class="auto-margin">
+      <v-btn @click="$emit('click')" v-on="on" :icon="icon" class="auto-margin" text>
         <img class="fab-icon" src="@/assets/icons/move.png" />
       </v-btn>
     </template>
@@ -11,6 +11,7 @@
 
 <script>
 export default {
-  name:"Move"
+  name: "Move",
+  props: ["icon"]
 };
 </script>

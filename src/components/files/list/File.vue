@@ -2,8 +2,8 @@
   <div
     id="file"
     class="file-list-structure"
-    @dblclick="onFileClick"
-    @contextmenu.prevent="$emit('rightclick', $event)"
+    @dblclick="onFolderClick"
+    @contextmenu.prevent="onRightClick"
   >
     <v-checkbox @change="onFileChoose(isChecked)" v-model="isChecked" color="#357e6f"></v-checkbox>
     <div>
@@ -43,13 +43,17 @@ export default {
     isFolder(file) {
       return file.type === this.folderContentType;
     },
+    onRightClick(event, file) {
+      this.$emit("rightclick", event, file);
+      if (!this.isChecked) this.checkFile(true);
+    },
     onFileChoose(isChecked) {
       this.$store.commit("onFileChoose", {
         isChecked,
         file: this.file
       });
     },
-    onFileClick(event) {
+    onFolderClick(event) {
       event.preventDefault();
       if (this.isFolder(this.file))
         this.$router.push({ path: "/folders", query: { id: this.file.id } });

@@ -1,16 +1,21 @@
 <template>
   <v-tooltip top>
     <template v-slot:activator="{ on }">
-      <v-btn @click="$emit('click')" v-on="on" icon class="auto-margin">
+      <v-btn @click="$refs.share.open()" v-on="on" :icon="icon" class="auto-margin" text>
         <img class="fab-icon" src="@/assets/icons/share.png" />
       </v-btn>
     </template>
     <span>{{ $t("buttons.Share") }}</span>
+    <SharePopup ref="share" />
   </v-tooltip>
 </template>
 
 <script>
+import SharePopup from "@/components/popups/share/Share";
+
 export default {
-  name:"Share"
+  name: "Share",
+  components: { SharePopup },
+  props: ["icon"]
 };
 </script>
