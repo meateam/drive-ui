@@ -44,7 +44,7 @@ export default {
   height: 100vh;
   position: fixed;
   top: 0;
-  /* z-index: -1; */
+  z-index: -1;
   left: 0;
 }
 .active {
@@ -53,6 +53,7 @@ export default {
 }
 #upload {
   position: fixed;
+  z-index: 0;
   width: 200px;
   background-color: white;
   height: 200px;

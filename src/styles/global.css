@@ -31,6 +31,9 @@ a {
 .v-application--is-ltr .v-treeview-node__toggle--open {
   transform: none !important;
 }
+.v-btn:not(.v-btn--round).v-size--default {
+  width: 100%;
+}
 .auto-margin {
   margin: auto;
   display: block;
