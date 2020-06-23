@@ -35,6 +35,10 @@ a {
   margin: auto;
   display: block;
 }
+.button-text {
+  color: #f0f4f7;
+  padding-right: 5px;
+}
 .flex {
   display: flex;
   flex-wrap: wrap;

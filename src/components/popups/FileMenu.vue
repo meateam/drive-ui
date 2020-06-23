@@ -1,6 +1,6 @@
 <template>
   <v-menu v-model="showMenu" :position-x="x" :position-y="y" absolute offset-y id="menu">
-    <v-list color="#357e6f">
+    <v-list color="#357e6f" id="right-click-popup">
       <Download />
       <Share />
       <Delete />
@@ -44,4 +44,7 @@ export default {
 </script>
 
 <style scoped>
+#right-click-popup {
+  padding: 0;
+}
 </style>

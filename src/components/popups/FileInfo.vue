@@ -49,7 +49,7 @@ import KeyValue from "@/components/shared/KeyValue";
 import Avatar from "@/components/shared/Avatar";
 
 export default {
-  name: "InfoPopup",
+  name: "FileInfo",
   props: ["file"],
   components: { KeyValue, Avatar },
   data() {
