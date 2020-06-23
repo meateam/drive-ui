@@ -1,6 +1,7 @@
 <template>
   <div
     id="file"
+    :class="{checked: isChecked}"
     class="file-list-structure"
     @dblclick="onFolderClick"
     @contextmenu.prevent="onRightClick"
@@ -76,5 +77,8 @@ export default {
 #file-name {
   font-family: Rubik;
   font-size: 20px;
+}
+.checked {
+  background-color: rgb(230, 236, 246);
 }
 </style>
