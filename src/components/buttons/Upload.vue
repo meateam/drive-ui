@@ -1,5 +1,5 @@
 <template>
-  <input type="file" id="upload-input" @change="uploadInput($event)" multiple />
+  <input v-show="false" type="file" id="upload-input" @change="uploadInput($event)" multiple />
 </template>
 
 <script>
@@ -20,9 +20,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-input {
-  display: none;
-}
-</style>

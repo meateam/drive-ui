@@ -1,13 +1,13 @@
 <template>
   <div
     class="drag-container"
-    @dragenter="onDragEnter"
-    @dragleave="onDragEnd"
+    @dragenter.prevent="onDragEnter"
+    @dragleave.prevent="onDragEnd"
+    @drop.prevent="onDrop"
     :class="{active: drag}"
   >
-    <div v-if="drag">
-      <img id="upload-img" src="@/assets/icons/uploadFile.png" />
-      <h1>{{$t('')}}</h1>
+    <div v-if="drag" id="upload">
+      <img id="upload-img" class="auto-margin" src="@/assets/icons/uploadFile.png" />
     </div>
   </div>
 </template>
@@ -26,6 +26,13 @@ export default {
     },
     onDragEnd() {
       this.drag = false;
+    },
+    onDrop(event) {
+      event.preventDefault();
+      const files = event.dataTransfer.files;
+      if (!files) return;
+      this.$store.dispatch("uploadFiles", files);
+      this.onDragEnd();
     }
   }
 };
@@ -37,16 +44,24 @@ export default {
   height: 100vh;
   position: fixed;
   top: 0;
-  z-index: -1;
+  /* z-index: -1; */
   left: 0;
 }
 .active {
   backdrop-filter: blur(2px);
   z-index: 10;
 }
-#upload-img {
+#upload {
   position: fixed;
+  width: 200px;
+  background-color: white;
+  height: 200px;
+  border-radius: 50%;
+  right: calc(50vw - 100px);
+  top: calc(50vh - 100px);
+}
+#upload-img {
   width: 60px;
-  right: calc(50vw - 30px);
+  margin-top: 65px;
 }
 </style>
