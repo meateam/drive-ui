@@ -18,6 +18,11 @@ export default {
     return {
       value: null
     };
+  },
+  methods: {
+    clear() {
+      this.value = "";
+    }
   }
 };
 </script>

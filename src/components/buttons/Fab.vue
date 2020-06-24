@@ -16,6 +16,7 @@
             type="folder"
             @confirm="onFolderConfirm"
           />
+          <Snackbar ref="snackbar" />
           <img src="@/assets/icons/new.png" />
         </v-btn>
       </template>
@@ -36,6 +37,7 @@
 <script>
 import Upload from "./Upload";
 import CreatePopup from "../popups/CreatePopup";
+import Snackbar from "../popups/Snackbar";
 
 export default {
   name: "Fab",
@@ -44,10 +46,12 @@ export default {
       fab: false
     };
   },
-  components: { Upload, CreatePopup },
+  components: { Upload, CreatePopup, Snackbar },
   methods: {
     onFolderConfirm(name) {
-      this.$store.dispatch("uploadFolder", name);
+      this.$store.dispatch("uploadFolder", name).then(() => {
+        this.$refs.snackbar.open(this.$t("folder.Success"));
+      });
     }
   }
 };

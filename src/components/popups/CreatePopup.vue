@@ -8,6 +8,7 @@
       <div class="popup-body">
         <p class="d-subtitle">{{$t(`${type}.Name`)}}</p>
         <TextField
+          ref="input"
           @keyup.enter.native="onConfirm"
           @input="onNameChange"
           :placeholder="$t(`${type}.New`)"
@@ -33,7 +34,7 @@ export default {
       name: ""
     };
   },
-  props: ["img", "type"],
+  props: ["img", "type", "success"],
   methods: {
     open() {
       this.dialog = true;
@@ -42,8 +43,9 @@ export default {
       this.name = name;
     },
     onConfirm() {
-      this.dialog = false;
       this.$emit("confirm", this.name);
+      this.dialog = false;
+      this.$refs.input.clear();
     }
   }
 };

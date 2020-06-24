@@ -7,6 +7,7 @@
       </v-btn>
     </template>
     <CreatePopup img="newFolder.png" ref="rename" type="rename" @confirm="onConfirm" />
+    <Snackbar ref="snackbar" />
     <span>{{ $t("buttons.Edit") }}</span>
   </v-tooltip>
 </template>
@@ -14,17 +15,22 @@
 <script>
 import { mapGetters } from "vuex";
 import CreatePopup from "../popups/CreatePopup";
+import Snackbar from "../popups/Snackbar";
 
 export default {
   name: "Edit",
   props: ["icon"],
-  components: { CreatePopup },
+  components: { CreatePopup, Snackbar },
   computed: {
     ...mapGetters(["chosenFiles"])
   },
   methods: {
     onConfirm(name) {
-      this.$store.dispatch("editFile", { name, file: this.chosenFiles[0] });
+      this.$store
+        .dispatch("editFile", { name, file: this.chosenFiles[0] })
+        .then(() => {
+          this.$refs.snackbar.open(this.$t("rename.Success"));
+        });
     }
   }
 };

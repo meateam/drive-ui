@@ -47,7 +47,7 @@ const actions = {
     try {
       const res = await Axios.get(
         `${baseURL}/api/files${
-          state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
+        state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
         }`
       );
       const files = res.data;
@@ -61,11 +61,11 @@ const actions = {
       throw new Error(err);
     }
   },
-  async getFilesByFolder({}, folder) {
+  async getFilesByFolder({ }, folder) {
     try {
       const res = await Axios.get(
         `${baseURL}/api/files?type=${state.folderContentType}${
-          folder.id ? `&parent=${folder.id}` : ""
+        folder.id ? `&parent=${folder.id}` : ""
         }`
       );
       return res.data;
@@ -120,7 +120,7 @@ const actions = {
 
     return file;
   },
-  async getFileByID({}, fileID) {
+  async getFileByID({ }, fileID) {
     try {
       const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
       return res.data;
@@ -185,7 +185,7 @@ const actions = {
       request.open(
         "POST",
         `${baseURL}/api/upload?uploadType=multipart${
-          state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
+        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
         }`,
         true
       );
@@ -229,7 +229,7 @@ const actions = {
       request.open(
         "POST",
         `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${
-          state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
+        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
         }`,
         true
       );
@@ -268,11 +268,11 @@ const actions = {
    * getUploadID is used for the resumable upload (for connecting all the pieces when the upload is finished)
    * @param file is the file to upload
    */
-  async getUploadID({}, file) {
+  async getUploadID({ }, file) {
     try {
       const res = await Axios.post(
         `${baseURL}/api/upload${
-          state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
+        state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
         }`,
         {
           title: file.name,
@@ -318,7 +318,7 @@ const actions = {
         throw new Error("Name already exists in the root");
       const res = await Axios.post(
         `${baseURL}/api/upload?uploadType=multipart${
-          state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
+        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
         }`,
         {},
         {
@@ -339,7 +339,7 @@ const actions = {
    * isFileNameExists checks if there is already file with the same name in the current folder.
    * @param name is the name of the new file
    */
-  isFileNameExists({}, name) {
+  isFileNameExists({ }, name) {
     if (!name) return true;
     state.files.forEach((file) => {
       if (file.name === name) return true;
@@ -368,7 +368,7 @@ const actions = {
    * getDate return the formated creation date
    * @param d is the date to format
    */
-  formatDate({}, d) {
+  formatDate({ }, d) {
     const date = new Date(d);
 
     const year = date.getFullYear();
@@ -396,7 +396,19 @@ const actions = {
       throw new Error(err);
     }
   },
-  // async moveFile({ commit }) {},
+  async moveFile({ commit }, { folderID, fileIDs }) {
+    try {
+      await Axios.put(`${baseURL}/api/files`, {
+        partialFile: {
+          parent: folderID
+        },
+        idList: fileIDs
+      });
+      fileIDs.forEach(fileID => { commit('deleteFile', fileID) })
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
   // async unShareFile({ commit }) {},
   // async previewFile({ commit }) {},
 };

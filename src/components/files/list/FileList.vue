@@ -1,13 +1,16 @@
 <template>
   <div>
-    <ListHeader @check="toggleFilesCheck" ref="header" />
-    <File
-      v-bind:key="file.id"
-      v-for="file in files"
-      v-bind:file="file"
-      ref="files"
-      @rightclick="onRightClick"
-    />
+    <ListHeader @check="toggleFilesCheck" ref="header" @ />
+    <draggable v-model="fileList" @change="onDrop">
+      <File
+        :key="file.id"
+        v-for="file in fileList"
+        :file="file"
+        ref="files"
+        @rightclick="onRightClick"
+      />
+    </draggable>
+
     <FilesMenu :chosenFiles="chosenFiles" ref="file" />
     <FileMenu ref="menu" :files="chosenFiles" />
   </div>
@@ -15,6 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import draggable from "vuedraggable";
 import File from "./File";
 import ListHeader from "./ListHeader";
 import FilesMenu from "@/components/popups/FilesMenu";
@@ -23,13 +27,14 @@ import FileMenu from "@/components/popups/FileMenu";
 export default {
   name: "FileList",
   props: ["files"],
-  components: { File, ListHeader, FilesMenu, FileMenu },
+  components: { File, ListHeader, FilesMenu, FileMenu, draggable },
   computed: {
-    ...mapGetters(["chosenFiles"])
+    ...mapGetters(["chosenFiles", "folderContentType"])
   },
   data() {
     return {
-      isChecked: false
+      isChecked: false,
+      fileList: this.files
     };
   },
   watch: {
@@ -37,6 +42,9 @@ export default {
       this.$refs.header.check(
         val.length === this.files.length && val.length !== 0
       );
+    },
+    files: function(val) {
+      this.fileList = val;
     }
   },
   methods: {
@@ -50,6 +58,13 @@ export default {
         this.toggleFilesCheck(false);
       }
       this.$refs.menu.show(event);
+    },
+    onDrop(event) {
+      if (this.files[event.moved.newIndex].type === this.folderContentType)
+        this.$store.dispatch("moveFile", {
+          folderID: this.files[event.moved.newIndex].id,
+          fileIDs: [event.moved.element.id]
+        });
     }
   },
   created() {
