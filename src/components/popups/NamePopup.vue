@@ -26,7 +26,7 @@ import TextField from "../inputs/TextField";
 import Confirm from "../buttons/Confirm";
 
 export default {
-  name: "CreatePopup",
+  name: "NamePopup",
   components: { Confirm, TextField },
   data() {
     return {

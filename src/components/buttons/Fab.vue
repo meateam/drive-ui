@@ -10,7 +10,7 @@
     <v-tooltip right>
       <template v-slot:activator="{ on }">
         <v-btn @click.stop="$refs.newFolder.open()" v-on="on" fab big color="#357e6f">
-          <CreatePopup
+          <NamePopup
             img="newFolder.png"
             ref="newFolder"
             type="folder"
@@ -36,7 +36,7 @@
 
 <script>
 import Upload from "./Upload";
-import CreatePopup from "../popups/CreatePopup";
+import NamePopup from "../popups/NamePopup";
 import Snackbar from "../popups/Snackbar";
 
 export default {
@@ -46,7 +46,7 @@ export default {
       fab: false
     };
   },
-  components: { Upload, CreatePopup, Snackbar },
+  components: { Upload, NamePopup, Snackbar },
   methods: {
     onFolderConfirm(name) {
       this.$store.dispatch("uploadFolder", name).then(() => {

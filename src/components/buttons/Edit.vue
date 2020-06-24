@@ -6,7 +6,7 @@
         <p class="button-text" v-if="!icon">{{ $t("buttons.Edit") }}</p>
       </v-btn>
     </template>
-    <CreatePopup img="newFolder.png" ref="rename" type="rename" @confirm="onConfirm" />
+    <NamePopup img="newFolder.png" ref="rename" type="rename" @confirm="onConfirm" />
     <Snackbar ref="snackbar" />
     <span>{{ $t("buttons.Edit") }}</span>
   </v-tooltip>
@@ -14,13 +14,13 @@
 
 <script>
 import { mapGetters } from "vuex";
-import CreatePopup from "../popups/CreatePopup";
+import NamePopup from "../popups/NamePopup";
 import Snackbar from "../popups/Snackbar";
 
 export default {
   name: "Edit",
   props: ["icon"],
-  components: { CreatePopup, Snackbar },
+  components: { NamePopup, Snackbar },
   computed: {
     ...mapGetters(["chosenFiles"])
   },

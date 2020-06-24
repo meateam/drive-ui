@@ -1,10 +1,7 @@
 <template>
   <div>
     <ListHeader @check="toggleFilesCheck" ref="header" />
-    <draggable
-      v-model="fileList"
-      @change="onDrop"
-    >
+    <draggable v-model="fileList" @change="onDrop">
       <File
         :key="file.id"
         v-for="file in fileList"
@@ -14,7 +11,7 @@
       />
     </draggable>
 
-    <FilesMenu :chosenFiles="chosenFiles" ref="file" />
+    <BottomMenu :chosenFiles="chosenFiles" ref="file" />
     <FileMenu ref="menu" :files="chosenFiles" />
   </div>
 </template>
@@ -24,13 +21,13 @@ import { mapGetters } from "vuex";
 import draggable from "vuedraggable";
 import File from "./File";
 import ListHeader from "./ListHeader";
-import FilesMenu from "@/components/popups/FilesMenu";
+import BottomMenu from "@/components/popups/BottomMenu";
 import FileMenu from "@/components/popups/FileMenu";
 
 export default {
   name: "FileList",
   props: ["files"],
-  components: { File, ListHeader, FilesMenu, FileMenu, draggable },
+  components: { File, ListHeader, BottomMenu, FileMenu, draggable },
   computed: {
     ...mapGetters(["chosenFiles", "folderContentType"])
   },

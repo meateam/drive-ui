@@ -18,7 +18,7 @@ import Info from "@/components/buttons/Info";
 import Share from "@/components/buttons/Share";
 
 export default {
-  name: "ActionBar",
+  name: "BottomMenu",
   props: ["chosenFiles"],
   components: { Download, Share, Move, Delete, Info, Edit }
 };

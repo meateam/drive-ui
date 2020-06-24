@@ -42,8 +42,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import DriveShare from "./DriveShare";
-import ExternalShare from "./ExternalShare";
+import DriveShare from "./tabs/DriveShare";
+import ExternalShare from "./tabs/ExternalShare";
 
 export default {
   name: "NewFolder",

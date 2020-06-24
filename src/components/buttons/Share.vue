@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import SharePopup from "@/components/popups/share/Share";
+import SharePopup from "@/components/popups/share/SharePopup";
 
 export default {
   name: "Share",
