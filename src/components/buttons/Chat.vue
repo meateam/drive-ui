@@ -1,26 +1,20 @@
 <template>
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-btn  @click="nevigateToChat()" v-on="on" icon class="auto-margin">
+      <v-btn @click="$refs.popup.open()" v-on="on" icon class="auto-margin">
         <img class="fab-icon" src="@/assets/icons/chat.png" />
       </v-btn>
     </template>
+    <SupportPopup ref="popup" />
     <span>{{ $t("header.connect") }}</span>
   </v-tooltip>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import SupportPopup from "../popups/SupportPopup";
 
 export default {
   name: "Chat",
-  computed: {
-    ...mapGetters(["supportLink"])
-  },
-  methods: {
-    nevigateToChat() {
-      window.location.href = this.supportLink;
-    }
-  }
+  components: { SupportPopup }
 };
 </script>

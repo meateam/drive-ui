@@ -41,6 +41,13 @@
         </v-list-item>
       </router-link>
 
+      <v-list-item link @click="openApprovalService">
+        <v-list-item-icon>
+          <img class="icons" src="@/assets/icons/pending.png" />
+        </v-list-item-icon>
+        <v-list-item-title>{{ externalShareName }}</v-list-item-title>
+      </v-list-item>
+
       <router-link to="/favorites">
         <v-list-item link>
           <v-list-item-icon>
@@ -82,12 +89,20 @@ export default {
   name: "Sidenav",
   components: { Quota, FolderTree },
   computed: {
-    ...mapGetters(["version", "quota"])
+    ...mapGetters([
+      "version",
+      "quota",
+      "approvalServiceUrl",
+      "externalShareName"
+    ])
   },
   methods: {
     ...mapActions(["getQuota"]),
     openFolders() {
       // this.$refs.folderPopup.toggle();
+    },
+    openApprovalService() {
+      window.open(this.approvalServiceUrl);
     }
   },
   created() {

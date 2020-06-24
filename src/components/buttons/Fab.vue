@@ -20,7 +20,6 @@
     <v-tooltip right>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" fab color="#357e6f" @click="$refs.upload.open()">
-          <!-- transparent input for upload files -->
           <img src="@/assets/icons/upload.png" />
         </v-btn>
       </template>
