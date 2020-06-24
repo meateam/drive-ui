@@ -16,9 +16,6 @@ a {
   display: flex;
   color: #2c3448 !important;
 }
-.v-slide-group {
-  direction: ltr !important;
-}
 .v-application {
   margin: 0;
   direction: rtl !important;

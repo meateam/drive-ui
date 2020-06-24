@@ -16,16 +16,18 @@
     </div>
     <v-card-actions class="popup-confirm">
       <Confirm @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
+      <Back @click="$emit('back')" />
     </v-card-actions>
   </div>
 </template>
 
 <script>
 import Confirm from "@/components/buttons/Confirm";
+import Back from "@/components/buttons/Back";
 
 export default {
   name: "Note",
-  components: { Confirm },
+  components: { Confirm, Back },
   data() {
     return {
       marks: this.$t("externalShare.note.Marks"),

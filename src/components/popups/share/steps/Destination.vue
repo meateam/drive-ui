@@ -10,9 +10,9 @@
       @select="onSelect"
       @type="getExternalUsersByName"
     />
-    <v-chip-group show-arrows>
+    <!-- <v-chip-group show-arrows> -->
       <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
-    </v-chip-group>
+    <!-- </v-chip-group> -->
     <v-card-actions class="popup-confirm">
       <Confirm @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
     </v-card-actions>

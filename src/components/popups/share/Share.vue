@@ -24,7 +24,10 @@
               @close="dialog = false"
             />
             <div v-else id="error">
-              <div v-if="chosenFiles.length!==1" class="popup-text">{{$t('externalShare.errors.OneFileOnly')}}</div>
+              <div
+                v-if="chosenFiles.length!==1"
+                class="popup-text"
+              >{{$t('externalShare.errors.OneFileOnly')}}</div>
               <div v-else-if="!isFileAllowed(chosenFiles[0])">
                 <p class="popup-text">{{$t('externalShare.errors.FileType')}}</p>
                 <p>{{getAllowedTypes()}}</p>

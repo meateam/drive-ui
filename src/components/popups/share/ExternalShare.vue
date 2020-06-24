@@ -19,15 +19,15 @@
         </v-stepper-content>
 
         <v-stepper-content step="2">
-          <Approval @continue="onApprovalComplete" />
+          <Approval @continue="onApprovalComplete" @back="goBack" />
         </v-stepper-content>
 
         <v-stepper-content step="3">
-          <AddInfo @continue="onInfoComplete" />
+          <AddInfo @continue="onInfoComplete" @back="goBack" />
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
-    <Note @complete="onComplete" v-if="complete" />
+    <Note @complete="onComplete" v-if="complete" @back="goBack" />
   </div>
 </template>
 
@@ -53,17 +53,21 @@ export default {
   methods: {
     onDestinationComplete(users) {
       this.destination = users;
-      this.currentStep = 2;
+      this.currentStep++;
     },
     onApprovalComplete(users) {
       this.approvers = users;
-      this.currentStep = 3;
+      this.currentStep++;
     },
     onInfoComplete(info, classification) {
       this.info = info;
       this.classification = classification;
-      this.currentStep = 0;
+      this.currentStep++;
       this.complete = true;
+    },
+    goBack() {
+      this.complete = false;
+      this.currentStep--;
     },
     onComplete() {
       this.$store.dispatch("shareExternalUsers", {
@@ -74,6 +78,7 @@ export default {
         classification: this.classification,
         approvers: this.approvers
       });
+      this.currentStep = 1;
       this.$emit("close");
     }
   }
