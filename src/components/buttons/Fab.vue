@@ -50,7 +50,7 @@ export default {
   methods: {
     onFolderConfirm(name) {
       this.$store.dispatch("uploadFolder", name).then(() => {
-        this.$refs.snackbar.open(this.$t("folder.Success"));
+        this.$refs.snackbar.open(this.$t("snackbar.Folder"));
       });
     }
   }

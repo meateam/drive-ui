@@ -19,6 +19,7 @@
         <p class="auto-margin user-name">{{getUserName()}}</p>
         <!-- <Notification /> -->
         <Chat />
+        <Tour />
       </div>
     </v-container>
   </v-card>
@@ -28,6 +29,7 @@
 import { mapGetters } from "vuex";
 import Chat from "@/components/buttons/Chat";
 import Search from "@/components/inputs/Autocomplete";
+import Tour from "@/components/buttons/Tour";
 // import Notification from "@/components/buttons/Notification";
 
 export default {
@@ -66,7 +68,7 @@ export default {
       console.log(result);
     }
   },
-  components: { Chat, Search },
+  components: { Chat, Search, Tour },
   computed: {
     ...mapGetters(["user"])
   }

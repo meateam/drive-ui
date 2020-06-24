@@ -14,7 +14,7 @@
 
       <v-card-actions class="popup-confirm">
         <Confirm @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
-        <Back @click="$emit('back')" />
+        <Back @click="$emit('back')" :label="$t('buttons.Back')" />
       </v-card-actions>
     </div>
   </div>

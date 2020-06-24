@@ -34,6 +34,10 @@ a {
 .v-btn:not(.v-btn--round).v-size--default {
   width: 100%;
 }
+.v-step {
+  background: #357e6f !important;
+  box-shadow: 0px 30px 38px 0 rgba(53, 126, 111, 0.42) !important;
+}
 .auto-margin {
   margin: auto;
   display: block;

@@ -26,7 +26,7 @@
     </v-chip-group>
     <v-card-actions class="popup-confirm">
       <Confirm @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
-      <Back @click="$emit('back')" />
+      <Back @click="$emit('back')" :label="$t('buttons.Back')"/>
     </v-card-actions>
   </div>
 </template>

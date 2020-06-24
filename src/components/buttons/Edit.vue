@@ -29,7 +29,7 @@ export default {
       this.$store
         .dispatch("editFile", { name, file: this.chosenFiles[0] })
         .then(() => {
-          this.$refs.snackbar.open(this.$t("rename.Success"));
+          this.$refs.snackbar.open(this.$t("snackbar.Edit"));
         });
     }
   }

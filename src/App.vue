@@ -18,6 +18,11 @@ export default {
     AppBar,
     Sidenav
   },
+  data() {
+    return {
+      drag: false,
+    };
+  },
   created() {
     window.addEventListener("keydown", event => {
       // ctrl o shortcut to upload file
@@ -41,11 +46,6 @@ export default {
       event.preventDefault();
       this.onDrop(event);
     });
-  },
-  data() {
-    return {
-      drag: false
-    };
   },
   methods: {
     onDragEnter() {

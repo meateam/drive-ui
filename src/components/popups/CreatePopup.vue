@@ -34,7 +34,7 @@ export default {
       name: ""
     };
   },
-  props: ["img", "type", "success"],
+  props: ["img", "type"],
   methods: {
     open() {
       this.dialog = true;

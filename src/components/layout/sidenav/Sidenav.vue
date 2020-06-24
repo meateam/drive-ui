@@ -11,7 +11,7 @@
       </v-list-item>
 
       <router-link to="/my-drive">
-        <v-list-item link>
+        <v-list-item link id="my-drive-link">
           <v-list-item-icon>
             <img class="icons" src="@/assets/icons/home.png" />
           </v-list-item-icon>

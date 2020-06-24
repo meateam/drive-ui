@@ -34,7 +34,8 @@
         "Name": "שם",
         "Owner": "בעלים",
         "LastUpdate": "השינוי האחרון",
-        "Size": "גודל הקובץ"
+        "Size": "גודל הקובץ",
+        "Delete": "האם הנך בטוח שאתה רוצה למחוק?"
     },
     "buttons": {
         "UploadFile": "העלה קובץ",
@@ -47,19 +48,27 @@
         "Continue": "הבא",
         "Info": "פרטי הקובץ",
         "Edit": "שינוי שם",
-        "Back": "חזור"
+        "DeleteNow": "מחק",
+        "Cancel": "בטל",
+        "Back": "חזור",
+        "Skip": "דלג",
+        "Finish": "סיים"
+    },
+    "snackbar": {
+        "File": "הקובץ עלה בהצלחה!",
+        "Files": "הקבצים הועלו בהצלחה!",
+        "Edit": "השם שונה בהצלחה!",
+        "Folder": "התיקייה נוצרה בהצלחה!"
     },
     "folder": {
         "Upload": "יצירת תיקייה חדשה",
         "Name": "שם התיקייה",
-        "New": "תיקייה חדשה...",
-        "Success": "התיקייה נוצרה בהצלחה!"
+        "New": "תיקייה חדשה..."
     },
     "rename": {
         "Upload": "שינוי שם הקובץ",
         "Name": "שם הקובץ",
-        "New": "שם חדש...",
-        "Success": "השם שונה בהצלחה!"
+        "New": "שם חדש..."
     },
     "fileInfo": {
         "Info": "פרטי הקובץ",
@@ -114,5 +123,12 @@
             "FileType": "לא ניתן לשתף החוצה את סוג קובץ זה",
             "OneFileOnly": "ניתן לשתף קובץ אחד בלבד בכל פעם"
         }
+    },
+    "tour": {
+        "Tooltip": "התחל בסיור עכשיו",
+        "GetStarted": "התחילו בסיור עכשיו 😎",
+        "MyDrive1": "זהו האיזו האישי שלכם, לכאן תוכלו לעלות קבצים ותיקיות",
+        "MyDrive2": "תוכלו לנהל בעצמכם את הקבצים, למחוק, לשתף להעביר בין תיקיות, ולערוך",
+        "Fab": "לחצו על הכפתור"
     }
 }

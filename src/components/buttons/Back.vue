@@ -1,12 +1,13 @@
 <template>
   <v-btn text small @click="$emit('click')">
-    <p id="back-button">{{$t('buttons.Back')}}</p>
+    <p id="back-button">{{label}}</p>
   </v-btn>
 </template>
 
 <script>
 export default {
-  name: "Back"
+  name: "Back",
+  props: ["label"]
 };
 </script>
 
