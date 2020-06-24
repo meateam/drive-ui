@@ -26,11 +26,11 @@ export default {
   },
   methods: {
     async fetchFolders(item) {
-      if (item.children.length) return;
+      if (item.children.length) item.children = [];
       const folders = await this.$store.dispatch("getFilesByFolder", item);
       folders.forEach(folder => (folder.children = []));
       item.children.push(...folders);
-    },
+    }
   },
   computed: {
     items() {

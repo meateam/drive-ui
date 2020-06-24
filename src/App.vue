@@ -1,6 +1,6 @@
 <template>
   <v-app :class="{active: drag}">
-    <Header />
+    <AppBar />
     <Sidenav />
     <v-container id="page">
       <router-view />
@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import Header from "@/components/layout/header/Header";
+import AppBar from "@/components/layout/header/AppBar";
 import Sidenav from "@/components/layout/sidenav/Sidenav";
 
 export default {
   name: "App",
   components: {
-    Header,
+    AppBar,
     Sidenav
   },
   created() {

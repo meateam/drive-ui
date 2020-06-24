@@ -21,9 +21,9 @@
         @type="getUsersByName"
       />
     </div>
-    <div>
+    <v-chip-group show-arrows>
       <Chips v-for="user in selectedApprovals" :key="user.id" :user="user" @remove="onRemove" />
-    </div>
+    </v-chip-group>
     <v-card-actions class="popup-confirm">
       <Confirm @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
     </v-card-actions>

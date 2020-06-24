@@ -11,7 +11,7 @@
 <script>
 export default {
   name: "Chips",
-  props: ["user"],
+  props: ["user"]
 };
 </script>
 
@@ -23,6 +23,7 @@ export default {
 #chip {
   margin: 6px 4px;
   color: white;
+  direction: rtl;
 }
 #close-icon {
   font-size: 15px;

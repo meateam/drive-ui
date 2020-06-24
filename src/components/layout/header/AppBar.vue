@@ -31,7 +31,7 @@ import Search from "@/components/inputs/Autocomplete";
 // import Notification from "@/components/buttons/Notification";
 
 export default {
-  name: "Header",
+  name: "AppBar",
   data() {
     return {
       results: [],

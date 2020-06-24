@@ -1,7 +1,10 @@
 <template>
   <div>
     <ListHeader @check="toggleFilesCheck" ref="header" />
-    <draggable v-model="fileList" @change="onDrop" @start="onDragStart" @end="onDragEnd">
+    <draggable
+      v-model="fileList"
+      @change="onDrop"
+    >
       <File
         :key="file.id"
         v-for="file in fileList"
@@ -59,18 +62,13 @@ export default {
       }
       this.$refs.menu.show(event);
     },
-    onDragStart(event) {
-      this.$refs.files[event.oldIndex].toggleDrag(true);
-    },
-    onDragEnd(event) {
-      this.$refs.files[event.newIndex].toggleDrag(false);
-    },
     onDrop(event) {
-      if (this.files[event.moved.newIndex].type === this.folderContentType)
+      if (this.files[event.moved.newIndex].type === this.folderContentType) {
         this.$store.dispatch("moveFile", {
           folderID: this.files[event.moved.newIndex].id,
           fileIDs: [event.moved.element.id]
         });
+      }
     }
   },
   created() {

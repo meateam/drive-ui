@@ -10,9 +10,9 @@
       @select="onUserSelect"
       @type="getUsersByName"
     />
-    <div>
+    <v-chip-group show-arrows>
       <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
-    </div>
+    </v-chip-group>
     <div class="space-between">
       <div class="select-container">
         <Select

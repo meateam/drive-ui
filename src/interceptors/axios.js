@@ -3,6 +3,7 @@ import store from "@/store";
 
 axios.interceptors.request.use(
   (request) => {
+    store.commit("setLoading", true);
     request.headers["Authorization"] = `Bearer ${store.state.auth.token}`;
     return request;
   },
@@ -13,9 +14,11 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
+    store.commit("setLoading", false);
     return response;
   },
   (error) => {
+    store.commit("setLoading", false);
     return Promise.reject(error);
   }
 );

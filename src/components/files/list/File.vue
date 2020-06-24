@@ -1,7 +1,7 @@
 <template>
   <div
     id="file"
-    :class="{checked: isChecked, drag: isDragging}"
+    :class="{checked: isChecked}"
     class="file-list-structure"
     @dblclick="onFolderClick"
     @contextmenu.prevent="onRightClick"
@@ -27,7 +27,6 @@ export default {
   data() {
     return {
       isChecked: false,
-      isDragging: false
     };
   },
   computed: {
@@ -64,9 +63,6 @@ export default {
       this.isChecked = event;
       this.onFileChoose(this.isChecked);
     },
-    toggleDrag(isDragging) {
-      this.isDragging = isDragging;
-    }
   }
 };
 </script>
@@ -84,8 +80,5 @@ export default {
 }
 .checked {
   background-color: rgb(230, 236, 246);
-}
-.drag {
-  display: none;
 }
 </style>
