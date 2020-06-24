@@ -1,7 +1,7 @@
 <template>
   <v-speed-dial id="fab" v-model="fab" direction="top" transition="scale-transition">
     <template v-slot:activator>
-      <v-btn v-model="fab" fab color="#283145">
+      <v-btn v-model="fab" fab color="#283145" @click="onFabClick">
         <v-icon color="white" v-if="fab">close</v-icon>
         <v-icon color="white" v-else>add</v-icon>
       </v-btn>
@@ -10,12 +10,7 @@
     <v-tooltip right>
       <template v-slot:activator="{ on }">
         <v-btn @click.stop="$refs.newFolder.open()" v-on="on" fab big color="#357e6f">
-          <NamePopup
-            img="newFolder.png"
-            ref="newFolder"
-            type="folder"
-            @confirm="onFolderConfirm"
-          />
+          <NamePopup img="newFolder.png" ref="newFolder" type="folder" @confirm="onFolderConfirm" />
           <Snackbar ref="snackbar" />
           <img src="@/assets/icons/new.png" />
         </v-btn>
@@ -51,7 +46,15 @@ export default {
     onFolderConfirm(name) {
       this.$store.dispatch("uploadFolder", name).then(() => {
         this.$refs.snackbar.open(this.$t("snackbar.Folder"));
+        if (this.$tours["tour"].currentStep === 5) {
+          this.$tours["tour"].nextStep();
+        }
       });
+    },
+    onFabClick() {
+      if (this.$tours["tour"].currentStep === 3) {
+        this.$tours["tour"].nextStep();
+      }
     }
   }
 };

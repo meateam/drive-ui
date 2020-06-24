@@ -58,7 +58,9 @@
         "File": "הקובץ עלה בהצלחה!",
         "Files": "הקבצים הועלו בהצלחה!",
         "Edit": "השם שונה בהצלחה!",
-        "Folder": "התיקייה נוצרה בהצלחה!"
+        "Folder": "התיקייה נוצרה בהצלחה!",
+        "DeleteItem": "הפריט נמחק בהצלחה!",
+        "DeleteItems": "הפריטים נמחקו בהצלחה!"
     },
     "folder": {
         "Upload": "יצירת תיקייה חדשה",
@@ -129,6 +131,8 @@
         "GetStarted": "התחילו בסיור עכשיו 😎",
         "MyDrive1": "זהו האיזו האישי שלכם, לכאן תוכלו לעלות קבצים ותיקיות",
         "MyDrive2": "תוכלו לנהל בעצמכם את הקבצים, למחוק, לשתף להעביר בין תיקיות, ולערוך",
-        "Fab": "לחצו על הכפתור"
+        "Fab": "לחצו על הכפתור",
+        "UploadFile": "לחץ על הכפתור העלה קובץ, על מנת לעלות קובץ אחד או יותר",
+        "UploadFolder": "לחץ על הכפתור העלה תיקייה על מנת לעלות תיקייה חדשה"
     }
 }

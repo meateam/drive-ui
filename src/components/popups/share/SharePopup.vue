@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600" class="popup">
+  <v-dialog v-model="dialog" max-width="600" class="popup" id="share-popup">
     <v-card>
       <div class="popup-header">
         <img class="popup-icon auto-margin" src="@/assets/icons/popupShare.png" />
@@ -77,6 +77,9 @@ export default {
 </script>
 
 <style scoped>
+#share-popup {
+  position: relative;
+}
 .v-tabs {
   display: flex;
   justify-content: center;

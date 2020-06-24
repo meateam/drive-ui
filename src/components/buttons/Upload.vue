@@ -26,6 +26,9 @@ export default {
         this.$refs.snackbar.open(success);
       });
       event.currentTarget.value = ""; // resets file choice
+      if (this.$tours["tour"].currentStep === 4) {
+        this.$tours["tour"].nextStep();
+      }
     },
     open() {
       document.getElementById("upload-input").click();

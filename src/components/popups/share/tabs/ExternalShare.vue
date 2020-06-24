@@ -2,15 +2,23 @@
   <div>
     <v-stepper v-model="currentStep" alt-labels v-if="!complete">
       <v-stepper-header>
-        <v-stepper-step :complete="currentStep > 1" step="1">{{$t('externalShare.Destination')}}</v-stepper-step>
+        <v-stepper-step
+          :complete="currentStep > 1"
+          step="1"
+          color="#357e6f"
+        >{{$t('externalShare.Destination')}}</v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step :complete="currentStep > 2" step="2">{{$t('externalShare.Approval')}}</v-stepper-step>
+        <v-stepper-step
+          :complete="currentStep > 2"
+          step="2"
+          color="#357e6f"
+        >{{$t('externalShare.Approval')}}</v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step step="3">{{$t('externalShare.AddInfo')}}</v-stepper-step>
+        <v-stepper-step step="3" color="#357e6f">{{$t('externalShare.AddInfo')}}</v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>

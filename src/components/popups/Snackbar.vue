@@ -1,7 +1,7 @@
 <template>
   <v-snackbar v-model="snackbar" top color="white">
+    <img class="space-left" src="@/assets/icons/success.png" />
     <p id="text">{{ text }}</p>
-    <img src="@/assets/icons/success.png" />
   </v-snackbar>
 </template>
 
@@ -28,8 +28,5 @@ export default {
 #text {
   direction: rtl;
   color: black;
-}
-.v-snack__content {
-  justify-content: right !importent;
 }
 </style>

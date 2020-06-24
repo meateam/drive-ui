@@ -47,6 +47,20 @@ export default {
         {
           target: "#fab",
           content: this.$t("tour.Fab")
+        },
+        {
+          target: "#fab",
+          content: this.$t("tour.UploadFile"),
+          params: {
+            placement: "left"
+          }
+        },
+        {
+          target: "#fab",
+          content: this.$t("tour.UploadFolder"),
+          params: {
+            placement: "left"
+          }
         }
       ]
     };
