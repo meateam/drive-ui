@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ListHeader @check="toggleFilesCheck" ref="header" @ />
-    <draggable v-model="fileList" @change="onDrop">
+    <ListHeader @check="toggleFilesCheck" ref="header" />
+    <draggable v-model="fileList" @change="onDrop" @start="onDragStart" @end="onDragEnd">
       <File
         :key="file.id"
         v-for="file in fileList"
@@ -58,6 +58,12 @@ export default {
         this.toggleFilesCheck(false);
       }
       this.$refs.menu.show(event);
+    },
+    onDragStart(event) {
+      this.$refs.files[event.oldIndex].toggleDrag(true);
+    },
+    onDragEnd(event) {
+      this.$refs.files[event.newIndex].toggleDrag(false);
     },
     onDrop(event) {
       if (this.files[event.moved.newIndex].type === this.folderContentType)
