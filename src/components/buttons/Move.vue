@@ -6,7 +6,7 @@
         <p class="button-text" v-if="!icon">{{ $t("buttons.Move") }}</p>
       </v-btn>
     </template>
-    <MovePopup ref="movePopup" :files="chosenFiles" />
+    <MovePopup ref="movePopup" :files="chosenFiles" @confirm="onSubmit" />
     <span>{{ $t("buttons.Move") }}</span>
   </v-tooltip>
 </template>
@@ -21,6 +21,15 @@ export default {
   components: { MovePopup },
   computed: {
     ...mapGetters(["chosenFiles"])
+  },
+  methods: {
+    onSubmit(folderID) {
+      console.log(folderID);
+      this.$store.dispatch("moveFile", {
+        folderID,
+        fileIDs: this.chosenFiles.map(file => file.id)
+      });
+    }
   }
 };
 </script>
