@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="popup-body">
-        <div class="flex">
+        <div class="flex" v-if="folderID">
           <div>
             <span @click="onFolderClick(undefined)" class="pointer">{{$t('myDrive.header')}}</span>
             <span class="space">></span>
@@ -87,5 +87,15 @@ export default {
 }
 .space {
   margin: 0 8px;
+}
+.popup-body {
+  height: 430px;
+  position: relative;
+}
+.popup-confirm {
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+
 }
 </style>

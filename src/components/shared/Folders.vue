@@ -1,5 +1,5 @@
 <template>
-  <v-list max-height="255">
+  <v-list max-height="255" v-if="folders.length">
     <v-list-item link v-for="folder in folders" :key="folder.id" @dblclick="onChoose(folder)">
       <v-list-item-icon>
         <img class="icons" src="@/assets/icons/folderType.png" />
