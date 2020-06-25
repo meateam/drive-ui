@@ -18,7 +18,6 @@ export default {
     open(text) {
       this.text = text;
       this.snackbar = true;
-      console.log(this.text);
     }
   }
 };
