@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="popup-body">
-        <div class="flex" id="breadcrumbs">
+        <div class="flex">
           <div>
             <span @click="onFolderClick(undefined)" class="pointer">{{$t('myDrive.header')}}</span>
             <span class="space">></span>
@@ -87,8 +87,5 @@ export default {
 }
 .space {
   margin: 0 8px;
-}
-#breadcrumbs {
-  padding-bottom: 10px;
 }
 </style>

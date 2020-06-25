@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list max-height="255">
     <v-list-item link v-for="folder in folders" :key="folder.id" @dblclick="onChoose(folder)">
       <v-list-item-icon>
         <img class="icons" src="@/assets/icons/folderType.png" />
@@ -39,15 +39,8 @@ export default {
 </script>
 
 <style scoped>
-.theme--light.v-treeview {
-  color: #c8d9d5 !important;
-  font-weight: 700;
-}
-#folder-icon {
-  margin-left: 13px;
-}
-#folder {
-  line-height: 70px;
-  height: 70px;
+.v-list {
+  overflow: auto;
+  margin: 20px 0;
 }
 </style>
