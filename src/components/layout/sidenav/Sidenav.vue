@@ -19,10 +19,6 @@
         </v-list-item>
       </router-link>
 
-      <div class="folders">
-        <FolderTree />
-      </div>
-
       <router-link to="/shared-with-me">
         <v-list-item link>
           <v-list-item-icon>
@@ -82,12 +78,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import FolderTree from "@/components/shared/FolderTree";
 import Quota from "./quota/Quota";
 
 export default {
   name: "Sidenav",
-  components: { Quota, FolderTree },
+  components: { Quota },
   computed: {
     ...mapGetters([
       "version",

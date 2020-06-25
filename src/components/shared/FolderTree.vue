@@ -3,12 +3,11 @@
     :items="items"
     :load-children="fetchFolders"
     open-on-click
-    expand-icon
     item-key="folder"
   >
     <template v-slot:prepend="{ item }">
       <div id="folder">
-        <img class="icons" id="folder-icon" src="@/assets/icons/folder.png" />
+        <img class="icons" id="folder-icon" src="@/assets/icons/folderType.png" />
         <v-icon v-if="item.children" :v-text="item.name"></v-icon>
       </div>
     </template>
@@ -20,15 +19,15 @@ export default {
   name: "FolderTree",
   data() {
     return {
-      active: [],
       folders: []
     };
   },
   methods: {
     async fetchFolders(item) {
+      this.$emit("change", item.id);
       if (item.children.length) item.children = [];
       const folders = await this.$store.dispatch("getFilesByFolder", item);
-      folders.forEach(folder => (folder.children = []));
+      folders.forEach(folder => {folder.children = []});
       item.children.push(...folders);
     }
   },

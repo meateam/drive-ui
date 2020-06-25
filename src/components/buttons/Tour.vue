@@ -4,7 +4,7 @@
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
         <v-btn @click="startTour()" v-on="on" icon>
-          <img class="fab-icon" src="@/assets/icons/chat.png" />
+          <v-icon color="#2C3448">menu_book</v-icon>
         </v-btn>
       </template>
       <span>{{ $t("tour.Tooltip") }}</span>

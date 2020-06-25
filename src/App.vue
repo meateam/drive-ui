@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      drag: false,
+      drag: false
     };
   },
   created() {
@@ -31,29 +31,23 @@ export default {
         document.getElementById("upload-input").click();
       }
     });
-    window.addEventListener("dragenter", event => {
-      // on drag enter
-      event.preventDefault();
-      this.onDragEnter();
-    });
-    window.addEventListener("dragleave", event => {
-      // on drag stop
-      event.preventDefault();
-      this.onDragEnd();
-    });
-    window.addEventListener("drop", event => {
-      // on drop
-      event.preventDefault();
-      this.onDrop(event);
-    });
+    // document.addEventListener("dragenter", event => {
+    //   // on drag enter
+    //   event.preventDefault();
+    //   this.drag = true;
+    // });
+    // document.addEventListener("dragleave", event => {
+    //   // on drag stop
+    //   event.preventDefault();
+    //   // this.drag = false;
+    // });
+    // document.addEventListener("drop", event => {
+    //   // on drop
+    //   event.preventDefault();
+    //   this.onDrop(event);
+    // });
   },
   methods: {
-    onDragEnter() {
-      this.drag = true;
-    },
-    onDragEnd() {
-      this.drag = false;
-    },
     onDrop(event) {
       event.preventDefault();
       const files = event.dataTransfer.files;
@@ -72,7 +66,8 @@ export default {
   width: calc(100vw - 256px);
 }
 .active {
-  backdrop-filter: blur(2px);
-  z-index: 10;
+  filter: blur(5px);
+  background-color: violet;
+  z-index: 100;
 }
 </style>
