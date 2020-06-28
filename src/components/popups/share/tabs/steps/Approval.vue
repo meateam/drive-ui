@@ -26,7 +26,7 @@
     </v-chip-group>
     <v-card-actions class="popup-confirm">
       <Confirm @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
-      <Back @click="$emit('back')" :label="$t('buttons.Back')"/>
+      <BaseTextButton @click="$emit('back')" :label="$t('buttons.Back')"/>
     </v-card-actions>
   </div>
 </template>
@@ -36,11 +36,11 @@ import { mapGetters } from "vuex";
 import Chips from "@/components/shared/Chips";
 import Autocomplete from "@/components/inputs/Autocomplete";
 import Confirm from "@/components/buttons/Confirm";
-import Back from "@/components/buttons/Back";
+import BaseTextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "Approval",
-  components: { Chips, Confirm, Autocomplete, Back },
+  components: { Chips, Confirm, Autocomplete, BaseTextButton },
   data() {
     return {
       users: [],

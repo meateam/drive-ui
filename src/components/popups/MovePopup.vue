@@ -25,7 +25,7 @@
         </div>
         <v-card-actions class="popup-confirm">
           <Confirm @click="onConfirm" :label="$t('buttons.Confirm')" />
-          <Back @click="dialog = false" :label="$t('buttons.Cancel')" />
+          <BaseTextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
         </v-card-actions>
       </div>
     </v-card>
@@ -34,12 +34,12 @@
 
 <script>
 import Folders from "../shared/Folders";
-import Back from "@/components/buttons/Back";
+import BaseTextButton from "@/components/buttons/BaseTextButton";
 import Confirm from "../buttons/Confirm";
 
 export default {
   name: "MovePopup",
-  components: { Confirm, Folders, Back },
+  components: { Confirm, Folders, BaseTextButton },
   data() {
     return {
       dialog: false,

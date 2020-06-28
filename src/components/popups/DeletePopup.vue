@@ -4,7 +4,7 @@
       <img class="popup-icon auto-margin" :src="require(`@/assets/images/${img}`)" />
       <p id="title">{{text}}</p>
       <v-card-actions id="actions">
-        <Back @click="dialog = false" :label="$t('buttons.Cancel')" />
+        <BaseTextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
         <Confirm @click="onConfirm" :label="button" />
       </v-card-actions>
     </v-card>
@@ -13,11 +13,11 @@
 
 <script>
 import Confirm from "@/components/buttons/Confirm";
-import Back from "@/components/buttons/Back";
+import BaseTextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "DeletePopup",
-  components: { Confirm, Back },
+  components: { Confirm, BaseTextButton },
   data() {
     return {
       dialog: false
