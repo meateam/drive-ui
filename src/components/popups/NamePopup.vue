@@ -14,7 +14,7 @@
           :placeholder="$t(`${type}.New`)"
         />
         <v-card-actions class="popup-confirm">
-          <Confirm @click="onConfirm" :label="$t('buttons.Confirm')" />
+          <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
         </v-card-actions>
       </div>
     </v-card>
@@ -23,11 +23,11 @@
 
 <script>
 import TextField from "../inputs/TextField";
-import Confirm from "../buttons/Confirm";
+import SubmitButton from "../buttons/SubmitButton";
 
 export default {
   name: "NamePopup",
-  components: { Confirm, TextField },
+  components: { SubmitButton, TextField },
   data() {
     return {
       dialog: false,

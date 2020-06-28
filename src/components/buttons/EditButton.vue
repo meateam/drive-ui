@@ -18,7 +18,7 @@ import NamePopup from "../popups/NamePopup";
 import Snackbar from "../popups/Snackbar";
 
 export default {
-  name: "Edit",
+  name: "EditButton",
   props: ["icon"],
   components: { NamePopup, Snackbar },
   computed: {

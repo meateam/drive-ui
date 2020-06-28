@@ -1,26 +1,26 @@
 <template>
   <div id="action-bar" v-if="chosenFiles.length">
-    <Download :icon="true" />
-    <Share :icon="true" />
-    <Delete :icon="true" />
-    <Move :icon="true" />
-    <Info :icon="true" />
-    <Edit :icon="true" />
+    <DownloadButton :icon="true" />
+    <ShareButton :icon="true" />
+    <DeleteButton :icon="true" />
+    <MoveButton :icon="true" />
+    <InfoButton :icon="true" />
+    <EditButton :icon="true" />
   </div>
 </template>
 
 <script>
-import Download from "@/components/buttons/Download";
-import Delete from "@/components/buttons/Delete";
-import Move from "@/components/buttons/Move";
-import Edit from "@/components/buttons/Edit";
-import Info from "@/components/buttons/Info";
-import Share from "@/components/buttons/Share";
+import DownloadButton from "@/components/buttons/DownloadButton";
+import DeleteButton from "@/components/buttons/DeleteButton";
+import MoveButton from "@/components/buttons/MoveButton";
+import EditButton from "@/components/buttons/EditButton";
+import InfoButton from "@/components/buttons/InfoButton";
+import ShareButton from "@/components/buttons/ShareButton";
 
 export default {
   name: "BottomMenu",
   props: ["chosenFiles"],
-  components: { Download, Share, Move, Delete, Info, Edit }
+  components: { DownloadButton, ShareButton, MoveButton, DeleteButton, InfoButton, EditButton }
 };
 </script>
 

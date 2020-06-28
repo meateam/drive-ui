@@ -11,19 +11,19 @@
       </div>
       <span>{{`${currentFolder.name}`}}</span>
     </div>
-    <Fab />
+    <FabButton />
     <FileList v-bind:files="files" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import Fab from "@/components/buttons/Fab";
+import FabButton from "@/components/buttons/FabButton";
 import FileList from "@/components/files/list/FileList";
 
 export default {
   name: "Folder",
-  components: { Fab, FileList },
+  components: { FabButton, FileList },
   created() {
     document.title = this.currentFolder.name;
   },

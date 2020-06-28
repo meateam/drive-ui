@@ -5,19 +5,19 @@
       <p id="title">{{text}}</p>
       <v-card-actions id="actions">
         <BaseTextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
-        <Confirm @click="onConfirm" :label="button" />
+        <SubmitButton @click="onConfirm" :label="button" />
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import Confirm from "@/components/buttons/Confirm";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import BaseTextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "DeletePopup",
-  components: { Confirm, BaseTextButton },
+  components: { SubmitButton, BaseTextButton },
   data() {
     return {
       dialog: false

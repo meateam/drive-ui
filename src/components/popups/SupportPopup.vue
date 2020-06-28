@@ -8,12 +8,12 @@
       <div class="popup-body">
         <div class="support">
           <p>{{$t('support.DriveSupport')}}</p>
-          <ClickHere @click="openDriveSupport" />
+          <BaseClickHereButton @click="openDriveSupport" />
         </div>
         <v-divider />
         <div class="support">
           <p class="support">{{$t('support.DropboxSupport')}}</p>
-          <ClickHere @click="openDropboxSupport" />
+          <BaseClickHereButton @click="openDropboxSupport" />
         </div>
       </div>
     </v-card>
@@ -22,7 +22,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import ClickHere from "@/components/buttons/ClickHere";
+import BaseClickHereButton from "@/components/buttons/BaseClickHereButton";
 
 export default {
   name: "SupportPopup",
@@ -31,7 +31,7 @@ export default {
       dialog: false
     };
   },
-  components: { ClickHere },
+  components: { BaseClickHereButton },
   computed: {
     ...mapGetters(["supportLink"])
   },

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "Confirm",
+  name: "SubmitButton",
   props: ["label", "disabled"]
 };
 </script>

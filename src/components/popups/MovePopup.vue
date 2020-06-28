@@ -9,22 +9,13 @@
         </div>
       </div>
       <div class="popup-body">
-        <div class="flex" v-if="folderID">
-          <div>
-            <span @click="onFolderClick(undefined)" class="pointer">{{$t('myDrive.header')}}</span>
-            <span class="space">></span>
-          </div>
-          <div v-for="folder in folderHierarchy" :key="folder.id">
-            <span @click="onFolderClick(folder.id)" class="pointer">{{folder.name}}</span>
-            <span class="space">></span>
-          </div>
-        </div>
+        <BaseBreadcrumbs v-if="folderID" :folders="folderHierarchy" @click="onFolderClick" />
 
         <div>
           <Folders :parent="folderID" @change="onFolderChange" />
         </div>
         <v-card-actions class="popup-confirm">
-          <Confirm @click="onConfirm" :label="$t('buttons.Confirm')" />
+          <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
           <BaseTextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
         </v-card-actions>
       </div>
@@ -35,11 +26,12 @@
 <script>
 import Folders from "../shared/Folders";
 import BaseTextButton from "@/components/buttons/BaseTextButton";
-import Confirm from "../buttons/Confirm";
+import BaseBreadcrumbs from "@/components/shared/BaseBreadcrumbs";
+import SubmitButton from "../buttons/SubmitButton";
 
 export default {
   name: "MovePopup",
-  components: { Confirm, Folders, BaseTextButton },
+  components: { SubmitButton, Folders, BaseTextButton, BaseBreadcrumbs },
   data() {
     return {
       dialog: false,
@@ -96,6 +88,5 @@ export default {
   position: absolute;
   bottom: 20px;
   left: 30px;
-
 }
 </style>

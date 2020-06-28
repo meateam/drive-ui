@@ -13,7 +13,7 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  name: "Download",
+  name: "DownloadButton",
   props: ["icon"],
   methods: {
     onDownload() {

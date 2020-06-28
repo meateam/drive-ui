@@ -15,19 +15,19 @@
       ></v-checkbox>
     </div>
     <v-card-actions class="popup-confirm">
-      <Confirm @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
+      <SubmitButton @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
       <BaseTextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
   </div>
 </template>
 
 <script>
-import Confirm from "@/components/buttons/Confirm";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import BaseTextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "Note",
-  components: { Confirm, BaseTextButton },
+  components: { SubmitButton, BaseTextButton },
   data() {
     return {
       marks: this.$t("externalShare.note.Marks"),

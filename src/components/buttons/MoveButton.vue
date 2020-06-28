@@ -16,7 +16,7 @@ import { mapGetters } from "vuex";
 import MovePopup from "../popups/MovePopup";
 
 export default {
-  name: "Move",
+  name: "MoveButton",
   props: ["icon"],
   components: { MovePopup },
   computed: {

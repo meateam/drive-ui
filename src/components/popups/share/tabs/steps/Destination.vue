@@ -14,7 +14,7 @@
       <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
     <!-- </v-chip-group> -->
     <v-card-actions class="popup-confirm">
-      <Confirm @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
+      <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
     </v-card-actions>
   </div>
 </template>
@@ -22,11 +22,11 @@
 <script>
 import Chips from "@/components/shared/Chips";
 import Autocomplete from "@/components/inputs/Autocomplete";
-import Confirm from "@/components/buttons/Confirm";
+import SubmitButton from "@/components/buttons/SubmitButton";
 
 export default {
   name: "Destination",
-  components: { Chips, Confirm, Autocomplete },
+  components: { Chips, SubmitButton, Autocomplete },
   data() {
     return {
       selectedUsers: [],

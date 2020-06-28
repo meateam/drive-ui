@@ -16,7 +16,7 @@ import { mapGetters } from "vuex";
 import InfoPopup from "@/components/popups/InfoPopup";
 
 export default {
-  name: "Info",
+  name: "InfoButton",
   props: ["icon"],
   computed: {
     ...mapGetters(["chosenFiles"])

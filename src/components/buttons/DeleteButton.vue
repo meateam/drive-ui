@@ -24,7 +24,7 @@ import DeletePopup from "../popups/DeletePopup";
 import Snackbar from "../popups/Snackbar";
 
 export default {
-  name: "Delete",
+  name: "DeleteButton",
   props: ["icon"],
   components: { DeletePopup, Snackbar },
   methods: {

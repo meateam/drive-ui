@@ -34,7 +34,7 @@ import NamePopup from "../popups/NamePopup";
 import Snackbar from "../popups/Snackbar";
 
 export default {
-  name: "Fab",
+  name: "FabButton",
   data() {
     return {
       fab: false

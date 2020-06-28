@@ -13,7 +13,7 @@
       </div>
 
       <v-card-actions class="popup-confirm">
-        <Confirm @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
+        <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
         <BaseTextButton @click="$emit('back')" :label="$t('buttons.Back')" />
       </v-card-actions>
     </div>
@@ -24,11 +24,11 @@
 import Textarea from "@/components/inputs/Textarea";
 import Select from "@/components/inputs/Select";
 import BaseTextButton from "@/components/buttons/BaseTextButton";
-import Confirm from "@/components/buttons/Confirm";
+import SubmitButton from "@/components/buttons/SubmitButton";
 
 export default {
   name: "AddInfo",
-  components: { Textarea, Confirm, Select, BaseTextButton },
+  components: { Textarea, SubmitButton, Select, BaseTextButton },
   data() {
     return {
       info: "",

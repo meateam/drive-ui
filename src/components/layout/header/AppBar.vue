@@ -17,9 +17,9 @@
       </div>
       <div id="info">
         <p class="auto-margin user-name">{{getUserName()}}</p>
-        <!-- <Notification /> -->
+        <!-- <NotificationButton /> -->
         <ChatButton />
-        <Tour />
+        <TourButton />
       </div>
     </v-container>
   </v-card>
@@ -29,8 +29,8 @@
 import { mapGetters } from "vuex";
 import ChatButton from "@/components/buttons/ChatButton";
 import Search from "@/components/inputs/Autocomplete";
-import Tour from "@/components/buttons/Tour";
-// import Notification from "@/components/buttons/Notification";
+import TourButton from "@/components/buttons/TourButton";
+// import NotificationButton from "@/components/buttons/NotificationButton";
 
 export default {
   name: "AppBar",
@@ -68,7 +68,7 @@ export default {
       console.log(result);
     }
   },
-  components: { ChatButton, Search, Tour },
+  components: { ChatButton, Search, TourButton },
   computed: {
     ...mapGetters(["user"])
   }

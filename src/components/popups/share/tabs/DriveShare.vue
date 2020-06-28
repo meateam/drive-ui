@@ -23,7 +23,7 @@
         />
       </div>
       <v-card-actions class="popup-confirm">
-        <Confirm @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
+        <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
       </v-card-actions>
     </div>
   </div>
@@ -32,12 +32,12 @@
 <script>
 import Chips from "@/components/shared/Chips";
 import Autocomplete from "@/components/inputs/Autocomplete";
-import Confirm from "@/components/buttons/Confirm";
+import SubmitButton from "@/components/buttons/SubmitButton";
 import Select from "@/components/inputs/Select";
 
 export default {
   name: "DriveShare",
-  components: { Chips, Confirm, Autocomplete, Select },
+  components: { Chips, SubmitButton, Autocomplete, Select },
   props: ["files"],
   data() {
     return {

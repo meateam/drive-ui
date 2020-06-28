@@ -1,27 +1,27 @@
 <template>
   <v-menu v-model="showMenu" :position-x="x" :position-y="y" absolute offset-y id="menu">
     <v-list color="#357e6f" id="right-click-popup">
-      <Download />
-      <Share />
-      <Delete />
-      <Move />
-      <Info />
-      <Edit />
+      <DownloadButton />
+      <ShareButton />
+      <DeleteButton />
+      <MoveButton />
+      <InfoButton />
+      <EditButton />
     </v-list>
   </v-menu>
 </template>
 
 <script>
-import Download from "@/components/buttons/Download";
-import Delete from "@/components/buttons/Delete";
-import Move from "@/components/buttons/Move";
-import Edit from "@/components/buttons/Edit";
-import Info from "@/components/buttons/Info";
-import Share from "@/components/buttons/Share";
+import DownloadButton from "@/components/buttons/DownloadButton";
+import DeleteButton from "@/components/buttons/DeleteButton";
+import MoveButton from "@/components/buttons/MoveButton";
+import EditButton from "@/components/buttons/EditButton";
+import InfoButton from "@/components/buttons/InfoButton";
+import ShareButton from "@/components/buttons/ShareButton";
 
 export default {
   name: "FileMenu",
-  components: { Download, Share, Move, Delete, Info, Edit },
+  components: { DownloadButton, ShareButton, MoveButton, DeleteButton, InfoButton, EditButton },
   data() {
     return {
       showMenu: false,
