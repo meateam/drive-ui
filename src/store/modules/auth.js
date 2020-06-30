@@ -13,8 +13,8 @@ const getters = {
 
 const actions = {
   async authenticate({ rootState, dispatch }) {
-    if (state.token) return dispatch("parseToken");
-    window.location.replace(rootState.configuration.authUrl, "_self");
+    if (state.token) return await dispatch("parseToken");
+    window.location.replace(rootState.configuration.authUrl);
   },
   parseToken({ commit }) {
     const token = state.token;
@@ -35,7 +35,7 @@ const actions = {
 };
 
 const mutations = {
-  setToken: () => (state.token = cookies.get("kd-token")),
+  setToken: (state) => (state.token = cookies.get("kd-token")),
   setUser: (state, user) => (state.user = user),
 };
 

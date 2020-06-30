@@ -1,6 +1,8 @@
+
+import { baseURL } from "@/utils/config";
+
 const state = {
   version: "2.0",
-  baseURL: "http://localhost:8080",
   apmServerUrl: "",
   authUrl: "",
   environment: "",
@@ -24,7 +26,7 @@ const getters = {
 
 const actions = {
   async fetchConfig({ commit }) {
-    const res = await fetch(`${state.baseURL}/api/config`);
+    const res = await fetch(`${baseURL}/api/config`);
     const config = await res.json();
     commit("setConfig", config);
   },

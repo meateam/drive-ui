@@ -1,12 +1,12 @@
 import Vue from "vue";
-import VueTour from 'vue-tour'
+import VueTour from "vue-tour";
 import App from "./App.vue";
 import i18n from "@/i18n";
 import store from "@/store";
 import router from "@/router";
 import vuetify from "@/plugins/vuetify";
 import "@/interceptors/axios";
-import 'vue-tour/dist/vue-tour.css';
+import "vue-tour/dist/vue-tour.css";
 
 Vue.config.productionTip = false;
 Vue.use(VueTour);

@@ -91,9 +91,9 @@ const actions = {
     }
   },
   /**
-   * fetchLastUpdateddFiles fetch all the files that where updated today in the current folder
+   * fetchLastUpdatedFiles fetch all the files that where updated today in the current folder
    */
-  async fetchLastUpdateddFiles({ commit, dispatch }) {
+  async fetchLastUpdatedFiles({ commit, dispatch }) {
     try {
       const res = await Axios.get(`${baseURL}/api/files`);
       const files = res.data.filter(file => {

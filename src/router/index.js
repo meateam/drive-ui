@@ -63,12 +63,12 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
   document.title = to.name;
-  if (store.state.configuration.authUrl) await store.dispatch("authenticate");
+
   await store.dispatch("onFolderChange", to.query.id);
   if (to.name === "Shared With Me") {
     await store.dispatch("fetchSharedFiles");
   } else if (to.name === "Last Update") {
-    await store.dispatch("fetchLastUpdateddFiles");
+    await store.dispatch("fetchLastUpdatedFiles");
   } else {
     await store.dispatch("fetchFiles");
   }
