@@ -15,7 +15,7 @@
         color="#357e6f"
       ></v-checkbox>
       <div>
-        <img v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
+        <img v-if="isFolder(file.type)" src="@/assets/icons/folderType.png" />
       </div>
       <p id="file-name" class="ltr">{{file.name}}</p>
       <p>{{file.owner}}</p>
