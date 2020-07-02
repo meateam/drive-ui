@@ -5,11 +5,10 @@
       :class="{checked: isChecked}"
       class="file-list-structure"
       @dblclick="onDblClick"
-      @click="checkFile(!isChecked)"
+      @click.ctrl="checkFile(!isChecked)"
       @contextmenu.prevent="onRightClick"
     >
       <v-checkbox
-        @click.prevent
         @change="onFileChoose(isChecked)"
         v-model="isChecked"
         color="#357e6f"
