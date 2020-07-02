@@ -64,8 +64,10 @@ export default {
         .finally(() => (this.isLoading = false));
     },
     onSelect(result) {
-      if (!result.parent) return this.$router.push({ path: "/my-drive" });
-      this.$router.push({ path: "/folders", query: { id: result.parent } });
+      this.$router.push({
+        path: result.parent ? "/folders" : "/my-drive",
+        query: { id: result.parent }
+      });
     }
   },
   components: { ChatButton, Search, TourButton },
