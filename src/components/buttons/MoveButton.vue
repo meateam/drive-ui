@@ -20,10 +20,11 @@ export default {
   props: ["icon"],
   components: { MovePopup },
   computed: {
-    ...mapGetters(["chosenFiles"])
+    ...mapGetters(["chosenFiles", "currentFolder"])
   },
   methods: {
     onSubmit(folderID) {
+      if (folderID === this.currentFolder) return;
       this.$store.dispatch("moveFile", {
         folderID,
         fileIDs: this.chosenFiles.map(file => file.id)

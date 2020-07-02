@@ -47,7 +47,7 @@ const actions = {
     try {
       const res = await Axios.get(
         `${baseURL}/api/files${
-        state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
+          state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
         }`
       );
       const files = res.data;
@@ -61,11 +61,11 @@ const actions = {
       throw new Error(err);
     }
   },
-  async getFilesByFolder({ }, folderID) {
+  async getFilesByFolder({}, folderID) {
     try {
       const res = await Axios.get(
         `${baseURL}/api/files?type=${state.folderContentType}${
-        folderID ? `&parent=${folderID}` : ""
+          folderID ? `&parent=${folderID}` : ""
         }`
       );
       return res.data;
@@ -96,8 +96,10 @@ const actions = {
   async fetchLastUpdatedFiles({ commit, dispatch }) {
     try {
       const res = await Axios.get(`${baseURL}/api/files`);
-      const files = res.data.filter(file => {
-        return new Date(file.updatedAt).toDateString() === new Date().toDateString()
+      const files = res.data.filter((file) => {
+        return (
+          new Date(file.updatedAt).toDateString() === new Date().toDateString()
+        );
       });
       Promise.all(
         files.map((file) => {
@@ -121,7 +123,7 @@ const actions = {
 
     return file;
   },
-  async getFileByID({ }, fileID) {
+  async getFileByID({}, fileID) {
     try {
       const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
       return res.data;
@@ -186,7 +188,7 @@ const actions = {
       request.open(
         "POST",
         `${baseURL}/api/upload?uploadType=multipart${
-        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
+          state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
         }`,
         true
       );
@@ -230,7 +232,7 @@ const actions = {
       request.open(
         "POST",
         `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${
-        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
+          state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
         }`,
         true
       );
@@ -269,11 +271,11 @@ const actions = {
    * getUploadID is used for the resumable upload (for connecting all the pieces when the upload is finished)
    * @param file is the file to upload
    */
-  async getUploadID({ }, file) {
+  async getUploadID({}, file) {
     try {
       const res = await Axios.post(
         `${baseURL}/api/upload${
-        state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
+          state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
         }`,
         {
           title: file.name,
@@ -319,7 +321,7 @@ const actions = {
         throw new Error("Name already exists in the root");
       const res = await Axios.post(
         `${baseURL}/api/upload?uploadType=multipart${
-        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
+          state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
         }`,
         {},
         {
@@ -340,7 +342,7 @@ const actions = {
    * isFileNameExists checks if there is already file with the same name in the current folder.
    * @param name is the name of the new file
    */
-  isFileNameExists({ }, name) {
+  isFileNameExists({}, name) {
     if (!name) return true;
     state.files.forEach((file) => {
       if (file.name === name) return true;
@@ -369,7 +371,7 @@ const actions = {
    * getDate return the formated creation date
    * @param d is the date to format
    */
-  formatDate({ }, d) {
+  formatDate({}, d) {
     const date = new Date(d);
 
     const year = date.getFullYear();
@@ -380,7 +382,7 @@ const actions = {
 
     return `${day}.${month}.${year} ${hour}:${minutes}`;
   },
-  async getFolderHierarchy({ }, folderID) {
+  async getFolderHierarchy({}, folderID) {
     const ancestors = await Axios.get(
       `${baseURL}/api/files/${folderID}/ancestors`
     );
@@ -388,7 +390,7 @@ const actions = {
     return breadcrumbs;
   },
   async getAncestors({ commit, dispatch }, folderID) {
-    const breadcrumbs = await dispatch('getFolderHierarchy', folderID)
+    const breadcrumbs = await dispatch("getFolderHierarchy", folderID);
     commit("setHierarchy", breadcrumbs);
   },
   async editFile({ commit }, { file, name }) {

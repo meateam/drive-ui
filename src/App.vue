@@ -1,19 +1,36 @@
 <template>
-  <v-app :class="{active: drag}">
-    <AppBar />
-    <Sidenav />
-    <v-container id="page">
-      <router-view />
-    </v-container>
+  <v-app>
+    <div :class="{active: drag}" v-if="user">
+      <AppBar />
+      <Sidenav />
+      <v-container id="page">
+        <router-view />
+      </v-container>
+      <v-progress-circular
+        v-if="isLoading"
+        id="loading"
+        :size="100"
+        :width="6"
+        color="#357e6f"
+        indeterminate
+      ></v-progress-circular>
+    </div>
+    <div v-else>
+      <img id="yesodot" src="@/assets/images/yesodot.svg" />
+    </div>
   </v-app>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import AppBar from "@/components/layout/header/AppBar";
 import Sidenav from "@/components/layout/sidenav/Sidenav";
 
 export default {
   name: "App",
+  computed: {
+    ...mapGetters(["isLoading", "user"])
+  },
   components: {
     AppBar,
     Sidenav
@@ -65,9 +82,21 @@ export default {
   margin-right: 256px;
   width: calc(100vw - 256px);
 }
+#yesodot {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  top: calc(50vh - 300px);
+  right: calc(50vw - 250px);
+}
 .active {
   filter: blur(5px);
   background-color: violet;
   z-index: 100;
+}
+#loading {
+  position: absolute;
+  top: calc(50vh - 50px);
+  left: calc(50vw - 126px);
 }
 </style>
