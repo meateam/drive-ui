@@ -1,9 +1,15 @@
 <template>
   <v-dialog v-model="dialog" fullscreen hide-overlay>
     <v-card id="preview">
-      <img v-if="file.type.startsWith('image')" class="auto-margin" :src="getFile" />
-      <audio v-else-if="file.type.startsWith('audio')" :src="getFile" autoplay controls></audio>
-      <iframe v-else :src="getPDF"></iframe>
+      <img v-if="file.type.startsWith('image')" class="file-preview" :src="getFile" />
+      <audio
+        v-else-if="file.type.startsWith('audio')"
+        class="file-preview"
+        :src="getFile"
+        autoplay
+        controls
+      ></audio>
+      <iframe v-else :src="getPDF" class="file-preview"></iframe>
       <v-btn @click="close" icon class="auto-margin" id="close">
         <v-icon>close</v-icon>
       </v-btn>
@@ -44,11 +50,17 @@ export default {
 <style scoped>
 #preview {
   background-color: rgba(0, 0, 0, 0.637);
+  display: flex;
+  justify-content: center;
 }
 #close {
   color: #f0f3f8;
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 30px;
+  right: 30px;
+}
+.file-preview {
+  margin: auto;
+  max-width: 80%;
 }
 </style>
