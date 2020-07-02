@@ -6,6 +6,7 @@
     <MoveButton :icon="true" />
     <InfoButton :icon="true" />
     <EditButton :icon="true" />
+    <PreviewButton :icon="true" />
   </div>
 </template>
 
@@ -15,12 +16,21 @@ import DeleteButton from "@/components/buttons/DeleteButton";
 import MoveButton from "@/components/buttons/MoveButton";
 import EditButton from "@/components/buttons/EditButton";
 import InfoButton from "@/components/buttons/InfoButton";
+import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
 
 export default {
   name: "BottomMenu",
   props: ["chosenFiles"],
-  components: { DownloadButton, ShareButton, MoveButton, DeleteButton, InfoButton, EditButton }
+  components: {
+    DownloadButton,
+    ShareButton,
+    MoveButton,
+    DeleteButton,
+    InfoButton,
+    EditButton,
+    PreviewButton
+  }
 };
 </script>
 

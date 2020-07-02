@@ -7,6 +7,7 @@
       <MoveButton />
       <InfoButton />
       <EditButton />
+      <PreviewButton />
     </v-list>
   </v-menu>
 </template>
@@ -17,11 +18,20 @@ import DeleteButton from "@/components/buttons/DeleteButton";
 import MoveButton from "@/components/buttons/MoveButton";
 import EditButton from "@/components/buttons/EditButton";
 import InfoButton from "@/components/buttons/InfoButton";
+import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
 
 export default {
   name: "FileMenu",
-  components: { DownloadButton, ShareButton, MoveButton, DeleteButton, InfoButton, EditButton },
+  components: {
+    DownloadButton,
+    ShareButton,
+    MoveButton,
+    DeleteButton,
+    InfoButton,
+    EditButton,
+    PreviewButton
+  },
   data() {
     return {
       showMenu: false,

@@ -53,7 +53,8 @@
         "Back": "חזור",
         "Skip": "דלג",
         "ClickHere": "לחץ כאן",
-        "Finish": "סיים"
+        "Finish": "סיים",
+        "Preview": "תצוגה מקדימה"
     },
     "snackbar": {
         "File": "הקובץ עלה בהצלחה!",

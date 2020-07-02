@@ -420,7 +420,6 @@ const actions = {
     }
   },
   // async unShareFile({ commit }) {},
-  // async previewFile({ commit }) {},
 };
 
 const mutations = {

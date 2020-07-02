@@ -7,7 +7,7 @@
     @click="checkFile(!isChecked)"
     @contextmenu.prevent="onRightClick"
   >
-    <v-checkbox @change="onFileChoose(isChecked)" v-model="isChecked" color="#357e6f"></v-checkbox>
+    <v-checkbox @click.prevent @change="onFileChoose(isChecked)" v-model="isChecked" color="#357e6f"></v-checkbox>
     <div>
       <img v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
     </div>
