@@ -3,9 +3,9 @@
     <div :class="{active: drag}" v-if="user">
       <AppBar />
       <Sidenav />
-      <v-container id="page">
+      <div id="page-container">
         <router-view />
-      </v-container>
+      </div>
       <v-progress-circular
         v-if="isLoading"
         id="loading"
@@ -78,9 +78,8 @@ export default {
 
 <style scoped>
 @import "./styles/global.css";
-#page {
+#page-container {
   margin-right: 256px;
-  width: calc(100vw - 256px);
 }
 #yesodot {
   position: fixed;
@@ -98,5 +97,8 @@ export default {
   position: absolute;
   top: calc(50vh - 50px);
   left: calc(50vw - 126px);
+}
+.container {
+  padding: 0;
 }
 </style>
