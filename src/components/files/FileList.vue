@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ListHeader @check="toggleFilesCheck" ref="header" />
+    <ListHeader @check="toggleFilesCheck" ref="header" :disabeld="disabeFileCheck" />
     <draggable v-model="fileList" @change="onDrop">
       <File
         :key="file.id"
@@ -34,7 +34,8 @@ export default {
   data() {
     return {
       isChecked: false,
-      fileList: this.files
+      fileList: this.files,
+      disabeFileCheck: !this.files.length
     };
   },
   watch: {
@@ -44,6 +45,7 @@ export default {
       );
     },
     files: function(val) {
+      this.disabeFileCheck = !val.length;
       this.fileList = val;
     }
   },

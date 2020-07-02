@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import FileList from "@/components/files/list/FileList";
+import FileList from "@/components/files/FileList";
 
 export default {
   name: "Shared",

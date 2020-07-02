@@ -19,7 +19,7 @@
 <script>
 import { mapGetters } from "vuex";
 import FabButton from "@/components/buttons/FabButton";
-import FileList from "@/components/files/list/FileList";
+import FileList from "@/components/files/FileList";
 
 export default {
   name: "Folder",

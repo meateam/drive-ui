@@ -1,6 +1,11 @@
 <template>
   <div class="file-list-structure">
-    <v-checkbox @change="$emit('check', isChecked)" v-model="isChecked" color="#357e6f"></v-checkbox>
+    <v-checkbox
+      @change="$emit('check', isChecked)"
+      v-model="isChecked"
+      color="#357e6f"
+      :disabled="disabeld"
+    ></v-checkbox>
     <div></div>
     <p id="file-name">{{$t('file.Name')}}</p>
     <p>{{$t('file.Owner')}}</p>
@@ -12,6 +17,7 @@
 <script>
 export default {
   name: "ListHeader",
+  props: ["disabeld"],
   data() {
     return {
       isChecked: false

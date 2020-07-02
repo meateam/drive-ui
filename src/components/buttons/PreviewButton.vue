@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top v-if="chosenFiles.length===1 && canPreview()" :disabled="!icon">
+  <v-tooltip top v-if="chosenFiles.length===1 && isPreviewAvailable()" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn @click="$refs.popup.open()" v-on="on" :icon="icon" class="auto-margin" text>
         <img class="fab-icon" src="@/assets/icons/favorites.png" />
@@ -13,7 +13,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { previewTypes, mediaTypes } from "@/utils/config";
+import { canPreview } from "@/utils/canPreview";
 import Preview from "@/components/popups/Preview";
 
 export default {
@@ -22,32 +22,11 @@ export default {
   computed: {
     ...mapGetters(["chosenFiles"])
   },
-  components: { Preview },
   methods: {
-    canPreview() {
-      return (
-        this.isIframe(this.chosenFiles[0].type) ||
-        this.checkMimeType(this.chosenFiles[0].type)
-      );
-    },
-    isIframe(type) {
-      for (let k = 0; k < previewTypes.length; k++) {
-        if (type.startsWith(previewTypes[k])) {
-          return true;
-        }
-      }
-
-      return false;
-    },
-    checkMimeType(type) {
-      for (let k = 0; k < mediaTypes.length; k++) {
-        if (type.startsWith(mediaTypes[k])) {
-          return true;
-        }
-      }
-
-      return false;
+    isPreviewAvailable() {
+      return canPreview(this.chosenFiles[0].type)
     }
-  }
+  },
+  components: { Preview }
 };
 </script>

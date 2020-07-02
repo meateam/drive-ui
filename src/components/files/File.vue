@@ -1,35 +1,46 @@
 <template>
-  <div
-    id="file"
-    :class="{checked: isChecked}"
-    class="file-list-structure"
-    @dblclick="onFolderClick"
-    @click="checkFile(!isChecked)"
-    @contextmenu.prevent="onRightClick"
-  >
-    <v-checkbox @click.prevent @change="onFileChoose(isChecked)" v-model="isChecked" color="#357e6f"></v-checkbox>
-    <div>
-      <img v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
+  <div>
+    <div
+      id="file"
+      :class="{checked: isChecked}"
+      class="file-list-structure"
+      @dblclick="onDblClick"
+      @click="checkFile(!isChecked)"
+      @contextmenu.prevent="onRightClick"
+    >
+      <v-checkbox
+        @click.prevent
+        @change="onFileChoose(isChecked)"
+        v-model="isChecked"
+        color="#357e6f"
+      ></v-checkbox>
+      <div>
+        <img v-if="isFolder(file)" src="@/assets/icons/folderType.png" />
+      </div>
+      <p id="file-name" class="ltr">{{file.name}}</p>
+      <p>{{file.owner}}</p>
+      <p>{{file.updatedAt}}</p>
+      <p class="ltr">{{formatBytes(file.size)}}</p>
     </div>
-    <p id="file-name" class="ltr">{{file.name}}</p>
-    <p>{{file.owner}}</p>
-    <p>{{file.updatedAt}}</p>
-    <p class="ltr">{{formatBytes(file.size)}}</p>
+    <Preview ref="preview" :file="file" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { canPreview } from "@/utils/canPreview";
 import fileSize from "filesize";
+import Preview from "@/components/popups/Preview";
 
 export default {
   name: "ListFile",
   props: ["file"],
   data() {
     return {
-      isChecked: false,
+      isChecked: false
     };
   },
+  components: { Preview },
   computed: {
     ...mapGetters(["folderContentType"])
   },
@@ -42,8 +53,8 @@ export default {
       if (bytes == 0) return "-";
       return fileSize(bytes);
     },
-    isFolder(file) {
-      return file.type === this.folderContentType;
+    isFolder(type) {
+      return type === this.folderContentType;
     },
     onRightClick(event) {
       this.$emit("rightclick", event, this.file);
@@ -55,15 +66,18 @@ export default {
         file: this.file
       });
     },
-    onFolderClick(event) {
+    onDblClick(event) {
       event.preventDefault();
-      if (this.isFolder(this.file))
+      if (this.isFolder(this.file.type)) {
         this.$router.push({ path: "/folders", query: { id: this.file.id } });
+      } else if (canPreview(this.file.type)) {
+        this.$refs.preview.open();
+      }
     },
     checkFile(event) {
       this.isChecked = event;
       this.onFileChoose(this.isChecked);
-    },
+    }
   }
 };
 </script>

@@ -49,7 +49,7 @@ export default {
 
 <style scoped>
 #preview {
-  background-color: rgba(0, 0, 0, 0.637);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
 }
