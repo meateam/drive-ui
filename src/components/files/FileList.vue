@@ -1,15 +1,13 @@
 <template>
   <div>
     <ListHeader @check="toggleFilesCheck" ref="header" :disabeld="disabeFileCheck" />
-    <draggable v-model="fileList" @change="onDrop">
-      <File
-        :key="file.id"
-        v-for="file in fileList"
-        :file="file"
-        ref="files"
-        @rightclick="onRightClick"
-      />
-    </draggable>
+    <File
+      :key="file.id"
+      v-for="file in fileList"
+      :file="file"
+      ref="files"
+      @rightclick="onRightClick"
+    />
 
     <BottomMenu :chosenFiles="chosenFiles" ref="file" />
     <FileContextMenu ref="menu" :files="chosenFiles" />
@@ -18,7 +16,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import draggable from "vuedraggable";
 import File from "./File";
 import ListHeader from "./ListHeader";
 import BottomMenu from "@/components/popups/BottomMenu";
@@ -27,7 +24,7 @@ import FileContextMenu from "@/components/popups/FileContextMenu";
 export default {
   name: "FileList",
   props: ["files"],
-  components: { File, ListHeader, BottomMenu, FileContextMenu, draggable },
+  components: { File, ListHeader, BottomMenu, FileContextMenu },
   computed: {
     ...mapGetters(["chosenFiles", "folderContentType"])
   },
@@ -61,14 +58,6 @@ export default {
       }
       this.$refs.menu.show(event);
     },
-    onDrop(event) {
-      if (this.files[event.moved.newIndex].type === this.folderContentType) {
-        this.$store.dispatch("moveFile", {
-          folderID: this.files[event.moved.newIndex].id,
-          fileIDs: [event.moved.element.id]
-        });
-      }
-    }
   },
   created() {
     window.addEventListener("keydown", event => {

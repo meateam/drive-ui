@@ -1,6 +1,13 @@
 <template>
   <v-app>
-    <div :class="{active: drag}" v-if="user">
+    <div
+      :class="{dragging: drag}"
+      v-if="user"
+      @dragover.prevent
+      @drop.stop.prevent="onDrop"
+      @dragenter="drag=true"
+      @dragleave="drag=false"
+    >
       <AppBar />
       <Sidenav />
       <div id="page-container">
@@ -48,29 +55,15 @@ export default {
         document.getElementById("upload-input").click();
       }
     });
-    // document.addEventListener("dragenter", event => {
-    //   // on drag enter
-    //   event.preventDefault();
-    //   this.drag = true;
-    // });
-    // document.addEventListener("dragleave", event => {
-    //   // on drag stop
-    //   event.preventDefault();
-    //   // this.drag = false;
-    // });
-    // document.addEventListener("drop", event => {
-    //   // on drop
-    //   event.preventDefault();
-    //   this.onDrop(event);
-    // });
   },
   methods: {
     onDrop(event) {
       event.preventDefault();
+      console.log(event);
+      this.drag = false;
       const files = event.dataTransfer.files;
       if (!files) return;
       this.$store.dispatch("uploadFiles", files);
-      this.onDragEnd();
     }
   }
 };
@@ -88,9 +81,9 @@ export default {
   top: calc(50vh - 300px);
   right: calc(50vw - 250px);
 }
-.active {
-  filter: blur(5px);
-  background-color: violet;
+.dragging {
+  filter: blur(3px);
+  height: 100vh;
   z-index: 100;
 }
 #loading {

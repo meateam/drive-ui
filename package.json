@@ -19,7 +19,6 @@
     "vue-i18n": "^8.18.1",
     "vue-router": "^3.3.2",
     "vue-tour": "^1.4.0",
-    "vuedraggable": "^2.23.2",
     "vuetify": "^2.2.11",
     "vuex": "^3.4.0"
   },
