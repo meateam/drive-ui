@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import * as filesApi from "@/api/files";
 import Folders from "../shared/Folders";
 import BaseTextButton from "@/components/buttons/BaseTextButton";
 import BaseBreadcrumbs from "@/components/shared/BaseBreadcrumbs";
@@ -52,10 +53,7 @@ export default {
       if (!folderID) {
         this.folderHierarchy = undefined;
       } else {
-        this.folderHierarchy = await this.$store.dispatch(
-          "getFolderHierarchy",
-          folderID
-        );
+        this.folderHierarchy = await filesApi.getFolderHierarchy(folderID);
       }
     },
     onFolderClick(folderID) {

@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import * as filesApi from "@/api/files";
+
 export default {
   name: "Folders",
   data() {
@@ -29,7 +31,7 @@ export default {
       this.$emit("change", folder.id);
     },
     async fetchFolders(parent) {
-      this.folders = await this.$store.dispatch("getFilesByFolder", parent);
+      this.folders = await filesApi.getFoldersByFolder(parent);
     }
   },
   created() {

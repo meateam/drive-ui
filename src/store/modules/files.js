@@ -1,8 +1,6 @@
-/* eslint-disable no-empty-pattern */
-import Axios from "axios";
-import * as usersApi from "@/api/users";
-import * as shareApi from "@/api/share";
-import { baseURL } from "@/utils/config";
+import * as filesApi from "@/api/files";
+import { formatFile } from "@/utils/formatFile";
+import { isFileNameExists } from "@/utils/isFileNameExists";
 
 const state = {
   allowedTypes: [
@@ -42,20 +40,12 @@ const getters = {
 };
 
 const actions = {
-  /**
-   * fetchFiles fetch all the files in the current folder
-   */
-  async fetchFiles({ commit, dispatch }) {
+  async fetchFiles({ commit }) {
     try {
-      const res = await Axios.get(
-        `${baseURL}/api/files${
-        state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
-        }`
-      );
-      const files = res.data;
+      const files = await filesApi.fetchFiles(state.currentFolder);
       Promise.all(
         files.map((file) => {
-          dispatch("formatFile", file);
+          return formatFile(file);
         })
       );
       commit("fetchFiles", files);
@@ -63,28 +53,15 @@ const actions = {
       throw new Error(err);
     }
   },
-  async getFilesByFolder({ }, folderID) {
-    try {
-      const res = await Axios.get(
-        `${baseURL}/api/files?type=${state.folderContentType}${
-        folderID ? `&parent=${folderID}` : ""
-        }`
-      );
-      return res.data;
-    } catch (err) {
-      throw new Error(err);
-    }
-  },
   /**
    * fetchSharedFiles fetch all the shared files in the current folder
    */
-  async fetchSharedFiles({ commit, dispatch }) {
+  async fetchSharedFiles({ commit }) {
     try {
-      const res = await Axios.get(`${baseURL}/api/files?shares`);
-      const files = res.data;
+      const files = filesApi.fetchSharedFiles(state.currentFolder);
       Promise.all(
         files.map((file) => {
-          dispatch("formatFile", file);
+          return formatFile(file);
         })
       );
       commit("fetchFiles", files);
@@ -95,40 +72,20 @@ const actions = {
   /**
    * fetchLastUpdatedFiles fetch all the files that where updated today in the current folder
    */
-  async fetchLastUpdatedFiles({ commit, dispatch }) {
+  async fetchLastUpdatedFiles({ commit }) {
     try {
-      const res = await Axios.get(`${baseURL}/api/files`);
-      const files = res.data.filter((file) => {
+      const files = await filesApi.fetchFiles();
+      const lastUpdatedFiles = files.filter((file) => {
         return (
           new Date(file.updatedAt).toDateString() === new Date().toDateString()
         );
       });
       Promise.all(
-        files.map((file) => {
-          dispatch("formatFile", file);
+        lastUpdatedFiles.map((file) => {
+          return formatFile(file);
         })
       );
       commit("fetchFiles", files);
-    } catch (err) {
-      throw new Error(err);
-    }
-  },
-  async formatFile({ dispatch, rootState }, file) {
-    if (file.ownerId === rootState.auth.user.id) file.owner = "אני";
-    else file.owner = await usersApi.getUserNameByID(file.ownerId);
-
-    file.createdAt = await dispatch("formatDate", file.createdAt);
-    file.updatedAt = await dispatch("formatDate", file.updatedAt);
-
-    file.permissions = await shareApi.getPermissions(file.id);
-    file.permits = await shareApi.getExternalPermissions(file.id);
-
-    return file;
-  },
-  async getFileByID({ }, fileID) {
-    try {
-      const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
-      return res.data;
     } catch (err) {
       throw new Error(err);
     }
@@ -139,8 +96,8 @@ const actions = {
    */
   async deleteFile({ commit, dispatch }, fileID) {
     try {
-      const res = await Axios.delete(`${baseURL}/api/files/${fileID}`);
-      commit("deleteFile", res.data[0]);
+      const file = await filesApi.deleteFile(fileID);
+      commit("deleteFile", file);
       dispatch("getQuota");
     } catch (err) {
       throw new Error(err);
@@ -161,6 +118,8 @@ const actions = {
    * @param file is the file to upload
    */
   async uploadFile({ dispatch }, file) {
+    if (isFileNameExists({ name: file.name, files: state.files }))
+      throw new Error("Name already exists in the root");
     if (file.size <= 5 << 20) {
       await dispatch("multipartUpload", file);
     } else {
@@ -182,41 +141,12 @@ const actions = {
    * multipartUpload create an upload with small size
    * @param file is the file that was chose by the user in the type blob
    */
-  async multipartUpload({ dispatch, commit, rootState }, file) {
+  async multipartUpload({ dispatch, commit }, file) {
     try {
-      if (await dispatch("isFileNameExists", file.name))
-        throw new Error("Name already exists in the root");
-      const request = new XMLHttpRequest();
-      request.open(
-        "POST",
-        `${baseURL}/api/upload?uploadType=multipart${
-        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
-        }`,
-        true
-      );
-      request.withCredentials = true;
-      request.setRequestHeader(
-        "Authorization",
-        `Bearer ${rootState.auth.token}`
-      );
-
-      request.onload = async () => {
-        if (request.status === 200) {
-          const file = await dispatch("getFileByID", request.responseText);
-          dispatch("formatFile", file);
-          commit("addFile", file);
-          dispatch("getQuota");
-        } else if (request.status === 409) {
-          throw new Error(request.status);
-        } else {
-          throw new Error(request.responseText);
-        }
-      };
-
-      const formData = new FormData();
-      formData.append("file", file, file.name);
-
-      request.send(formData);
+      const metadata = await filesApi.multipartUpload({ file, parent: state.currentFolder });
+      const formatedFile = await formatFile(metadata);
+      commit("addFile", formatedFile);
+      dispatch("getQuota");
     } catch (err) {
       throw new Error(err);
     }
@@ -225,131 +155,30 @@ const actions = {
    * resumableUpload is an upload for bigger files
    * @param file is the file to upload
    */
-  async resumableUpload({ dispatch, commit, rootState }, file) {
+  async resumableUpload({ dispatch, commit }, file) {
     try {
-      if (await dispatch("isFileNameExists", file.name))
-        throw new Error("Name already exists in the root");
-      const uploadID = await dispatch("getUploadID", file);
-      const request = new XMLHttpRequest();
-      request.open(
-        "POST",
-        `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${
-        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
-        }`,
-        true
-      );
-      request.withCredentials = true;
-      request.setRequestHeader(
-        "Authorization",
-        `Bearer ${rootState.auth.token}`
-      );
-      request.setRequestHeader(
-        "Content-Range",
-        `bytes 0-${file.size - 1}/${file.size}`
-      );
-
-      request.onload = async () => {
-        if (request.status === 200) {
-          const file = await dispatch("getFileByID", request.responseText);
-          dispatch("formatFile", file);
-          commit("addFile", file);
-          dispatch("getQuota");
-        } else if (request.status === 409) {
-          throw new Error(request.status);
-        } else {
-          throw new Error(request.responseText);
-        }
-      };
-
-      const formData = new FormData();
-      formData.append("file", file, file.name);
-
-      request.send(formData);
+      const metadata = await filesApi.resumableUpload({ file, parent: state.currentFolder });
+      const formatedFile = await formatFile(metadata);
+      commit("addFile", formatedFile);
+      dispatch("getQuota");
     } catch (err) {
       throw new Error(err);
     }
-  },
-  /**
-   * getUploadID is used for the resumable upload (for connecting all the pieces when the upload is finished)
-   * @param file is the file to upload
-   */
-  async getUploadID({ }, file) {
-    try {
-      const res = await Axios.post(
-        `${baseURL}/api/upload${
-        state.currentFolder ? `?parent=${state.currentFolder.id}` : ""
-        }`,
-        {
-          title: file.name,
-          mimeType: file.type,
-        },
-        {
-          headers: {
-            "content-type": "application/json",
-            "X-Content-Length": `${file.size}`,
-          },
-        }
-      );
-      return res.headers["x-uploadid"];
-    } catch (err) {
-      throw new Error(err);
-    }
-  },
-  /**
-   * downloadFile downloads the file with the
-   * @param fileID is the id of the file to download
-   */
-  async downloadFile({ dispatch }, fileID) {
-    const file = await dispatch("getFileByID", fileID);
-    if (file.type === state.folderContentType)
-      throw new Error("Download folder is not allowed");
-    window.open(`${baseURL}/api/files/${fileID}?alt=media`, "_blank");
-  },
-  /**
-   * downloadFiles downloads all the files that where chosen
-   */
-  downloadFiles({ dispatch }, files) {
-    files.forEach((file) => {
-      dispatch("downloadFile", file.id);
-    });
   },
   /**
    * uploadFolder in the current folder
    * @param name is the name of the folder
    */
-  async uploadFolder({ commit, dispatch }, name) {
+  async uploadFolder({ commit }, name) {
     try {
-      if (await dispatch("isFileNameExists", name))
+      if (isFileNameExists({ name, files: state.files }))
         throw new Error("Name already exists in the root");
-      const res = await Axios.post(
-        `${baseURL}/api/upload?uploadType=multipart${
-        state.currentFolder ? `&parent=${state.currentFolder.id}` : ""
-        }`,
-        {},
-        {
-          headers: {
-            "Content-Type": state.folderContentType,
-            "Content-Disposition": `filename=${encodeURIComponent(name)}`,
-          },
-        }
-      );
-      const folder = await dispatch("getFileByID", res.data);
-      dispatch("formatFile", folder);
-      commit("addFile", folder);
+      const folder = await filesApi.uploadFolder({ name, parent: state.currentFolder });
+      const formatedFile = await formatFile(folder);
+      commit("addFile", formatedFile);
     } catch (err) {
       throw new Error(err);
     }
-  },
-  /**
-   * isFileNameExists checks if there is already file with the same name in the current folder.
-   * @param name is the name of the new file
-   */
-  isFileNameExists({ }, name) {
-    if (!name) return true;
-    state.files.forEach((file) => {
-      if (file.name === name) return true;
-    });
-    return false;
   },
   /**
    * onFolderChange change the current folder by the recived id
@@ -361,7 +190,7 @@ const actions = {
         commit("setCurrentFolder", undefined);
         commit("setHierarchy", []);
       } else {
-        const folder = await dispatch("getFileByID", folderID);
+        const folder = await filesApi.getFileByID(folderID);
         commit("setCurrentFolder", folder);
         dispatch("getAncestors", folder.id);
       }
@@ -369,51 +198,21 @@ const actions = {
       throw new Error(err);
     }
   },
-  /**
-   * getDate return the formated creation date
-   * @param d is the date to format
-   */
-  formatDate({ }, d) {
-    const date = new Date(d);
-
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hour = date.getHours();
-    const minutes = date.getMinutes();
-
-    return `${day}.${month}.${year} ${hour}:${minutes}`;
-  },
-  async getFolderHierarchy({ }, folderID) {
-    const ancestors = await Axios.get(
-      `${baseURL}/api/files/${folderID}/ancestors`
-    );
-    const breadcrumbs = ancestors ? ancestors.data : [];
-    return breadcrumbs;
-  },
-  async getAncestors({ commit, dispatch }, folderID) {
-    const breadcrumbs = await dispatch("getFolderHierarchy", folderID);
+  async getAncestors({ commit }, folderID) {
+    const breadcrumbs = await filesApi.getFolderHierarchy(folderID);
     commit("setHierarchy", breadcrumbs);
   },
   async editFile({ commit }, { file, name }) {
     try {
-      const res = await Axios.put(`${baseURL}/api/files/${file.id}`, {
-        name,
-      });
-      if (res.data) throw new Error(res.data.error);
-      commit("onFileRename", { file, name });
+      const res = await filesApi.editFile({ file, name })
+      commit("onFileRename", res);
     } catch (err) {
       throw new Error(err);
     }
   },
   async moveFile({ commit }, { folderID, fileIDs }) {
     try {
-      await Axios.put(`${baseURL}/api/files`, {
-        partialFile: {
-          parent: folderID,
-        },
-        idList: fileIDs,
-      });
+      await filesApi.moveFile({ folderID, fileIDs })
       fileIDs.forEach((fileID) => {
         commit("deleteFile", fileID);
       });
@@ -421,7 +220,6 @@ const actions = {
       throw new Error(err);
     }
   },
-  // async unShareFile({ commit }) {},
 };
 
 const mutations = {

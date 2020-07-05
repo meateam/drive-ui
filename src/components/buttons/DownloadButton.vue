@@ -12,12 +12,14 @@
 
 <script>
 import { mapGetters } from "vuex";
+import * as filesApi from "@/api/files";
+
 export default {
   name: "DownloadButton",
   props: ["icon"],
   methods: {
     onDownload() {
-      this.$store.dispatch("downloadFile", this.chosenFiles[0].id);
+      filesApi.downloadFile(this.chosenFiles[0].id);
     }
   },
   computed: {
