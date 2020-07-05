@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import * as usersApi from "@/api/users";
+import * as shareApi from "@/api/share";
 import Chips from "@/components/shared/Chips";
 import Autocomplete from "@/components/inputs/Autocomplete";
 import SubmitButton from "@/components/buttons/SubmitButton";
@@ -63,8 +65,8 @@ export default {
     getUsersByName(name) {
       if (this.isLoading) return;
       this.isLoading = true;
-      this.$store
-        .dispatch("searchUsersByName", name)
+      usersApi
+        .searchUsersByName(name)
         .then(users => {
           this.users = users;
         })
@@ -95,7 +97,7 @@ export default {
       return users.some(user => user.id === id);
     },
     onConfirm() {
-      this.$store.dispatch("shareUsers", {
+      shareApi.shareUsers({
         files: this.files,
         users: this.selectedUsers,
         role: this.role

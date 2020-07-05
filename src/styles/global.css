@@ -34,6 +34,9 @@ a {
 .v-pagination.v-pagination {
   direction: ltr;
 }
+.v-application--is-rtl .v-list-item__action:first-child, .v-application--is-rtl .v-list-item__icon:first-child{
+  margin-left: 7px !important;
+}
 .theme--light.v-data-table thead tr th {
   font-size: 17px !important;
   font-family: Rubik-Light;

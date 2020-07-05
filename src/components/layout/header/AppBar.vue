@@ -27,6 +27,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { search } from "@/api/search";
 import ChatButton from "@/components/buttons/ChatButton";
 import Search from "@/components/inputs/Autocomplete";
 import TourButton from "@/components/buttons/TourButton";
@@ -52,8 +53,7 @@ export default {
     getSearchResults(query) {
       if (this.isLoading) return;
       this.isLoading = true;
-      this.$store
-        .dispatch("search", query)
+      search(query)
         .then(results => {
           results.forEach(res => (res.display = `${res.name}`));
           this.results = results;

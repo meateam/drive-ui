@@ -8,4 +8,5 @@ export default new Vuetify({
   icons: {
     iconfont: "md",
   },
+  rtl: true,
 });

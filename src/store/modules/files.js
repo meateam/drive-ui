@@ -1,5 +1,7 @@
 /* eslint-disable no-empty-pattern */
 import Axios from "axios";
+import * as usersApi from "@/api/users";
+import * as shareApi from "@/api/share";
 import { baseURL } from "@/utils/config";
 
 const state = {
@@ -113,13 +115,13 @@ const actions = {
   },
   async formatFile({ dispatch, rootState }, file) {
     if (file.ownerId === rootState.auth.user.id) file.owner = "אני";
-    else file.owner = await dispatch("getUserNameByID", file.ownerId);
+    else file.owner = await usersApi.getUserNameByID(file.ownerId);
 
     file.createdAt = await dispatch("formatDate", file.createdAt);
     file.updatedAt = await dispatch("formatDate", file.updatedAt);
 
-    file.permissions = await dispatch("getPermissions", file.id);
-    file.permits = await dispatch("getExternalPermissions", file.id);
+    file.permissions = await shareApi.getPermissions(file.id);
+    file.permits = await shareApi.getExternalPermissions(file.id);
 
     return file;
   },

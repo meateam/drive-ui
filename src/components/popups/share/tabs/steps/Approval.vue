@@ -26,13 +26,14 @@
     </v-chip-group>
     <v-card-actions class="popup-confirm">
       <SubmitButton @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
-      <BaseTextButton @click="$emit('back')" :label="$t('buttons.Back')"/>
+      <BaseTextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import * as usersApi from "@/api/users";
 import Chips from "@/components/shared/Chips";
 import Autocomplete from "@/components/inputs/Autocomplete";
 import SubmitButton from "@/components/buttons/SubmitButton";
@@ -61,8 +62,8 @@ export default {
     getUsersByName(name) {
       if (this.isLoading) return;
       this.isLoading = true;
-      this.$store
-        .dispatch("searchUsersByName", name)
+      usersApi
+        .searchUsersByName(name)
         .then(users => {
           this.users = users;
         })

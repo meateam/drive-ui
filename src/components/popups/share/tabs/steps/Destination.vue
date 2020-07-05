@@ -10,9 +10,9 @@
       @select="onSelect"
       @type="getExternalUsersByName"
     />
-    <!-- <v-chip-group show-arrows> -->
+    <v-chip-group show-arrows>
       <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
-    <!-- </v-chip-group> -->
+    </v-chip-group>
     <v-card-actions class="popup-confirm">
       <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
     </v-card-actions>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import * as usersApi from "@/api/users";
 import Chips from "@/components/shared/Chips";
 import Autocomplete from "@/components/inputs/Autocomplete";
 import SubmitButton from "@/components/buttons/SubmitButton";
@@ -44,8 +45,8 @@ export default {
     getExternalUsersByName(name) {
       if (this.isLoading) return;
       this.isLoading = true;
-      this.$store
-        .dispatch("searchExternalUsersByName", name)
+      usersApi
+        .searchExternalUsersByName(name)
         .then(users => (this.users = users))
         .catch(err => {
           throw new Error(err);

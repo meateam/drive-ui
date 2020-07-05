@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import * as shareApi from "@/api/share";
 import AddInfo from "./steps/AddInfo";
 import Destination from "./steps/Destination";
 import Approval from "./steps/Approval";
@@ -78,7 +79,7 @@ export default {
       this.currentStep--;
     },
     onComplete() {
-      this.$store.dispatch("shareExternalUsers", {
+      shareApi.shareExternalUsers({
         users: this.destination,
         fileID: this.file.id,
         fileName: this.file.name,

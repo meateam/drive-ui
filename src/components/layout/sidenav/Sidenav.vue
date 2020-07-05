@@ -116,7 +116,6 @@ export default {
 }
 .v-list-item {
   border-bottom: #255f53 solid 1px;
-  margin: 0;
   height: 70px;
   font-weight: 700;
 }
@@ -125,7 +124,7 @@ export default {
 }
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
   color: #c8d9d5 !important;
-  margin: 0;
+  padding: 0 30px;
 }
 .v-list--nav .v-list-item,
 .v-list--nav .v-list-item:before {
@@ -133,7 +132,6 @@ export default {
 }
 .v-list-item__icon {
   margin: auto;
-  margin-left: 7px;
 }
 #logo-container {
   height: 86px;

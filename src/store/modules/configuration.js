@@ -1,5 +1,4 @@
-
-import { baseURL } from "@/utils/config";
+import { fetchConfig } from "@/api/configuration"
 
 const state = {
   version: "2.0",
@@ -26,8 +25,7 @@ const getters = {
 
 const actions = {
   async fetchConfig({ commit }) {
-    const res = await fetch(`${baseURL}/api/config`);
-    const config = await res.json();
+    const config = await fetchConfig()
     commit("setConfig", config);
   },
 };
