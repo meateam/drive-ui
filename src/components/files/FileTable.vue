@@ -12,12 +12,22 @@
       @dblclick:row="onDblClick"
       @page-count="pageCount = $event"
     >
-      <template v-slot:item.size="{ item }">{{formatFileSize(item.size)}}</template>
-      <template v-slot:item.type="{ item }">
-        <img src="@/assets/icons/folderType.png" v-if="isFolder(item.type)" />
-      </template>
-      <template v-slot:item.data-table-select="{isSelected,select}">
-        <v-simple-checkbox color="#357e6f" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
+      <template v-slot:item="{item,isSelected,select}">
+        <tr
+          @contextmenu.prevent="onRightClick($event, item)"
+          @dblclick.prevent="onDblClick($event, item)"
+        >
+          <td>
+            <v-simple-checkbox color="#357e6f" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
+          </td>
+          <td>
+            <img src="@/assets/icons/folderType.png" v-if="isFolder(item.type)" />
+          </td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.owner }}</td>
+          <td>{{ item.updatedAt }}</td>
+          <td>{{ formatFileSize(item.size) }}</td>
+        </tr>
       </template>
       <template v-slot:header.data-table-select="{props,on}">
         <v-simple-checkbox color="#357e6f" v-ripple v-bind="props" v-on="on"></v-simple-checkbox>
@@ -55,7 +65,7 @@ export default {
       itemsPerPage: 10,
       pageCount: 1,
       headers: [
-        { value: "type", align: "center" },
+        { value: "type" },
         { text: this.$t("file.Name"), value: "name" },
         { text: this.$t("file.Owner"), value: "owner" },
         { text: this.$t("file.LastUpdate"), value: "updatedAt" },
@@ -71,17 +81,15 @@ export default {
     isFolder(type) {
       return type === this.folderContentType;
     },
-    onRightClick(event) {
+    onRightClick(event, file) {
       event.preventDefault();
-      if (!this.selected.includes(event.item)) {
-        this.selected = event.item;
+      if (!this.selected.includes(file)) {
+        this.selected = [file];
       }
       this.$refs.contextmenu.show(event);
     },
-    onDblClick(event) {
+    onDblClick(event, file) {
       event.preventDefault();
-      const file = event.item;
-
       if (this.isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (canPreview(file.type)) {

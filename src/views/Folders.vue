@@ -12,18 +12,18 @@
       <span>{{`${currentFolder.name}`}}</span>
     </div>
     <FabButton />
-    <FileList v-bind:files="files" />
+    <FileTable v-if="files" v-bind:files="files" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import FabButton from "@/components/buttons/FabButton";
-import FileList from "@/components/files/FileList";
+import FileTable from "@/components/files/FileTable";
 
 export default {
   name: "Folder",
-  components: { FabButton, FileList },
+  components: { FabButton, FileTable },
   created() {
     document.title = this.currentFolder.name;
   },

@@ -1,20 +1,20 @@
 <template>
   <div class="page-container">
     <h1 class="page-header">{{$t('shared.header')}}</h1>
-    <FileList v-bind:files="files" />
+    <FileTable v-if="files" v-bind:files="files" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import FileList from "@/components/files/FileList";
+import FileTable from "@/components/files/FileTable";
 
 export default {
   name: "Shared",
-  components: { FileList },
+  components: { FileTable },
   computed: {
     ...mapGetters(["files"])
-  },
+  }
 };
 </script>
 
