@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" fullscreen hide-overlay>
+  <v-dialog v-model="dialog" fullscreen hide-overlay transition="fade-transition">
     <v-card id="preview">
       <img v-if="file.type.startsWith('image')" class="file-preview" :src="getFile" />
       <audio
@@ -61,6 +61,7 @@ export default {
 }
 .file-preview {
   margin: auto;
+  max-height: 80vh;
   max-width: 80%;
 }
 </style>

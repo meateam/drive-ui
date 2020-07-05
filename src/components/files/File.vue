@@ -8,11 +8,7 @@
       @click.ctrl="checkFile(!isChecked)"
       @contextmenu.prevent="onRightClick"
     >
-      <v-checkbox
-        @change="onFileChoose(isChecked)"
-        v-model="isChecked"
-        color="#357e6f"
-      ></v-checkbox>
+      <v-checkbox @change="onFileChoose(isChecked)" v-model="isChecked" color="#357e6f"></v-checkbox>
       <div>
         <img v-if="isFolder(file.type)" src="@/assets/icons/folderType.png" />
       </div>
@@ -91,6 +87,10 @@ export default {
 #file-name {
   font-family: Rubik;
   font-size: 20px;
+  white-space: nowrap;
+  padding-left: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .checked {
   background-color: rgb(230, 236, 246);
