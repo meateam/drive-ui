@@ -12,7 +12,7 @@
     </draggable>
 
     <BottomMenu :chosenFiles="chosenFiles" ref="file" />
-    <FileMenu ref="menu" :files="chosenFiles" />
+    <FileContextMenu ref="menu" :files="chosenFiles" />
   </div>
 </template>
 
@@ -22,12 +22,12 @@ import draggable from "vuedraggable";
 import File from "./File";
 import ListHeader from "./ListHeader";
 import BottomMenu from "@/components/popups/BottomMenu";
-import FileMenu from "@/components/popups/FileMenu";
+import FileContextMenu from "@/components/popups/FileContextMenu";
 
 export default {
   name: "FileList",
   props: ["files"],
-  components: { File, ListHeader, BottomMenu, FileMenu, draggable },
+  components: { File, ListHeader, BottomMenu, FileContextMenu, draggable },
   computed: {
     ...mapGetters(["chosenFiles", "folderContentType"])
   },

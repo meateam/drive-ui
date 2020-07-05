@@ -17,7 +17,7 @@
       <p>{{file.updatedAt}}</p>
       <p class="ltr">{{formatBytes(file.size)}}</p>
     </div>
-    <Preview ref="preview" :file="file" />
+    <Preview ref="preview"/>
   </div>
 </template>
 
@@ -66,7 +66,7 @@ export default {
       if (this.isFolder(this.file.type)) {
         this.$router.push({ path: "/folders", query: { id: this.file.id } });
       } else if (canPreview(this.file.type)) {
-        this.$refs.preview.open();
+        this.$refs.preview.open(this.file);
       }
     },
     checkFile(event) {

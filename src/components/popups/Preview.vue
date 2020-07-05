@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" fullscreen hide-overlay transition="fade-transition">
+  <v-dialog v-if="dialog" v-model="dialog" fullscreen hide-overlay transition="fade-transition">
     <v-card id="preview">
       <img v-if="file.type.startsWith('image')" class="file-preview" :src="getFile" />
       <audio
@@ -22,14 +22,15 @@ import { baseURL } from "@/utils/config";
 
 export default {
   name: "Preview",
-  props: ["file"],
   data() {
     return {
-      dialog: false
+      dialog: false,
+      file: undefined
     };
   },
   methods: {
-    open() {
+    open(file) {
+      this.file = file;
       this.dialog = true;
     },
     close() {

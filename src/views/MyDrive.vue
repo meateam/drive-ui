@@ -2,14 +2,14 @@
   <div class="page-container">
     <h1 class="page-header">{{$t('myDrive.header')}}</h1>
     <FabButton />
-    <FileList v-bind:files="files" />
+    <FileList v-if="files" :files="files" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import FabButton from "@/components/buttons/FabButton";
-import FileList from "@/components/files/FileList";
+import FileList from "@/components/files/FileTable";
 
 export default {
   name: "MyDrive",

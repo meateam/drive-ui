@@ -31,6 +31,32 @@ a {
 .v-application--is-ltr .v-treeview-node__toggle--open {
   transform: none !important;
 }
+.v-pagination.v-pagination {
+  direction: ltr;
+}
+.theme--light.v-data-table thead tr th {
+  font-size: 17px !important;
+  font-family: Rubik-Light;
+  height: 70px !important;
+  font-weight: 500;
+  color: #2c3448 !important;
+}
+.v-data-table td {
+  font-size: 17px !important;
+  font-family: Rubik-Light;
+  font-weight: 500;
+  color: #2c3448 !important;
+  height: 70px !important;
+}
+.theme--light.v-data-table thead tr:last-child th {
+  border-bottom: rgb(213, 221, 235) 1px solid !important;
+}
+.theme--light.v-data-table tbody tr.v-data-table__selected {
+  background-color: rgb(230, 236, 246) !important;
+}
+.theme--light.v-data-table tbody tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+  background-color: rgb(213, 221, 235) !important;
+}
 .v-btn:not(.v-btn--round).v-size--default {
   width: 100%;
 }

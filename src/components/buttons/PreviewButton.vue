@@ -1,12 +1,18 @@
 <template>
   <v-tooltip top v-if="chosenFiles.length===1 && isPreviewAvailable()" :disabled="!icon">
     <template v-slot:activator="{ on }">
-      <v-btn @click="$refs.popup.open()" v-on="on" :icon="icon" class="auto-margin" text>
+      <v-btn
+        @click="$refs.popup.open(chosenFiles[0])"
+        v-on="on"
+        :icon="icon"
+        class="auto-margin"
+        text
+      >
         <img class="fab-icon" src="@/assets/icons/favorites.png" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Preview") }}</p>
       </v-btn>
     </template>
-    <Preview ref="popup" :file="chosenFiles[0]" />
+    <Preview ref="popup" />
     <span>{{ $t("buttons.Preview") }}</span>
   </v-tooltip>
 </template>
@@ -24,7 +30,7 @@ export default {
   },
   methods: {
     isPreviewAvailable() {
-      return canPreview(this.chosenFiles[0].type)
+      return canPreview(this.chosenFiles[0].type);
     }
   },
   components: { Preview }
