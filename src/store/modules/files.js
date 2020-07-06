@@ -130,8 +130,8 @@ const actions = {
    * uploadFiles uploads all the files async
    * @param files is the files to upload
    */
-  async uploadFiles({ dispatch }, files) {
-    Promise.all(
+  uploadFiles({ dispatch }, files) {
+    return Promise.all(
       Object.values(files).map((file) => {
         dispatch("uploadFile", file);
       })

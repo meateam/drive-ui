@@ -35,7 +35,7 @@
       </template>
       <template v-slot:no-data>{{$t('NoData')}}</template>
     </v-data-table>
-    <v-row justify="center" v-if="pageCount>1">
+    <v-row justify="center">
       <v-pagination color="#357e6f" v-model="page" :length="pageCount"></v-pagination>
     </v-row>
     <BottomMenu :chosenFiles="chosenFiles" />
@@ -63,7 +63,7 @@ export default {
     return {
       selected: [],
       page: 1,
-      itemsPerPage: 10,
+      itemsPerPage: Math.floor((window.innerHeight - 350) / 70),
       pageCount: 1,
       headers: [
         { value: "type" },
@@ -127,5 +127,6 @@ export default {
 <style scoped>
 .v-data-table {
   background-color: transparent !important;
+  min-height: calc(100vh - 300px);
 }
 </style>
