@@ -20,7 +20,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import DeletePopup from "../popups/DeletePopup";
+import DeletePopup from "../popups/BaseDeletePopup";
 import Snackbar from "../popups/BaseSnackbar";
 
 export default {

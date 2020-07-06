@@ -4,7 +4,7 @@
       <img class="popup-icon auto-margin" :src="require(`@/assets/images/${img}`)" />
       <p id="title">{{text}}</p>
       <v-card-actions id="actions">
-        <BaseTextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
+        <TextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
         <SubmitButton @click="onConfirm" :label="button" />
       </v-card-actions>
     </v-card>
@@ -13,11 +13,11 @@
 
 <script>
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
-import BaseTextButton from "@/components/buttons/BaseTextButton";
+import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "DeletePopup",
-  components: { SubmitButton, BaseTextButton },
+  components: { SubmitButton, TextButton },
   data() {
     return {
       dialog: false
