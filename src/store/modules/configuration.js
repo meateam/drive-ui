@@ -25,8 +25,13 @@ const getters = {
 
 const actions = {
   async fetchConfig({ commit }) {
-    const config = await fetchConfig()
-    commit("setConfig", config);
+    try {
+      const config = await fetchConfig();
+      commit("setConfig", config);
+    } catch (err) {
+      throw new Error(err)
+    }
+
   },
 };
 

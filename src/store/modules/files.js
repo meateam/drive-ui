@@ -58,7 +58,7 @@ const actions = {
    */
   async fetchSharedFiles({ commit }) {
     try {
-      const files = filesApi.fetchSharedFiles(state.currentFolder);
+      const files = await filesApi.fetchSharedFiles(state.currentFolder);
       Promise.all(
         files.map((file) => {
           return formatFile(file);
