@@ -6,7 +6,7 @@
     dense
     filled
     background-color="white"
-    @change="$emit('input', value)"
+    @input="$emit('input', value)"
   ></v-text-field>
 </template>
 

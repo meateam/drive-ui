@@ -29,7 +29,7 @@
 import { mapGetters } from "vuex";
 import { search } from "@/api/search";
 import ChatButton from "@/components/buttons/ChatButton";
-import Search from "@/components/inputs/Autocomplete";
+import Search from "@/components/inputs/BaseAutocomplete";
 import TourButton from "@/components/buttons/TourButton";
 
 export default {

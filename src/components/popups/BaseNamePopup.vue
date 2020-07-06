@@ -14,7 +14,11 @@
           :placeholder="$t(`${type}.New`)"
         />
         <v-card-actions class="popup-confirm">
-          <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
+          <SubmitButton
+            @click="onConfirm"
+            :label="$t('buttons.Confirm')"
+            :disabled="name.length<2"
+          />
         </v-card-actions>
       </div>
     </v-card>
@@ -22,8 +26,8 @@
 </template>
 
 <script>
-import TextField from "../inputs/TextField";
-import SubmitButton from "../buttons/SubmitButton";
+import TextField from "@/components/inputs/BaseTextField";
+import SubmitButton from "@/components/buttons/BaseSubmitButton";
 
 export default {
   name: "NamePopup",

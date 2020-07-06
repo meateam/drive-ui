@@ -14,8 +14,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import NamePopup from "../popups/NamePopup";
-import Snackbar from "../popups/Snackbar";
+import NamePopup from "../popups/BaseNamePopup";
+import Snackbar from "../popups/BaseSnackbar";
 
 export default {
   name: "EditButton",

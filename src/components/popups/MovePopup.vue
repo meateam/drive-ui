@@ -12,7 +12,7 @@
         <BaseBreadcrumbs v-if="folderID" :folders="folderHierarchy" @click="onFolderClick" />
 
         <div>
-          <Folders :parent="folderID" @change="onFolderChange" />
+          <FoldersPreview :parent="folderID" @change="onFolderChange" />
         </div>
         <v-card-actions class="popup-confirm">
           <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
@@ -25,14 +25,14 @@
 
 <script>
 import * as filesApi from "@/api/files";
-import Folders from "../shared/Folders";
+import FoldersPreview from "@/components/shared/FoldersPreview";
 import BaseTextButton from "@/components/buttons/BaseTextButton";
 import BaseBreadcrumbs from "@/components/shared/BaseBreadcrumbs";
-import SubmitButton from "../buttons/SubmitButton";
+import SubmitButton from "@/components/buttons/BaseSubmitButton";
 
 export default {
   name: "MovePopup",
-  components: { SubmitButton, Folders, BaseTextButton, BaseBreadcrumbs },
+  components: { SubmitButton, FoldersPreview, BaseTextButton, BaseBreadcrumbs },
   data() {
     return {
       dialog: false,

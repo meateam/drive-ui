@@ -9,6 +9,9 @@
         autoplay
         controls
       ></audio>
+      <video v-else-if="file.type.startsWith('video')" class="file-preview" controls>
+        <source :src="getFile" :type="file.type" />
+      </video>
       <iframe v-else :src="getPDF" class="file-preview"></iframe>
       <v-btn @click="close" icon class="auto-margin" id="close">
         <v-icon>close</v-icon>

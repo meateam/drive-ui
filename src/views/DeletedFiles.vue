@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ComingSoon from "@/components/shared/ComingSoon";
+import ComingSoon from "@/components/shared/BaseComingSoon";
 export default {
   name: "DeletedFiles",
   components: { ComingSoon }

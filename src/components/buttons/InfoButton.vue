@@ -13,7 +13,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import InfoPopup from "@/components/popups/InfoPopup";
+import InfoPopup from "@/components/popups/BaseInfoPopup";
 
 export default {
   name: "InfoButton",

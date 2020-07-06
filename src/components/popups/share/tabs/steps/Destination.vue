@@ -21,9 +21,9 @@
 
 <script>
 import * as usersApi from "@/api/users";
-import Chips from "@/components/shared/Chips";
-import Autocomplete from "@/components/inputs/Autocomplete";
-import SubmitButton from "@/components/buttons/SubmitButton";
+import Chips from "@/components/shared/BaseChips";
+import Autocomplete from "@/components/inputs/BaseAutocomplete";
+import SubmitButton from "@/components/buttons/BaseSubmitButton";
 
 export default {
   name: "Destination",

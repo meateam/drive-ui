@@ -21,7 +21,7 @@
 <script>
 import { mapGetters } from "vuex";
 import DeletePopup from "../popups/DeletePopup";
-import Snackbar from "../popups/Snackbar";
+import Snackbar from "../popups/BaseSnackbar";
 
 export default {
   name: "DeleteButton",

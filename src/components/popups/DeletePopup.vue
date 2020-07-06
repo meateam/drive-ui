@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import SubmitButton from "@/components/buttons/SubmitButton";
+import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import BaseTextButton from "@/components/buttons/BaseTextButton";
 
 export default {

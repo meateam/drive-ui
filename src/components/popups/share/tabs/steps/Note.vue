@@ -16,18 +16,18 @@
     </div>
     <v-card-actions class="popup-confirm">
       <SubmitButton @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
-      <BaseTextButton @click="$emit('back')" :label="$t('buttons.Back')" />
+      <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
   </div>
 </template>
 
 <script>
-import SubmitButton from "@/components/buttons/SubmitButton";
-import BaseTextButton from "@/components/buttons/BaseTextButton";
+import SubmitButton from "@/components/buttons/BaseSubmitButton";
+import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "Note",
-  components: { SubmitButton, BaseTextButton },
+  components: { SubmitButton, TextButton },
   data() {
     return {
       marks: this.$t("externalShare.note.Marks"),

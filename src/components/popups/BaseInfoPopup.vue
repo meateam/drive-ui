@@ -36,7 +36,7 @@
   </v-dialog>
 </template>
 <script>
-import KeyValue from "@/components/shared/KeyValue";
+import KeyValue from "@/components/shared/BaseKeyValue";
 import Avatar from "@/components/shared/Avatar";
 import { formatBytes } from "@/utils/formatBytes";
 

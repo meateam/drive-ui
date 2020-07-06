@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Snackbar from "../popups/Snackbar";
+import Snackbar from "../popups/BaseSnackbar";
 
 export default {
   name: "Upload",

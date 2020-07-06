@@ -32,10 +32,10 @@
 <script>
 import * as usersApi from "@/api/users";
 import * as shareApi from "@/api/share";
-import Chips from "@/components/shared/Chips";
-import Autocomplete from "@/components/inputs/Autocomplete";
-import SubmitButton from "@/components/buttons/SubmitButton";
-import Select from "@/components/inputs/Select";
+import Chips from "@/components/shared/BaseChips";
+import Autocomplete from "@/components/inputs/BaseAutocomplete";
+import SubmitButton from "@/components/buttons/BaseSubmitButton";
+import Select from "@/components/inputs/BaseSelect";
 
 export default {
   name: "DriveShare",

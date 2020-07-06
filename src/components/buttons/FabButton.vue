@@ -30,8 +30,8 @@
 
 <script>
 import Upload from "./Upload";
-import NamePopup from "../popups/NamePopup";
-import Snackbar from "../popups/Snackbar";
+import NamePopup from "../popups/BaseNamePopup";
+import Snackbar from "../popups/BaseSnackbar";
 
 export default {
   name: "FabButton",
