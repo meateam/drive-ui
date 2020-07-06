@@ -13,14 +13,6 @@
       <div id="page-container">
         <router-view />
       </div>
-      <v-progress-circular
-        v-if="isLoading"
-        id="loading"
-        :size="100"
-        :width="4"
-        color="#357e6f"
-        indeterminate
-      ></v-progress-circular>
     </div>
     <div v-else>
       <img id="yesodot" src="@/assets/images/yesodot.svg" />
@@ -85,11 +77,6 @@ export default {
   filter: blur(3px);
   height: 100vh;
   z-index: 100;
-}
-#loading {
-  position: absolute;
-  top: calc(50vh - 50px);
-  left: calc(50vw - 126px);
 }
 .container {
   padding: 0;

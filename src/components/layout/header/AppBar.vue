@@ -1,27 +1,27 @@
 <template>
   <v-card class="header">
-    <v-container class="search">
+    <div class="search">
       <Search
         background="#f0f4f7"
         :placeholder="$t('autocomplete.Drive')"
         icon="search"
         :items="results"
-        :isLoading="isLoading"
+        :isLoading="isSearchLoading"
         @select="onSelect"
         @type="getSearchResults"
       />
-    </v-container>
-    <v-container class="left">
+    </div>
+    <div class="left">
       <div id="drive">
         <img class="auto-margin drive-icon" src="@/assets/icons/drive.svg" />
       </div>
       <div id="info">
         <p class="auto-margin user-name">{{getUserName()}}</p>
-        <!-- <NotificationButton /> -->
         <ChatButton />
         <TourButton />
       </div>
-    </v-container>
+      <v-progress-circular v-if="isLoading" id="loading" :size="40" :width="3" color="#357e6f" indeterminate></v-progress-circular>
+    </div>
   </v-card>
 </template>
 
@@ -31,14 +31,13 @@ import { search } from "@/api/search";
 import ChatButton from "@/components/buttons/ChatButton";
 import Search from "@/components/inputs/Autocomplete";
 import TourButton from "@/components/buttons/TourButton";
-// import NotificationButton from "@/components/buttons/NotificationButton";
 
 export default {
   name: "AppBar",
   data() {
     return {
       results: [],
-      isLoading: false
+      isSearchLoading: false
     };
   },
   methods: {
@@ -51,8 +50,8 @@ export default {
       return "";
     },
     getSearchResults(query) {
-      if (this.isLoading) return;
-      this.isLoading = true;
+      if (this.isSearchLoading) return;
+      this.isSearchLoading = true;
       search(query)
         .then(results => {
           results.forEach(res => (res.display = `${res.name}`));
@@ -61,7 +60,7 @@ export default {
         .catch(err => {
           throw new Error(err);
         })
-        .finally(() => (this.isLoading = false));
+        .finally(() => (this.isSearchLoading = false));
     },
     onSelect(result) {
       this.$router.push({
@@ -72,7 +71,7 @@ export default {
   },
   components: { ChatButton, Search, TourButton },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user", "isLoading"])
   }
 };
 </script>
@@ -80,21 +79,23 @@ export default {
 <style scoped>
 .header {
   height: 86px;
+  display: flex;
   box-shadow: 0px 2px 4px 0 rgba(93, 111, 125, 0.1);
   background-color: #ffffff;
-  direction: rtl;
+  justify-content: space-between;
+  margin-right: 256px;
 }
 .left {
+  margin-left: 0;
+  height: 100%;
   display: flex;
   justify-content: flex-start;
-  margin-left: 0;
   flex-direction: row-reverse;
 }
 .search {
-  position: absolute;
-  margin-right: 300px;
-  top: 20px;
-  max-width: 500px;
+  margin: auto 15px;
+  width: 470px;
+  padding-top: 20px;
 }
 #drive {
   width: 90px;
@@ -113,6 +114,9 @@ export default {
 .container {
   height: 100%;
   padding: 0;
+}
+#loading {
+  margin: auto 15px;
 }
 .user-name {
   margin: auto !important;
