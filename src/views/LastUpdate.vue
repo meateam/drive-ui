@@ -1,20 +1,17 @@
 <template>
-  <div class="page-container">
-    <h1 class="page-header">{{$t('lastUpdate.header')}}</h1>
-    <FileTable v-if="files" v-bind:files="files" />
-  </div>
+  <PageTemplate :files="files" :header="$t('lastUpdate.header')" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import FileTable from "@/components/files/list/FileTable";
+import PageTemplate from "@/components/shared/BasePageTemplate";
 
 export default {
   name: "LastUpdate",
-  components: { FileTable },
+  components: { PageTemplate },
   computed: {
     ...mapGetters(["files"])
-  },
+  }
 };
 </script>
 

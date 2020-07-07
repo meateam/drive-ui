@@ -1,17 +1,14 @@
 <template>
-  <div class="page-container">
-    <h1 class="page-header">{{$t('shared.header')}}</h1>
-    <FileTable v-if="files" v-bind:files="files" />
-  </div>
+  <PageTemplate :files="files" :header="$t('shared.header')" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import FileTable from "@/components/files/list/FileTable";
+import PageTemplate from "@/components/shared/BasePageTemplate";
 
 export default {
   name: "Shared",
-  components: { FileTable },
+  components: { PageTemplate },
   computed: {
     ...mapGetters(["files"])
   }

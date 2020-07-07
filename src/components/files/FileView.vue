@@ -1,21 +1,21 @@
 <template>
   <div>
-    <FileTable v-if="files" :files="files" />
-    <FilesPreview v-if="files" :files="files" />
+    <FileTable v-if="!fileView" :files="files" />
+    <FilesPreview v-else :files="files" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import FabButton from "@/components/buttons/FabButton";
 import FileTable from "@/components/files/list/FileTable";
 import FilesPreview from "@/components/files/preview/FilesPreview";
 
 export default {
-  name: "MyDrive",
-  components: { FabButton, FileTable, FilesPreview },
+  name: "FileView",
+  components: { FileTable, FilesPreview },
+  props: ["files"],
   computed: {
-    ...mapGetters(["files"])
+    ...mapGetters(["fileView"])
   }
 };
 </script>

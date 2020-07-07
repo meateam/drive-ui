@@ -1,26 +1,20 @@
 <template>
-  <div class="page-container">
-    <h1 class="page-header">{{$t('myDrive.header')}}</h1>
+  <div>
+    <PageTemplate :files="files" :header="$t('myDrive.header')" />
     <FabButton />
-    <FileTable v-if="files" :files="files" />
-    <FilesPreview v-if="files" :files="files" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import PageTemplate from "@/components/shared/BasePageTemplate";
 import FabButton from "@/components/buttons/FabButton";
-import FileTable from "@/components/files/list/FileTable";
-import FilesPreview from "@/components/files/preview/FilesPreview";
 
 export default {
   name: "MyDrive",
-  components: { FabButton, FileTable, FilesPreview },
+  components: { FabButton, PageTemplate },
   computed: {
     ...mapGetters(["files"])
   }
 };
 </script>
-
-<style scoped>
-</style>
