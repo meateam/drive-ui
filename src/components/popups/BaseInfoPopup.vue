@@ -2,7 +2,7 @@
   <v-dialog v-if="dialog" v-model="dialog" max-width="600" class="popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/file.png" />
+        <img class="popup-icon auto-margin" src="@/assets/icons/green-info.svg" />
         <p class="d-title">{{$t('fileInfo.Info')}}</p>
       </div>
       <div class="popup-body">

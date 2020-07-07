@@ -13,7 +13,7 @@
       <router-link to="/my-drive">
         <v-list-item link id="my-drive-link">
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/home.png" />
+            <img class="icons" src="@/assets/icons/home.svg" />
           </v-list-item-icon>
           <v-list-item-title>{{ $t("sidenav.MyDrive") }}</v-list-item-title>
         </v-list-item>
@@ -22,7 +22,7 @@
       <router-link to="/shared-with-me">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/shared.png" />
+            <img class="icons" src="@/assets/icons/share.svg" />
           </v-list-item-icon>
           <v-list-item-title>{{ $t("sidenav.SharedWithMe") }}</v-list-item-title>
         </v-list-item>
@@ -31,7 +31,7 @@
       <router-link to="/last-update">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/latest.png" />
+            <img class="icons" src="@/assets/icons/last-update.svg" />
           </v-list-item-icon>
           <v-list-item-title>{{ $t("sidenav.LastUpdate") }}</v-list-item-title>
         </v-list-item>
@@ -39,7 +39,7 @@
 
       <v-list-item link @click="openApprovalService">
         <v-list-item-icon>
-          <img class="icons" src="@/assets/icons/pending.png" />
+          <img class="icons" src="@/assets/icons/pending.svg" />
         </v-list-item-icon>
         <v-list-item-title>{{ externalShareName }}</v-list-item-title>
       </v-list-item>
@@ -47,7 +47,7 @@
       <router-link to="/favorites">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/favorites.png" />
+            <img class="icons" src="@/assets/icons/favorites.svg" />
           </v-list-item-icon>
           <v-list-item-title>{{ $t("sidenav.Favorites") }}</v-list-item-title>
         </v-list-item>
@@ -56,7 +56,7 @@
       <router-link to="/deleted-files">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/delete.png" />
+            <img class="icons" src="@/assets/icons/delete.svg" />
           </v-list-item-icon>
           <v-list-item-title>{{ $t("sidenav.Deleted") }}</v-list-item-title>
         </v-list-item>
@@ -65,7 +65,7 @@
       <div id="quota-container">
         <v-list-item id="quota-list-item">
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/storage.png" />
+            <img class="icons" src="@/assets/icons/storage.svg" />
           </v-list-item-icon>
           <v-list-item-title>{{ $t("sidenav.Quota.Quota") }}</v-list-item-title>
         </v-list-item>

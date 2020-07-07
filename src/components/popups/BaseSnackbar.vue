@@ -1,6 +1,6 @@
 <template>
   <v-snackbar v-model="snackbar" top color="white">
-    <img class="space-left" src="@/assets/icons/success.png" />
+    <img class="space-left fab-icon" src="@/assets/icons/success.svg" />
     <p id="text">{{ text }}</p>
   </v-snackbar>
 </template>

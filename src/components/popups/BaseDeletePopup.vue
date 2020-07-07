@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" max-width="450" class="popup">
     <v-card>
-      <img class="popup-icon auto-margin" :src="require(`@/assets/images/${img}`)" />
+      <img class="popup-image auto-margin" :src="require(`@/assets/images/${img}`)" />
       <p id="title">{{text}}</p>
       <v-card-actions id="actions">
         <TextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
@@ -44,5 +44,9 @@ export default {
 #actions {
   justify-content: center;
   padding: 20px;
+}
+.popup-image {
+  width: 110px;
+  padding-top: 30px;
 }
 </style>

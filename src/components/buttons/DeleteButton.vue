@@ -2,7 +2,7 @@
   <v-tooltip top :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn @click="$refs.popup.open()" v-on="on" :icon="icon" class="auto-margin" text>
-        <img class="fab-icon" src="@/assets/icons/delete.png" />
+        <img class="fab-icon" src="@/assets/icons/delete.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Delete") }}</p>
       </v-btn>
     </template>

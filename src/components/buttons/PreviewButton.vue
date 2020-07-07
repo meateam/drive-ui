@@ -8,7 +8,7 @@
         class="auto-margin"
         text
       >
-        <img class="fab-icon" src="@/assets/icons/favorites.png" />
+        <img class="fab-icon" src="@/assets/icons/preview.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Preview") }}</p>
       </v-btn>
     </template>

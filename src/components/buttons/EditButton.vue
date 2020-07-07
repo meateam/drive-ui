@@ -2,11 +2,11 @@
   <v-tooltip top v-if="chosenFiles.length===1" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn @click="$refs.rename.open()" v-on="on" :icon="icon" class="auto-margin" text>
-        <img class="fab-icon" src="@/assets/icons/edit.png" />
+        <img class="fab-icon" src="@/assets/icons/edit.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Edit") }}</p>
       </v-btn>
     </template>
-    <NamePopup img="newFolder.png" ref="rename" type="rename" @confirm="onConfirm" />
+    <NamePopup img="green-edit.svg" ref="rename" type="rename" @confirm="onConfirm" />
     <Snackbar ref="snackbar" />
     <span>{{ $t("buttons.Edit") }}</span>
   </v-tooltip>

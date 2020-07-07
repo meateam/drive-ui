@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" max-width="550" class="popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/movePopup.png" />
+        <img class="popup-icon auto-margin" src="@/assets/icons/green-move.svg" />
         <p class="d-title">{{$t('folder.Move')}}</p>
         <div class="files">
           <p class="ltr space" v-for="file in files" :key="file.id">{{file.name}}</p>

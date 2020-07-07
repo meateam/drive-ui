@@ -2,7 +2,7 @@
   <v-tooltip top v-if="chosenFiles.length===1" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn @click="onDownload" v-on="on" :icon="icon" class="auto-margin" text>
-        <img class="fab-icon" src="@/assets/icons/download.png" />
+        <img class="fab-icon" src="@/assets/icons/download.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Download") }}</p>
       </v-btn>
     </template>

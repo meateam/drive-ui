@@ -145,6 +145,10 @@ a {
   width: 18px;
   font-size: 50px;
 }
+.popup-icon {
+  width: 70px;
+  padding: 60px 0 15px;
+}
 .d-title {
   font-size: 34px !important;
   color: #353446;
@@ -166,9 +170,6 @@ a {
 .popup-header {
   background-color: #ffffff;
   width: 100%;
-}
-.popup-icon {
-  padding: 60px 0 15px;
 }
 .popup-body {
   background-color: #f0f4f7;
