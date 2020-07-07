@@ -14,7 +14,8 @@
     >
       <template v-slot:item="{item,isSelected,select}">
         <tr
-          @click.ctrl="onFileSelect(item)"
+          @click.exact="onFileClick(item)"
+          @click.ctrl="onCtrlClick(item)"
           @contextmenu.prevent="onRightClick($event, item)"
           @dblclick.prevent="onDblClick($event, item)"
         >
@@ -97,9 +98,12 @@ export default {
         this.$refs.preview.open(file);
       }
     },
-    onFileSelect(file) {
+    onCtrlCLick(file) {
       if (!this.selected.includes(file)) this.selected.push(file);
       else this.selected = this.selected.filter(item => item !== file);
+    },
+    onFileClick(file) {
+      this.selected = [file];
     }
   },
   watch: {
