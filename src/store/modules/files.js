@@ -59,12 +59,11 @@ const actions = {
   async fetchSharedFiles({ commit }) {
     try {
       const files = await filesApi.fetchSharedFiles(state.currentFolder);
-      Promise.all(
+      commit("fetchFiles", await Promise.all(
         files.map((file) => {
           return formatFile(file);
         })
-      );
-      commit("fetchFiles", files);
+      ));
     } catch (err) {
       throw new Error(err);
     }
@@ -80,12 +79,11 @@ const actions = {
           new Date(file.updatedAt).toDateString() === new Date().toDateString()
         );
       });
-      Promise.all(
+      commit("fetchFiles", await Promise.all(
         lastUpdatedFiles.map((file) => {
           return formatFile(file);
         })
-      );
-      commit("fetchFiles", files);
+      ));
     } catch (err) {
       throw new Error(err);
     }
