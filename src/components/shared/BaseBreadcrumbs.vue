@@ -1,20 +1,21 @@
 <template>
   <div class="flex">
-    <div>
+    <div v-if="folders">
       <span @click="$emit('click', undefined)" class="pointer">{{$t('myDrive.header')}}</span>
       <span class="space">></span>
     </div>
     <div v-for="folder in folders" :key="folder.id">
-      <span @click="$emit('click', folder.id)" class="pointer">{{folder.name}}</span>
+      <span @click="$emit('click', folder)" class="pointer">{{folder.name}}</span>
       <span class="space">></span>
     </div>
+    <span>{{currentFolder? currentFolder.name : $t('myDrive.header')}}</span>
   </div>
 </template>
 
 <script>
 export default {
   name: "Breadcrumbs",
-  props: ["folders"]
+  props: ["folders", "currentFolder"]
 };
 </script>
 

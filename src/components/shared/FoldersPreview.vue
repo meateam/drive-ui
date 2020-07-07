@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     onChoose(folder) {
-      this.$emit("change", folder.id);
+      this.$emit("change", folder);
     },
     async fetchFolders(parent) {
       this.folders = await filesApi.getFoldersByFolder(parent);

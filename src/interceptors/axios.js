@@ -1,11 +1,11 @@
 import axios from "axios";
 import store from "@/store";
-import { apm } from '@/utils/apm';
+// import { apm } from '@/utils/apm';
 
-let transaction;
+// let transaction;
 axios.interceptors.request.use(
   (request) => {
-    transaction = apm.startTransaction(`${request.url} ${request.method}`, 'http');
+    // transaction = apm.startTransaction(`${request.url} ${request.method}`, 'http');
     store.commit("setLoading", true);
     request.headers["Authorization"] = `Bearer ${store.state.auth.token}`;
     if (!store.state.auth.token) return Promise.reject();
@@ -19,7 +19,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => {
     store.commit("setLoading", false);
-    transaction.end();
+    // transaction.end();
     return response;
   },
   (error) => {

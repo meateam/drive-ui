@@ -5,7 +5,7 @@ import i18n from "@/i18n";
 import store from "@/store";
 import router from "@/router";
 import vuetify from "@/plugins/vuetify";
-import { initApm } from '@/utils/apm';
+// import { initApm } from '@/utils/apm';
 import "@/interceptors/axios";
 import "vue-tour/dist/vue-tour.css";
 
@@ -15,7 +15,7 @@ Vue.use(VueTour);
 (async () => {
   await store.dispatch("fetchConfig");
   await store.dispatch("authenticate");
-  await initApm();
+  // await initApm();
 
   new Vue({
     vuetify,

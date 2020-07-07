@@ -9,14 +9,21 @@
         </div>
       </div>
       <div class="popup-body">
-        <BaseBreadcrumbs v-if="folderID" :folders="folderHierarchy" @click="onFolderClick" />
+        <Breadcrumbs
+          :folders="folderHierarchy"
+          @click="onFolderChange"
+          :currentFolder="currentFolder"
+        />
 
         <div>
-          <FoldersPreview :parent="folderID" @change="onFolderChange" />
+          <FoldersPreview
+            :parent="currentFolder?currentFolder.id:undefined"
+            @change="onFolderChange"
+          />
         </div>
         <v-card-actions class="popup-confirm">
           <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
-          <BaseTextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
+          <TextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
         </v-card-actions>
       </div>
     </v-card>
@@ -26,28 +33,24 @@
 <script>
 import * as filesApi from "@/api/files";
 import FoldersPreview from "@/components/shared/FoldersPreview";
-import BaseTextButton from "@/components/buttons/BaseTextButton";
-import BaseBreadcrumbs from "@/components/shared/BaseBreadcrumbs";
+import TextButton from "@/components/buttons/BaseTextButton";
+import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 
 export default {
   name: "MovePopup",
-  components: { SubmitButton, FoldersPreview, BaseTextButton, BaseBreadcrumbs },
+  components: { SubmitButton, FoldersPreview, TextButton, Breadcrumbs },
   data() {
     return {
       dialog: false,
-      folderID: undefined,
-      folderHierarchy: []
+      folderHierarchy: [],
+      currentFolder: undefined
     };
   },
   props: ["files"],
   methods: {
     open() {
       this.dialog = true;
-    },
-    onFolderChange(folderID) {
-      this.fetchHierachy(folderID);
-      this.folderID = folderID;
     },
     async fetchHierachy(folderID) {
       if (!folderID) {
@@ -56,12 +59,12 @@ export default {
         this.folderHierarchy = await filesApi.getFolderHierarchy(folderID);
       }
     },
-    onFolderClick(folderID) {
-      this.fetchHierachy(folderID);
-      this.folderID = folderID;
+    async onFolderChange(folder) {
+      this.fetchHierachy(folder ? folder.id : undefined);
+      this.currentFolder = folder;
     },
     onConfirm() {
-      this.$emit("confirm", this.folderID);
+      this.$emit("confirm", this.currentFolder.id);
       this.dialog = false;
     }
   }
