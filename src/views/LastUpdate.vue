@@ -7,7 +7,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import FileTable from "@/components/files/FileTable";
+import FileTable from "@/components/files/list/FileTable";
 
 export default {
   name: "LastUpdate",

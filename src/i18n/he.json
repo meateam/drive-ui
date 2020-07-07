@@ -33,6 +33,9 @@
     },
     "file": {
         "Name": "שם",
+        "Files": "קבצים",
+        "Folders": "תיקיות",
+        "LastUpdated": "שונו לאחרונה",
         "Owner": "בעלים",
         "LastUpdate": "השינוי האחרון",
         "Size": "גודל הקובץ",

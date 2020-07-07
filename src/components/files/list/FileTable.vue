@@ -27,7 +27,7 @@
           </td>
           <td>{{ item.name }}</td>
           <td>{{ item.owner }}</td>
-          <td>{{ item.updatedAt }}</td>
+          <td>{{ formatFileDate(item.updatedAt) }}</td>
           <td>{{ formatFileSize(item.size) }}</td>
         </tr>
       </template>
@@ -48,6 +48,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { formatBytes } from "@/utils/formatBytes";
+import { formatDate } from "@/utils/formatDate";
 import { canPreview } from "@/utils/canPreview";
 import BottomMenu from "@/components/popups/BottomMenu";
 import FileContextMenu from "@/components/popups/FileContextMenu";
@@ -79,6 +80,9 @@ export default {
   methods: {
     formatFileSize(size) {
       return formatBytes(size);
+    },
+    formatFileDate(date) {
+      return formatDate(date);
     },
     isFolder(type) {
       return type === this.folderContentType;

@@ -10,9 +10,9 @@
           <KeyValue :field="$t('fileInfo.Owner')" :value="file.owner" />
           <KeyValue :field="$t('fileInfo.Size')" :value="formatFileSize(file.size)" />
           <KeyValue :field="$t('fileInfo.Name')" :value="file.name" />
-          <KeyValue :field="$t('fileInfo.CreatedAt')" :value="file.createdAt" />
+          <KeyValue :field="$t('fileInfo.CreatedAt')" :value="formatFileDate(file.createdAt)" />
           <KeyValue :field="$t('fileInfo.Type')" :value="file.type" />
-          <KeyValue :field="$t('fileInfo.UpdatedAt')" :value="file.updatedAt" />
+          <KeyValue :field="$t('fileInfo.UpdatedAt')" :value="formatFileDate(file.updatedAt)" />
         </div>
         <v-divider id="divider"></v-divider>
         <div>
@@ -39,6 +39,7 @@
 import KeyValue from "@/components/shared/BaseKeyValue";
 import Avatar from "@/components/shared/Avatar";
 import { formatBytes } from "@/utils/formatBytes";
+import { formatDate } from "@/utils/formatDate";
 
 export default {
   name: "FileInfo",
@@ -56,7 +57,10 @@ export default {
       this.dialog = true;
     },
     formatFileSize(size) {
-      return formatBytes(size)
+      return formatBytes(size);
+    },
+    formatFileDate(date) {
+      return formatDate(date);
     }
   }
 };

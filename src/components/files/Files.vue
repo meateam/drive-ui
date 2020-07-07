@@ -1,7 +1,5 @@
 <template>
-  <div class="page-container">
-    <h1 class="page-header">{{$t('myDrive.header')}}</h1>
-    <FabButton />
+  <div>
     <FileTable v-if="files" :files="files" />
     <FilesPreview v-if="files" :files="files" />
   </div>
