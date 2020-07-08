@@ -5,7 +5,10 @@
       <Folder
         @dblclick="onDblClick"
         @contextmenu="onRightClick"
+        @click="onFileClick"
+        @ctrlClick="onCtrlCLick"
         v-for="folder in typeFolders"
+        :isSelected="chosenFiles.includes(folder)"
         :key="folder.id"
         :folder="folder"
       />
@@ -15,7 +18,10 @@
       <File
         @dblclick="onDblClick"
         @contextmenu="onRightClick"
+        @click="onFileClick"
+        @ctrlClick="onCtrlCLick"
         v-for="file in typeFiles"
+        :isSelected="chosenFiles.includes(file)"
         :key="file.id"
         :file="file"
       />
@@ -70,8 +76,23 @@ export default {
     },
     onRightClick(event, file) {
       event.preventDefault();
-      this.$store.commit("onFilesSelect", [file]);
+      if (!this.chosenFiles.includes(file)) {
+        this.$store.commit("onFilesSelect", [file]);
+      }
       this.$refs.contextmenu.show(event);
+    },
+    onCtrlCLick(event, file) {
+      let selected = this.chosenFiles;
+      if (!this.chosenFiles.includes(file)) {
+        selected.push(file);
+        this.$store.commit("onFilesSelect", selected);
+      } else {
+        selected = selected.filter(item => item !== file);
+        this.$store.commit("onFilesSelect", selected);
+      }
+    },
+    onFileClick(event, file) {
+      this.$store.commit("onFilesSelect", [file]);
     }
   }
 };

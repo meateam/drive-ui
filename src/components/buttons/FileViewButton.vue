@@ -1,11 +1,21 @@
 <template>
   <v-btn-toggle id="toggle-button" v-model="view" rounded dense borderless color="primary">
-    <v-btn>
-      <img class="view-icon" src="@/assets/icons/list-view.svg" />
-    </v-btn>
-    <v-btn>
-      <img class="view-icon" src="@/assets/icons/preview-view.svg" />
-    </v-btn>
+    <v-tooltip top>
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on">
+          <img class="view-icon" src="@/assets/icons/list-view.svg" />
+        </v-btn>
+      </template>
+      <span>{{$t('file.List')}}</span>
+    </v-tooltip>
+    <v-tooltip top>
+      <template v-slot:activator="{ on }">
+        <v-btn icon v-on="on">
+          <img class="view-icon" src="@/assets/icons/preview-view.svg" />
+        </v-btn>
+      </template>
+      <span>{{$t('file.Preview')}}</span>
+    </v-tooltip>
   </v-btn-toggle>
 </template>
 

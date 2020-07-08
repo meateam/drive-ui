@@ -2,7 +2,10 @@
   <v-card
     id="folder"
     class="pointer"
+    :class="{selected: isSelected}"
     @dblclick="$emit('dblclick', $event, folder)"
+    @click.native.exact="$emit('click', $event, folder)"
+    @click.ctrl.native="$emit('ctrlClick', $event, folder)"
     @contextmenu.prevent="$emit('contextmenu', $event, folder)"
   >
     <div class="flex">
@@ -15,7 +18,7 @@
 <script>
 export default {
   name: "Folder",
-  props: ["folder"]
+  props: ["folder", "isSelected"]
 };
 </script>
 
@@ -24,7 +27,12 @@ export default {
   min-width: 220px;
   height: 50px;
   line-height: 50px;
+  box-shadow: 0px 1px 6px 0 rgba(42, 87, 120, 0.1);
+  border-radius: 10px;
   margin: 0 0 15px 15px;
+}
+.selected {
+  box-shadow: 0px 30px 38px 0 rgba(54, 116, 163, 0.21) !important;
 }
 #folder-name {
   letter-spacing: 1px;
@@ -32,9 +40,5 @@ export default {
 }
 #folder-icon {
   margin: auto 10px;
-}
-.v-card {
-  box-shadow: 0px 1px 6px 0 rgba(42, 87, 120, 0.1) !important;
-  border-radius: 10px !important;
 }
 </style>

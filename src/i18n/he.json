@@ -35,6 +35,8 @@
         "Name": "שם",
         "Files": "קבצים",
         "Folders": "תיקיות",
+        "Preview": "תצוגה",
+        "List": "רשימה",
         "LastUpdated": "שונו לאחרונה",
         "Owner": "בעלים",
         "LastUpdate": "השינוי האחרון",
@@ -141,6 +143,9 @@
         "Header": "צור קשר",
         "DriveSupport": "לתמיכה במערכת הדרייב",
         "DropboxSupport": "לתמיכה במערכת השיתוף החיצוני"
+    },
+    "errors": {
+        "GoBack": "חזור הביתה"
     },
     "tour": {
         "Tooltip": "התחל בסיור עכשיו",

@@ -1,8 +1,11 @@
 <template>
   <v-card
     id="file"
+    :class="{selected: isSelected}"
     class="pointer"
     @dblclick="$emit('dblclick', $event, file)"
+    @click.native.exact="$emit('click', $event, file)"
+    @click.ctrl.native="$emit('ctrlClick', $event, file)"
     @contextmenu.prevent="$emit('contextmenu', $event, file)"
   >
     <div class="file-preview-container" v-if="file.type.startsWith('image')">
@@ -24,7 +27,7 @@ import { canPreviewPdf } from "@/utils/canPreview";
 
 export default {
   name: "File",
-  props: ["file"],
+  props: ["file", "isSelected"],
   methods: {
     showPDF() {
       return canPreviewPdf(this.file.type);
@@ -48,11 +51,11 @@ export default {
   height: 185px;
   line-height: 50px;
   margin: 0 0 15px 15px;
+  box-shadow: 0px 1px 6px 0 rgba(42, 87, 120, 0.1);
   border-radius: 10px !important;
 }
-#file:focus {
-  background-color: yellow !important;
-   box-shadow: 0px 30px 38px 0 rgba(54, 116, 163, 0.21) !important;
+.selected {
+  box-shadow: 0px 30px 38px 0 rgba(54, 116, 163, 0.21) !important;
 }
 #file-name {
   letter-spacing: 1px;
@@ -65,9 +68,6 @@ export default {
   width: 100%;
   text-align: center;
   font-size: 18px;
-}
-.v-card {
-  box-shadow: 0px 1px 6px 0 rgba(42, 87, 120, 0.1) !important;
 }
 #image {
   max-width: 95%;

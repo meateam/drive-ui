@@ -1,5 +1,5 @@
 const state = {
-    fileView: window.localStorage.getItem("fileView") || 0
+    fileView: window.localStorage.getItem("fileView") || "0"
 };
 
 const getters = {
