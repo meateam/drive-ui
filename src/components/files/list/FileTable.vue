@@ -24,12 +24,12 @@
             <v-simple-checkbox color="#357e6f" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </td>
           <td>
-            <v-icon color="#9caec4" v-if="isFolder(item.type)">folder</v-icon>
+            <v-icon id="folder" color="#9caec4" v-if="isFolder(item.type)">folder</v-icon>
           </td>
           <td>{{ item.name }}</td>
           <td>{{ item.owner }}</td>
           <td>{{ formatFileDate(item.updatedAt) }}</td>
-          <td>{{ formatFileSize(item.size) }}</td>
+          <td id="size">{{ formatFileSize(item.size) }}</td>
         </tr>
       </template>
       <template v-slot:header.data-table-select="{props,on}">
@@ -69,7 +69,7 @@ export default {
       itemsPerPage: Math.floor((window.innerHeight - 350) / 70),
       pageCount: 1,
       headers: [
-        { value: "type" },
+        { value: "type", sortable: false, align: "center" },
         { text: this.$t("file.Name"), value: "name" },
         { text: this.$t("file.Owner"), value: "owner" },
         { text: this.$t("file.LastUpdate"), value: "updatedAt" },
@@ -140,5 +140,12 @@ export default {
 }
 .selected {
   background-color: rgb(231, 237, 248);
+}
+#folder {
+  text-align: center;
+}
+#size {
+  direction: ltr;
+  text-align: right;
 }
 </style>
