@@ -265,16 +265,6 @@ const mutations = {
     state.chosenFiles = [];
     state.files = [];
   },
-  onUserShare: (state, { fileID, user }) => {
-    state.files.map((file) => {
-      if (file.id === fileID) file.permissions.push(user);
-    });
-  },
-  onExternalUserShare: (state, { fileID, user }) => {
-    state.files.map((file) => {
-      if (file.id === fileID) file.permits.push(user);
-    });
-  },
   setHierarchy: (state, hieratchy) => {
     state.currentFolderHierarchy = hieratchy;
   },

@@ -14,8 +14,9 @@
     >
       <template v-slot:item="{item,isSelected,select}">
         <tr
+          :class="{selected: isSelected}"
           @click.exact="onFileClick(item)"
-          @click.ctrl="onCtrlClick(item)"
+          @click.ctrl.stop="onCtrlCLick(item)"
           @contextmenu.prevent="onRightClick($event, item)"
           @dblclick.prevent="onDblClick($event, item)"
         >
@@ -136,5 +137,8 @@ export default {
 .v-data-table {
   background-color: transparent !important;
   min-height: calc(100vh - 300px);
+}
+.selected {
+  background-color: rgb(231, 237, 248);
 }
 </style>

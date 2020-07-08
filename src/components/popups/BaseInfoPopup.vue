@@ -18,15 +18,15 @@
         <div>
           <p>{{$t('fileInfo.Shared')}}</p>
           <div>
-            <div v-if="file.permissions && file.permissions.length!==0" class="flex">
-              <Avatar v-for="user in file.permissions" :key="user.id" :user="user" />
+            <div v-if="users.length" class="flex">
+              <Avatar v-for="user in users" :key="user.id" :user="user" />
             </div>
             <div v-else>-</div>
           </div>
           <p>{{$t('fileInfo.ExternalShare')}}</p>
           <div>
-            <div v-if="file.permits && file.permits.length!==0" class="flex">
-              <Avatar v-for="user in file.permits" :key="user.id" :user="user" />
+            <div v-if="externalUsers.length" class="flex">
+              <Avatar v-for="user in externalUsers" :key="user.id" :user="user" />
             </div>
             <div v-else>-</div>
           </div>
@@ -38,6 +38,7 @@
 <script>
 import KeyValue from "@/components/shared/BaseKeyValue";
 import Avatar from "@/components/shared/Avatar";
+import { getPermissions, getExternalPermissions } from "@/api/share";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
 
@@ -53,7 +54,9 @@ export default {
     };
   },
   methods: {
-    open() {
+    async open() {
+      this.users = await getPermissions(this.file.id);
+      this.externalUsers = await getExternalPermissions(this.file.id);
       this.dialog = true;
     },
     formatFileSize(size) {

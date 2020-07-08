@@ -6,6 +6,7 @@
       <DeleteButton />
       <MoveButton />
       <InfoButton />
+      <OnlineEditButton />
       <EditButton />
       <PreviewButton />
     </v-list>
@@ -16,6 +17,7 @@
 import DownloadButton from "@/components/buttons/DownloadButton";
 import DeleteButton from "@/components/buttons/DeleteButton";
 import MoveButton from "@/components/buttons/MoveButton";
+import OnlineEditButton from "@/components/buttons/OnlineEditButton";
 import EditButton from "@/components/buttons/EditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
@@ -29,6 +31,7 @@ export default {
     MoveButton,
     DeleteButton,
     InfoButton,
+    OnlineEditButton,
     EditButton,
     PreviewButton
   },

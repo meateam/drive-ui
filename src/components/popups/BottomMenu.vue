@@ -5,6 +5,7 @@
     <DeleteButton :icon="true" />
     <MoveButton :icon="true" />
     <InfoButton :icon="true" />
+    <OnlineEditButton :icon="true" />
     <EditButton :icon="true" />
     <PreviewButton :icon="true" />
   </div>
@@ -15,6 +16,7 @@ import DownloadButton from "@/components/buttons/DownloadButton";
 import DeleteButton from "@/components/buttons/DeleteButton";
 import MoveButton from "@/components/buttons/MoveButton";
 import EditButton from "@/components/buttons/EditButton";
+import OnlineEditButton from "@/components/buttons/OnlineEditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
@@ -24,6 +26,7 @@ export default {
   props: ["chosenFiles"],
   components: {
     DownloadButton,
+    OnlineEditButton,
     ShareButton,
     MoveButton,
     DeleteButton,

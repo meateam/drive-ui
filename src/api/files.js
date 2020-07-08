@@ -197,6 +197,10 @@ export async function editFile({ file, name }) {
     }
 }
 
+export async function editOnline(fileID) {
+    window.open(`${store.state.configuration.onlineEditorUrl}/${fileID}/operation=edit`)
+}
+
 export async function moveFile({ folderID, fileIDs }) {
     try {
         const res = await Axios.put(`${baseURL}/api/files`, {
@@ -212,7 +216,7 @@ export async function moveFile({ folderID, fileIDs }) {
     }
 }
 
-export function getImagePreview(fileID) {
+export function getPreview(fileID) {
     return `${baseURL}/api/files/${fileID}?alt=media&inline=true`;
 }
 

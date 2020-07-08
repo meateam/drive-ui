@@ -1,5 +1,4 @@
 import Axios from "axios";
-import store from "@/store";
 import * as usersApi from "@/api/users";
 import { baseURL } from "@/utils/config";
 
@@ -43,7 +42,7 @@ export async function getExternalPermissions(fileID) {
  */
 export async function shareUser({ fileID, userID, role }) {
     try {
-        const res = await Axios.put(
+        await Axios.put(
             `${baseURL}/api/files/${fileID}/permissions`,
             {
                 userID,
@@ -51,8 +50,6 @@ export async function shareUser({ fileID, userID, role }) {
                 override: true,
             }
         );
-        const user = await usersApi.getUserByID(res.data.userID);
-        store.commit("onUserShare", { fileID, user });
     } catch (err) {
         throw new Error(err);
     }
@@ -78,7 +75,6 @@ export async function shareExternalUsers(
     try {
         const body = { users, classification, info, approvers, fileName };
         const res = await Axios.put(`${baseURL}/api/files/${fileID}/permits`, body);
-        users.forEach((user) => store.commit("onExternalUserShare", { fileID, user }));
         return res.data;
     } catch (err) {
         throw new Error(err)

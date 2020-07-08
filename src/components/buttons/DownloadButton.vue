@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top v-if="chosenFiles.length===1 || file" :disabled="!icon || file">
+  <v-tooltip top v-if="chosenFiles.length===1 || file" :disabled="!icon || !!file">
     <template v-slot:activator="{ on }">
       <v-btn @click="onDownload" v-on="on" :icon="icon" class="auto-margin" text>
         <img class="fab-icon" src="@/assets/icons/download.svg" />

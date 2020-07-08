@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { getPdfPreview, getImagePreview } from "@/api/files";
+import { getPdfPreview, getPreview } from "@/api/files";
 import { canPreviewPdf } from "@/utils/canPreview";
 
 export default {
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     getImage() {
-      return getImagePreview(this.file.id);
+      return getPreview(this.file.id);
     },
     getPDF() {
       return getPdfPreview(this.file.id);
@@ -49,6 +49,10 @@ export default {
   line-height: 50px;
   margin: 0 0 15px 15px;
   border-radius: 10px !important;
+}
+#file:focus {
+  background-color: yellow !important;
+   box-shadow: 0px 30px 38px 0 rgba(54, 116, 163, 0.21) !important;
 }
 #file-name {
   letter-spacing: 1px;

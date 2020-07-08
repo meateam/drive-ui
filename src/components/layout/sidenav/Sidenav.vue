@@ -41,7 +41,7 @@
         <v-list-item-icon>
           <img class="icons" src="@/assets/icons/pending.svg" />
         </v-list-item-icon>
-        <v-list-item-title>{{ externalShareName }}</v-list-item-title>
+        <v-list-item-title>{{ myExternalSharesName }}</v-list-item-title>
       </v-list-item>
 
       <router-link to="/favorites">
@@ -88,7 +88,7 @@ export default {
       "version",
       "quota",
       "approvalServiceUrl",
-      "externalShareName"
+      "myExternalSharesName"
     ])
   },
   methods: {

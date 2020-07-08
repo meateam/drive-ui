@@ -1,23 +1,24 @@
 <template>
   <v-dialog v-if="dialog" v-model="dialog" fullscreen hide-overlay transition="fade-transition">
-    <v-card id="preview">
-      <img v-if="file.type.startsWith('image')" class="file-preview" :src="getFile" />
+    <v-card id="preview" @click="close">
+      <img @click.stop v-if="file.type.startsWith('image')" class="file-preview" :src="getFile" />
       <audio
+        @click.stop
         v-else-if="file.type.startsWith('audio')"
         class="file-preview"
         :src="getFile"
         autoplay
         controls
       ></audio>
-      <video v-else-if="file.type.startsWith('video')" class="file-preview" controls>
+      <video @click.stop v-else-if="file.type.startsWith('video')" class="file-preview" controls>
         <source :src="getFile" :type="file.type" />
       </video>
       <iframe v-else-if="showPDF()" :src="getPDF" class="file-preview" frameborder="0" id="pdf"></iframe>
-      <div class="auto-margin" id="uavailable" v-else>
+      <div @click.stop class="auto-margin" id="uavailable" v-else>
         <p>{{$t('preview.Unavailable')}}</p>
         <DownloadButton :file="file" :icon="true" class="auto-margin" />
       </div>
-      <v-btn @click="close" icon class="auto-margin" id="close">
+      <v-btn @click.stop="close" icon class="auto-margin" id="close">
         <v-icon>close</v-icon>
       </v-btn>
     </v-card>
@@ -25,7 +26,7 @@
 </template>
 
 <script>
-import { getPdfPreview, getImagePreview } from "@/api/files";
+import { getPdfPreview, getPreview } from "@/api/files";
 import { canPreviewPdf } from "@/utils/canPreview";
 import DownloadButton from "@/components/buttons/DownloadButton";
 
@@ -52,7 +53,7 @@ export default {
   },
   computed: {
     getFile() {
-      return getImagePreview(this.file.id);
+      return getPreview(this.file.id);
     },
     getPDF() {
       return getPdfPreview(this.file.id);

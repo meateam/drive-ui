@@ -10,6 +10,7 @@ const state = {
   externalShareName: "שיתוף חיצוני",
   myExternalSharesName: "השיתופים החיצוניים שלי",
   enableExternalShare: false,
+  onlineEditorUrl: "http://13.79.160.153:3000/api/files",
 };
 
 const getters = {
@@ -19,7 +20,9 @@ const getters = {
   supportLink: (state) => state.supportLink,
   approvalServiceUrl: (state) => state.approvalServiceUrl,
   externalShareName: (state) => state.externalShareName,
+  myExternalSharesName: (state) => state.myExternalSharesName,
   enableExternalShare: (state) => state.enableExternalShare,
+  onlineEditorUrl: (state) => state.onlineEditorUrl,
   version: (state) => state.version,
 };
 

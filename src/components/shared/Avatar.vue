@@ -1,11 +1,12 @@
 <template>
-  <v-avatar
-    size="35"
-    :v-on="on"
-    id="avatar"
-    :color="getColor()"
-    :tooltip="user.fullName"
-  >{{getUserName()}}</v-avatar>
+  <v-tooltip top>
+    <template #activator="{ on }">
+      <div>
+        <v-avatar size="35" :v-on="on" id="avatar" :color="getColor()">{{getUserName()}}</v-avatar>
+      </div>
+    </template>
+    <span>{{user.fullName}}</span>
+  </v-tooltip>
 </template>
 
 <script>
