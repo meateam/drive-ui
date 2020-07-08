@@ -23,7 +23,7 @@
             <v-simple-checkbox color="#357e6f" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </td>
           <td>
-            <img src="@/assets/icons/folderType.png" v-if="isFolder(item.type)" />
+            <v-icon color="#9caec4" v-if="isFolder(item.type)">folder</v-icon>
           </td>
           <td>{{ item.name }}</td>
           <td>{{ item.owner }}</td>

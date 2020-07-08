@@ -211,3 +211,11 @@ export async function moveFile({ folderID, fileIDs }) {
         throw new Error(err);
     }
 }
+
+export function getImagePreview(fileID) {
+    return `${baseURL}/api/files/${fileID}?alt=media&inline=true`;
+}
+
+export function getPdfPreview(fileID) {
+    return `${baseURL}/api/files/${fileID}?alt=media&preview`;
+}

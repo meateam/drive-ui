@@ -2,12 +2,12 @@ import { fileTypes } from "@/utils/config";
 
 export function canPreview(type) {
   return (
-    isIframe(type) ||
-    isMedia(type)
+    canPreviewPdf(type) ||
+    canPreviewMedia(type)
   );
 }
 
-function isIframe(type) {
+export function canPreviewPdf(type) {
   for (let k = 0; k < fileTypes.preview.length; k++) {
     if (type.startsWith(fileTypes.preview[k])) {
       return true;
@@ -16,7 +16,7 @@ function isIframe(type) {
 
   return false;
 }
-function isMedia(type) {
+export function canPreviewMedia(type) {
   for (let k = 0; k < fileTypes.media.length; k++) {
     if (type.startsWith(fileTypes.media[k])) {
       return true;

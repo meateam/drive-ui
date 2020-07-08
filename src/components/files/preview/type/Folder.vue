@@ -6,7 +6,7 @@
     @contextmenu.prevent="$emit('contextmenu', $event, folder)"
   >
     <div class="flex">
-      <img id="folder-icon" src="@/assets/icons/folderType.png" />
+      <v-icon color="#9caec4" id="folder-icon">folder</v-icon>
       <p id="folder-name">{{folder.name}}</p>
     </div>
   </v-card>
@@ -31,7 +31,7 @@ export default {
   font-size: 18px;
 }
 #folder-icon {
-  margin: auto 15px;
+  margin: auto 10px;
 }
 .v-card {
   box-shadow: 0px 1px 6px 0 rgba(42, 87, 120, 0.1) !important;

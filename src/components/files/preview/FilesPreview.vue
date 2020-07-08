@@ -27,7 +27,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { canPreview } from "@/utils/canPreview";
 import Preview from "@/components/popups/Preview";
 import FileContextMenu from "@/components/popups/FileContextMenu";
 import Folder from "./type/Folder";
@@ -65,7 +64,7 @@ export default {
       event.preventDefault();
       if (file.type === this.folderContentType) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
-      } else if (canPreview(file.type)) {
+      } else {
         this.$refs.preview.open(file);
       }
     },

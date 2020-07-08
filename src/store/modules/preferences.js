@@ -9,6 +9,7 @@ const getters = {
 const actions = {
     async toggleFileView({ commit }, view) {
         window.localStorage.setItem("fileView", view);
+        commit("clearSelectedFiles");
         commit("setFileView", view);
     },
 };

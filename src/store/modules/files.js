@@ -257,6 +257,9 @@ const mutations = {
   onFilesSelect: (state, files) => {
     state.chosenFiles = files;
   },
+  clearSelectedFiles: (state) => {
+    state.chosenFiles = [];
+  },
   setCurrentFolder: (state, folder) => {
     state.currentFolder = folder;
     state.chosenFiles = [];

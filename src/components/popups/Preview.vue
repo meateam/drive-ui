@@ -12,7 +12,11 @@
       <video v-else-if="file.type.startsWith('video')" class="file-preview" controls>
         <source :src="getFile" :type="file.type" />
       </video>
-      <iframe v-else :src="getPDF" class="file-preview"></iframe>
+      <iframe v-else-if="showPDF()" :src="getPDF" class="file-preview" frameborder="0" id="pdf"></iframe>
+      <div class="auto-margin" id="uavailable" v-else>
+        <p>{{$t('preview.Unavailable')}}</p>
+        <DownloadButton :file="file" :icon="true" class="auto-margin" />
+      </div>
       <v-btn @click="close" icon class="auto-margin" id="close">
         <v-icon>close</v-icon>
       </v-btn>
@@ -21,7 +25,9 @@
 </template>
 
 <script>
-import { baseURL } from "@/utils/config";
+import { getPdfPreview, getImagePreview } from "@/api/files";
+import { canPreviewPdf } from "@/utils/canPreview";
+import DownloadButton from "@/components/buttons/DownloadButton";
 
 export default {
   name: "Preview",
@@ -31,6 +37,7 @@ export default {
       file: undefined
     };
   },
+  components: { DownloadButton },
   methods: {
     open(file) {
       this.file = file;
@@ -38,14 +45,17 @@ export default {
     },
     close() {
       this.dialog = false;
+    },
+    showPDF() {
+      return canPreviewPdf(this.file.type);
     }
   },
   computed: {
     getFile() {
-      return `${baseURL}/api/files/${this.file.id}?alt=media&inline=true`;
+      return getImagePreview(this.file.id);
     },
     getPDF() {
-      return `${baseURL}/api/files/${this.file.id}?alt=media&preview`;
+      return getPdfPreview(this.file.id);
     }
   }
 };
@@ -67,5 +77,17 @@ export default {
   margin: auto;
   max-height: 80vh;
   max-width: 80%;
+}
+#pdf {
+  height: 80vh;
+  width: 80%;
+}
+#uavailable {
+  border-radius: 12px;
+  color: #fff;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+  background-color: #4c494c;
 }
 </style>
