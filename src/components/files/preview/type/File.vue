@@ -61,6 +61,9 @@ export default {
   letter-spacing: 1px;
   position: absolute;
   bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   right: 0;
   background-color: #ffffff;
   height: 51px;

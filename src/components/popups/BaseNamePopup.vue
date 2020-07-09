@@ -50,9 +50,12 @@ export default {
       this.name = name;
     },
     onConfirm() {
-      this.$emit("confirm", this.name);
-      this.dialog = false;
-      this.$refs.input.clear();
+      if (this.name.length >= 2) {
+        this.$emit("confirm", this.name);
+        this.dialog = false;
+        this.$refs.input.clear();
+        this.name = "";
+      }
     }
   }
 };

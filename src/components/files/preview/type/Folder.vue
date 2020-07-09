@@ -8,10 +8,8 @@
     @click.ctrl.native="$emit('ctrlClick', $event, folder)"
     @contextmenu.prevent="$emit('contextmenu', $event, folder)"
   >
-    <div class="flex">
-      <v-icon color="#9caec4" id="folder-icon">folder</v-icon>
-      <p id="folder-name">{{folder.name}}</p>
-    </div>
+    <v-icon color="#9caec4" id="folder-icon">folder</v-icon>
+    <p id="folder-name">{{folder.name}}</p>
   </v-card>
 </template>
 
@@ -24,8 +22,9 @@ export default {
 
 <style scoped>
 #folder {
-  min-width: 220px;
+  width: 220px;
   height: 50px;
+  display: flex;
   line-height: 50px;
   box-shadow: 0px 1px 6px 0 rgba(42, 87, 120, 0.1);
   border-radius: 10px;
@@ -36,6 +35,9 @@ export default {
 }
 #folder-name {
   letter-spacing: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: 18px;
 }
 #folder-icon {

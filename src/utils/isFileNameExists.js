@@ -3,10 +3,8 @@
 * @param name is the name of the new file
 * @param files is the list of the files
 */
-export function isFileNameExists({ files, name }) {
+export function isFileNameExists({ name, files }) {
     if (!name) return true;
-    files.forEach((file) => {
-        if (file.name === name) return true;
-    });
+    if (files.map(file => file.name).includes(name)) return true;
     return false;
 }

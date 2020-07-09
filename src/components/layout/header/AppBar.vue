@@ -16,11 +16,14 @@
         <img class="auto-margin drive-icon" src="@/assets/icons/drive.svg" />
       </div>
       <div id="info">
-        <p class="auto-margin user-name">{{getUserName()}}</p>
+        <p class="user-name">{{getUserName()}}</p>
         <ChatButton />
         <TourButton />
       </div>
-      <v-progress-circular v-if="isLoading" id="loading" :size="40" :width="3" color="#357e6f" indeterminate></v-progress-circular>
+
+      <div v-if="loadingFiles.length">
+        <LoadingFiles :files="loadingFiles" />
+      </div>
     </div>
   </v-card>
 </template>
@@ -29,6 +32,7 @@
 import { mapGetters } from "vuex";
 import { search } from "@/api/search";
 import ChatButton from "@/components/buttons/ChatButton";
+import LoadingFiles from "@/components/shared/BaseLoadingFiles";
 import Search from "@/components/inputs/BaseAutocomplete";
 import TourButton from "@/components/buttons/TourButton";
 
@@ -69,9 +73,9 @@ export default {
       });
     }
   },
-  components: { ChatButton, Search, TourButton },
+  components: { ChatButton, Search, TourButton, LoadingFiles },
   computed: {
-    ...mapGetters(["user", "isLoading"])
+    ...mapGetters(["user", "loadingFiles"])
   }
 };
 </script>
@@ -115,12 +119,10 @@ export default {
   height: 100%;
   padding: 0;
 }
-#loading {
-  margin: auto 15px;
-}
 .user-name {
   margin: auto !important;
   padding-right: 10px;
+  font-size: 18px;
 }
 .drive-icon {
   width: 40px;

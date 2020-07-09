@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from "@/store";
+// import router from "@/router";
 // import { apm } from '@/utils/apm';
 
 // let transaction;
@@ -24,6 +25,10 @@ axios.interceptors.response.use(
   },
   (error) => {
     store.commit("setLoading", false);
+    // transaction.end();
+    // if (!error.response) {
+    //   router.push("/503");
+    // }
     return Promise.reject(error);
   }
 );

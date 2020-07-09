@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  created() {}
+  name: "NotFound"
 };
 </script>
 

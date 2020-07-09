@@ -3,6 +3,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import store from "@/store";
 import NotFound from "@/views/errors/404";
+import Unavailable from "@/views/errors/503";
 import MyDrive from "@/views/MyDrive";
 import SharedWithMe from "@/views/SharedWithMe";
 import Folders from "@/views/Folders";
@@ -57,6 +58,11 @@ const router = new Router({
       path: "/404",
       component: NotFound,
       name: "Not Found",
+    },
+    {
+      path: "/503",
+      component: Unavailable,
+      name: "Unavailable",
     },
   ],
 });

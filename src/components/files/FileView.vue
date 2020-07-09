@@ -1,7 +1,7 @@
 <template>
   <div>
     <FilesPreview v-if="fileView==1" :files="files" />
-    <FileTable v-else-if="fileView==0" :files="files" />
+    <FileTable v-else :files="files" />
   </div>
 </template>
 

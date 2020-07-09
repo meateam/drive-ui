@@ -12,6 +12,15 @@
       <Sidenav />
       <div id="page-container">
         <router-view />
+        <div id="loading">
+          <v-progress-circular
+            :size="200"
+            :width="7"
+            v-if="isLoading"
+            color="#357e6f"
+            indeterminate
+          ></v-progress-circular>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -65,6 +74,7 @@ export default {
 @import "./styles/global.css";
 #page-container {
   margin-right: 256px;
+  position: relative;
 }
 #yesodot {
   position: fixed;
@@ -72,6 +82,11 @@ export default {
   height: 500px;
   top: calc(50vh - 300px);
   right: calc(50vw - 250px);
+}
+#loading {
+  position: absolute;
+  top: calc(50vh - 250px);
+  right: calc(50% - 100px);
 }
 .dragging {
   filter: blur(3px);

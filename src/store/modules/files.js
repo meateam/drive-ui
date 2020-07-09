@@ -115,9 +115,10 @@ const actions = {
    * uploadFile create multipart or resumable upload by the file size
    * @param file is the file to upload
    */
-  async uploadFile({ dispatch }, file) {
+  async uploadFile({ dispatch, commit }, file) {
     if (isFileNameExists({ name: file.name, files: state.files }))
       throw new Error("Name already exists in the root");
+    commit('addLoadingFile', file.name);
     if (file.size <= 5 << 20) {
       await dispatch("multipartUpload", file);
     } else {
@@ -128,8 +129,8 @@ const actions = {
    * uploadFiles uploads all the files async
    * @param files is the files to upload
    */
-  uploadFiles({ dispatch }, files) {
-    return Promise.all(
+  async uploadFiles({ dispatch }, files) {
+    return await Promise.all(
       Object.values(files).map((file) => {
         dispatch("uploadFile", file);
       })
@@ -143,6 +144,7 @@ const actions = {
     try {
       const metadata = await filesApi.multipartUpload({ file, parent: state.currentFolder });
       const formatedFile = await formatFile(metadata);
+      commit("removeLoadingFile", formatedFile.name);
       commit("addFile", formatedFile);
       dispatch("getQuota");
     } catch (err) {
@@ -157,6 +159,7 @@ const actions = {
     try {
       const metadata = await filesApi.resumableUpload({ file, parent: state.currentFolder });
       const formatedFile = await formatFile(metadata);
+      commit("removeLoadingFile", formatedFile.name);
       commit("addFile", formatedFile);
       dispatch("getQuota");
     } catch (err) {
