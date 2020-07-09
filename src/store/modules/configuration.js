@@ -36,7 +36,7 @@ const actions = {
       if (!err.response) {
         router.push("/503");
       } else {
-        throw new Error(err);
+        commit("onError", err);
       }
     }
   },

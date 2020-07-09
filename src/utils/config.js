@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:8080";
+const baseURL = "";
 const fileTypes = {
   media: ["image", "video", "audio", "blob"],
   preview: [

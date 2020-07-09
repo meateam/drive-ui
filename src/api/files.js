@@ -28,7 +28,7 @@ export async function getFoldersByFolder(parent) {
         );
         return res.data;
     } catch (err) {
-        throw new Error(err);
+        store.commit("onError", err);
     }
 }
 
@@ -156,7 +156,7 @@ export async function getFolderHierarchy(folderID) {
         const breadcrumbs = ancestors ? ancestors.data : [];
         return breadcrumbs;
     } catch (err) {
-        throw new Error(err)
+        store.commit("onError", err)
     }
 
 }

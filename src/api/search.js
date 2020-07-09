@@ -1,6 +1,6 @@
-import { baseURL } from "@/utils/config";
 import Axios from "axios";
-
+import store from '@/store';
+import { baseURL } from "@/utils/config";
 
 export async function search(query) {
     try {
@@ -9,6 +9,6 @@ export async function search(query) {
         );
         return res.data || [];
     } catch (err) {
-        throw new Error(err);
+        store.commit("onError", err);
     }
 }

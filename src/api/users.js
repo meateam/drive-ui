@@ -13,7 +13,7 @@ export async function getUserByID(userID) {
         const user = formatUser(res.data.user);
         return user;
     } catch (err) {
-        throw new Error(err);
+        store.commit("onError", err);
     }
 }
 
@@ -38,7 +38,7 @@ export async function getUserNameByID(id) {
         const user = await getUserByID(id)
         return user.fullName;
     } catch (err) {
-        throw new Error(err);
+        store.commit("onError", err);
     }
 }
 
@@ -58,7 +58,7 @@ export async function searchUsersByName(name) {
             : [];
         return Promise.all(users.map((user) => (formatUser(user))));
     } catch (err) {
-        throw new Error(err);
+        store.commit("onError", err);
     }
 }
 
@@ -72,7 +72,7 @@ export async function getExternalUserByID(userID) {
         const user = formatExternalUser(res.data.user);
         return user;
     } catch (err) {
-        throw new Error(err);
+        store.commit("onError", err);
     }
 }
 
@@ -102,6 +102,6 @@ export async function searchExternalUsersByName(name) {
             users.map((user) => (formatExternalUser(user)))
         );
     } catch (err) {
-        throw new Error();
+        store.commit("onError", err);
     }
 }

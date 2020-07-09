@@ -50,7 +50,7 @@ const actions = {
       );
       commit("fetchFiles", files);
     } catch (err) {
-      throw new Error(err);
+      commit("onError", err);
     }
   },
   /**
@@ -65,7 +65,7 @@ const actions = {
         })
       ));
     } catch (err) {
-      throw new Error(err);
+      commit("onError", err);
     }
   },
   /**
@@ -85,7 +85,7 @@ const actions = {
         })
       ));
     } catch (err) {
-      throw new Error(err);
+      commit("onError", err);
     }
   },
   /**
@@ -98,7 +98,7 @@ const actions = {
       commit("deleteFile", file);
       dispatch("getQuota");
     } catch (err) {
-      throw new Error(err);
+      commit("onError", err);
     }
   },
   /**
@@ -180,7 +180,7 @@ const actions = {
       commit("onSuccess", "snackbar.Folder");
       commit("addFile", formatedFile);
     } catch (err) {
-      throw new Error(err);
+      commit("onError", err);
     }
   },
   /**
@@ -198,7 +198,7 @@ const actions = {
         dispatch("getAncestors", folder.id);
       }
     } catch (err) {
-      throw new Error(err);
+      commit("onError", err);
     }
   },
   async getAncestors({ commit }, folderID) {
@@ -212,7 +212,7 @@ const actions = {
       commit("onFileRename", res);
       commit("onSuccess", "snackbar.Edit")
     } catch (err) {
-      throw new Error(err);
+      commit("onError", err);
     }
   },
   async moveFile({ commit }, { folderID, fileIDs }) {
@@ -222,7 +222,7 @@ const actions = {
         commit("deleteFile", fileID);
       });
     } catch (err) {
-      throw new Error(err);
+      commit("onError", err);
     }
   },
 };
