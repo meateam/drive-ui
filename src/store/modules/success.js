@@ -1,13 +1,13 @@
 const state = {
-    error: undefined,
+    success: undefined,
 };
 
 const getters = {
-    error: (state) => state.error,
+    success: (state) => state.success,
 };
 
 const mutations = {
-    onError: (state, error) => (state.error = error),
+    onSuccess: (state, success) => (state.success = success),
 };
 
 export default {

@@ -27,6 +27,7 @@
       <img id="yesodot" src="@/assets/images/yesodot.svg" />
     </div>
     <ErrorSnackbar />
+    <Snackbar />
   </v-app>
 </template>
 
@@ -34,6 +35,7 @@
 import { mapGetters } from "vuex";
 import AppBar from "@/components/layout/header/AppBar";
 import Sidenav from "@/components/layout/sidenav/Sidenav";
+import Snackbar from "@/components/popups/SuccessSnackbar";
 import ErrorSnackbar from "@/components/popups/ErrorSnackbar";
 
 export default {
@@ -43,6 +45,7 @@ export default {
   },
   components: {
     AppBar,
+    Snackbar,
     Sidenav,
     ErrorSnackbar
   },

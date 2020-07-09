@@ -30,7 +30,7 @@ axios.interceptors.response.use(
     //   router.push("/503");
     // }
     if (error.response) {
-      store.commit('createError', error.response);
+      store.commit('onError', error.response);
     }
     return Promise.reject(error);
   }

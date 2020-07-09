@@ -20,7 +20,6 @@
       :text="$t('file.Delete')"
       :button="$t('buttons.DeleteNow')"
     />
-    <Snackbar ref="snackbar" />
     <span>{{ $t("buttons.Delete") }}</span>
   </v-tooltip>
 </template>
@@ -28,21 +27,14 @@
 <script>
 import { mapGetters } from "vuex";
 import DeletePopup from "../popups/BaseDeletePopup";
-import Snackbar from "../popups/BaseSnackbar";
 
 export default {
   name: "DeleteButton",
   props: ["icon"],
-  components: { DeletePopup, Snackbar },
+  components: { DeletePopup },
   methods: {
     onDelete() {
-      const success =
-        this.chosenFiles.length === 1
-          ? this.$t("snackbar.DeleteItem")
-          : this.$t("snackbar.DeleteItems");
-      this.$store.dispatch("deleteFiles", this.chosenFiles).then(() => {
-        this.$refs.snackbar.open(success);
-      });
+      this.$store.dispatch("deleteFiles", this.chosenFiles);
     }
   },
   computed: {

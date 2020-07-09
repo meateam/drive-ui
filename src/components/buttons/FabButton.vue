@@ -10,9 +10,13 @@
     <v-tooltip right>
       <template v-slot:activator="{ on }">
         <v-btn @click.stop="$refs.newFolder.open()" v-on="on" fab big color="#357e6f">
-          <NamePopup img="green-create-folder.svg" ref="newFolder" type="folder" @confirm="onFolderConfirm" />
-          <Snackbar ref="snackbar" />
-          <img class="icon"  src="@/assets/icons/create-folder.svg" />
+          <NamePopup
+            img="green-create-folder.svg"
+            ref="newFolder"
+            type="folder"
+            @confirm="onFolderConfirm"
+          />
+          <img class="icon" src="@/assets/icons/create-folder.svg" />
         </v-btn>
       </template>
       <span>{{ $t("buttons.NewFolder") }}</span>
@@ -20,7 +24,7 @@
     <v-tooltip right>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" fab color="#357e6f" @click="$refs.upload.open()">
-          <img class="icon"  src="@/assets/icons/upload.svg" />
+          <img class="icon" src="@/assets/icons/upload.svg" />
         </v-btn>
       </template>
       <span>{{ $t("buttons.UploadFile") }}</span>
@@ -31,7 +35,6 @@
 <script>
 import Upload from "./Upload";
 import NamePopup from "../popups/BaseNamePopup";
-import Snackbar from "../popups/BaseSnackbar";
 
 export default {
   name: "FabButton",
@@ -40,11 +43,10 @@ export default {
       fab: false
     };
   },
-  components: { Upload, NamePopup, Snackbar },
+  components: { Upload, NamePopup },
   methods: {
     onFolderConfirm(name) {
       this.$store.dispatch("uploadFolder", name).then(() => {
-        this.$refs.snackbar.open(this.$t("snackbar.Folder"));
         if (this.$tours["tour"].currentStep === 5) {
           this.$tours["tour"].nextStep();
         }

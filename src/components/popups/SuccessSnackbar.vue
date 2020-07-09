@@ -1,23 +1,25 @@
 <template>
-  <v-snackbar v-model="snackbar" top color="white" @click.stop>
+  <v-snackbar v-model="open" top color="white" @click.stop>
     <img class="space-left fab-icon" src="@/assets/icons/success.svg" />
-    <p id="text">{{ text }}</p>
+    <p id="text">{{ $t(success) }}</p>
   </v-snackbar>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Snackbar",
   data() {
     return {
-      snackbar: false,
-      text: ""
+      open: false
     };
   },
-  methods: {
-    open(text) {
-      this.text = text;
-      this.snackbar = true;
+  computed: {
+    ...mapGetters(["success"])
+  },
+  watch: {
+    success: function(val) {
+      if (val) this.open = true;
     }
   }
 };

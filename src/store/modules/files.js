@@ -104,70 +104,68 @@ const actions = {
   /**
    * deleteFiles uses the method delete file to delete all the files in the chosen array
    */
-  deleteFiles({ dispatch }, files) {
+  deleteFiles({ dispatch, commit }, files) {
     Promise.all(
       files.map(async (file) => {
         await dispatch("deleteFile", file.id);
       })
-    );
+    ).then(() => {
+      commit('onSuccess', files.length === 1 ? "snackbar.DeleteItem" : "snackbar.DeleteItems");
+    });
   },
   /**
    * uploadFile create multipart or resumable upload by the file size
    * @param file is the file to upload
    */
   async uploadFile({ dispatch, commit }, file) {
+
     if (isFileNameExists({ name: file.name, files: state.files }))
       throw new Error("Name already exists in the root");
-      
+
     commit('addLoadingFile', file.name);
     if (file.size <= 5 << 20) {
       await dispatch("multipartUpload", file);
     } else {
       await dispatch("resumableUpload", file);
     }
+
   },
   /**
    * uploadFiles uploads all the files async
    * @param files is the files to upload
    */
-  uploadFiles({ dispatch }, files) {
+  async uploadFiles({ dispatch, commit }, files) {
     return Promise.all(
-      Object.values(files).map((file) => {
-        dispatch("uploadFile", file);
+      Object.values(files).map(async (file) => {
+        await dispatch("uploadFile", file);
       })
-    );
+    )
+      .then(() => commit("onSuccess", files.length === 1 ? "snackbar.File" : "snackbar.Files"))
+      .catch(err => {
+        commit("onError", err);
+      })
   },
   /**
    * multipartUpload create an upload with small size
    * @param file is the file that was chose by the user in the type blob
    */
   async multipartUpload({ dispatch, commit }, file) {
-    try {
-      const metadata = await filesApi.multipartUpload({ file, parent: state.currentFolder });
-      const formatedFile = await formatFile(metadata);
-      commit("removeLoadingFile", formatedFile.name);
-      commit("addFile", formatedFile);
-      dispatch("getQuota");
-    } catch (err) {
-      commit("removeLoadingFile", file.name);
-      throw new Error(err);
-    }
+    const metadata = await filesApi.multipartUpload({ file, parent: state.currentFolder });
+    const formatedFile = await formatFile(metadata);
+    commit("removeLoadingFile", formatedFile.name);
+    commit("addFile", formatedFile);
+    dispatch("getQuota");
   },
   /**
    * resumableUpload is an upload for bigger files
    * @param file is the file to upload
    */
   async resumableUpload({ dispatch, commit }, file) {
-    try {
-      const metadata = await filesApi.resumableUpload({ file, parent: state.currentFolder });
-      const formatedFile = await formatFile(metadata);
-      commit("removeLoadingFile", formatedFile.name);
-      commit("addFile", formatedFile);
-      dispatch("getQuota");
-    } catch (err) {
-      commit("removeLoadingFile", file.name);
-      throw new Error(err);
-    }
+    const metadata = await filesApi.resumableUpload({ file, parent: state.currentFolder });
+    const formatedFile = await formatFile(metadata);
+    commit("removeLoadingFile", formatedFile.name);
+    commit("addFile", formatedFile);
+    dispatch("getQuota");
   },
   /**
    * uploadFolder in the current folder
@@ -179,6 +177,7 @@ const actions = {
         throw new Error("Name already exists in the root");
       const folder = await filesApi.uploadFolder({ name, parent: state.currentFolder });
       const formatedFile = await formatFile(folder);
+      commit("onSuccess", "snackbar.Folder");
       commit("addFile", formatedFile);
     } catch (err) {
       throw new Error(err);
@@ -211,6 +210,7 @@ const actions = {
       const newName = `${name}.${file.name.substr(file.name.lastIndexOf(".") + 1)}`;
       const res = await filesApi.editFile({ file, name: newName })
       commit("onFileRename", res);
+      commit("onSuccess", "snackbar.Edit")
     } catch (err) {
       throw new Error(err);
     }
