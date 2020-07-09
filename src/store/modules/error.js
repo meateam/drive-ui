@@ -1,16 +1,13 @@
 const state = {
-    error: false
+    error: undefined,
 };
 
 const getters = {
     error: (state) => state.error,
 };
 
-
 const mutations = {
-    createError: (state, error) => {
-        state.error = error;
-    },
+    createError: (state, error) => (state.error = error),
 };
 
 export default {

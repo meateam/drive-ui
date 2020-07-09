@@ -29,6 +29,9 @@ axios.interceptors.response.use(
     // if (!error.response) {
     //   router.push("/503");
     // }
+    if (error.response) {
+      store.commit('createError', error.response);
+    }
     return Promise.reject(error);
   }
 );

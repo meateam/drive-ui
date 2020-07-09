@@ -10,10 +10,6 @@ import "@/interceptors/axios";
 import "vue-tour/dist/vue-tour.css";
 
 Vue.config.productionTip = false;
-Vue.config.errorHandler = function (err) {
-  
-  console.log("fadfsfds", err)
-}
 Vue.use(VueTour);
 
 (async () => {
