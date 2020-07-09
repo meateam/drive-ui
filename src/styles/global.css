@@ -185,3 +185,6 @@ a {
   direction: rtl !important;
   justify-content: right !important;
 }
+.right {
+  justify-content: right;
+}

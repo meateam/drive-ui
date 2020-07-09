@@ -64,7 +64,9 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  direction: ltr;
   right: 0;
+  padding: 0 15px;
   background-color: #ffffff;
   height: 51px;
   border-top: solid 1px #dfe5eb;
@@ -73,8 +75,8 @@ export default {
   font-size: 18px;
 }
 #image {
-  max-width: 95%;
-  max-height: 95%;
+  max-width: 65%;
+  max-height: 65%;
   position: absolute;
   top: 0;
   bottom: 0;

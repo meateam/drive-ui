@@ -13,7 +13,9 @@
     </div>
     <div class="left">
       <div id="drive">
-        <img class="auto-margin drive-icon" src="@/assets/icons/drive.svg" />
+        <router-link to="/my-drive" class="auto-margin">
+          <img class="drive-icon" src="@/assets/icons/drive.svg" />
+        </router-link>
       </div>
       <div id="info">
         <p class="user-name">{{getUserName()}}</p>

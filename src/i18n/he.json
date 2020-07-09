@@ -53,7 +53,8 @@
         "Download": "הורדה",
         "Confirm": "אישור",
         "Continue": "הבא",
-        "Info": "פרטי הקובץ",
+        "FileInfo": "פרטי הקובץ",
+        "FolderInfo": "פרטי התיקייה",
         "EditOnline": "ערוך בזמן אמת",
         "Edit": "שינוי שם",
         "DeleteNow": "מחק",
@@ -94,7 +95,7 @@
         "Size": "גודל",
         "CreatedAt": "נוצר",
         "UpdatedAt": "שונה",
-        "Shared": "שיתפים",
+        "Shared": "שותפים",
         "ExternalShare": "שיתופים חיצוניים"
     },
     "share": {

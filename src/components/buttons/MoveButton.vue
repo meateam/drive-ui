@@ -1,7 +1,14 @@
 <template>
   <v-tooltip top :disabled="!icon">
     <template v-slot:activator="{ on }">
-      <v-btn @click="$refs.movePopup.open()" v-on="on" :icon="icon" class="auto-margin" text>
+      <v-btn
+        @click="$refs.movePopup.open()"
+        v-on="on"
+        :icon="icon"
+        :class="{right: !icon}"
+        class="auto-margin"
+        text
+      >
         <img class="fab-icon" src="@/assets/icons/move.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Move") }}</p>
       </v-btn>

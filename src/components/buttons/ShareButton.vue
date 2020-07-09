@@ -1,7 +1,14 @@
 <template>
   <v-tooltip top :disabled="!icon">
     <template v-slot:activator="{ on }">
-      <v-btn @click="$refs.share.open()" v-on="on" :icon="icon" class="auto-margin" text>
+      <v-btn
+        @click="$refs.share.open()"
+        v-on="on"
+        :icon="icon"
+        class="auto-margin"
+        text
+        :class="{right: !icon}"
+      >
         <img class="fab-icon" src="@/assets/icons/share.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Share") }}</p>
       </v-btn>

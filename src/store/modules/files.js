@@ -205,7 +205,8 @@ const actions = {
   },
   async editFile({ commit }, { file, name }) {
     try {
-      const res = await filesApi.editFile({ file, name })
+      const newName = `${name}.${file.name.substr(file.name.lastIndexOf(".") + 1)}`;
+      const res = await filesApi.editFile({ file, name: newName })
       commit("onFileRename", res);
     } catch (err) {
       throw new Error(err);

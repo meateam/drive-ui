@@ -5,6 +5,7 @@
         @click="$refs.popup.open(chosenFiles[0])"
         v-on="on"
         :icon="icon"
+        :class="{right: !icon}"
         class="auto-margin"
         text
       >

@@ -26,7 +26,7 @@
           <td>
             <v-icon id="folder" color="#9caec4" v-if="isFolder(item.type)">folder</v-icon>
           </td>
-          <td>{{ item.name }}</td>
+          <td id="file-name">{{ item.name }}</td>
           <td>{{ item.owner }}</td>
           <td>{{ formatFileDate(item.updatedAt) }}</td>
           <td id="size">{{ formatFileSize(item.size) }}</td>
@@ -147,5 +147,13 @@ export default {
 #size {
   direction: ltr;
   text-align: right;
+}
+#file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+  max-width: 350px;
+  direction: ltr;
 }
 </style>

@@ -35,8 +35,8 @@
 import { mapGetters } from "vuex";
 import Preview from "@/components/popups/Preview";
 import FileContextMenu from "@/components/popups/FileContextMenu";
-import Folder from "./type/Folder";
-import File from "./type/File";
+import Folder from "./items/Folder";
+import File from "./items/File";
 
 export default {
   name: "FilesPreview",

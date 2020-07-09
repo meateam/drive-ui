@@ -1,5 +1,5 @@
 <template>
-  <div class="field-container">
+  <div class="flex">
     <p>{{field}}</p>
     <p id="value">{{value}}</p>
   </div>
@@ -20,8 +20,10 @@ p {
 #value {
   font-family: Rubik-Light;
   margin-right: 15px;
-}
-.field-container {
-  display: flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  direction: ltr;
+  max-width: 300px;
 }
 </style>
