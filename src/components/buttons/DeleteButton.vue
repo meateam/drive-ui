@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top :disabled="!icon">
+  <v-tooltip top :disabled="!icon" v-if="canDelete()">
     <template v-slot:activator="{ on }">
       <v-btn
         @click="$refs.popup.open()"
@@ -26,6 +26,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { deleteRole } from "@/utils/roles";
 import DeletePopup from "../popups/BaseDeletePopup";
 
 export default {
@@ -35,10 +36,13 @@ export default {
   methods: {
     onDelete() {
       this.$store.dispatch("deleteFiles", this.chosenFiles);
+    },
+    canDelete() {
+      return !this.currentFolder || deleteRole(this.currentFolder.role);
     }
   },
   computed: {
-    ...mapGetters(["chosenFiles"])
+    ...mapGetters(["chosenFiles", "currentFolder"])
   }
 };
 </script>

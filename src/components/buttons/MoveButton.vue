@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top :disabled="!icon">
+  <v-tooltip top :disabled="!icon" v-if="canMove()">
     <template v-slot:activator="{ on }">
       <v-btn
         @click="$refs.movePopup.open()"
@@ -20,6 +20,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { moveRole } from "@/utils/roles";
 import MovePopup from "../popups/MovePopup";
 
 export default {
@@ -36,6 +37,9 @@ export default {
         folderID,
         fileIDs: this.chosenFiles.map(file => file.id)
       });
+    },
+    canMove() {
+      return !this.currentFolder || moveRole(this.currentFolder.role);
     }
   }
 };

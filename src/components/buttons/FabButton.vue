@@ -1,5 +1,11 @@
 <template>
-  <v-speed-dial id="fab" v-model="fab" direction="top" transition="scale-transition">
+  <v-speed-dial
+    id="fab"
+    v-model="fab"
+    direction="top"
+    transition="scale-transition"
+    v-if="canUpload()"
+  >
     <template v-slot:activator>
       <v-btn v-model="fab" fab color="#283145" @click="onFabClick">
         <v-icon color="white" v-if="fab">close</v-icon>
@@ -33,6 +39,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { uploadRole } from "@/utils/roles";
 import Upload from "./Upload";
 import NamePopup from "../popups/BaseNamePopup";
 
@@ -44,6 +52,9 @@ export default {
     };
   },
   components: { Upload, NamePopup },
+  computed: {
+    ...mapGetters(["currentFolder"])
+  },
   methods: {
     onFolderConfirm(name) {
       this.$store.dispatch("uploadFolder", name).then(() => {
@@ -56,6 +67,9 @@ export default {
       if (this.$tours["tour"].currentStep === 3) {
         this.$tours["tour"].nextStep();
       }
+    },
+    canUpload() {
+      return !this.currentFolder || uploadRole(this.currentFolder.role);
     }
   }
 };

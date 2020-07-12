@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top :disabled="!icon">
+  <v-tooltip top :disabled="!icon" v-if="canShare()">
     <template v-slot:activator="{ on }">
       <v-btn
         @click="$refs.share.open()"
@@ -14,16 +14,26 @@
       </v-btn>
     </template>
     <span>{{ $t("buttons.Share") }}</span>
-    <SharePopup ref="share" />
+    <SharePopup ref="share" :files="chosenFiles" />
   </v-tooltip>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { shareRole } from "@/utils/roles";
 import SharePopup from "@/components/popups/share/SharePopup";
 
 export default {
   name: "Share",
   components: { SharePopup },
-  props: ["icon"]
+  computed: {
+    ...mapGetters(["currentFolder", "chosenFiles"])
+  },
+  props: ["icon"],
+  methods: {
+    canShare() {
+      return !this.currentFolder || shareRole(this.currentFolder.role);
+    }
+  }
 };
 </script>

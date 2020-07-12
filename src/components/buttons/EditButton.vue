@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top v-if="chosenFiles.length===1" :disabled="!icon">
+  <v-tooltip top v-if="canEdit()" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
         @click="$refs.rename.open()"
@@ -26,6 +26,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { fileTypes } from "@/utils/config";
+import { editRole } from "@/utils/roles";
 import NamePopup from "../popups/BaseNamePopup";
 
 export default {
@@ -33,7 +34,7 @@ export default {
   props: ["icon"],
   components: { NamePopup },
   computed: {
-    ...mapGetters(["chosenFiles"])
+    ...mapGetters(["chosenFiles", "currentFolder"])
   },
   methods: {
     onConfirm(name) {
@@ -41,6 +42,12 @@ export default {
     },
     isFolder() {
       return this.chosenFiles[0].type === fileTypes.folder;
+    },
+    canEdit() {
+      return (
+        this.chosenFiles.length === 1 &&
+        (!this.currentFolder || editRole(this.currentFolder.role))
+      );
     }
   }
 };
