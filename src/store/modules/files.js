@@ -1,41 +1,22 @@
 import * as filesApi from "@/api/files";
+import { fileTypes } from "@/utils/config";
 import { formatFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 
 const state = {
-  allowedTypes: [
-    "png",
-    "xlsx",
-    "docx",
-    "jpg",
-    "pptx",
-    "txt",
-    "jpeg",
-    "mp4",
-    "mpg",
-    "mpeg",
-    "bmp",
-    "gif",
-    "wav",
-    "wave",
-    "pdf",
-  ],
   files: [],
   chosenFiles: [],
-  folderContentType: "application/vnd.drive.folder",
-  currentFolder: undefined,
   currentFolderHierarchy: [],
+  currentFolder: undefined,
 };
 
 const getters = {
-  allowedFileTypes: (state) => state.allowedTypes,
   files: (state) => state.files,
-  folderContentType: (state) => state.folderContentType,
   chosenFiles: (state) => state.chosenFiles,
   folderRoles: (state) => state.folderRoles,
   currentFolder: (state) => state.currentFolder,
   folders: (state) =>
-    state.files.filter((file) => file.type === state.folderContentType),
+    state.files.filter((file) => file.type === fileTypes.folder),
   currentFolderHierarchy: (state) => state.currentFolderHierarchy,
 };
 
@@ -106,8 +87,8 @@ const actions = {
    */
   deleteFiles({ dispatch, commit }, files) {
     Promise.all(
-      files.map(async (file) => {
-        await dispatch("deleteFile", file.id);
+      files.map((file) => {
+        return dispatch("deleteFile", file.id);
       })
     ).then(() => {
       commit('onSuccess', files.length === 1 ? "snackbar.DeleteItem" : "snackbar.DeleteItems");
@@ -136,8 +117,8 @@ const actions = {
    */
   async uploadFiles({ dispatch, commit }, files) {
     return Promise.all(
-      Object.values(files).map(async (file) => {
-        await dispatch("uploadFile", file);
+      Object.values(files).map((file) => {
+        return dispatch("uploadFile", file);
       })
     )
       .then(() => commit("onSuccess", files.length === 1 ? "snackbar.File" : "snackbar.Files"))
@@ -207,7 +188,7 @@ const actions = {
   },
   async editFile({ commit }, { file, name }) {
     try {
-      const newName = `${name}.${file.name.substr(file.name.lastIndexOf(".") + 1)}`;
+      const newName = file.name.includes('.') ? `${name}.${file.name.substr(file.name.lastIndexOf(".") + 1)}` : name;
       const res = await filesApi.editFile({ file, name: newName })
       commit("onFileRename", res);
       commit("onSuccess", "snackbar.Edit")

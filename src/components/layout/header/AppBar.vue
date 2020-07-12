@@ -33,6 +33,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { search } from "@/api/search";
+import { fileTypes } from "@/utils/config";
 import ChatButton from "@/components/buttons/ChatButton";
 import LoadingFiles from "@/components/shared/BaseLoadingFiles";
 import Search from "@/components/inputs/BaseAutocomplete";
@@ -55,6 +56,9 @@ export default {
       }
       return "";
     },
+    isFolder(type) {
+      return type === fileTypes.folder;
+    },
     getSearchResults(query) {
       if (this.isSearchLoading) return;
       this.isSearchLoading = true;
@@ -70,8 +74,11 @@ export default {
     },
     onSelect(result) {
       this.$router.push({
-        path: result.parent ? "/folders" : "/my-drive",
-        query: { id: result.parent }
+        path:
+          result.parent || this.isFolder(result.type)
+            ? "/folders"
+            : "/my-drive",
+        query: { id: this.isFolder(result.type) ? result.id : result.parent }
       });
     }
   },

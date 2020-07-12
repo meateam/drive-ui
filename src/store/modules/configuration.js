@@ -1,5 +1,4 @@
 import { fetchConfig } from "@/api/configuration";
-import router from "@/router";
 
 const state = {
   version: "2.0",
@@ -33,11 +32,7 @@ const actions = {
       const config = await fetchConfig();
       commit("setConfig", config);
     } catch (err) {
-      if (!err.response) {
-        router.push("/503");
-      } else {
-        commit("onError", err);
-      }
+      if (err.response) commit("onError", err);
     }
   },
 };

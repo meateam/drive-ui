@@ -1,5 +1,6 @@
-const baseURL = "";
+const baseURL = "http://localhost:8080";
 const fileTypes = {
+  folder: "application/vnd.drive.folder",
   media: ["image", "video", "audio", "blob"],
   preview: [
     "application/pdf",
@@ -16,6 +17,7 @@ const fileTypes = {
     "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   ],
+  externalShare: ["png", "xlsx", "docx", "jpg", "pptx", "txt", "jpeg", "mp4", "mpg", "mpeg", "bmp", "gif", "wav", "wave", "pdf"]
 };
 
 export { baseURL, fileTypes };

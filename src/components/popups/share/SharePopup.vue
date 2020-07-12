@@ -42,6 +42,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { fileTypes } from "@/utils/config";
 import DriveShare from "./tabs/DriveShare";
 import ExternalShare from "./tabs/ExternalShare";
 
@@ -55,7 +56,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["allowedFileTypes", "chosenFiles"])
+    ...mapGetters(["chosenFiles"])
   },
   methods: {
     open() {
@@ -64,10 +65,10 @@ export default {
     isFileAllowed(file) {
       const nameArray = file.name.split(".");
       const fileType = nameArray[nameArray.length - 1];
-      return this.allowedFileTypes.includes(fileType.toLowerCase());
+      return fileTypes.externalShare.includes(fileType.toLowerCase());
     },
     getAllowedTypes() {
-      return this.allowedFileTypes
+      return fileTypes.externalShare
         .toString()
         .split(",")
         .join(", ");

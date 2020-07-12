@@ -17,23 +17,24 @@
       </v-btn>
     </template>
     <InfoPopup ref="popup" :file="chosenFiles[0]" />
-    <span v-if="isFolder()">{{ isFolder()? $t("buttons.FolderInfo"): $t("buttons.FileInfo") }}</span>
+    <span>{{ isFolder()? $t("buttons.FolderInfo"): $t("buttons.FileInfo") }}</span>
   </v-tooltip>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { fileTypes } from "@/utils/config";
 import InfoPopup from "@/components/popups/BaseInfoPopup";
 
 export default {
   name: "InfoButton",
   props: ["icon"],
   computed: {
-    ...mapGetters(["chosenFiles", "folderContentType"])
+    ...mapGetters(["chosenFiles"])
   },
   methods: {
     isFolder() {
-      return this.chosenFiles[0].type === this.folderContentType;
+      return this.chosenFiles[0].type === fileTypes.folder;
     }
   },
   components: { InfoPopup }

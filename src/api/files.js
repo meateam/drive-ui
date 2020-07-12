@@ -1,6 +1,6 @@
 import Axios from "axios";
 import store from '@/store';
-import { baseURL } from "@/utils/config";
+import { baseURL, fileTypes } from "@/utils/config";
 
 /**
  * fetchFiles fetch all the files in the current folder
@@ -22,7 +22,7 @@ export async function fetchFiles(parent) {
 export async function getFoldersByFolder(parent) {
     try {
         const res = await Axios.get(
-            `${baseURL}/api/files?type=${store.state.files.folderContentType}${
+            `${baseURL}/api/files?type=${fileTypes.folder}${
             parent ? `&parent=${parent}` : ""
             }`
         );
@@ -138,7 +138,7 @@ export async function uploadFolder({ name, parent }) {
         {},
         {
             headers: {
-                "Content-Type": store.state.files.folderContentType,
+                "Content-Type": fileTypes.folder,
                 "Content-Disposition": `filename=${encodeURIComponent(name)}`,
             },
         }

@@ -7,7 +7,7 @@ const getters = {
 };
 
 const mutations = {
-    onSuccess: (state, success) => (state.success = success),
+    onSuccess: (state, success) => { state.success = success },
 };
 
 export default {

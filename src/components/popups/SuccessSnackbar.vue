@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="open" top color="white" @click.stop>
+  <v-snackbar v-model="open" top color="white" @click.stop :timeout="1500">
     <img class="space-left fab-icon" src="@/assets/icons/success.svg" />
     <p id="text">{{ $t(success) }}</p>
   </v-snackbar>
@@ -20,6 +20,9 @@ export default {
   watch: {
     success: function(val) {
       if (val) this.open = true;
+    },
+    open: function(val) {
+      if (!val) this.$store.commit("onSuccess", undefined);
     }
   }
 };

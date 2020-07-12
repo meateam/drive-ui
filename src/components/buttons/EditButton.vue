@@ -13,13 +13,19 @@
         <p class="button-text" v-if="!icon">{{ $t("buttons.Edit") }}</p>
       </v-btn>
     </template>
-    <NamePopup img="green-edit.svg" ref="rename" type="rename" @confirm="onConfirm" />
+    <NamePopup
+      img="green-edit.svg"
+      ref="rename"
+      :type="isFolder() ? 'renameFolder' : 'renameFile'"
+      @confirm="onConfirm"
+    />
     <span>{{ $t("buttons.Edit") }}</span>
   </v-tooltip>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { fileTypes } from "@/utils/config";
 import NamePopup from "../popups/BaseNamePopup";
 
 export default {
@@ -32,6 +38,9 @@ export default {
   methods: {
     onConfirm(name) {
       this.$store.dispatch("editFile", { name, file: this.chosenFiles[0] });
+    },
+    isFolder() {
+      return this.chosenFiles[0].type === fileTypes.folder;
     }
   }
 };

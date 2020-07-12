@@ -33,6 +33,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { fileTypes } from "@/utils/config";
 import Preview from "@/components/popups/Preview";
 import FileContextMenu from "@/components/popups/FileContextMenu";
 import Folder from "./items/Folder";
@@ -43,7 +44,7 @@ export default {
   props: ["files"],
   components: { File, Folder, FileContextMenu, Preview },
   computed: {
-    ...mapGetters(["folderContentType", "chosenFiles"])
+    ...mapGetters(["chosenFiles"])
   },
   data() {
     return {
@@ -68,7 +69,7 @@ export default {
   methods: {
     onDblClick(event, file) {
       event.preventDefault();
-      if (file.type === this.folderContentType) {
+      if (file.type === fileTypes.folder) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else {
         this.$refs.preview.open(file);

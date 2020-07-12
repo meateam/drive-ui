@@ -8,14 +8,15 @@
     rounded
     filled
     dense
-    hide-no-data
     item-text="display"
     return-object
     :append-icon="icon"
     :background-color="background"
     :placeholder="placeholder"
   >
-    <template v-slot:no-data>{{ $t('autocomplete.NoResult')}}</template>
+    <template v-slot:no-data>
+      <p id="no-resault">{{ $t('autocomplete.NoResult')}}</p>
+    </template>
   </v-autocomplete>
 </template>
 
@@ -37,3 +38,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#no-resault {
+  padding-right: 20px;
+}
+</style>

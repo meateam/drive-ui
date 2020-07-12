@@ -64,7 +64,10 @@ export default {
       this.currentFolder = folder;
     },
     onConfirm() {
-      this.$emit("confirm", this.currentFolder.id);
+      this.$emit(
+        "confirm",
+        this.currentFolder ? this.currentFolder.id : undefined
+      );
       this.dialog = false;
     }
   }

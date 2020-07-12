@@ -48,6 +48,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { fileTypes } from "@/utils/config";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
 import { canPreview } from "@/utils/canPreview";
@@ -60,13 +61,13 @@ export default {
   props: ["files"],
   components: { BottomMenu, FileContextMenu, Preview },
   computed: {
-    ...mapGetters(["chosenFiles", "folderContentType"])
+    ...mapGetters(["chosenFiles"])
   },
   data() {
     return {
       selected: [],
       page: 1,
-      itemsPerPage: Math.floor((window.innerHeight - 350) / 70),
+      itemsPerPage: 10,
       pageCount: 1,
       headers: [
         { value: "type", sortable: false, align: "center" },
@@ -86,7 +87,7 @@ export default {
       return formatDate(date);
     },
     isFolder(type) {
-      return type === this.folderContentType;
+      return type === fileTypes.folder;
     },
     onRightClick(event, file) {
       event.preventDefault();
