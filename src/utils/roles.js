@@ -9,7 +9,7 @@ export function uploadRole(role) {
 }
 
 export function deleteRole(role) {
-    return role == Roles.write || role == Roles.owner || role == Roles.read;
+    return role == Roles.write || role == Roles.owner;
 }
 
 export function shareRole(role) {

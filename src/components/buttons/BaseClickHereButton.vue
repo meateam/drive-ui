@@ -1,6 +1,6 @@
 <template>
   <v-btn text small @click="$emit('click')">
-    <p id="back-button">{{$t('buttons.ClickHere')}}</p>
+    <p id="back-button">{{label}}</p>
   </v-btn>
 </template>
 

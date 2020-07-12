@@ -7,13 +7,17 @@
       </div>
       <div class="popup-body">
         <div class="support">
-          <p>{{$t('support.DriveSupport')}}</p>
-          <BaseClickHereButton @click="openDriveSupport" />
+          <ClickHereButton :label="$t('questions.Header')" @click="openQuestions" />
         </div>
         <v-divider />
         <div class="support">
-          <p class="support">{{$t('support.DropboxSupport')}}</p>
-          <BaseClickHereButton @click="openDropboxSupport" />
+          <p>{{$t('support.DriveSupport')}}</p>
+          <ClickHereButton :label="$t('buttons.ClickHere')" @click="openDriveSupport" />
+        </div>
+        <v-divider />
+        <div class="support">
+          <p>{{$t('support.DropboxSupport')}}</p>
+          <ClickHereButton :label="$t('buttons.ClickHere')" @click="openDropboxSupport" />
         </div>
       </div>
     </v-card>
@@ -22,7 +26,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import BaseClickHereButton from "@/components/buttons/BaseClickHereButton";
+import ClickHereButton from "@/components/buttons/BaseClickHereButton";
 
 export default {
   name: "SupportPopup",
@@ -31,7 +35,7 @@ export default {
       dialog: false
     };
   },
-  components: { BaseClickHereButton },
+  components: { ClickHereButton },
   computed: {
     ...mapGetters(["supportLink"])
   },
@@ -46,6 +50,10 @@ export default {
     openDropboxSupport() {
       this.dialog = false;
       window.open(this.supportLink);
+    },
+    openQuestions() {
+      this.dialog = false;
+      this.$router.push("/q&a");
     }
   }
 };
@@ -53,6 +61,7 @@ export default {
 
 <style scoped>
 .support {
+  text-align: center;
   font-size: 20px;
   padding: 10px 0;
 }

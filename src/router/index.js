@@ -10,6 +10,7 @@ import Folders from "@/views/Folders";
 import LastUpdate from "@/views/LastUpdate";
 import DeletedFiles from "@/views/DeletedFiles";
 import Favorites from "@/views/Favorites";
+import QuestionAnswer from "@/views/Q&A";
 
 Vue.use(Router);
 
@@ -53,6 +54,11 @@ const router = new Router({
       path: "/favorites",
       component: Favorites,
       name: "Favorites",
+    },
+    {
+      path: "/q&a",
+      component: QuestionAnswer,
+      name: "Q&A",
     },
     {
       path: "/404",
