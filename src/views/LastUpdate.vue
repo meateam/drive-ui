@@ -11,6 +11,9 @@ export default {
   components: { PageTemplate },
   computed: {
     ...mapGetters(["files"])
+  },
+  created() {
+    this.$store.dispatch("fetchLastUpdatedFiles");
   }
 };
 </script>

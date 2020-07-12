@@ -2,15 +2,11 @@
   <div class="page-container">
     <div id="page-header">
       <div id="page-name" v-if="currentFolder">
-        <router-link to="my-drive">
-          {{$t('myDrive.header')}}
-          <span class="space">></span>
-        </router-link>
-        <div v-for="folder in currentFolderHierarchy" :key="folder.id">
-          <span @click="onFolderClick(folder.id)" class="pointer">{{folder.name}}</span>
-          <span class="space">></span>
-        </div>
-        <span>{{`${currentFolder.name}`}}</span>
+        <Breadcrumbs
+          :folders="currentFolderHierarchy"
+          :currentFolder="currentFolder"
+          @click="onBreadcrumbClick"
+        />
       </div>
       <FileViewButton />
     </div>
@@ -22,21 +18,32 @@
 <script>
 import { mapGetters } from "vuex";
 import FileViewButton from "@/components/buttons/FileViewButton";
+import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
 import FileView from "@/components/files/FileView";
 import FabButton from "@/components/buttons/FabButton";
 
 export default {
   name: "Folder",
-  components: { FabButton, FileView, FileViewButton },
+  components: { FabButton, FileView, FileViewButton, Breadcrumbs },
   created() {
     document.title = this.currentFolder.name;
+    this.$store.dispatch("fetchFiles");
+  },
+  watch: {
+    currentFolder: function() {
+      this.$store.dispatch("fetchFiles");
+    }
   },
   computed: {
     ...mapGetters(["files", "currentFolder", "currentFolderHierarchy"])
   },
   methods: {
-    onFolderClick(folderID) {
-      this.$router.push({ path: "/folders", query: { id: folderID } });
+    onBreadcrumbClick(folder) {
+      if (!folder) {
+        this.$router.push("/my-drive");
+      } else {
+        this.$router.push({ path: "/folders", query: { id: folder.id } });
+      }
     }
   }
 };

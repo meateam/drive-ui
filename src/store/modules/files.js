@@ -75,8 +75,8 @@ const actions = {
    */
   async deleteFile({ commit, dispatch }, fileID) {
     try {
-      const file = await filesApi.deleteFile(fileID);
-      commit("deleteFile", file);
+      const id = await filesApi.deleteFile(fileID);
+      commit("deleteFile", id || fileID);
       dispatch("getQuota");
     } catch (err) {
       commit("onError", err);

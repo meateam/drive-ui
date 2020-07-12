@@ -4,10 +4,6 @@ import Router from "vue-router";
 import store from "@/store";
 import NotFound from "@/views/errors/404";
 import Unavailable from "@/views/errors/503";
-import MyDrive from "@/views/MyDrive";
-import SharedWithMe from "@/views/SharedWithMe";
-import Folders from "@/views/Folders";
-import LastUpdate from "@/views/LastUpdate";
 import DeletedFiles from "@/views/DeletedFiles";
 import Favorites from "@/views/Favorites";
 import QuestionAnswer from "@/views/Q&A";
@@ -27,22 +23,22 @@ const router = new Router({
     },
     {
       path: "/my-drive",
-      component: MyDrive,
+      component: () => import('@/views/MyDrive'),
       name: "My Drive",
     },
     {
       path: "/shared-with-me",
-      component: SharedWithMe,
+      component: () => import('@/views/SharedWithMe'),
       name: "Shared With Me",
     },
     {
       path: "/folders",
-      component: Folders,
+      component: () => import('@/views/Folders'),
       name: "Folders",
     },
     {
       path: "/last-update",
-      component: LastUpdate,
+      component: () => import('@/views/LastUpdate'),
       name: "Last Update",
     },
     {
@@ -75,15 +71,7 @@ const router = new Router({
 
 router.beforeEach(async (to, from, next) => {
   document.title = to.name;
-
   await store.dispatch("onFolderChange", to.query.id);
-  if (to.name === "Shared With Me") {
-    await store.dispatch("fetchSharedFiles");
-  } else if (to.name === "Last Update") {
-    await store.dispatch("fetchLastUpdatedFiles");
-  } else {
-    await store.dispatch("fetchFiles");
-  }
   next();
 });
 

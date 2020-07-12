@@ -13,10 +13,7 @@ export default {
     ...mapGetters(["files"])
   },
   created() {
-    console.log(this.files);
+    this.$store.dispatch("fetchSharedFiles");
   }
 };
 </script>
-
-<style scoped>
-</style>

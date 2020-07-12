@@ -15,6 +15,9 @@ export default {
   components: { FabButton, PageTemplate },
   computed: {
     ...mapGetters(["files"])
+  },
+  created() {
+    this.$store.dispatch("fetchFiles");
   }
 };
 </script>
