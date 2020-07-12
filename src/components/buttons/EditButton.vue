@@ -26,7 +26,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { fileTypes } from "@/utils/config";
-import { editRole } from "@/utils/roles";
+import { writeRole } from "@/utils/roles";
 import NamePopup from "../popups/BaseNamePopup";
 
 export default {
@@ -46,7 +46,8 @@ export default {
     canEdit() {
       return (
         this.chosenFiles.length === 1 &&
-        (!this.currentFolder || editRole(this.currentFolder.role))
+        (!this.currentFolder || writeRole(this.currentFolder.role)) &&
+        this.chosenFiles.every(file => writeRole(file.role))
       );
     }
   }

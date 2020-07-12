@@ -38,7 +38,7 @@
       <template v-slot:no-data>{{$t('NoData')}}</template>
     </v-data-table>
     <v-row justify="center">
-      <v-pagination color="#357e6f" v-model="page" :length="pageCount"></v-pagination>
+      <v-pagination id="pagination" color="#357e6f" v-model="page" :length="pageCount"></v-pagination>
     </v-row>
     <BottomMenu :chosenFiles="chosenFiles" />
     <FileContextMenu ref="contextmenu" :files="chosenFiles" />
@@ -156,5 +156,8 @@ export default {
   text-align: right;
   max-width: 350px;
   direction: ltr;
+}
+#pagination {
+  padding-top: 20px;
 }
 </style>

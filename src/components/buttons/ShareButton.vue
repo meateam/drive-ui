@@ -20,7 +20,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { shareRole } from "@/utils/roles";
+import { writeRole } from "@/utils/roles";
 import SharePopup from "@/components/popups/share/SharePopup";
 
 export default {
@@ -32,7 +32,10 @@ export default {
   props: ["icon"],
   methods: {
     canShare() {
-      return !this.currentFolder || shareRole(this.currentFolder.role);
+      return (
+        (!this.currentFolder || writeRole(this.currentFolder.role)) &&
+        this.chosenFiles.every(file => writeRole(file.role))
+      );
     }
   }
 };

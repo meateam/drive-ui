@@ -40,7 +40,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { uploadRole } from "@/utils/roles";
+import { writeRole } from "@/utils/roles";
 import Upload from "./Upload";
 import NamePopup from "../popups/BaseNamePopup";
 
@@ -69,7 +69,7 @@ export default {
       }
     },
     canUpload() {
-      return !this.currentFolder || uploadRole(this.currentFolder.role);
+      return !this.currentFolder || writeRole(this.currentFolder.role);
     }
   }
 };

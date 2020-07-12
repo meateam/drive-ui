@@ -11,6 +11,9 @@ export default {
   components: { PageTemplate },
   computed: {
     ...mapGetters(["files"])
+  },
+  created() {
+    console.log(this.files);
   }
 };
 </script>

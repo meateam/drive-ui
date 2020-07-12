@@ -10,7 +10,10 @@
         text
       >
         <img class="fab-icon" src="@/assets/icons/delete.svg" />
-        <p class="button-text" v-if="!icon">{{ $t("buttons.Delete") }}</p>
+        <p
+          class="button-text"
+          v-if="!icon"
+        >{{ isUserOwner()? $t("buttons.Delete"): $t('buttons.RenoveShare') }}</p>
       </v-btn>
     </template>
     <DeletePopup
@@ -20,13 +23,13 @@
       :text="$t('file.Delete')"
       :button="$t('buttons.DeleteNow')"
     />
-    <span>{{ $t("buttons.Delete") }}</span>
+    <span>{{ isUserOwner()? $t("buttons.Delete"): $t('buttons.RenoveShare') }}</span>
   </v-tooltip>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { deleteRole } from "@/utils/roles";
+import { writeRole, ownerRole } from "@/utils/roles";
 import DeletePopup from "../popups/BaseDeletePopup";
 
 export default {
@@ -38,7 +41,10 @@ export default {
       this.$store.dispatch("deleteFiles", this.chosenFiles);
     },
     canDelete() {
-      return !this.currentFolder || deleteRole(this.currentFolder.role);
+      return !this.currentFolder || writeRole(this.currentFolder.role);
+    },
+    isUserOwner() {
+      return this.chosenFiles.every(file => ownerRole(file.role));
     }
   },
   computed: {

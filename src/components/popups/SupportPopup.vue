@@ -7,17 +7,17 @@
       </div>
       <div class="popup-body">
         <div class="support">
-          <ClickHereButton :label="$t('questions.Header')" @click="openQuestions" />
+          <GreenTextButton :label="$t('questions.Header')" @click="openQuestions" />
         </div>
         <v-divider />
         <div class="support">
           <p>{{$t('support.DriveSupport')}}</p>
-          <ClickHereButton :label="$t('buttons.ClickHere')" @click="openDriveSupport" />
+          <GreenTextButton :label="$t('buttons.ClickHere')" @click="openDriveSupport" />
         </div>
         <v-divider />
         <div class="support">
           <p>{{$t('support.DropboxSupport')}}</p>
-          <ClickHereButton :label="$t('buttons.ClickHere')" @click="openDropboxSupport" />
+          <GreenTextButton :label="$t('buttons.ClickHere')" @click="openDropboxSupport" />
         </div>
       </div>
     </v-card>
@@ -26,7 +26,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import ClickHereButton from "@/components/buttons/BaseClickHereButton";
+import GreenTextButton from "@/components/buttons/BaseGreenTextButton";
 
 export default {
   name: "SupportPopup",
@@ -35,7 +35,7 @@ export default {
       dialog: false
     };
   },
-  components: { ClickHereButton },
+  components: { GreenTextButton },
   computed: {
     ...mapGetters(["supportLink"])
   },

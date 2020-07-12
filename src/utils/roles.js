@@ -4,22 +4,10 @@ export const Roles = {
     read: "READ"
 };
 
-export function uploadRole(role) {
+export function writeRole(role) {
     return role == Roles.write || role == Roles.owner;
 }
 
-export function deleteRole(role) {
-    return role == Roles.write || role == Roles.owner;
-}
-
-export function shareRole(role) {
-    return role == Roles.write || role == Roles.owner;
-}
-
-export function editRole(role) {
-    return role == Roles.write || role == Roles.owner;
-}
-
-export function moveRole(role) {
-    return role == Roles.write || role == Roles.owner;
+export function ownerRole(role) {
+    return role == Roles.owner;
 }

@@ -20,7 +20,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { moveRole } from "@/utils/roles";
+import { writeRole } from "@/utils/roles";
 import MovePopup from "../popups/MovePopup";
 
 export default {
@@ -39,7 +39,10 @@ export default {
       });
     },
     canMove() {
-      return !this.currentFolder || moveRole(this.currentFolder.role);
+      return (
+        (!this.currentFolder || writeRole(this.currentFolder.role)) &&
+        this.chosenFiles.every(file => writeRole(file.role))
+      );
     }
   }
 };
