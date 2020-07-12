@@ -1,4 +1,5 @@
 import * as filesApi from "@/api/files";
+import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/utils/config";
 import { formatFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
@@ -11,7 +12,7 @@ const state = {
 };
 
 const getters = {
-  files: (state) => state.files,
+  files: (state) => sortFiles(state.files),
   chosenFiles: (state) => state.chosenFiles,
   folderRoles: (state) => state.folderRoles,
   currentFolder: (state) => state.currentFolder,

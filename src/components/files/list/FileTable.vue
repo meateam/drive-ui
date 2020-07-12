@@ -154,7 +154,7 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: right;
-  max-width: 350px;
+  max-width: 150px;
   direction: ltr;
 }
 #pagination {
