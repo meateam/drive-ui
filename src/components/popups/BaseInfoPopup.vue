@@ -19,14 +19,14 @@
           <p>{{$t('fileInfo.Shared')}}</p>
           <div>
             <div v-if="users.length" class="flex">
-              <Avatar v-for="user in users" :key="user.id" :user="user" />
+              <UserAvatar v-for="user in users" :key="user.id" :user="user" />
             </div>
             <div v-else>-</div>
           </div>
           <p>{{$t('fileInfo.ExternalShare')}}</p>
           <div>
             <div v-if="externalUsers.length" class="flex">
-              <Avatar v-for="user in externalUsers" :key="user.id" :user="user" />
+              <UserAvatar v-for="user in externalUsers" :key="user.id" :user="user" />
             </div>
             <div v-else>-</div>
           </div>
@@ -37,7 +37,7 @@
 </template>
 <script>
 import KeyValue from "@/components/shared/BaseKeyValue";
-import Avatar from "@/components/shared/Avatar";
+import UserAvatar from "@/components/shared/UserAvatar";
 import { getPermissions, getExternalPermissions } from "@/api/share";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
@@ -45,7 +45,7 @@ import { formatDate } from "@/utils/formatDate";
 export default {
   name: "FileInfo",
   props: ["file"],
-  components: { KeyValue, Avatar },
+  components: { KeyValue, UserAvatar },
   data() {
     return {
       dialog: false,

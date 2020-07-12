@@ -1,9 +1,7 @@
 <template>
   <v-tooltip top>
-    <template #activator="{ on }">
-      <div>
-        <v-avatar size="35" :v-on="on" id="avatar" :color="getColor()">{{getUserName()}}</v-avatar>
-      </div>
+    <template v-slot:activator="{ on }">
+      <v-btn small fab v-on="on" id="avatar" :color="color">{{getUserName()}}</v-btn>
     </template>
     <span>{{user.fullName}}</span>
   </v-tooltip>
@@ -13,8 +11,13 @@
 import randomColor from "randomcolor";
 
 export default {
-  name: "Avatar",
+  name: "UserAvatar",
   props: ["user"],
+  data() {
+    return {
+      color: this.getColor()
+    };
+  },
   methods: {
     /**
      * getUserName returns the formated user name

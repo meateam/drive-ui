@@ -85,6 +85,7 @@ export default {
 .files {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 .theme--light.v-tabs-items {
   background-color: transparent;
