@@ -79,9 +79,9 @@ export async function multipartUpload({ file, parent }) {
  * resumableUpload is an upload for bigger files
  * @param file is the file to upload
  */
-export async function resumableUpload(file, parent) {
+export async function resumableUpload({ file, parent }) {
 
-    const uploadID = await getUploadID(file, parent);
+    const uploadID = await getUploadID({ file, parent });
 
     const formData = new FormData();
     formData.append("file", file, file.name);
@@ -97,8 +97,7 @@ export async function resumableUpload(file, parent) {
  * getUploadID is used for the resumable upload (for connecting all the pieces when the upload is finished)
  * @param file is the file to upload
  */
-export async function getUploadID(file, parent) {
-
+export async function getUploadID({ file, parent }) {
     const res = await Axios.post(
         `${baseURL}/api/upload${
         parent ? `?parent=${parent.id}` : ""

@@ -23,8 +23,9 @@
           <td>
             <v-simple-checkbox color="#357e6f" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </td>
-          <td>
-            <v-icon id="folder" color="#9caec4" v-if="isFolder(item.type)">folder</v-icon>
+          <td id="file-icon">
+            <FileTypeIcon :file="item" />
+            <!-- <v-icon id="folder" color="#9caec4" v-if="isFolder(item.type)">folder</v-icon> -->
           </td>
           <td id="file-name">{{ item.name }}</td>
           <td>{{ item.owner }}</td>
@@ -48,18 +49,19 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { fileTypes } from "@/utils/config";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
 import { canPreview } from "@/utils/canPreview";
+import { isFolder } from "@/utils/isFolder";
 import BottomMenu from "@/components/popups/BottomMenu";
+import FileTypeIcon from "@/components/shared/BaseFileTypeIcon";
 import FileContextMenu from "@/components/popups/FileContextMenu";
 import Preview from "@/components/popups/Preview";
 
 export default {
   name: "FileTable",
   props: ["files"],
-  components: { BottomMenu, FileContextMenu, Preview },
+  components: { BottomMenu, FileContextMenu, Preview, FileTypeIcon },
   computed: {
     ...mapGetters(["chosenFiles"])
   },
@@ -86,9 +88,6 @@ export default {
     formatFileDate(date) {
       return formatDate(date);
     },
-    isFolder(type) {
-      return type === fileTypes.folder;
-    },
     onRightClick(event, file) {
       event.preventDefault();
       if (!this.selected.includes(file)) {
@@ -98,7 +97,7 @@ export default {
     },
     onDblClick(event, file) {
       event.preventDefault();
-      if (this.isFolder(file.type)) {
+      if (isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (canPreview(file.type)) {
         this.$refs.preview.open(file);
@@ -154,8 +153,10 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: right;
-  max-width: 150px;
   direction: ltr;
+}
+#file-icon {
+  width: 55px;
 }
 #pagination {
   padding-top: 20px;

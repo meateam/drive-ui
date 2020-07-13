@@ -8,26 +8,29 @@
     @click.ctrl.native="$emit('ctrlClick', $event, file)"
     @contextmenu.prevent="$emit('contextmenu', $event, file)"
   >
-    <div class="file-preview-container" v-if="file.type.startsWith('image')">
-      <img :src="getImage" id="image" />
+    <img v-if="file.type.startsWith('image')" :src="getImage" id="image" />
+    <iframe v-else-if="showPDF()" :src="getPDF" frameborder="0" scrolling="no" id="pdf"></iframe>
+    <div v-else id="file-icon">
+      <FileTypeIcon :file="file" />
     </div>
-    <div v-else-if="showPDF()" class="file-preview-container">
-      <iframe :src="getPDF" frameborder="0" scrolling="no" id="pdf"></iframe>
-    </div>
-    <v-icon v-else-if="file.type.startsWith('audio')" color="#9caec4" class="file-icon">audiotrack</v-icon>
-    <v-icon v-else-if="file.type.startsWith('video')" color="#9caec4" class="file-icon">movie</v-icon>
-    <v-icon v-else color="#9caec4" class="file-icon">insert_drive_file</v-icon>
-    <p id="file-name">{{file.name}}</p>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <p v-on="on" id="file-name">{{file.name}}</p>
+      </template>
+      <span>{{file.name}}</span>
+    </v-tooltip>
   </v-card>
 </template>
 
 <script>
 import { getPdfPreview, getPreview } from "@/api/files";
 import { canPreviewPdf } from "@/utils/canPreview";
+import FileTypeIcon from "@/components/shared/BaseFileTypeIcon";
 
 export default {
   name: "File",
   props: ["file", "isSelected"],
+  components: { FileTypeIcon },
   methods: {
     showPDF() {
       return canPreviewPdf(this.file.type);
@@ -75,8 +78,8 @@ export default {
   font-size: 18px;
 }
 #image {
-  max-width: 65%;
-  max-height: 65%;
+  max-width: 50%;
+  max-height: 50%;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -84,27 +87,20 @@ export default {
   right: 0;
   margin: auto;
 }
-.file-icon {
-  text-align: center;
-  display: block;
-  margin-top: 28px;
+#file-icon {
+  max-width: 50%;
+  max-height: 50%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 20px auto;
   font-size: 80px;
 }
 #pdf {
   pointer-events: none;
   width: 100%;
   height: 100%;
-}
-.file-preview-container {
-  height: calc(90% - 45px);
-  width: 80%;
-  border-radius: 10px;
-  position: absolute;
-  bottom: 45px;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: 0 0 24px 0 rgba(76, 91, 140, 0.2);
 }
 </style>

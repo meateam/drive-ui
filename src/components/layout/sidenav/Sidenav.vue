@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer permanent app floating expand-on-hover right id="sidenav">
+  <v-navigation-drawer permanent app floating right id="sidenav">
     <v-list nav>
       <v-list-item id="logo-container">
         <v-list-item-content>
@@ -88,9 +88,7 @@
 
       <v-divider></v-divider>
     </v-list>
-    <template v-slot:append>
-      <img id="yesodot" class="icons" src="@/assets/images/yesodot.svg" />
-    </template>
+    <img id="yesodot" class="icons" src="@/assets/images/yesodot.svg" />
   </v-navigation-drawer>
 </template>
 
@@ -135,6 +133,7 @@ export default {
 }
 .v-list {
   padding: 0;
+  min-height: 90%;
 }
 .v-list-item {
   height: 70px;
@@ -147,8 +146,10 @@ export default {
   padding-bottom: 5px;
 }
 #yesodot {
+  display: block;
   width: 70px;
-  z-index: 1000;
+  padding-top: 10px;
+  margin: auto;
 }
 .v-list-item__icon {
   margin: auto;

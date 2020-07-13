@@ -1,8 +1,15 @@
 <template>
-  <div class="hammer">
-    <div class="face"></div>
-    <div class="head"></div>
-    <div class="handle"></div>
+  <div class="container">
+    <p id="error">503</p>
+    <h1 id="unavailable">{{$t('errors.Unavailable')}}</h1>
+    <div class="area">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </div>
 </template>
 
@@ -13,81 +20,93 @@ export default {
 </script>
 
 <style scoped>
-hammer {
-  height: 10rem;
-  width: 10rem;
+#error {
+  text-align: center;
+}
+#unavailable {
+  text-align: center;
+  font-size: 50px;
+}
+
+.area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.area div {
   position: absolute;
-  left: 45%;
-  top: 30%;
-  /* Transitions with browser fallbacks */
-  -webkit-transition: -webkit-transform 0.8s ease-in-out;
-  -ms-transition: -ms-transform 0.8s ease-in-out;
-  transition: transform 0.8s ease-in-out;
+  display: block;
+  list-style: none;
+  width: 25px;
+  height: 25px;
+  animation: animate 10s linear infinite;
+  bottom: -150px;
 }
 
-.hammer:hover {
-  transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  -webkit-transform: rotate(-90deg);
+.area div:nth-child(1) {
+  background-color: #329795;
+  left: 85%;
+  width: 80px;
+  height: 80px;
+  animation-delay: 0s;
 }
 
-.face {
-  height: 1rem;
-  width: 1rem;
-  background: #676767;
-  position: absolute;
-  left: 2.5rem;
-  top: 0.25rem;
-  border-radius: 2px;
-}
-
-.head {
-  height: 2rem;
-  width: 1.5rem;
-  background: #676767;
-  margin: 0 auto;
-}
-
-.head::before {
-  content: "";
-  height: 0;
-  width: 0.5rem;
-  position: absolute;
-  left: 3rem;
-  top: 0.25rem;
-  border-bottom: 1rem solid #676767;
-  border-left: 0.5rem solid transparent;
-  border-right: 0.5rem solid transparent;
-  transform: rotate(270deg);
-}
-
-.head::after {
-  content: "";
-  height: 1rem;
-  width: 2rem;
-  box-shadow: 6px 0.5rem 0 7px #676767;
+.area div:nth-child(2) {
+  background-color: #f17993;
+  left: 75%;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  position: absolute;
-  right: 3rem;
-  transform: rotate(180deg);
-  top: 1rem;
+  animation-delay: 1.5s;
+  animation-duration: 10s;
 }
 
-.handle {
-  height: 8rem;
-  width: 1.5rem;
-  margin: 0 auto;
-  border-radius: 0 0 1rem 1rem;
-  background: #ba6442;
-  /* Textured wood effect */
-  background-image: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.07) 50%,
-      transparent 50%
-    ),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.13) 50%, transparent 50%),
-    linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, 0.17) 50%),
-    linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, 0.19) 50%);
-  background-size: 13px, 29px, 37px, 53px;
+.area div:nth-child(3) {
+  background-color: #7e4c97;
+  left: 60%;
+  width: 100px;
+  height: 100px;
+  animation-delay: 5.5s;
+}
+
+.area div:nth-child(4) {
+  background-color: #7ed1e6;
+  left: 40%;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  animation-delay: 0s;
+}
+
+.area div:nth-child(5) {
+  background-color: #fca83e;
+  left: 25%;
+  width: 80px;
+  height: 80px;
+  animation-delay: 0s;
+}
+
+.area div:nth-child(6) {
+  background-color: #f9ada3;
+  left: 10%;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  animation-delay: 3.5s;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  100% {
+    transform: translateY(-800px) rotate(360deg);
+    opacity: 0;
+  }
 }
 </style>

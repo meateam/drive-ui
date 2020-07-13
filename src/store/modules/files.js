@@ -192,7 +192,7 @@ const actions = {
       const newName = file.name.includes('.') ? `${name}.${file.name.substr(file.name.lastIndexOf(".") + 1)}` : name;
       const res = await filesApi.editFile({ file, name: newName })
       commit("onFileRename", res);
-      commit("onSuccess", "snackbar.Edit")
+      commit("onSuccess", "snackbar.Edit");
     } catch (err) {
       commit("onError", err);
     }
