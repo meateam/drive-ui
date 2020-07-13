@@ -10,8 +10,7 @@
     >
       <AppBar />
       <Sidenav />
-      <div id="page-container">
-        <router-view />
+      <v-content>
         <div id="loading">
           <v-progress-circular
             :size="200"
@@ -21,7 +20,8 @@
             indeterminate
           ></v-progress-circular>
         </div>
-      </div>
+        <router-view />
+      </v-content>
     </div>
     <div v-else>
       <img id="yesodot" src="@/assets/images/yesodot.svg" />
@@ -33,7 +33,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import AppBar from "@/components/layout/header/AppBar";
+import AppBar from "@/components/layout/toolbar/AppBar";
 import Sidenav from "@/components/layout/sidenav/Sidenav";
 import Snackbar from "@/components/popups/SuccessSnackbar";
 import ErrorSnackbar from "@/components/popups/ErrorSnackbar";
@@ -66,7 +66,6 @@ export default {
   methods: {
     onDrop(event) {
       event.preventDefault();
-      console.log(event);
       this.drag = false;
       const files = event.dataTransfer.files;
       if (!files) return;
@@ -78,10 +77,6 @@ export default {
 
 <style scoped>
 @import "./styles/global.css";
-#page-container {
-  margin-right: 256px;
-  position: relative;
-}
 #yesodot {
   position: fixed;
   width: 500px;
@@ -98,8 +93,5 @@ export default {
   filter: blur(3px);
   height: 100vh;
   z-index: 100;
-}
-.container {
-  padding: 0;
 }
 </style>

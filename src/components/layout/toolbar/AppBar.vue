@@ -1,6 +1,6 @@
 <template>
-  <v-card class="header">
-    <div class="search">
+  <v-app-bar app id="header" color="white" height="86px">
+    <div id="search-input">
       <Search
         background="#f0f4f7"
         :placeholder="$t('autocomplete.Drive')"
@@ -11,23 +11,25 @@
         @type="getSearchResults"
       />
     </div>
-    <div class="left">
-      <div id="drive">
-        <router-link to="/my-drive" class="auto-margin">
-          <img class="drive-icon" src="@/assets/icons/drive.svg" />
-        </router-link>
-      </div>
-      <div id="info">
-        <p class="user-name">{{getUserName()}}</p>
-        <ChatButton />
-        <TourButton />
-      </div>
-
+    <v-spacer></v-spacer>
+    <div id="left">
       <div v-if="loadingFiles.length">
         <LoadingFiles :files="loadingFiles" />
       </div>
+      <v-divider vertical light></v-divider>
+      <div id="info">
+        <TourButton />
+        <ChatButton />
+        <p id="user-name">{{getUserName()}}</p>
+      </div>
+      <v-divider vertical light></v-divider>
+      <div id="drive-logo">
+        <router-link to="/my-drive" class="auto-margin">
+          <img id="drive-icon" src="@/assets/icons/drive.svg" />
+        </router-link>
+      </div>
     </div>
-  </v-card>
+  </v-app-bar>
 </template>
 
 <script>
@@ -90,51 +92,36 @@ export default {
 </script>
 
 <style scoped>
-.header {
-  height: 86px;
-  display: flex;
+#header {
   box-shadow: 0px 2px 4px 0 rgba(93, 111, 125, 0.1);
-  background-color: #ffffff;
   justify-content: space-between;
-  margin-right: 256px;
 }
-.left {
-  margin-left: 0;
+#left {
   height: 100%;
+  line-height: 100%;
   display: flex;
-  justify-content: flex-start;
-  flex-direction: row-reverse;
 }
-.search {
+#search-input {
   margin: auto 15px;
   width: 470px;
   padding-top: 20px;
 }
-#drive {
-  width: 90px;
-  height: 100%;
-  display: flex;
-  border-right: 1px solid #dde2ea;
-}
 #info {
-  height: 100%;
   display: flex;
   justify-content: space-around;
-  flex-direction: row-reverse;
   padding: 15px;
-  border-right: 1px solid #dde2ea;
 }
-.container {
-  height: 100%;
-  padding: 0;
-}
-.user-name {
-  margin: auto !important;
+#user-name {
+  align-self: center;
   padding-right: 10px;
   font-size: 18px;
 }
-.drive-icon {
-  width: 40px;
+#drive-logo {
+  width: 90px;
+  display: flex;
+}
+#drive-icon {
+  width: 60px;
   -webkit-animation: rotate-scale-up 0.65s linear both;
   animation: rotate-scale-up 0.65s linear both;
 }

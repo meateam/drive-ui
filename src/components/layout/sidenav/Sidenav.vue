@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer permanent app right id="sidenav">
+  <v-navigation-drawer permanent app floating expand-on-hover right id="sidenav">
     <v-list nav>
       <v-list-item id="logo-container">
         <v-list-item-content>
@@ -10,6 +10,8 @@
         </v-list-item-content>
       </v-list-item>
 
+      <v-divider></v-divider>
+
       <router-link to="/my-drive">
         <v-list-item link id="my-drive-link">
           <v-list-item-icon>
@@ -18,6 +20,8 @@
           <v-list-item-title>{{ $t("sidenav.MyDrive") }}</v-list-item-title>
         </v-list-item>
       </router-link>
+
+      <v-divider></v-divider>
 
       <router-link to="/shared-with-me">
         <v-list-item link>
@@ -28,6 +32,8 @@
         </v-list-item>
       </router-link>
 
+      <v-divider></v-divider>
+
       <router-link to="/last-update">
         <v-list-item link>
           <v-list-item-icon>
@@ -37,6 +43,8 @@
         </v-list-item>
       </router-link>
 
+      <v-divider></v-divider>
+
       <v-list-item link @click="openApprovalService">
         <v-list-item-icon>
           <img class="icons" src="@/assets/icons/pending.svg" />
@@ -44,7 +52,9 @@
         <v-list-item-title>{{ myExternalSharesName }}</v-list-item-title>
       </v-list-item>
 
-      <router-link to="/favorites">
+      <v-divider></v-divider>
+
+      <!-- <router-link to="/favorites">
         <v-list-item link>
           <v-list-item-icon>
             <img class="icons" src="@/assets/icons/favorites.svg" />
@@ -52,6 +62,8 @@
           <v-list-item-title>{{ $t("sidenav.Favorites") }}</v-list-item-title>
         </v-list-item>
       </router-link>
+
+      <v-divider></v-divider>
 
       <router-link to="/deleted-files">
         <v-list-item link>
@@ -62,8 +74,10 @@
         </v-list-item>
       </router-link>
 
-      <div id="quota-container">
-        <v-list-item id="quota-list-item">
+      <v-divider></v-divider>-->
+
+      <div>
+        <v-list-item>
           <v-list-item-icon>
             <img class="icons" src="@/assets/icons/storage.svg" />
           </v-list-item-icon>
@@ -71,8 +85,12 @@
         </v-list-item>
         <Quota :quota="quota" />
       </div>
+
+      <v-divider></v-divider>
     </v-list>
-    <img id="yesodot" class="icons" src="@/assets/images/yesodot.svg" />
+    <template v-slot:append>
+      <img id="yesodot" class="icons" src="@/assets/images/yesodot.svg" />
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -93,9 +111,6 @@ export default {
   },
   methods: {
     ...mapActions(["getQuota"]),
-    openFolders() {
-      // this.$refs.folderPopup.toggle();
-    },
     openApprovalService() {
       window.open(this.approvalServiceUrl);
     }
@@ -111,27 +126,19 @@ export default {
   background-image: linear-gradient(to bottom, #357e6f, #4d804d);
   display: block;
 }
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+  color: #c8d9d5 !important;
+  padding: 0 20px;
+}
+.theme--light.v-divider {
+  border-color: #255f53 !important;
+}
 .v-list {
   padding: 0;
 }
 .v-list-item {
-  border-bottom: #255f53 solid 1px;
   height: 70px;
   font-weight: 700;
-}
-.folders {
-  border-bottom: #255f53 solid 1px;
-}
-.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
-  color: #c8d9d5 !important;
-  padding: 0 30px;
-}
-.v-list--nav .v-list-item,
-.v-list--nav .v-list-item:before {
-  border-radius: 0;
-}
-.v-list-item__icon {
-  margin: auto;
 }
 #logo-container {
   height: 86px;
@@ -140,28 +147,16 @@ export default {
   padding-bottom: 5px;
 }
 #yesodot {
-  position: absolute;
-  bottom: 30px;
-  right: 35%;
-  width: 30%;
+  width: 70px;
+  z-index: 1000;
+}
+.v-list-item__icon {
+  margin: auto;
 }
 .icons {
   width: 18px;
 }
-#quota {
-  display: block;
-}
-#quota-list-item {
-  border: none;
-  height: 40px;
-}
-#quota-container {
-  border-bottom: #255f53 solid 1px;
-}
 #version {
   text-align: center;
-}
-#folder-item {
-  position: relative;
 }
 </style>

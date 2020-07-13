@@ -137,7 +137,7 @@ export default {
 <style scoped>
 .v-data-table {
   background-color: transparent !important;
-  min-height: calc(100vh - 300px);
+  min-height: calc(100vh - 320px);
 }
 .selected {
   background-color: rgb(231, 237, 248);
