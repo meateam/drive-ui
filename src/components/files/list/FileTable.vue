@@ -24,8 +24,7 @@
             <v-simple-checkbox color="#357e6f" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </td>
           <td id="file-icon">
-            <FileTypeIcon :file="item" />
-            <!-- <v-icon id="folder" color="#9caec4" v-if="isFolder(item.type)">folder</v-icon> -->
+            <FileTypeIcon :file="item" :size="30"/>
           </td>
           <td id="file-name">{{ item.name }}</td>
           <td>{{ item.owner }}</td>
@@ -154,6 +153,7 @@ export default {
   white-space: nowrap;
   text-align: right;
   direction: ltr;
+  max-width: 500px;
 }
 #file-icon {
   width: 55px;

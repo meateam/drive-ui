@@ -11,7 +11,7 @@
     <img v-if="file.type.startsWith('image')" :src="getImage" id="image" />
     <iframe v-else-if="showPDF()" :src="getPDF" frameborder="0" scrolling="no" id="pdf"></iframe>
     <div v-else id="file-icon">
-      <FileTypeIcon :file="file" />
+      <FileTypeIcon :file="file" :size="120" />
     </div>
     <v-tooltip bottom>
       <template v-slot:activator="{ on }">
@@ -85,7 +85,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  margin: auto;
+  margin: 20px auto;
 }
 #file-icon {
   max-width: 50%;
