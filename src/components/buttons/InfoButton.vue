@@ -23,7 +23,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { fileTypes } from "@/utils/config";
+import { fileTypes } from "@/config";
 import InfoPopup from "@/components/popups/BaseInfoPopup";
 
 export default {

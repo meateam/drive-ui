@@ -1,6 +1,6 @@
 import * as filesApi from "@/api/files";
 import { sortFiles } from "@/utils/sortFiles";
-import { fileTypes } from "@/utils/config";
+import { fileTypes } from "@/config";
 import { formatFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 
@@ -90,25 +90,21 @@ const actions = {
    * @param fileID is the id of the file to delete
    */
   async deleteFile({ commit, dispatch }, fileID) {
-    try {
-      const id = await filesApi.deleteFile(fileID);
-      commit("deleteFile", id || fileID);
-      dispatch("getQuota");
-    } catch (err) {
-      dispatch("onError", err);
-    }
+    await filesApi.deleteFile(fileID);
+    commit("deleteFile", fileID);
+    dispatch("getQuota");
   },
   /**
    * deleteFiles uses the method delete file to delete all the files in the chosen array
    */
   deleteFiles({ dispatch, commit }, files) {
     Promise.all(
-      files.map((file) => {
-        return dispatch("deleteFile", file.id);
-      })
+      files.map((file) => dispatch("deleteFile", file.id))
     ).then(() => {
-      commit('onSuccess', files.length === 1 ? "snackbar.DeleteItem" : "snackbar.DeleteItems");
-    });
+      commit('onSuccess', files.length === 1 ? "success.DeleteItem" : "success.DeleteItems");
+    }).catch(err => {
+      dispatch("onError", err);
+    })
   },
   /**
    * uploadFile create multipart or resumable upload by the file size
@@ -145,11 +141,10 @@ const actions = {
         return dispatch("uploadFile", file);
       })
     )
-      .then(() => commit("onSuccess", files.length === 1 ? "snackbar.File" : "snackbar.Files"))
+      .then(() => commit("onSuccess", files.length === 1 ? "success.File" : "success.Files"))
       .catch(err => {
-
         dispatch("onError", err);
-      })
+      });
   },
   /**
    * uploadFolder in the current folder
@@ -161,7 +156,7 @@ const actions = {
         throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
       const folder = await filesApi.uploadFolder({ name, parent: state.currentFolder });
       const formatedFile = await formatFile(folder);
-      commit("onSuccess", "snackbar.Folder");
+      commit("onSuccess", "success.Folder");
       commit("addFile", formatedFile);
     } catch (err) {
       dispatch("onError", err);
@@ -194,7 +189,7 @@ const actions = {
       const newName = file.name.includes('.') ? `${name}.${file.name.substr(file.name.lastIndexOf(".") + 1)}` : name;
       const res = await filesApi.editFile({ file, name: newName })
       commit("onFileRename", res);
-      commit("onSuccess", "snackbar.Edit");
+      commit("onSuccess", "success.Edit");
     } catch (err) {
       dispatch("onError", err);
     }

@@ -1,7 +1,7 @@
 import Axios from "axios";
+import { baseURL } from "@/config";
 import store from '@/store';
 import * as usersApi from "@/api/users";
-import { baseURL } from "@/utils/config";
 
 /**
  * getPermissions returns all the user id`s of the users that was shared with the file

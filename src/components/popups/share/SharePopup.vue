@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { fileTypes } from "@/utils/config";
+import { fileTypes } from "@/config";
 import DriveShare from "./tabs/DriveShare";
 import ExternalShare from "./tabs/ExternalShare";
 

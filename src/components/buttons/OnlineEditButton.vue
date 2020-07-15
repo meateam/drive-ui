@@ -19,7 +19,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { fileTypes } from "@/utils/config";
+import { fileTypes } from "@/config";
 import * as filesApi from "@/api/files";
 
 export default {

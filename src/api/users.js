@@ -1,7 +1,7 @@
 import Axios from "axios";
 import store from "@/store";
 import { formatUser, formatExternalUser } from "@/utils/formatUser";
-import { baseURL } from "@/utils/config";
+import { baseURL } from "@/config";
 
 /**
  * getUserByID returns the user with the received id

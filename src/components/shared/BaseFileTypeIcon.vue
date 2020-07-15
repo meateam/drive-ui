@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { fileTypes } from "@/utils/config";
+import { fileTypes } from "@/config";
 export default {
   name: "FileTypeIcon",
   props: ["file", "size"],

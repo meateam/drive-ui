@@ -1,6 +1,6 @@
 import Axios from "axios";
+import { baseURL, fileTypes } from "@/config";
 import store from '@/store';
-import { baseURL, fileTypes } from "@/utils/config";
 
 /**
  * fetchFiles fetch all the files in the current folder

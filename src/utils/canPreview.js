@@ -1,4 +1,4 @@
-import { fileTypes } from "@/utils/config";
+import { fileTypes } from "@/config";
 
 export function canPreview(type) {
   return (

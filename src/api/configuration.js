@@ -1,4 +1,4 @@
-import { baseURL } from "@/utils/config";
+import { baseURL } from "@/config";
 
 export async function fetchConfig() {
 	const res = await fetch(`${baseURL}/api/config`);

@@ -25,7 +25,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { fileTypes } from "@/utils/config";
+import { fileTypes } from "@/config";
 import { writeRole } from "@/utils/roles";
 import NamePopup from "../popups/BaseNamePopup";
 

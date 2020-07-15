@@ -33,7 +33,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { fileTypes } from "@/utils/config";
+import { fileTypes } from "@/config";
 import Preview from "@/components/popups/Preview";
 import FileContextMenu from "@/components/popups/FileContextMenu";
 import Folder from "./items/Folder";
