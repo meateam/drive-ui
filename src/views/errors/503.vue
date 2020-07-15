@@ -1,16 +1,22 @@
 <template>
-  <div class="container">
-    <p id="error">503</p>
-    <h1 id="unavailable">{{$t('errors.Unavailable')}}</h1>
-    <div class="area">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+  <v-app>
+    <div class="container">
+      <div id="text">
+        <h3 id="error">503</h3>
+        <h1 id="unavailable">{{$t('errors.Unavailable')}}</h1>
+        <h2 id="soon">{{$t('errors.BackSoon')}}</h2>
+      </div>
+
+      <div class="area">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -27,7 +33,16 @@ export default {
   text-align: center;
   font-size: 50px;
 }
-
+#soon {
+  text-align: center;
+}
+#text {
+  background-color: white;
+  padding: 30px;
+  width: fit-content;
+  margin: auto;
+  border-radius: 30px;
+}
 .area {
   position: fixed;
   top: 0;
@@ -36,7 +51,6 @@ export default {
   height: 100%;
   overflow: hidden;
 }
-
 .area div {
   position: absolute;
   display: block;
