@@ -1,5 +1,5 @@
 <template>
-  <v-menu bottom offset-y max-height="400" id="load-menu" min-width="300">
+  <v-menu bottom offset-y max-height="400" id="load-menu" min-width="300" v-model="files.length">
     <template v-slot:activator="{ on, attrs }">
       <v-btn v-bind="attrs" v-on="on" text id="show-menu-button">
         <v-progress-circular id="loading" :size="40" :width="3" color="#357e6f" indeterminate></v-progress-circular>
