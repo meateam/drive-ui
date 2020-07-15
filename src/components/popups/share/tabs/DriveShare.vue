@@ -71,9 +71,6 @@ export default {
         .then(users => {
           this.users = users;
         })
-        .catch(err => {
-          throw new Error(err);
-        })
         .finally(() => (this.isLoading = false));
     },
     onUserSelect(user) {

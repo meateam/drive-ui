@@ -9,7 +9,7 @@
         class="auto-margin"
         text
       >
-        <img class="fab-icon" src="@/assets/icons/move.svg" />
+        <v-icon class="fab-icon" color="#f0f4f7">arrow_right_alt</v-icon>
         <p class="button-text" v-if="!icon">{{ $t("buttons.Move") }}</p>
       </v-btn>
     </template>

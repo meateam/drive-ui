@@ -4,9 +4,10 @@
     "Error": "שגיאה",
     "sidenav": {
         "MyDrive": "הדרייב שלי",
+        "ExternalTransferd": "הועברו מרשת חיצונית",
         "SharedWithMe": "שיתפו אותי",
         "Deleted": "קבצים שנמחקו",
-        "LastUpdate": "שונו לאחרונה",
+        "LastUpdated": "שונו לאחרונה",
         "Folders": "תיקיות",
         "Favorites": "מועדפים",
         "Quota": {
@@ -25,7 +26,8 @@
     },
     "pageHeaders": {
         "SharedWithMe": "שיתפו איתי",
-        "LastUdate": "שונו לאחרונה",
+        "LastUpdated": "שונו לאחרונה",
+        "ExternalTransferd": "הועברו מרשת חיצונית",
         "MyDrive": "הדרייב שלי",
         "Search": "תוצאות החיפוש"
     },

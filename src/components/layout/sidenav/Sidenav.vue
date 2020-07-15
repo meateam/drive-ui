@@ -34,12 +34,23 @@
 
       <v-divider></v-divider>
 
-      <router-link to="/last-update">
+      <router-link to="/last-updated">
         <v-list-item link>
           <v-list-item-icon>
             <img class="icons" src="@/assets/icons/last-update.svg" />
           </v-list-item-icon>
-          <v-list-item-title>{{ $t("sidenav.LastUpdate") }}</v-list-item-title>
+          <v-list-item-title>{{ $t("sidenav.LastUpdated") }}</v-list-item-title>
+        </v-list-item>
+      </router-link>
+
+      <v-divider></v-divider>
+
+      <router-link to="/external-transferd">
+        <v-list-item link>
+          <v-list-item-icon>
+            <img class="icons" src="@/assets/icons/move.svg" />
+          </v-list-item-icon>
+          <v-list-item-title>{{ $t("sidenav.ExternalTransferd") }}</v-list-item-title>
         </v-list-item>
       </router-link>
 

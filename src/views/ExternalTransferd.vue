@@ -1,5 +1,5 @@
 <template>
-  <PageTemplate :files="files" :header="$t('pageHeaders.LastUpdate')" />
+  <PageTemplate :files="files" :header="$t('pageHeaders.ExternalTransferd')" />
 </template>
 
 <script>
@@ -7,16 +7,13 @@ import { mapGetters } from "vuex";
 import PageTemplate from "@/components/shared/BasePageTemplate";
 
 export default {
-  name: "LastUpdate",
+  name: "ExternalTransferd",
   components: { PageTemplate },
   computed: {
     ...mapGetters(["files"])
   },
   created() {
-    this.$store.dispatch("fetchLastUpdatedFiles");
+    this.$store.dispatch("fetchExternalTransferdFiles");
   }
 };
 </script>
-
-<style scoped>
-</style>

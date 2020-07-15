@@ -11,7 +11,7 @@ import PageTemplate from "@/components/shared/BasePageTemplate";
 import FabButton from "@/components/buttons/FabButton";
 
 export default {
-  name: "MyDrive",
+  name: "Search",
   components: { FabButton, PageTemplate },
   computed: {
     ...mapGetters(["files"])

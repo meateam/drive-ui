@@ -37,8 +37,13 @@ const router = new Router({
       name: "Folders",
     },
     {
-      path: "/last-update",
-      component: () => import('@/views/LastUpdate'),
+      path: "/external-transferd",
+      component: () => import('@/views/ExternalTransferd'),
+      name: "External Transferd",
+    },
+    {
+      path: "/last-updated",
+      component: () => import('@/views/LastUpdated'),
       name: "Last Update",
     },
     {

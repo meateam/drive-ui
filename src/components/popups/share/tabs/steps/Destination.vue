@@ -49,9 +49,6 @@ export default {
       usersApi
         .searchExternalUsersByName(name)
         .then(users => (this.users = users))
-        .catch(err => {
-          throw new Error(err);
-        })
         .finally(() => (this.isLoading = false));
     },
     onSelect(user) {

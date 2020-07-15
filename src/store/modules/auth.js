@@ -16,21 +16,25 @@ const actions = {
     if (state.token) return await dispatch("parseToken");
     window.location.replace(rootState.configuration.authUrl);
   },
-  parseToken({ commit }) {
-    const token = state.token;
-    const parts = token.split(".");
+  parseToken({ commit, dispatch }) {
+    try {
+      const token = state.token;
+      const parts = token.split(".");
 
-    if (parts.length !== 3) {
-      throw new Error("token malformed");
+      if (parts.length !== 3) {
+        throw new Error("token malformed");
+      }
+
+      const user = JSON.parse(Base64.decode(parts[1]));
+
+      if (Math.round(new Date().getTime() / 1000) > user.exp) {
+        throw new Error("token expired");
+      }
+
+      commit("setUser", user);
+    } catch (err) {
+      dispatch("onError", err)
     }
-
-    const user = JSON.parse(Base64.decode(parts[1]));
-
-    if (Math.round(new Date().getTime() / 1000) > user.exp) {
-      throw new Error("token expired");
-    }
-
-    commit("setUser", user);
   },
 };
 

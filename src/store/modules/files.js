@@ -36,11 +36,26 @@ const actions = {
     }
   },
   /**
-   * fetchSharedFiles fetch all the shared files in the current folder
+   * fetchSharedFiles fetch the shared files in the root folder
    */
   async fetchSharedFiles({ commit, dispatch }) {
     try {
-      const files = await filesApi.fetchSharedFiles(state.currentFolder);
+      let files = await filesApi.fetchSharedFiles(state.currentFolder);
+      files = files.filter(file => !file.isExternal)
+      commit("setFiles", await Promise.all(
+        files.map((file) => {
+          return formatFile(file);
+        })
+      ));
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+
+  async fetchExternalTransferdFiles({ commit, dispatch }) {
+    try {
+      let files = await filesApi.fetchSharedFiles(state.currentFolder);
+      files = files.filter(file => file.isExternal)
       commit("setFiles", await Promise.all(
         files.map((file) => {
           return formatFile(file);
@@ -174,7 +189,7 @@ const actions = {
     const breadcrumbs = await filesApi.getFolderHierarchy(folderID);
     commit("setHierarchy", breadcrumbs);
   },
-  async editFile({ commit,dispatch }, { file, name }) {
+  async editFile({ commit, dispatch }, { file, name }) {
     try {
       const newName = file.name.includes('.') ? `${name}.${file.name.substr(file.name.lastIndexOf(".") + 1)}` : name;
       const res = await filesApi.editFile({ file, name: newName })
@@ -184,7 +199,7 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async moveFile({ commit,dispatch }, { folderID, fileIDs }) {
+  async moveFile({ commit, dispatch }, { folderID, fileIDs }) {
     try {
       await filesApi.moveFile({ folderID, fileIDs })
       fileIDs.forEach((fileID) => {
