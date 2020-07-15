@@ -1,13 +1,15 @@
 <template>
   <v-app-bar app id="header" color="white" height="86px">
     <div id="search-input">
-      <Search
+      <Autocomplete
         background="#f0f4f7"
         :placeholder="$t('autocomplete.Drive')"
         icon="search"
+        :minLength="0"
         :items="results"
         :isLoading="isSearchLoading"
         @select="onSelect"
+        @enter="onEnter"
         @type="getSearchResults"
       />
     </div>
@@ -29,20 +31,23 @@
         </router-link>
       </div>
     </div>
+    <Preview ref="preview" />
   </v-app-bar>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { search } from "@/api/search";
-import { fileTypes } from "@/utils/config";
+import { isFolder } from "@/utils/isFolder";
 import ChatButton from "@/components/buttons/ChatButton";
 import LoadingFiles from "@/components/shared/BaseLoadingFiles";
-import Search from "@/components/inputs/BaseAutocomplete";
+import Autocomplete from "@/components/inputs/BaseAutocomplete";
+import Preview from "@/components/popups/Preview";
 import TourButton from "@/components/buttons/TourButton";
 
 export default {
   name: "AppBar",
+  components: { ChatButton, Autocomplete, TourButton, LoadingFiles, Preview },
   data() {
     return {
       results: [],
@@ -58,9 +63,6 @@ export default {
       }
       return "";
     },
-    isFolder(type) {
-      return type === fileTypes.folder;
-    },
     getSearchResults(query) {
       if (this.isSearchLoading) return;
       this.isSearchLoading = true;
@@ -69,22 +71,19 @@ export default {
           results.forEach(res => (res.display = `${res.name}`));
           this.results = results;
         })
-        .catch(err => {
-          throw new Error(err);
-        })
         .finally(() => (this.isSearchLoading = false));
     },
+    onEnter(query) {
+      this.$router.push({ path: "/search", query: { q: query } });
+    },
     onSelect(result) {
-      this.$router.push({
-        path:
-          result.parent || this.isFolder(result.type)
-            ? "/folders"
-            : "/my-drive",
-        query: { id: this.isFolder(result.type) ? result.id : result.parent }
-      });
+      if (isFolder(result.type)) {
+        this.$router.push({ path: "/folders", query: { id: result.id } });
+      } else {
+        this.$refs.preview.open(result);
+      }
     }
   },
-  components: { ChatButton, Search, TourButton, LoadingFiles },
   computed: {
     ...mapGetters(["user", "loadingFiles"])
   }

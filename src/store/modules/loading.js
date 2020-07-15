@@ -17,7 +17,7 @@ const mutations = {
         // this loading is difrrent from the regular axios loading
         state.isLoading = false;
 
-        if (!state.loadingFiles.includes[file]) {
+        if (!state.loadingFiles.filter(item => item.name === file.name).length) {
             state.loadingFiles.push(file);
         } else {
             const index = state.loadingFiles.findIndex((item => item.name == file.name));

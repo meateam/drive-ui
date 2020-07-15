@@ -1,5 +1,5 @@
 <template>
-  <PageTemplate :files="files" :header="$t('lastUpdate.header')" />
+  <PageTemplate :files="files" :header="$t('pageHeaders.LastUpdate')" />
 </template>
 
 <script>

@@ -16,6 +16,7 @@
         background="white"
         :placeholder="$t('autocomplete.Users')"
         :items="users"
+        :minLength="2"
         :isLoading="isLoading"
         @select="onSelect"
         @type="getUsersByName"

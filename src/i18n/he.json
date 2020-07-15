@@ -23,14 +23,11 @@
         "Drive": "חיפוש בדרייב...",
         "Users": "הוסיפו אנשים..."
     },
-    "myDrive": {
-        "header": "הדרייב שלי"
-    },
-    "lastUpdate": {
-        "header": "שונו לאחרונה"
-    },
-    "shared": {
-        "header": "שיתפו איתי"
+    "pageHeaders": {
+        "SharedWithMe": "שיתפו איתי",
+        "LastUdate": "שונו לאחרונה",
+        "MyDrive": "הדרייב שלי",
+        "Search": "תוצאות החיפוש"
     },
     "file": {
         "Name": "שם",

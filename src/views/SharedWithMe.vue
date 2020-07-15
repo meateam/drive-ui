@@ -1,5 +1,5 @@
 <template>
-  <PageTemplate :files="files" :header="$t('shared.header')" />
+  <PageTemplate :files="files" :header="$t('pageHeaders.SharedWithMe')" />
 </template>
 
 <script>

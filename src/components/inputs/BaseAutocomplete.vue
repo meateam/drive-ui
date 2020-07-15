@@ -1,8 +1,9 @@
 <template>
   <v-autocomplete
-    v-model="value"
+    v-model="item"
     @input="onSelect"
-    @update:search-input="onSearch"
+    @update:search-input="onInput"
+    @keyup.enter.native="onEnter"
     :items="items"
     :loading="isLoading"
     rounded
@@ -25,15 +26,32 @@ import debounce from "lodash/debounce";
 
 export default {
   data: () => ({
-    value: []
+    item: null,
+    value: ""
   }),
-  props: ["placeholder", "items", "background", "icon", "isLoading"],
+  props: [
+    "placeholder",
+    "items",
+    "background",
+    "icon",
+    "isLoading",
+    "minLength"
+  ],
   methods: {
     onSelect() {
-      this.$emit("select", this.value);
+      this.$emit("select", this.item);
+    },
+    onEnter() {
+      this.item = "";
+      this.$emit("enter", this.value);
+    },
+    onInput(value) {
+      this.value = value;
+      this.onSearch(value);
     },
     onSearch: debounce(function(value) {
-      if (value && value.length >= 2) this.$emit("type", value);
+      if (typeof value === "string" && value.length >= this.minLength)
+        this.$emit("type", value);
     }, 500)
   }
 };

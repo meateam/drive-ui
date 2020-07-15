@@ -24,7 +24,7 @@
             <v-simple-checkbox color="#357e6f" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </td>
           <td id="file-icon">
-            <FileTypeIcon :file="item" :size="30"/>
+            <FileTypeIcon :file="item" :size="30" />
           </td>
           <td id="file-name">{{ item.name }}</td>
           <td>{{ item.owner }}</td>
@@ -50,7 +50,6 @@
 import { mapGetters } from "vuex";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
-import { canPreview } from "@/utils/canPreview";
 import { isFolder } from "@/utils/isFolder";
 import BottomMenu from "@/components/popups/BottomMenu";
 import FileTypeIcon from "@/components/shared/BaseFileTypeIcon";
@@ -98,7 +97,7 @@ export default {
       event.preventDefault();
       if (isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
-      } else if (canPreview(file.type)) {
+      } else {
         this.$refs.preview.open(file);
       }
     },

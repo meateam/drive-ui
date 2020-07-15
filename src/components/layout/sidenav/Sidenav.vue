@@ -133,7 +133,7 @@ export default {
 }
 .v-list {
   padding: 0;
-  min-height: 90%;
+  min-height: calc(100% - 80px);
 }
 .v-list-item {
   height: 70px;
@@ -148,7 +148,8 @@ export default {
 #yesodot {
   display: block;
   width: 70px;
-  padding-top: 10px;
+  height: 70px;
+  margin: 0 30px;
   margin: auto;
 }
 .v-list-item__icon {

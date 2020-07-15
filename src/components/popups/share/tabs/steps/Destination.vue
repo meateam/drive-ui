@@ -7,6 +7,7 @@
       :placeholder="$t('autocomplete.Users')"
       :items="users"
       :isLoading="isLoading"
+      :minLength="2"
       @select="onSelect"
       @type="getExternalUsersByName"
     />

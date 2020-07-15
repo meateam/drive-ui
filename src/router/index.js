@@ -42,6 +42,11 @@ const router = new Router({
       name: "Last Update",
     },
     {
+      path: "/search",
+      component: () => import('@/views/Search'),
+      name: "Search",
+    },
+    {
       path: "/deleted-files",
       component: DeletedFiles,
       name: "Deleted Files",
