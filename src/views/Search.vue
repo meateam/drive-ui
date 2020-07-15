@@ -1,18 +1,17 @@
 <template>
-  <div>
+  <Layout>
     <PageTemplate :files="files" :header="$t('pageHeaders.Search')" />
-    <FabButton />
-  </div>
+  </Layout>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import PageTemplate from "@/components/shared/BasePageTemplate";
-import FabButton from "@/components/buttons/FabButton";
+import Layout from "@/components/layout/Layout";
 
 export default {
   name: "Search",
-  components: { FabButton, PageTemplate },
+  components: { PageTemplate, Layout },
   computed: {
     ...mapGetters(["files"])
   },

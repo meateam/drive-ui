@@ -3,13 +3,19 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn v-bind="attrs" v-on="on" text id="show-menu-button">
         <v-progress-circular id="loading" :size="40" :width="3" color="#357e6f" indeterminate></v-progress-circular>
-        <p id="loading-p">{{$t('file.Loading')}}</p>
+        <p>{{$t('file.Loading')}}</p>
+        <p id="loading-p">{{`(${files.length})`}}</p>
       </v-btn>
     </template>
     <v-list>
       <v-list-item v-for="(file,index) in files" :key="index">
         <div id="file-container">
-          <v-list-item-title id="file-name">{{file.name}}</v-list-item-title>
+          <div class="space-between">
+            <v-btn icon @click="onCancel(file)">
+              <v-icon>cancel</v-icon>
+            </v-btn>
+            <v-list-item-title id="file-name">{{file.name}}</v-list-item-title>
+          </div>
           <v-progress-linear :value="file.progress" color="#357e6f"></v-progress-linear>
         </div>
         <v-icon id="file-icon" color="#9caec4">insert_drive_file</v-icon>
@@ -21,7 +27,12 @@
 <script>
 export default {
   name: "LoadingFiles",
-  props: ["files"]
+  props: ["files"],
+  methods: {
+    onCancel(file) {
+      this.$store.dispatch("cancelUpload", file);
+    }
+  }
 };
 </script>
 

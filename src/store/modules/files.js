@@ -51,7 +51,6 @@ const actions = {
       dispatch("onError", err);
     }
   },
-
   async fetchExternalTransferdFiles({ commit, dispatch }) {
     try {
       let files = await filesApi.fetchSharedFiles(state.currentFolder);
@@ -145,6 +144,15 @@ const actions = {
       .catch(err => {
         dispatch("onError", err);
       });
+  },
+  async cancelUpload({ commit, dispatch }, file) {
+    try {
+      await filesApi.cancelUpload(file.source);
+      commit("removeLoadingFile", file.name);
+    } catch (err) {
+      dispatch("onError", err);
+    }
+
   },
   /**
    * uploadFolder in the current folder

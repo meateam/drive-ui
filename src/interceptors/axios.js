@@ -1,7 +1,8 @@
-import axios from "axios";
+import Axios from "axios";
 import store from "@/store";
+import router from "@/router";
 
-axios.interceptors.request.use(
+Axios.interceptors.request.use(
   (request) => {
     store.commit("setLoading", true);
     request.headers["Authorization"] = `Bearer ${store.state.auth.token}`;
@@ -13,13 +14,14 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
+Axios.interceptors.response.use(
   (response) => {
     store.commit("setLoading", false);
     return response;
   },
   (error) => {
     store.commit("setLoading", false);
+    if(!error.response) return router.push("/503");
     return Promise.reject(error);
   }
 );

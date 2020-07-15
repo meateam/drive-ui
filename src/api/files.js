@@ -66,14 +66,22 @@ export async function deleteFile(fileID) {
  */
 export async function multipartUpload({ file, parent }) {
 
+    const source = Axios.CancelToken.source();
     const formData = new FormData();
+
     formData.append("file", file, file.name);
     const res = await Axios.post(`${baseURL}/api/upload?uploadType=multipart${
         parent ? `&parent=${parent.id}` : ""
         }`, formData, {
         onUploadProgress: event => {
-            store.commit('addLoadingFile', { name: file.name, progress: Math.round((100 * event.loaded) / event.total) });
-        }
+            store.commit('addLoadingFile',
+                {
+                    name: file.name,
+                    progress: Math.round((100 * event.loaded) / event.total),
+                    source,
+                });
+        },
+        cancelToken: source.token
     });
     const metadata = await getFileByID(res.data);
     return metadata;
@@ -87,6 +95,7 @@ export async function resumableUpload({ file, parent }) {
 
     const uploadID = await getUploadID({ file, parent });
 
+    const source = Axios.CancelToken.source();
     const formData = new FormData();
     formData.append("file", file, file.name);
     const res = await Axios.post(`${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${
@@ -94,12 +103,22 @@ export async function resumableUpload({ file, parent }) {
         }`, formData, {
         headers: { "Content-Range": `bytes 0-${file.size - 1}/${file.size}` },
         onUploadProgress: event => {
-            store.commit('addLoadingFile', { name: file.name, progress: Math.round((100 * event.loaded) / event.total) });
-        }
+            store.commit('addLoadingFile',
+                {
+                    name: file.name,
+                    progress: Math.round((100 * event.loaded) / event.total),
+                    source
+                });
+        },
+        cancelToken: source.token
     });
 
     const metadata = await getFileByID(res.data);
     return metadata;
+}
+
+export function cancelUpload(source) {
+    source.cancel();
 }
 
 

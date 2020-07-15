@@ -1,3 +1,5 @@
+import Axios from "axios";
+
 const state = {
     error: undefined,
 };
@@ -8,9 +10,11 @@ const getters = {
 
 const actions = {
     onError({ commit }, error) {
-        commit("removeLoadingFiles");
+        if (!Axios.isCancel(error)) {
+            commit("removeLoadingFiles");
+            commit("setError", error);
+        }
         commit("setLoading", false);
-        commit("setError", error);
     }
 }
 

@@ -1,16 +1,19 @@
 <template>
-  <div class="page-container">
-    <h1 id="page-name">{{$t('questions.Header')}}</h1>
-    <ExpantionPannel :items="questions" />
-  </div>
+  <Layout>
+    <div class="page-container">
+      <h1 id="page-name">{{$t('questions.Header')}}</h1>
+      <ExpantionPannel :items="questions" />
+    </div>
+  </Layout>
 </template>
 
 <script>
 import ExpantionPannel from "@/components/shared/BaseExpantionPannel";
+import Layout from "@/components/layout/Layout";
 
 export default {
   name: "QuestionAnswer",
-  components: { ExpantionPannel },
+  components: { ExpantionPannel, Layout },
   data() {
     return {
       questions: Object.values(this.$t("questions.items"))

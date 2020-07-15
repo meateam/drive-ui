@@ -6,17 +6,20 @@
     </div>
 
     <FileView v-if="files" :files="files" />
+
+    <FabButton v-if="upload" />
   </div>
 </template>
 
 <script>
 import FileViewButton from "@/components/buttons/FileViewButton";
 import FileView from "@/components/files/FileView";
+import FabButton from "@/components/buttons/FabButton";
 
 export default {
   name: "PageTemplate",
-  components: { FileView, FileViewButton },
-  props: ["files", "header"]
+  components: { FileView, FileViewButton, FabButton },
+  props: ["files", "header", "upload"]
 };
 </script>
 

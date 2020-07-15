@@ -24,7 +24,9 @@ const mutations = {
             state.loadingFiles[index].progress = file.progress;
         }
     },
-    removeLoadingFile: (state, fileName) => (state.loadingFiles = state.loadingFiles.filter(file => file.name !== fileName)),
+    removeLoadingFile: (state, fileName) => {
+        state.loadingFiles = state.loadingFiles.filter(file => file.name !== fileName)
+    },
     removeLoadingFiles: (state) => (state.loadingFiles = [])
 };
 

@@ -1,18 +1,17 @@
 <template>
-  <div>
-    <PageTemplate :files="files" :header="$t('pageHeaders.MyDrive')" />
-    <FabButton />
-  </div>
+  <Layout>
+    <PageTemplate :files="files" :header="$t('pageHeaders.MyDrive')" :upload="true" />
+  </Layout>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import Layout from "@/components/layout/Layout";
 import PageTemplate from "@/components/shared/BasePageTemplate";
-import FabButton from "@/components/buttons/FabButton";
 
 export default {
   name: "MyDrive",
-  components: { FabButton, PageTemplate },
+  components: { PageTemplate, Layout },
   computed: {
     ...mapGetters(["files"])
   },

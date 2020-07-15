@@ -34,7 +34,6 @@ export default {
 
 <style scoped>
 .page-404 {
-  z-index: 100;
   position: fixed;
   top: 0;
   left: 0;

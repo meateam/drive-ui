@@ -71,6 +71,19 @@ export default {
     canUpload() {
       return !this.currentFolder || writeRole(this.currentFolder.role);
     }
+  },
+  created() {
+    window.addEventListener("keydown", event => {
+      // ctrl o shortcut to upload file
+      if (
+        event.keyCode === 79 &&
+        event.ctrlKey &&
+        document.getElementById("upload-input")
+      ) {
+        event.preventDefault();
+        document.getElementById("upload-input").click();
+      }
+    });
   }
 };
 </script>
