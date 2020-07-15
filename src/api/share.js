@@ -15,7 +15,7 @@ export async function getPermissions(fileID) {
         );
         return users;
     } catch (err) {
-        store.commit("onError", err);
+        store.dispatch("onError", err);
     }
 }
 
@@ -31,7 +31,7 @@ export async function getExternalPermissions(fileID) {
         );
         return users;
     } catch (err) {
-        store.commit("onError", err);
+        store.dispatch("onError", err);
     }
 }
 
@@ -52,7 +52,7 @@ export async function shareUser({ fileID, userID, role }) {
             }
         );
     } catch (err) {
-        store.commit("onError", err);
+        store.dispatch("onError", err);
     }
 }
 
@@ -78,7 +78,7 @@ export async function shareExternalUsers(
         const res = await Axios.put(`${baseURL}/api/files/${fileID}/permits`, body);
         return res.data;
     } catch (err) {
-        store.commit("onError", err)
+        store.dispatch("onError", err)
     }
 }
 

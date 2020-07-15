@@ -28,7 +28,7 @@ export async function getFoldersByFolder(parent) {
         );
         return res.data;
     } catch (err) {
-        store.commit("onError", err);
+        store.dispatch("onError", err);
     }
 }
 
@@ -70,7 +70,11 @@ export async function multipartUpload({ file, parent }) {
     formData.append("file", file, file.name);
     const res = await Axios.post(`${baseURL}/api/upload?uploadType=multipart${
         parent ? `&parent=${parent.id}` : ""
-        }`, formData);
+        }`, formData, {
+        onUploadProgress: event => {
+            store.commit('addLoadingFile', { name: file.name, progress: Math.round((100 * event.loaded) / event.total) });
+        }
+    });
     const metadata = await getFileByID(res.data);
     return metadata;
 }
@@ -87,7 +91,13 @@ export async function resumableUpload({ file, parent }) {
     formData.append("file", file, file.name);
     const res = await Axios.post(`${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${
         parent ? `&parent=${parent.id}` : ""
-        }`, formData, { headers: { "Content-Range": `bytes 0-${file.size - 1}/${file.size}` } });
+        }`, formData, {
+        headers: { "Content-Range": `bytes 0-${file.size - 1}/${file.size}` },
+        onUploadProgress: event => {
+            store.commit('addLoadingFile', { name: file.name, progress: Math.round((100 * event.loaded) / event.total) });
+        }
+    });
+
     const metadata = await getFileByID(res.data);
     return metadata;
 }
@@ -155,7 +165,7 @@ export async function getFolderHierarchy(folderID) {
         const breadcrumbs = ancestors ? ancestors.data : [];
         return breadcrumbs;
     } catch (err) {
-        store.commit("onError", err)
+        store.dispatch("onError", err)
     }
 
 }

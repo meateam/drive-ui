@@ -27,12 +27,12 @@ const getters = {
 };
 
 const actions = {
-  async fetchConfig({ commit }) {
+  async fetchConfig({ commit , dispatch}) {
     try {
       const config = await fetchConfig();
       commit("setConfig", config);
     } catch (err) {
-      if (err.response) commit("onError", err);
+      if (err.response) dispatch("onError", err);
     }
   },
 };

@@ -6,12 +6,21 @@ const getters = {
     error: (state) => state.error,
 };
 
+const actions = {
+    onError({ commit }, error) {
+        commit("removeLoadingFiles");
+        commit("setLoading", false);
+        commit("setError", error);
+    }
+}
+
 const mutations = {
-    onError: (state, error) => (state.error = error),
+    setError: (state, error) => (state.error = error),
 };
 
 export default {
     state,
     getters,
+    actions,
     mutations,
 };

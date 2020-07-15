@@ -7,10 +7,10 @@
       </v-btn>
     </template>
     <v-list>
-      <v-list-item v-for="file in files" :key="file.id">
+      <v-list-item v-for="(file,index) in files" :key="index">
         <div id="file-container">
-          <v-list-item-title id="file-name">{{file}}</v-list-item-title>
-          <v-progress-linear indeterminate color="#357e6f"></v-progress-linear>
+          <v-list-item-title id="file-name">{{file.name}}</v-list-item-title>
+          <v-progress-linear :value="file.progress" color="#357e6f"></v-progress-linear>
         </div>
         <v-icon id="file-icon" color="#9caec4">insert_drive_file</v-icon>
       </v-list-item>

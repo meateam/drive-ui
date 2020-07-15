@@ -9,6 +9,6 @@ export async function search(query) {
         );
         return res.data || [];
     } catch (err) {
-        store.commit("onError", err);
+        store.dispatch("onError", err);
     }
 }

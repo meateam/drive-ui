@@ -22,7 +22,7 @@ const getters = {
 };
 
 const actions = {
-  async fetchFiles({ commit }) {
+  async fetchFiles({ commit, dispatch }) {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
       Promise.all(
@@ -30,30 +30,30 @@ const actions = {
           return formatFile(file);
         })
       );
-      commit("fetchFiles", files);
+      commit("setFiles", files);
     } catch (err) {
-      commit("onError", err);
+      dispatch("onError", err);
     }
   },
   /**
    * fetchSharedFiles fetch all the shared files in the current folder
    */
-  async fetchSharedFiles({ commit }) {
+  async fetchSharedFiles({ commit, dispatch }) {
     try {
       const files = await filesApi.fetchSharedFiles(state.currentFolder);
-      commit("fetchFiles", await Promise.all(
+      commit("setFiles", await Promise.all(
         files.map((file) => {
           return formatFile(file);
         })
       ));
     } catch (err) {
-      commit("onError", err);
+      dispatch("onError", err);
     }
   },
   /**
    * fetchLastUpdatedFiles fetch all the files that where updated today in the current folder
    */
-  async fetchLastUpdatedFiles({ commit }) {
+  async fetchLastUpdatedFiles({ commit, dispatch }) {
     try {
       const files = await filesApi.fetchFiles();
       const lastUpdatedFiles = files.filter((file) => {
@@ -61,13 +61,13 @@ const actions = {
           new Date(file.updatedAt).toDateString() === new Date().toDateString()
         );
       });
-      commit("fetchFiles", await Promise.all(
+      commit("setFiles", await Promise.all(
         lastUpdatedFiles.map((file) => {
           return formatFile(file);
         })
       ));
     } catch (err) {
-      commit("onError", err);
+      dispatch("onError", err);
     }
   },
   /**
@@ -80,7 +80,7 @@ const actions = {
       commit("deleteFile", id || fileID);
       dispatch("getQuota");
     } catch (err) {
-      commit("onError", err);
+      dispatch("onError", err);
     }
   },
   /**
@@ -99,17 +99,25 @@ const actions = {
    * uploadFile create multipart or resumable upload by the file size
    * @param file is the file to upload
    */
-  async uploadFile({ dispatch, commit }, file) {
+  async uploadFile({ commit }, file) {
 
     if (isFileNameExists({ name: file.name, files: state.files }))
-      throw new Error("Name already exists in the root");
+      throw new Error("שם הקובץ קים בתיקייה");
 
-    commit('addLoadingFile', file.name);
+    let metadata = undefined;
+
     if (file.size <= 5 << 20) {
-      await dispatch("multipartUpload", file);
+      metadata = await filesApi.multipartUpload({ file, parent: state.currentFolder });
     } else {
-      await dispatch("resumableUpload", file);
+      metadata = await filesApi.resumableUpload({ file, parent: state.currentFolder });
     }
+
+    const formatedFile = await formatFile(metadata);
+
+    commit("removeLoadingFile", formatedFile.name);
+    commit("addFile", formatedFile);
+
+    commit("addQuota", metadata.size);
 
   },
   /**
@@ -124,45 +132,24 @@ const actions = {
     )
       .then(() => commit("onSuccess", files.length === 1 ? "snackbar.File" : "snackbar.Files"))
       .catch(err => {
-        commit("onError", err);
+
+        dispatch("onError", err);
       })
-  },
-  /**
-   * multipartUpload create an upload with small size
-   * @param file is the file that was chose by the user in the type blob
-   */
-  async multipartUpload({ dispatch, commit }, file) {
-    const metadata = await filesApi.multipartUpload({ file, parent: state.currentFolder });
-    const formatedFile = await formatFile(metadata);
-    commit("removeLoadingFile", formatedFile.name);
-    commit("addFile", formatedFile);
-    dispatch("getQuota");
-  },
-  /**
-   * resumableUpload is an upload for bigger files
-   * @param file is the file to upload
-   */
-  async resumableUpload({ dispatch, commit }, file) {
-    const metadata = await filesApi.resumableUpload({ file, parent: state.currentFolder });
-    const formatedFile = await formatFile(metadata);
-    commit("removeLoadingFile", formatedFile.name);
-    commit("addFile", formatedFile);
-    dispatch("getQuota");
   },
   /**
    * uploadFolder in the current folder
    * @param name is the name of the folder
    */
-  async uploadFolder({ commit }, name) {
+  async uploadFolder({ commit, dispatch }, name) {
     try {
       if (isFileNameExists({ name, files: state.files }))
-        throw new Error("Name already exists in the root");
+        throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
       const folder = await filesApi.uploadFolder({ name, parent: state.currentFolder });
       const formatedFile = await formatFile(folder);
       commit("onSuccess", "snackbar.Folder");
       commit("addFile", formatedFile);
     } catch (err) {
-      commit("onError", err);
+      dispatch("onError", err);
     }
   },
   /**
@@ -180,37 +167,37 @@ const actions = {
         dispatch("getAncestors", folder.id);
       }
     } catch (err) {
-      commit("onError", err);
+      dispatch("onError", err);
     }
   },
   async getAncestors({ commit }, folderID) {
     const breadcrumbs = await filesApi.getFolderHierarchy(folderID);
     commit("setHierarchy", breadcrumbs);
   },
-  async editFile({ commit }, { file, name }) {
+  async editFile({ commit,dispatch }, { file, name }) {
     try {
       const newName = file.name.includes('.') ? `${name}.${file.name.substr(file.name.lastIndexOf(".") + 1)}` : name;
       const res = await filesApi.editFile({ file, name: newName })
       commit("onFileRename", res);
       commit("onSuccess", "snackbar.Edit");
     } catch (err) {
-      commit("onError", err);
+      dispatch("onError", err);
     }
   },
-  async moveFile({ commit }, { folderID, fileIDs }) {
+  async moveFile({ commit,dispatch }, { folderID, fileIDs }) {
     try {
       await filesApi.moveFile({ folderID, fileIDs })
       fileIDs.forEach((fileID) => {
         commit("deleteFile", fileID);
       });
     } catch (err) {
-      commit("onError", err);
+      dispatch("onError", err);
     }
   },
 };
 
 const mutations = {
-  fetchFiles: (state, files) => (state.files = files),
+  setFiles: (state, files) => (state.files = files),
   deleteFile: (state, fileID) => {
     state.files = state.files.filter((file) => file.id !== fileID);
     state.chosenFiles = state.chosenFiles.filter((file) => {

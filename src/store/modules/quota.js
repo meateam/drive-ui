@@ -24,6 +24,9 @@ const mutations = {
     state.quota.used = quota.used || 0;
     state.quota.limit = quota.limit;
   },
+  addQuota: (state, size) => {
+    state.quota.used += size;
+  }
 };
 
 export default {
