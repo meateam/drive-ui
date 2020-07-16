@@ -13,8 +13,13 @@ const getters = {
 
 const actions = {
   async authenticate({ rootState, dispatch }) {
-    if (state.token) return await dispatch("parseToken");
-    window.location.replace(rootState.configuration.authUrl);
+    if (state.token) {
+      await dispatch("parseToken");
+    } else if (rootState.configuration.authUrl) {
+      window.location.replace(rootState.configuration.authUrl);
+    } else {
+      return;
+    }
   },
   parseToken({ commit, dispatch }) {
     try {

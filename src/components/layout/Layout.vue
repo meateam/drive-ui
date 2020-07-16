@@ -1,30 +1,35 @@
 <template>
-  <v-app
-    :class="{dragging: drag}"
-    v-if="user"
-    @dragover.prevent
-    @drop.stop.prevent="onDrop"
-    @dragenter="drag=true"
-    @dragleave="drag=false"
-  >
-    <AppBar />
-    <Sidenav />
-    <v-content>
-      <v-progress-circular
-        id="loading"
-        :size="200"
-        :width="7"
-        v-if="isLoading"
-        color="#357e6f"
-        indeterminate
-      ></v-progress-circular>
+  <div>
+    <v-app
+      :class="{dragging: drag}"
+      v-if="user"
+      @dragover.prevent
+      @drop.stop.prevent="onDrop"
+      @dragenter="drag=true"
+      @dragleave="drag=false"
+    >
+      <AppBar />
+      <Sidenav />
+      <v-content>
+        <v-progress-circular
+          id="loading"
+          :size="200"
+          :width="7"
+          v-if="isLoading"
+          color="#357e6f"
+          indeterminate
+        ></v-progress-circular>
 
-      <slot />
+        <slot />
+      </v-content>
 
-    </v-content>
-    <ErrorSnackbar />
-    <SuccessSnackbar />
-  </v-app>
+      <ErrorSnackbar />
+      <SuccessSnackbar />
+    </v-app>
+    <div v-else>
+      <img id="yesodot" src="@/assets/images/yesodot.svg" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -68,6 +73,13 @@ export default {
   z-index: 500;
   top: calc(50vh - 250px);
   right: calc(50% - 100px);
+}
+#yesodot {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  top: calc(50vh - 300px);
+  right: calc(50vw - 250px);
 }
 .dragging {
   filter: blur(3px);

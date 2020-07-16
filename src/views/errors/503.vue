@@ -8,24 +8,62 @@
       </div>
 
       <div class="area">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div>
+          <img class="auto-margin" src="@/assets/icons/drive.svg" />
+        </div>
+        <div>
+          <img class="auto-margin" src="@/assets/icons/drive.svg" />
+        </div>
+        <div>
+          <img class="auto-margin" src="@/assets/icons/drive.svg" />
+        </div>
+        <div>
+          <img class="auto-margin" src="@/assets/icons/drive.svg" />
+        </div>
+        <div>
+          <img class="auto-margin" src="@/assets/icons/drive.svg" />
+        </div>
+        <div>
+          <img class="auto-margin" src="@/assets/icons/drive.svg" />
+        </div>
       </div>
     </div>
   </v-app>
 </template>
 
 <script>
+import { isAlive } from "@/api/healthcheck";
 export default {
-  name: "Unavailable"
+  name: "Unavailable",
+  data() {
+    return {
+      interval: ""
+    };
+  },
+  created() {
+    this.checkIfServiceAvailable();
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
+  methods: {
+    checkIfServiceAvailable() {
+      this.healthcheck();
+      this.interval = setInterval(this.healthcheck, 10000);
+    },
+    async healthcheck() {
+      if (await isAlive()) this.$router.push("/my-drive");
+    }
+  }
 };
 </script>
 
 <style scoped>
+#drive-logo {
+  display: block;
+  width: 100px;
+  margin: auto;
+}
 #error {
   text-align: center;
 }
@@ -38,10 +76,10 @@ export default {
 }
 #text {
   background-color: white;
-  padding: 30px;
+  padding: 30px 40px;
   width: fit-content;
-  margin: auto;
-  border-radius: 30px;
+  margin: 50px auto;
+  border-radius: 40px;
 }
 .area {
   position: fixed;
@@ -64,6 +102,7 @@ export default {
 .area div:nth-child(1) {
   background-color: #329795;
   left: 85%;
+  border-radius: 50%;
   width: 80px;
   height: 80px;
   animation-delay: 0s;
@@ -83,6 +122,7 @@ export default {
   background-color: #7e4c97;
   left: 60%;
   width: 100px;
+  border-radius: 50%;
   height: 100px;
   animation-delay: 5.5s;
 }
@@ -100,6 +140,7 @@ export default {
   background-color: #fca83e;
   left: 25%;
   width: 80px;
+  border-radius: 50%;
   height: 80px;
   animation-delay: 0s;
 }
