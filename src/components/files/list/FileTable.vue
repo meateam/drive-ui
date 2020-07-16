@@ -85,7 +85,7 @@ export default {
     },
     calculateItemsPerPage() {
       const pageHeight = window.innerHeight;
-      const layoutHeight = 350;
+      const layoutHeight = 380;
       const itemHeight = 70;
       const items = Math.floor((pageHeight - layoutHeight) / itemHeight);
 
