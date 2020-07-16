@@ -70,7 +70,7 @@ export default {
       itemsPerPage: 7,
       pageCount: 1,
       headers: [
-        { value: "type", align: "center" },
+        { value: "type", align: "center", sortable: false },
         { text: this.$t("file.Name"), value: "name" },
         { text: this.$t("file.Owner"), value: "owner" },
         { text: this.$t("file.LastUpdate"), value: "updatedAt" },

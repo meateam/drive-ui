@@ -2,7 +2,7 @@
   <v-list max-height="255" v-if="folders.length">
     <v-list-item link v-for="folder in folders" :key="folder.id" @dblclick="onChoose(folder)">
       <v-list-item-icon>
-        <img class="icons" src="@/assets/icons/folderType.png" />
+         <v-icon color="#fc8946" class="icons">folder</v-icon>
       </v-list-item-icon>
       <v-list-item-title>{{ folder.name }}</v-list-item-title>
     </v-list-item>

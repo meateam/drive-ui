@@ -9,7 +9,7 @@
         text
         :class="{right: !icon}"
       >
-        <img class="fab-icon" src="@/assets/icons/edit-online.svg" />
+        <img class="fab-icon" src="@/assets/icons/file.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.EditOnline") }}</p>
       </v-btn>
     </template>

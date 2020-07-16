@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.14 19.53"><defs><style>.cls-1{fill:none;stroke:#f0f4f7;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:#d3dd57;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><rect class="cls-1" x="1" y="1" width="18.14" height="17.53"/><line class="cls-1" x1="18.33" y1="9.77" x2="1.82" y2="9.77"/><circle class="cls-2" cx="5.94" cy="5.55" r="2"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.14 19.53">
+    <defs>
+        <style>.cls-1{fill:none;stroke:#f0f4f7;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:#d3dd57;}</style>
+    </defs>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <rect class="cls-1" x="1" y="1" width="18.14" height="17.53" />
+            <line class="cls-1" x1="18.33" y1="9.77" x2="1.82" y2="9.77" />
+            <circle class="cls-2" cx="5.94" cy="5.55" r="2" />
+        </g>
+    </g>
+</svg>

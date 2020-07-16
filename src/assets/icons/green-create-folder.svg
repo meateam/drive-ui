@@ -1,1 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.68 34.04"><defs><style>.cls-1{fill:#d3dd57;}.cls-2{fill:none;stroke:#357e6f;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><circle class="cls-1" cx="3.57" cy="6.6" r="3.57"/><path class="cls-2" d="M10.83,7h9.31L26.5,2A2.52,2.52,0,0,1,28,1.5h8.63A2.51,2.51,0,0,1,39.18,4V30a2.51,2.51,0,0,1-2.51,2.51H5.17A2.51,2.51,0,0,1,2.66,30V15.15"/><line class="cls-2" x1="16.09" y1="19.8" x2="25.75" y2="19.8"/><line class="cls-2" x1="20.92" y1="14.97" x2="20.92" y2="24.63"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.68 34.04">
+    <defs>
+        <style>.cls-1{fill:#d3dd57;}.cls-2{fill:none;stroke:#357e6f;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style>
+    </defs>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <circle class="cls-1" cx="3.57" cy="6.6" r="3.57" />
+            <path class="cls-2" d="M10.83,7h9.31L26.5,2A2.52,2.52,0,0,1,28,1.5h8.63A2.51,2.51,0,0,1,39.18,4V30a2.51,2.51,0,0,1-2.51,2.51H5.17A2.51,2.51,0,0,1,2.66,30V15.15" />
+            <line class="cls-2" x1="16.09" y1="19.8" x2="25.75" y2="19.8" />
+            <line class="cls-2" x1="20.92" y1="14.97" x2="20.92" y2="24.63" />
+        </g>
+    </g>
+</svg>

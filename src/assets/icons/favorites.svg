@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.47 22.42"><defs><style>.cls-1{fill:none;stroke:#f0f4f7;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:#d3dd57;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polygon class="cls-1" points="11.73 1 15.05 7.72 22.47 8.8 17.1 14.03 18.37 21.42 11.73 17.93 5.1 21.42 6.37 14.03 1 8.8 8.42 7.72 11.73 1"/><circle class="cls-2" cx="11.73" cy="12.32" r="2"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.47 22.42">
+    <defs>
+        <style>.cls-1{fill:none;stroke:#f0f4f7;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:#d3dd57;}</style>
+    </defs>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <polygon class="cls-1" points="11.73 1 15.05 7.72 22.47 8.8 17.1 14.03 18.37 21.42 11.73 17.93 5.1 21.42 6.37 14.03 1 8.8 8.42 7.72 11.73 1" />
+            <circle class="cls-2" cx="11.73" cy="12.32" r="2" />
+        </g>
+    </g>
+</svg>

@@ -1,1 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.23 24.3"><defs><style>.cls-1{fill:none;stroke:#f0f4f7;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:#d3dd57;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M6.87,4.93h6.68l4.58-3.55A1.75,1.75,0,0,1,19.23,1h6.2a1.8,1.8,0,0,1,1.8,1.8V21.5a1.8,1.8,0,0,1-1.8,1.8H2.8A1.81,1.81,0,0,1,1,21.5V10.8"/><circle class="cls-2" cx="1.88" cy="5.03" r="1.76"/><line class="cls-1" x1="10.65" y1="14.15" x2="17.59" y2="14.15"/><line class="cls-1" x1="14.12" y1="10.68" x2="14.12" y2="17.62"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.23 24.3">
+    <defs>
+        <style>.cls-1{fill:none;stroke:#f0f4f7;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:#d3dd57;}</style>
+    </defs>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <path class="cls-1" d="M6.87,4.93h6.68l4.58-3.55A1.75,1.75,0,0,1,19.23,1h6.2a1.8,1.8,0,0,1,1.8,1.8V21.5a1.8,1.8,0,0,1-1.8,1.8H2.8A1.81,1.81,0,0,1,1,21.5V10.8" />
+            <circle class="cls-2" cx="1.88" cy="5.03" r="1.76" />
+            <line class="cls-1" x1="10.65" y1="14.15" x2="17.59" y2="14.15" />
+            <line class="cls-1" x1="14.12" y1="10.68" x2="14.12" y2="17.62" />
+        </g>
+    </g>
+</svg>

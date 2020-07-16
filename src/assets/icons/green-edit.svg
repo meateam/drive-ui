@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.14 20.14"><defs><style>.cls-1{fill:none;stroke:#357e6f;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:#d3dd57;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polyline class="cls-1" points="13.87 10.8 5.54 19.14 1 19.14 1 14.61 14.61 1 19.14 5.54"/><circle class="cls-2" cx="16.62" cy="8.31" r="1.76"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.14 20.14">
+    <defs>
+        <style>.cls-1{fill:none;stroke:#357e6f;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:#d3dd57;}</style>
+    </defs>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="Layer_1-2" data-name="Layer 1">
+            <polyline class="cls-1" points="13.87 10.8 5.54 19.14 1 19.14 1 14.61 14.61 1 19.14 5.54" />
+            <circle class="cls-2" cx="16.62" cy="8.31" r="1.76" />
+        </g>
+    </g>
+</svg>
