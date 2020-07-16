@@ -16,18 +16,18 @@ Vue.config.productionTip = false;
 Vue.use(VueTour);
 
 (async () => {
-  if (await isAlive()) {
-    await store.dispatch("fetchConfig");
-    await store.dispatch("authenticate");
-  } else {
-    router.push({ name: "Unavailable" });
-  }
+    if (await isAlive()) {
+        await store.dispatch("fetchConfig");
+        await store.dispatch("authenticate");
+    } else if (window.location.pathname !== "/503") {
+        window.location.replace("/503")
+    }
 
-  new Vue({
-    vuetify,
-    i18n,
-    router,
-    store,
-    render: (h) => h(App),
-  }).$mount("#app");
+    new Vue({
+        vuetify,
+        i18n,
+        router,
+        store,
+        render: (h) => h(App),
+    }).$mount("#app");
 })();

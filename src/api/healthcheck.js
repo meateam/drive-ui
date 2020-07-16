@@ -1,4 +1,3 @@
-
 import { baseURL } from "@/config";
 
 export async function isAlive() {
