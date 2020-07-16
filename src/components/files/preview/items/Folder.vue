@@ -8,7 +8,7 @@
     @click.ctrl.native="$emit('ctrlClick', $event, folder)"
     @contextmenu.prevent="$emit('contextmenu', $event, folder)"
   >
-    <v-icon color="#9caec4" id="folder-icon">folder</v-icon>
+    <v-icon color="#fc8946" id="folder-icon">folder</v-icon>
     <p id="folder-name">{{folder.name}}</p>
   </v-card>
 </template>

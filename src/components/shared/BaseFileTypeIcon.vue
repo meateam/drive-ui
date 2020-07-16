@@ -1,12 +1,14 @@
 <template>
   <div>
-    <v-icon v-if="isFolder(file.type)" :size="size" color="#9caec4">folder</v-icon>
+    <v-icon v-if="isFolder(file.type)" :size="size" color="#fc8946">folder</v-icon>
 
     <v-img v-else-if="fileType==='txt'" src="@/assets/file-types/txt.svg" :width="size" />
     <v-img v-else-if="fileType==='png'" src="@/assets/file-types/png.svg" :width="size" />
     <v-img v-else-if="fileType==='svg'" src="@/assets/file-types/svg.svg" :width="size" />
     <v-img v-else-if="fileType==='pdf'" src="@/assets/file-types/pdf.svg" :width="size" />
     <v-img v-else-if="fileType==='mp3'" src="@/assets/file-types/mp3.svg" :width="size" />
+    <v-img v-else-if="fileType==='psd'" src="@/assets/file-types/psd.svg" :width="size" />
+    <v-img v-else-if="fileType==='js'" src="@/assets/file-types/js.svg" :width="size" />
     <v-img v-else-if="fileType==='mp4'" src="@/assets/file-types/mp4.svg" :width="size" />
     <v-img v-else-if="fileType==='jpg'" src="@/assets/file-types/jpg.svg" :width="size" />
     <v-img v-else-if="fileType==='csv'" src="@/assets/file-types/csv.svg" :width="size" />

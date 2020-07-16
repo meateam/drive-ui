@@ -14,7 +14,7 @@
     >
       <template v-slot:item="{item,isSelected,select}">
         <tr
-          :class="{selected: isSelected}"
+          :class="{'selected-list-item': isSelected}"
           @click.exact="onFileClick(item)"
           @click.ctrl.stop="onCtrlCLick(item)"
           @contextmenu.prevent="onRightClick($event, item)"
@@ -26,10 +26,10 @@
           <td id="file-icon">
             <FileTypeIcon :file="item" :size="30" />
           </td>
-          <td id="file-name">{{ item.name }}</td>
+          <td class="file-name">{{ item.name }}</td>
           <td>{{ item.owner }}</td>
           <td>{{ formatFileDate(item.updatedAt) }}</td>
-          <td id="size">{{ formatFileSize(item.size) }}</td>
+          <td class="file-size">{{ formatFileSize(item.size) }}</td>
         </tr>
       </template>
       <template v-slot:header.data-table-select="{props,on}">
@@ -70,7 +70,7 @@ export default {
       itemsPerPage: 7,
       pageCount: 1,
       headers: [
-        { value: "type", sortable: false, align: "center" },
+        { value: "type", align: "center" },
         { text: this.$t("file.Name"), value: "name" },
         { text: this.$t("file.Owner"), value: "owner" },
         { text: this.$t("file.LastUpdate"), value: "updatedAt" },
@@ -144,27 +144,10 @@ export default {
 </script>
 
 <style scoped>
-.v-data-table {
-  background-color: transparent !important;
-  min-height: calc(100vh - 320px);
-}
-.selected {
-  background-color: rgb(231, 237, 248);
-}
+@import "../../../styles/data-table.css";
+
 #folder {
   text-align: center;
-}
-#size {
-  direction: ltr;
-  text-align: right;
-}
-#file-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: right;
-  direction: ltr;
-  max-width: 500px;
 }
 #file-icon {
   width: 55px;
