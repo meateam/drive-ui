@@ -3,6 +3,7 @@ import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { formatFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
+import router from "../../router";
 
 const state = {
   files: [],
@@ -186,7 +187,7 @@ const actions = {
         dispatch("getAncestors", folder.id);
       }
     } catch (err) {
-      dispatch("onError", err);
+      router.push("/404")
     }
   },
   async getAncestors({ commit }, folderID) {
