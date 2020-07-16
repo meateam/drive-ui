@@ -67,7 +67,7 @@ export default {
     return {
       selected: [],
       page: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 7,
       pageCount: 1,
       headers: [
         { value: "type", sortable: false, align: "center" },
@@ -82,6 +82,14 @@ export default {
   methods: {
     formatFileSize(size) {
       return formatBytes(size);
+    },
+    calculateItemsPerPage() {
+      const pageHeight = window.innerHeight;
+      const layoutHeight = 350;
+      const itemHeight = 70;
+      const items = Math.floor((pageHeight - layoutHeight) / itemHeight);
+
+      this.itemsPerPage = items < 7 ? 7 : items;
     },
     formatFileDate(date) {
       return formatDate(date);
@@ -121,12 +129,16 @@ export default {
     }
   },
   created() {
+    this.calculateItemsPerPage();
+
     window.addEventListener("keydown", event => {
       if (event.key === "a" && event.ctrlKey) {
         event.preventDefault();
         this.selected = this.items;
       }
     });
+
+    window.addEventListener("resize", this.calculateItemsPerPage);
   }
 };
 </script>
