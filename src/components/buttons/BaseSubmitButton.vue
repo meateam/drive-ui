@@ -23,6 +23,6 @@ export default {
   font-size: 20px;
 }
 .theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn--outlined) {
-  background-color: #357e6f;
+  box-shadow: none !important;
 }
 </style>
