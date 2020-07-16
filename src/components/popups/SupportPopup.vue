@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" max-width="500" class="popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/green-note.svg" />
+        <img class="popup-icon auto-margin" src="@/assets/icons/green-chat.svg" />
         <p class="d-title">{{$t('support.Header')}}</p>
       </div>
       <div class="popup-body">
