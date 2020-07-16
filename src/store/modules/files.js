@@ -1,4 +1,5 @@
 import * as filesApi from "@/api/files";
+import { getFileType } from "@/utils/getFileType";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { formatFile } from "@/utils/formatFile";
@@ -196,7 +197,8 @@ const actions = {
   },
   async editFile({ commit, dispatch }, { file, name }) {
     try {
-      const newName = file.name.includes('.') ? `${name}.${file.name.substr(file.name.lastIndexOf(".") + 1)}` : name;
+      const fileType = getFileType(file.name);
+      const newName = file.name.includes('.') ? `${name}.${fileType}` : name;
       const res = await filesApi.editFile({ file, name: newName })
       commit("onFileRename", res);
       commit("onSuccess", "success.Edit");

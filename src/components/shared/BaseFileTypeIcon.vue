@@ -33,27 +33,24 @@
 
 <script>
 import { fileTypes } from "@/config";
+import { getFileType } from "@/utils/getFileType";
+
 export default {
   name: "FileTypeIcon",
   props: ["file", "size"],
   data() {
     return {
-      fileType: this.getFileType(this.file.name)
+      fileType: getFileType(this.file.name)
     };
   },
   methods: {
-    getFileType(name) {
-      const nameArray = name.split(".");
-      const fileType = nameArray[nameArray.length - 1];
-      return fileType;
-    },
     isFolder(type) {
       return type === fileTypes.folder;
     }
   },
   watch: {
     file: function(val) {
-      this.fileType = this.getFileType(val.name);
+      this.fileType = getFileType(val.name);
     }
   }
 };
