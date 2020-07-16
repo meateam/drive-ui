@@ -1,17 +1,14 @@
 <template>
-  <Layout>
-    <PageTemplate :files="files" :header="$t('pageHeaders.LastUpdated')" />
-  </Layout>
+  <PageTemplate :files="files" :header="$t('pageHeaders.LastUpdated')" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import Layout from "@/components/layout/Layout";
 import PageTemplate from "@/components/shared/BasePageTemplate";
 
 export default {
   name: "LastUpdated",
-  components: { PageTemplate, Layout },
+  components: { PageTemplate },
   computed: {
     ...mapGetters(["files"])
   },

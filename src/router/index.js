@@ -24,46 +24,73 @@ const router = new Router({
     {
       path: "/my-drive",
       component: () => import('@/views/MyDrive'),
+      meta: {
+        layout: true
+      },
       name: "My Drive",
     },
     {
       path: "/shared-with-me",
       component: () => import('@/views/SharedWithMe'),
+      meta: {
+        layout: true
+      },
       name: "Shared With Me",
     },
     {
       path: "/folders",
       component: () => import('@/views/Folders'),
+      meta: {
+        layout: true
+      },
       name: "Folders",
     },
     {
       path: "/external-transferd",
       component: () => import('@/views/ExternalTransferd'),
+      meta: {
+        layout: true
+      },
       name: "External Transferd",
     },
     {
       path: "/last-updated",
       component: () => import('@/views/LastUpdated'),
+      meta: {
+        layout: true
+      },
       name: "Last Update",
     },
     {
       path: "/search",
       component: () => import('@/views/Search'),
+      meta: {
+        layout: true
+      },
       name: "Search",
     },
     {
       path: "/deleted-files",
       component: DeletedFiles,
+      meta: {
+        layout: true
+      },
       name: "Deleted Files",
     },
     {
       path: "/favorites",
       component: Favorites,
+      meta: {
+        layout: true
+      },
       name: "Favorites",
     },
     {
       path: "/q&a",
       component: QuestionAnswer,
+      meta: {
+        layout: true
+      },
       name: "Q&A",
     },
     {

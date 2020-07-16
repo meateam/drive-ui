@@ -1,25 +1,22 @@
 <template>
-  <Layout>
-    <div class="page-container">
-      <div id="page-header">
-        <div id="page-name" v-if="currentFolder">
-          <Breadcrumbs
-            :folders="currentFolderHierarchy"
-            :currentFolder="currentFolder"
-            @click="onBreadcrumbClick"
-          />
-        </div>
-        <FileViewButton />
+  <div class="page-container">
+    <div id="page-header">
+      <div id="page-name" v-if="currentFolder">
+        <Breadcrumbs
+          :folders="currentFolderHierarchy"
+          :currentFolder="currentFolder"
+          @click="onBreadcrumbClick"
+        />
       </div>
-      <FabButton />
-      <FileView v-if="files" :files="files" />
+      <FileViewButton />
     </div>
-  </Layout>
+    <FabButton />
+    <FileView v-if="files" :files="files" />
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import Layout from "@/components/layout/Layout";
 import FileViewButton from "@/components/buttons/FileViewButton";
 import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
 import FileView from "@/components/files/FileView";
@@ -27,7 +24,7 @@ import FabButton from "@/components/buttons/FabButton";
 
 export default {
   name: "Folder",
-  components: { FabButton, FileView, FileViewButton, Breadcrumbs, Layout },
+  components: { FabButton, FileView, FileViewButton, Breadcrumbs },
   created() {
     document.title = this.currentFolder.name;
     this.$store.dispatch("fetchFiles");

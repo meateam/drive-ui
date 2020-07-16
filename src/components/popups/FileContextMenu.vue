@@ -1,5 +1,5 @@
 <template>
-  <v-menu v-model="showMenu" :position-x="x" :position-y="y" absolute offset-y id="menu">
+  <v-menu v-model="showMenu" :position-x="x" :position-y="y" max-width="160" absolute offset-y id="menu">
     <v-list color="#357e6f" id="right-click-popup">
       <DownloadButton />
       <ShareButton />

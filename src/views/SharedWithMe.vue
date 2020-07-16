@@ -1,17 +1,14 @@
 <template>
-  <Layout>
-    <PageTemplate :files="files" :header="$t('pageHeaders.SharedWithMe')" />
-  </Layout>
+  <PageTemplate :files="files" :header="$t('pageHeaders.SharedWithMe')" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import PageTemplate from "@/components/shared/BasePageTemplate";
-import Layout from "@/components/layout/Layout";
 
 export default {
   name: "Shared",
-  components: { PageTemplate, Layout },
+  components: { PageTemplate },
   computed: {
     ...mapGetters(["files"])
   },

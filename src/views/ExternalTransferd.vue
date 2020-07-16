@@ -1,17 +1,14 @@
 <template>
-  <Layout>
-    <PageTemplate :files="files" :header="$t('pageHeaders.ExternalTransferd')" />
-  </Layout>
+  <PageTemplate :files="files" :header="$t('pageHeaders.ExternalTransferd')" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import Layout from "@/components/layout/Layout";
 import PageTemplate from "@/components/shared/BasePageTemplate";
 
 export default {
   name: "ExternalTransferd",
-  components: { PageTemplate, Layout },
+  components: { PageTemplate },
   computed: {
     ...mapGetters(["files"])
   },

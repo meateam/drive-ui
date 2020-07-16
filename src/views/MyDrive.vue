@@ -1,17 +1,14 @@
 <template>
-  <Layout>
-    <PageTemplate :files="files" :header="$t('pageHeaders.MyDrive')" :upload="true" />
-  </Layout>
+  <PageTemplate :files="files" :header="$t('pageHeaders.MyDrive')" :upload="true" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import Layout from "@/components/layout/Layout";
 import PageTemplate from "@/components/shared/BasePageTemplate";
 
 export default {
   name: "MyDrive",
-  components: { PageTemplate, Layout },
+  components: { PageTemplate },
   computed: {
     ...mapGetters(["files"])
   },
