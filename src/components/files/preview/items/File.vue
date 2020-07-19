@@ -1,25 +1,27 @@
 <template>
-  <v-card
-    id="file"
-    :class="{selected: isSelected}"
-    class="pointer"
-    @dblclick="$emit('dblclick', $event, file)"
-    @click.native.exact="$emit('click', $event, file)"
-    @click.ctrl.native="$emit('ctrlClick', $event, file)"
-    @contextmenu.prevent="$emit('contextmenu', $event, file)"
-  >
-    <img v-if="file.type.startsWith('image')" :src="getImage" id="image" />
-    <iframe v-else-if="showPDF()" :src="getPDF" frameborder="0" scrolling="no" id="pdf"></iframe>
-    <div v-else id="file-icon">
-      <FileTypeIcon :file="file" :size="120" />
-    </div>
-    <v-tooltip bottom>
-      <template v-slot:activator="{ on }">
-        <p v-on="on" id="file-name">{{file.name}}</p>
-      </template>
-      <span>{{file.name}}</span>
-    </v-tooltip>
-  </v-card>
+  <v-lazy>
+    <v-card
+      id="file"
+      :class="{selected: isSelected}"
+      class="pointer"
+      @dblclick="$emit('dblclick', $event, file)"
+      @click.native.exact="$emit('click', $event, file)"
+      @click.ctrl.native="$emit('ctrlClick', $event, file)"
+      @contextmenu.prevent="$emit('contextmenu', $event, file)"
+    >
+      <img v-if="file.type.startsWith('image')" :src="getImage" id="image" />
+      <iframe v-else-if="showPDF()" :src="getPDF" frameborder="0" scrolling="no" id="pdf"></iframe>
+      <div v-else id="file-icon">
+        <FileTypeIcon :file="file" :size="120" />
+      </div>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <p v-on="on" id="file-name">{{file.name}}</p>
+        </template>
+        <span>{{file.name}}</span>
+      </v-tooltip>
+    </v-card>
+  </v-lazy>
 </template>
 
 <script>
