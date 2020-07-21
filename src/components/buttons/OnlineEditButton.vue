@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top v-if="chosenFiles.length===1 && canEdit(chosenFiles[0])" :disabled="!icon">
+  <v-tooltip top v-if="chosenFiles.length===1 && canEditOnline(chosenFiles[0])" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
         @click="onClick"
@@ -30,7 +30,7 @@ export default {
     onClick() {
       filesApi.editOnline(this.chosenFiles[0].id);
     },
-    canEdit(file) {
+    canEditOnline(file) {
       return fileTypes.office.includes(getFileType(file.name));
     }
   },

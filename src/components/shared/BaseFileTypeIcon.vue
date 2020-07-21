@@ -27,7 +27,7 @@
 
     <v-icon v-else-if="file.type.startsWith('audio')" :size="size" color="#9caec4">audiotrack</v-icon>
     <v-icon v-else-if="file.type.startsWith('video')" :size="size" color="#9caec4">movie</v-icon>
-    <v-icon v-else color="#9caec4" :size="size">insert_drive_file</v-icon>
+    <v-icon v-else color="#1a73e8" :size="size">insert_drive_file</v-icon>
   </div>
 </template>
 
