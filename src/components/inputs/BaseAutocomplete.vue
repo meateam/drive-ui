@@ -16,9 +16,6 @@
     :background-color="background"
     :placeholder="placeholder"
   >
-    <template v-slot:append>
-      <img class="fab-icon" src="@/assets/icons/search.svg" />
-    </template>
     <template v-slot:no-data>
       <p id="no-resault">{{ $t('autocomplete.NoResult')}}</p>
     </template>
