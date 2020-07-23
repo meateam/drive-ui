@@ -70,7 +70,6 @@ export default {
 <style scoped>
 #loading {
   position: absolute;
-  z-index: 500;
   top: calc(50vh - 250px);
   right: calc(50% - 100px);
 }

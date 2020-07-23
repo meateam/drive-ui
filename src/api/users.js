@@ -105,3 +105,16 @@ export async function searchExternalUsersByName(name) {
         store.dispatch("onError", err);
     }
 }
+
+export async function getApproverInfo(userID) {
+    console.log(userID)
+    const info = {
+        canApprove: false,
+        unit: "someUnit",
+        apprvers: []
+    }
+    return info;
+
+    // const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`);
+    // return res.data;
+}

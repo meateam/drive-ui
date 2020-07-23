@@ -1,5 +1,6 @@
 import cookies from "js-cookie";
 import { Base64 } from "js-base64";
+import * as usersApi from "@/api/users";
 
 const state = {
   token: cookies.get("kd-token") || undefined,
@@ -21,7 +22,7 @@ const actions = {
       return;
     }
   },
-  parseToken({ commit, dispatch }) {
+  async parseToken({ commit, dispatch }) {
     try {
       const token = state.token;
       const parts = token.split(".");
@@ -30,10 +31,17 @@ const actions = {
         throw new Error("token malformed");
       }
 
-      const user = JSON.parse(Base64.decode(parts[1]));
+      let user = JSON.parse(Base64.decode(parts[1]));
 
       if (Math.round(new Date().getTime() / 1000) > user.exp) {
         throw new Error("token expired");
+      }
+
+      const approvalInfo = await usersApi.getApproverInfo(user.id);
+
+      user = {
+        ...user,
+        ...approvalInfo
       }
 
       commit("setUser", user);

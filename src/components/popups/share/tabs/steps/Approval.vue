@@ -1,32 +1,39 @@
 <template>
   <div>
-    <div>
-      <div id="approval-header" class="space-between">
-        <p class="popup-text">{{$t('externalShare.ApprovalChoose')}}</p>
-        <v-tooltip top>
-          <template v-slot:activator="{ on }">
-            <v-icon color="#2c3448" v-on="on">info</v-icon>
-          </template>
-          <span>{{$t('externalShare.ApprovalInstructions')}}</span>
-        </v-tooltip>
-      </div>
+    <div v-if="!user.canApprove">
+      <div>
+        <div id="approval-header" class="space-between">
+          <p class="popup-text">{{$t('externalShare.ApprovalChoose')}}</p>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-icon color="#2c3448" v-on="on">info</v-icon>
+            </template>
+            <span>{{$t('externalShare.ApprovalInstructions')}}</span>
+          </v-tooltip>
+        </div>
 
-      <Autocomplete
-        icon
-        background="white"
-        :placeholder="$t('autocomplete.Users')"
-        :items="users"
-        :minLength="2"
-        :isLoading="isLoading"
-        @select="onSelect"
-        @type="getUsersByName"
-      />
+        <Autocomplete
+          icon
+          background="white"
+          :placeholder="$t('autocomplete.Users')"
+          :items="users"
+          :minLength="2"
+          :isLoading="isLoading"
+          @select="onSelect"
+          @type="getUsersByName"
+        />
+      </div>
+      <v-chip-group show-arrows>
+        <Chips v-for="user in selectedApprovals" :key="user.id" :user="user" @remove="onRemove" />
+      </v-chip-group>
     </div>
-    <v-chip-group show-arrows>
-      <Chips v-for="user in selectedApprovals" :key="user.id" :user="user" @remove="onRemove" />
-    </v-chip-group>
+
+    <div v-else>
+      <p class="popup-text align-center">{{$t('externalShare.CanApprove')}}</p>
+    </div>
+
     <v-card-actions class="popup-confirm">
-      <SubmitButton @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
+      <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
   </div>
@@ -48,16 +55,19 @@ export default {
       users: [],
       isLoading: false,
       selectedApprovals: [],
-      disabled: true
+      disabled: true,
     };
   },
   computed: {
-    ...mapGetters(["approvalServiceUrl"])
+    ...mapGetters(["user"]),
   },
   watch: {
-    selectedApprovals: function(users) {
+    selectedApprovals: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
-    }
+    },
+  },
+  created() {
+    this.disabled = !this.user.canApprove;
   },
   methods: {
     getUsersByName(name) {
@@ -65,7 +75,7 @@ export default {
       this.isLoading = true;
       usersApi
         .searchUsersByName(name)
-        .then(users => {
+        .then((users) => {
           this.users = users;
         })
         .finally(() => (this.isLoading = false));
@@ -73,7 +83,7 @@ export default {
     onConfirm() {
       this.$emit(
         "continue",
-        this.selectedApprovals.map(user => user.id)
+        this.selectedApprovals.map((user) => user.id)
       );
     },
     onSelect(user) {
@@ -84,14 +94,14 @@ export default {
       else this.selectedApprovals.push(user);
     },
     onRemove(item) {
-      this.selectedApprovals = this.selectedApprovals.filter(user => {
+      this.selectedApprovals = this.selectedApprovals.filter((user) => {
         return user.id !== item.id;
       });
     },
     isUserExists(users, id) {
-      return users.some(user => user.id === id);
-    }
-  }
+      return users.some((user) => user.id === id);
+    },
+  },
 };
 </script>
 

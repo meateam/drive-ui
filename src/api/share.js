@@ -75,6 +75,9 @@ export async function shareExternalUsers(
 ) {
     try {
         const body = { users, classification, info, approvers, fileName };
+        approvers.forEach(async (userID) => {
+            await shareUser({ fileID, userID, role: "READ" })
+        });
         const res = await Axios.put(`${baseURL}/api/files/${fileID}/permits`, body);
         return res.data;
     } catch (err) {

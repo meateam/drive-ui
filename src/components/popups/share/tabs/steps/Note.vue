@@ -1,6 +1,5 @@
 <template>
   <div id="note">
-    <img src="@/assets/icons/green-note.svg" />
     <p id="notice">{{$t('externalShare.note.Notice')}}</p>
     <p class="secret">{{$t('externalShare.note.SecretNetwork')}}</p>
     <p class="secret">{{$t('externalShare.note.SecretData')}}</p>

@@ -56,7 +56,7 @@ export default {
       approvers: [],
       classification: undefined,
       info: undefined,
-      complete: false
+      complete: false,
     };
   },
   methods: {
@@ -85,12 +85,13 @@ export default {
         fileName: this.file.name,
         info: this.info,
         classification: this.classification,
-        approvers: this.approvers
+        approvers: this.approvers,
       });
+      this.complete = false;
       this.currentStep = 1;
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 
