@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!user.canApprove">
+    <div v-if="!user.info.canApprove">
       <div>
         <div id="approval-header" class="space-between">
           <p class="popup-text">{{$t('externalShare.ApprovalChoose')}}</p>
@@ -67,7 +67,7 @@ export default {
     },
   },
   created() {
-    this.disabled = !this.user.canApprove;
+    this.disabled = !this.user.info.canApprove;
   },
   methods: {
     getUsersByName(name) {
