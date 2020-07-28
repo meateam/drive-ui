@@ -2,7 +2,7 @@
   <v-menu bottom offset-y max-height="400" id="load-menu" min-width="300" v-model="files.length">
     <template v-slot:activator="{ on, attrs }">
       <v-btn v-bind="attrs" v-on="on" text id="show-menu-button">
-        <v-progress-circular id="loading" :size="40" :width="3" color="#357e6f" indeterminate></v-progress-circular>
+        <v-progress-circular id="loading" :size="40" :width="3" color="#035c64" indeterminate></v-progress-circular>
         <p>{{$t('file.Loading')}}</p>
         <p id="loading-p">{{`(${files.length})`}}</p>
       </v-btn>
@@ -16,7 +16,7 @@
             </v-btn>
             <v-list-item-title id="file-name">{{file.name}}</v-list-item-title>
           </div>
-          <v-progress-linear :value="file.progress" color="#357e6f"></v-progress-linear>
+          <v-progress-linear :value="file.progress" color="#035c64"></v-progress-linear>
         </div>
         <v-icon id="file-icon" color="#9caec4">insert_drive_file</v-icon>
       </v-list-item>
@@ -52,7 +52,7 @@ export default {
   font-size: 14.5px;
   padding-bottom: 10px;
   text-align: left;
-  color: #357e6f;
+  color: #035c64;
 }
 #file-icon {
   font-size: 35px;

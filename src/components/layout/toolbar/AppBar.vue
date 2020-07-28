@@ -92,7 +92,6 @@ export default {
 
 <style scoped>
 #header {
-  box-shadow: 0px 2px 4px 0 rgba(93, 111, 125, 0.1);
   justify-content: space-between;
 }
 #left {

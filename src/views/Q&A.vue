@@ -22,7 +22,7 @@ export default {
 <style scoped>
 #page-name {
   font-size: 40px;
-  border-bottom: 2px solid #357e6f;
+  border-bottom: 2px solid #035c64;
   padding-bottom: 8px;
   color: #2c3448;
   font-family: Rubik-light;

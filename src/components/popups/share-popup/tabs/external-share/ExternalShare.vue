@@ -5,7 +5,7 @@
         <v-stepper-step
           :complete="currentStep > 1"
           step="1"
-          color="#357e6f"
+          color="#035c64"
         >{{$t('externalShare.Destination')}}</v-stepper-step>
 
         <v-divider></v-divider>
@@ -13,12 +13,12 @@
         <v-stepper-step
           :complete="currentStep > 2"
           step="2"
-          color="#357e6f"
+          color="#035c64"
         >{{$t('externalShare.Approval')}}</v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step step="3" color="#357e6f">{{$t('externalShare.AddInfo')}}</v-stepper-step>
+        <v-stepper-step step="3" color="#035c64">{{$t('externalShare.AddInfo')}}</v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>

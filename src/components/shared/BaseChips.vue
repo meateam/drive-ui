@@ -1,5 +1,5 @@
 <template>
-  <v-chip color="#357e6f" id="chip">
+  <v-chip color="#035c64" id="chip">
     <img id="user-icon" src="@/assets/icons/user.png" />
     <p>{{`${user.firstName} ${user.lastName ? user.lastName: ""}`}}</p>
     <v-btn icon color="white" @click="$emit('remove', user)">

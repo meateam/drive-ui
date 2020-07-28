@@ -7,7 +7,7 @@
         <div class="files">
           <p class="ltr space" v-for="file in files" :key="file.id">{{file.name}}</p>
         </div>
-        <v-tabs v-model="tab" slider-color="#357e6f" color="black">
+        <v-tabs v-model="tab" slider-color="#035c64" color="black">
           <v-tab href="#DRIVE" key="DRIVE">{{$t('share.DriveShare')}}</v-tab>
           <v-tab href="#EXTERNAL">{{$t('share.ExternalShare')}}</v-tab>
         </v-tabs>

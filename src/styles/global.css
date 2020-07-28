@@ -1,16 +1,16 @@
 @font-face {
     font-family: Rubik;
-    src: url("../assets/fonts/Rubik/Rubik-Regular.ttf");
+    src: url("../assets/fonts/M_PLUS_1p/MPLUS1p-Regular.ttf");
 }
 
 @font-face {
     font-family: Rubik-light;
-    src: url("../assets/fonts/Rubik/Rubik-Light.ttf");
+    src: url("../assets/fonts/M_PLUS_1p/MPLUS1p-Light.ttf");
 }
 
 @font-face {
     font-family: Rubik-Bold;
-    src: url("../assets/fonts/Rubik/Rubik-Bold.ttf");
+    src: url("../assets/fonts/M_PLUS_1p/MPLUS1p-Bold.ttf");
 }
 
 html {
@@ -56,7 +56,7 @@ a {
 }
 
 .v-step {
-    background: #357e6f !important;
+    background: #035c64 !important;
     box-shadow: 0px 30px 38px 0 rgba(53, 126, 111, 0.42) !important;
 }
 
