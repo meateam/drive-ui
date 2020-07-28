@@ -11,7 +11,7 @@ const state = {
   myExternalSharesName: "השיתופים החיצוניים שלי",
   enableExternalShare: false,
   onlineEditorUrl: "http://13.79.160.153:3000/api/files",
-  approverWhiteListText: "או להיות מאושר באופן מיוחד"
+  whiteListText: "או להיות מאושר באופן מיוחד"
 };
 
 const getters = {
@@ -21,7 +21,7 @@ const getters = {
   supportLink: (state) => state.supportLink,
   approvalServiceUrl: (state) => state.approvalServiceUrl,
   externalShareName: (state) => state.externalShareName,
-  approverWhiteListText: (state) => state.approverWhiteListText,
+  whiteListText: (state) => state.approverWhiteListText,
   myExternalSharesName: (state) => state.myExternalSharesName,
   enableExternalShare: (state) => state.enableExternalShare,
   onlineEditorUrl: (state) => state.onlineEditorUrl,
@@ -48,7 +48,7 @@ const mutations = {
       state.approvalServiceUrl = config.approvalServiceUrl,
       state.externalShareName = config.externalShareName,
       state.myExternalSharesName = config.myExternalSharesName,
-      state.approverWhiteListText = config.approverWhiteListText || state.approverWhiteListText,
+      state.whiteListText = config.whiteListText || state.whiteListText,
       state.enableExternalShare = config.enableExternalShare;
   },
 };
