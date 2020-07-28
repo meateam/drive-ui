@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:8080";
+const baseURL = "";
 const fileTypes = {
     folder: "application/vnd.drive.folder",
     media: ["image", "video", "audio", "blob"],

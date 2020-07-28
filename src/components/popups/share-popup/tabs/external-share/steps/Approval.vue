@@ -16,7 +16,7 @@
                 , {{$t('externalShare.ApproverRanks')}}
               </p>
               <p class="bold">{{getRanks()}}</p>
-              <p class="bold">{{approverWhiteListText}}</p>
+              <p class="bold">{{whiteListText}}</p>
             </div>
           </v-tooltip>
         </div>
@@ -68,7 +68,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user", "approverWhiteListText"]),
+    ...mapGetters(["user", "whiteListText"]),
   },
   watch: {
     selectedApprovals: function (users) {
