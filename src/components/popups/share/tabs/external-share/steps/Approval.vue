@@ -1,14 +1,23 @@
 <template>
   <div>
-    <div v-if="!user.info.canApprove">
+    <div v-if="!user.approvalInfo.canApprove">
       <div>
         <div id="approval-header" class="space-between">
           <p class="popup-text">{{$t('externalShare.ApprovalChoose')}}</p>
-          <v-tooltip top>
+          <v-tooltip top color="#2c3448">
             <template v-slot:activator="{ on }">
               <v-icon color="#2c3448" v-on="on">info</v-icon>
             </template>
-            <span>{{$t('externalShare.ApprovalInstructions')}}</span>
+            <div class="align-center">
+              <p>{{$t('externalShare.ApprovalInstructions')}}</p>
+              <p>
+                {{$t('externalShare.ApproverUnit')}}
+                <span class="bold">{{user.approvalInfo.unit}}</span>
+                , {{$t('externalShare.ApproverRanks')}}
+              </p>
+              <p class="bold">{{getRanks()}}</p>
+              <p class="bold">{{approverWhiteListText}}</p>
+            </div>
           </v-tooltip>
         </div>
 
@@ -59,7 +68,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user", "approverWhiteListText"]),
   },
   watch: {
     selectedApprovals: function (users) {
@@ -67,7 +76,7 @@ export default {
     },
   },
   created() {
-    this.disabled = !this.user.info.canApprove;
+    this.disabled = !this.user.approvalInfo.canApprove;
   },
   methods: {
     getUsersByName(name) {
@@ -85,6 +94,9 @@ export default {
         "continue",
         this.selectedApprovals.map((user) => user.id)
       );
+    },
+    getRanks() {
+      return this.user.approvalInfo.ranks.toString().split(",").join(", ");
     },
     onSelect(user) {
       this.users = [];

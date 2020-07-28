@@ -41,9 +41,9 @@ const actions = {
 
       user = {
         ...user,
-        ...approvalInfo
+        approvalInfo
       }
-      
+
       commit("setUser", user);
     } catch (err) {
       dispatch("onError", err)

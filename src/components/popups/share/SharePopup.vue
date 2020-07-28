@@ -42,8 +42,8 @@
 
 <script>
 import { fileTypes } from "@/config";
-import DriveShare from "./tabs/DriveShare";
-import ExternalShare from "./tabs/ExternalShare";
+import DriveShare from "./tabs/drive-share/DriveShare";
+import ExternalShare from "./tabs/external-share/ExternalShare";
 
 export default {
   name: "SharePopup",

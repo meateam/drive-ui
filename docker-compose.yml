@@ -78,7 +78,7 @@ services:
     env_file:
       - ../kdrive.env
   user-service:
-    image: "drivehub.azurecr.io/meateam/user-service:approval"
+    image: "drivehub.azurecr.io/meateam/user-service:approver"
     ports:
       - "8086:8080"
     env_file:

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-stepper v-model="currentStep" alt-labels v-if="!complete">
+    <v-stepper v-model="currentStep" alt-labels>
       <v-stepper-header>
         <v-stepper-step
           :complete="currentStep > 1"
@@ -35,7 +35,7 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
-    <Note @complete="onComplete" v-if="complete" @back="goBack" />
+    <NotePopup @complete="onComplete" ref="note" />
   </div>
 </template>
 
@@ -44,10 +44,10 @@ import * as shareApi from "@/api/share";
 import AddInfo from "./steps/AddInfo";
 import Destination from "./steps/Destination";
 import Approval from "./steps/Approval";
-import Note from "./steps/Note";
+import NotePopup from "./NotePopup";
 
 export default {
-  components: { AddInfo, Destination, Approval, Note },
+  components: { AddInfo, Destination, Approval, NotePopup },
   props: ["file"],
   data() {
     return {
@@ -56,7 +56,6 @@ export default {
       approvers: [],
       classification: undefined,
       info: undefined,
-      complete: false,
     };
   },
   methods: {
@@ -71,11 +70,9 @@ export default {
     onInfoComplete(info, classification) {
       this.info = info;
       this.classification = classification;
-      this.currentStep++;
-      this.complete = true;
+      this.$refs.note.open();
     },
     goBack() {
-      this.complete = false;
       this.currentStep--;
     },
     onComplete() {
@@ -87,7 +84,6 @@ export default {
         classification: this.classification,
         approvers: this.approvers,
       });
-      this.complete = false;
       this.currentStep = 1;
       this.$emit("close");
     },
