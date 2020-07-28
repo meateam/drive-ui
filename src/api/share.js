@@ -42,18 +42,14 @@ export async function getExternalPermissions(fileID) {
  * @param role is the role of the share
  */
 export async function shareUser({ fileID, userID, role }) {
-    try {
-        await Axios.put(
-            `${baseURL}/api/files/${fileID}/permissions`,
-            {
-                userID,
-                role,
-                override: true,
-            }
-        );
-    } catch (err) {
-        store.dispatch("onError", err);
-    }
+    await Axios.put(
+        `${baseURL}/api/files/${fileID}/permissions`,
+        {
+            userID,
+            role,
+            override: true,
+        }
+    );
 }
 
 /**
@@ -63,11 +59,17 @@ export async function shareUser({ fileID, userID, role }) {
  * @param role is the role of the share
  */
 export function shareUsers({ files, users, role }) {
-    users.forEach(async (user) => {
-        files.forEach(async (file) => {
-            await shareUser({ fileID: file.id, userID: user.id, role });
-        });
-    });
+    Promise.all(
+        users.map(async (user) => {
+            files.forEach(async (file) => {
+                await shareUser({ fileID: file.id, userID: user.id, role });
+            });
+        })
+    ).then(() => {
+        store.commit("onSuccess", "success.Share");
+    }).catch(err => {
+        store.dispatch("onError", err);
+    })
 }
 
 export async function shareExternalUsers(
@@ -79,9 +81,11 @@ export async function shareExternalUsers(
             await shareUser({ fileID, userID, role: "READ" })
         });
         const res = await Axios.put(`${baseURL}/api/files/${fileID}/permits`, body);
+        store.commit("onSuccess", "success.ExternalShare");
+
         return res.data;
     } catch (err) {
-        store.dispatch("onError", err)
+        store.dispatch("onError", err);
     }
 }
 
