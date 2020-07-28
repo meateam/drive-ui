@@ -4,7 +4,8 @@ import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { formatFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
-import router from "../../router";
+import { fixFileName } from "@/utils/fixFileName";
+import router from "@/router";
 
 const state = {
   files: [],
@@ -118,10 +119,12 @@ const actions = {
 
     let metadata = undefined;
 
+    const fixedFile = new File([file], fixFileName(file.name), { type: file.type });
+
     if (file.size <= 5 << 20) {
-      metadata = await filesApi.multipartUpload({ file, parent: state.currentFolder });
+      metadata = await filesApi.multipartUpload({ file: fixedFile, parent: state.currentFolder });
     } else {
-      metadata = await filesApi.resumableUpload({ file, parent: state.currentFolder });
+      metadata = await filesApi.resumableUpload({ file: fixedFile, parent: state.currentFolder });
     }
 
     const formatedFile = await formatFile(metadata);
@@ -197,6 +200,7 @@ const actions = {
   },
   async editFile({ commit, dispatch }, { file, name }) {
     try {
+      name = fixFileName(name);
       const fileType = getFileType(file.name);
       const newName = file.name.includes('.') ? `${name}.${fileType}` : name;
       const res = await filesApi.editFile({ file, name: newName })

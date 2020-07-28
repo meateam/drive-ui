@@ -48,7 +48,7 @@ const mutations = {
       state.approvalServiceUrl = config.approvalServiceUrl,
       state.externalShareName = config.externalShareName,
       state.myExternalSharesName = config.myExternalSharesName,
-      state.whiteListText = config.whiteListText,
+      state.whiteListText = config.whiteListText || state.whiteListText,
       state.enableExternalShare = config.enableExternalShare;
   },
 };
