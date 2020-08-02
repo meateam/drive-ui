@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" max-width="600" class="popup" id="share-popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/green-share.svg" />
+        <img class="popup-icon auto-margin" src="@/assets/icons/green-3-share.svg" />
         <p class="d-title">{{$t('share.Header')}}</p>
         <div class="files">
           <p class="ltr space" v-for="file in files" :key="file.id">{{file.name}}</p>
