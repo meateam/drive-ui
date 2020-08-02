@@ -19,7 +19,7 @@ import FabButton from "@/components/buttons/FabButton";
 export default {
   name: "PageTemplate",
   components: { FileView, FileViewButton, FabButton },
-  props: ["files", "header", "upload"]
+  props: ["files", "header", "upload"],
 };
 </script>
 
