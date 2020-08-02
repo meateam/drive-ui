@@ -4,7 +4,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import PageTemplate from "@/components/shared/BasePageTemplate";
+import PageTemplate from "@/components/BasePageTemplate";
 
 export default {
   name: "MyDrive",
