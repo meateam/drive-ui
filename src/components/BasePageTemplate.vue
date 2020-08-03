@@ -7,6 +7,7 @@
 
     <FileView v-if="files" :files="files" />
 
+    <DragNDrop v-if="upload" />
     <FabButton v-if="upload" />
   </div>
 </template>
@@ -15,11 +16,12 @@
 import FileViewButton from "@/components/buttons/FileViewButton";
 import FileView from "@/components/files/FileView";
 import FabButton from "@/components/buttons/FabButton";
+import DragNDrop from "@/components/shared/DragNDrop"
 
 export default {
   name: "PageTemplate",
-  components: { FileView, FileViewButton, FabButton },
-  props: ["files", "header", "upload"],
+  components: { FileView, FileViewButton, FabButton, DragNDrop },
+  props: ["files", "header", "upload"]
 };
 </script>
 

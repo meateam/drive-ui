@@ -24,6 +24,6 @@ export default {
     open() {
       document.getElementById("upload-input").click();
     }
-  }
+  },
 };
 </script>
