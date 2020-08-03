@@ -19,7 +19,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getFileType } from "@/utils/getFileType";
 import { fileTypes } from "@/config";
 import * as filesApi from "@/api/files";
 
@@ -31,7 +30,7 @@ export default {
       filesApi.editOnline(this.chosenFiles[0].id);
     },
     canEditOnline(file) {
-      return fileTypes.office.includes(getFileType(file.name));
+      return fileTypes.office.includes(file.type);
     }
   },
   computed: {
