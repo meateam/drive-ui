@@ -7,7 +7,7 @@
     v-if="canUpload()"
   >
     <template v-slot:activator>
-      <v-btn v-model="fab" fab color="#48da6d" @click="onFabClick">
+      <v-btn v-model="fab" fab color="#2f7e71" @click="onFabClick">
         <v-icon color="white" v-if="fab">close</v-icon>
         <v-icon color="white" v-else>add</v-icon>
       </v-btn>
