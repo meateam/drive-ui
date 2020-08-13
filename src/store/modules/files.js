@@ -154,7 +154,7 @@ const actions = {
     try {
       await filesApi.cancelUpload(file.source);
       commit("removeLoadingFile", file.name);
-      commit("onSuccess", "success.Cancel")
+      dispatch("onSuccess", "Cancel")
     } catch (err) {
       dispatch("onError", err);
     }

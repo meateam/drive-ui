@@ -12,7 +12,7 @@
     item-text="display"
     return-object
     :append-icon="icon"
-    color="#035c64"
+    color="#357e6f"
     :background-color="background"
     :placeholder="placeholder"
   >

@@ -7,7 +7,7 @@
     v-if="canUpload()"
   >
     <template v-slot:activator>
-      <v-btn v-model="fab" fab color="#2f7e71" @click="onFabClick">
+      <v-btn v-model="fab" fab color="#283145" @click="onFabClick">
         <v-icon color="white" v-if="fab">close</v-icon>
         <v-icon color="white" v-else>add</v-icon>
       </v-btn>
@@ -15,7 +15,7 @@
     </template>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn @click.stop="$refs.newFolder.open()" v-on="on" fab big color="#035c64">
+        <v-btn @click.stop="$refs.newFolder.open()" v-on="on" fab big color="#357e6f">
           <NamePopup
             img="green-create-folder.svg"
             ref="newFolder"
@@ -29,7 +29,7 @@
     </v-tooltip>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" fab color="#035c64" @click="$refs.upload.open()">
+        <v-btn v-on="on" fab color="#357e6f" @click="$refs.upload.open()">
           <img class="icon" src="@/assets/icons/upload.svg" />
         </v-btn>
       </template>

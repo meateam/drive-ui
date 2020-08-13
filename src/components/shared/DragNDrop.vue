@@ -12,8 +12,7 @@ export default {
   name: "DragNDrop",
   data() {
     return {
-      onDrag: false,
-      dragCount: 0
+      onDrag: false
     };
   },
   methods: {
@@ -32,18 +31,6 @@ export default {
         "dragenter",
         event => {
           event.preventDefault();
-          this.dragCount += 1;
-        },
-        false
-      );
-      window.addEventListener(
-        "dragleave",
-        event => {
-          event.preventDefault();
-          this.dragCount -= 1;
-          if (this.isFileDrag(event) && !this.dragCount) {
-            this.onDrag = false;
-          }
         },
         false
       );
@@ -66,7 +53,6 @@ export default {
             const files = Object.values(event.dataTransfer.items).map(file =>
               file.getAsFile()
             );
-            console.log(files);
             this.$store.dispatch("uploadFiles", files);
           }
         },
@@ -92,7 +78,7 @@ export default {
   backdrop-filter: blur(4px);
 }
 #upload-icon {
-  color: #035c64;
+  color: #357e6f;
   display: block;
   font-size: 250px;
 }

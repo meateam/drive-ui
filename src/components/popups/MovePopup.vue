@@ -77,7 +77,7 @@ export default {
 <style scoped>
 .files {
   display: flex;
-  color: #035c64;
+  color: #357e6f;
   font-size: 16px;
   justify-content: center;
 }

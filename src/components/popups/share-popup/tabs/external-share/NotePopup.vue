@@ -11,14 +11,14 @@
           :key="mark"
           :value="mark"
           :label="mark"
-          color="#035c64"
+          color="#357e6f"
           v-model="selected"
         ></v-checkbox>
       </div>
       <v-checkbox
         :disabled="selected.length !== marks.length"
         :label="$t('externalShare.note.IAgree')"
-        color="#035c64"
+        color="#357e6f"
         v-model="agreed"
       ></v-checkbox>
       <v-card-actions class="popup-confirm">

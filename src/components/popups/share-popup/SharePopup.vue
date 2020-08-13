@@ -2,12 +2,12 @@
   <v-dialog v-model="dialog" max-width="600" class="popup" id="share-popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/green-3-share.svg" />
+        <img class="popup-icon auto-margin" src="@/assets/icons/green-share.svg" />
         <p class="d-title">{{$t('share.Header')}}</p>
         <div class="files">
           <p class="ltr space" v-for="file in files" :key="file.id">{{file.name}}</p>
         </div>
-        <v-tabs v-model="tab" slider-color="#035c64" color="black">
+        <v-tabs v-model="tab" slider-color="#357e6f" color="black">
           <v-tab href="#DRIVE" key="DRIVE">{{$t('share.DriveShare')}}</v-tab>
           <v-tab href="#EXTERNAL">{{$t('share.ExternalShare')}}</v-tab>
         </v-tabs>
