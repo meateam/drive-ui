@@ -1,26 +1,29 @@
 <template>
   <v-dialog v-model="dialog" max-width="700">
     <v-card color="white" id="note">
-      <img class="popup-icon" src="@/assets/icons/green-note.svg" />
+      <div id="note-icon">
+        <img class="popup-icon" src="@/assets/icons/note.svg" />
+      </div>
+
       <p id="notice">{{$t('externalShare.note.Notice')}}</p>
       <p class="secret">{{$t('externalShare.note.SecretNetwork')}}</p>
       <p class="secret">{{$t('externalShare.note.SecretData')}}</p>
-      <div id="marks">
+      <div id="marks" class="space-right">
         <v-checkbox
           v-for="mark in marks"
           :key="mark"
           :value="mark"
           :label="mark"
-          color="#035c64"
+          color="red"
           v-model="selected"
         ></v-checkbox>
+        <v-checkbox
+          :disabled="selected.length !== marks.length"
+          :label="$t('externalShare.note.IAgree')"
+          color="red"
+          v-model="agreed"
+        ></v-checkbox>
       </div>
-      <v-checkbox
-        :disabled="selected.length !== marks.length"
-        :label="$t('externalShare.note.IAgree')"
-        color="#035c64"
-        v-model="agreed"
-      ></v-checkbox>
       <v-card-actions class="popup-confirm">
         <SubmitButton @click="onConfirm" :label="$t('buttons.Share')" :disabled="!agreed" />
         <TextButton @click="onBack" :label="$t('buttons.Back')" />
@@ -82,9 +85,21 @@ export default {
   font-size: 18px;
 }
 .popup-icon {
-  padding: 20px 0;
+  padding: 15px 0;
+  width: 100px;
 }
 .space-right {
   padding-right: 20px;
+}
+#note-icon {
+  animation: grow 0.75s;
+}
+@keyframes grow {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 </style>
