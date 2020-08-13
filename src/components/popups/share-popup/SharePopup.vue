@@ -32,6 +32,7 @@
                 <p class="popup-text">{{$t('externalShare.errors.FileType')}}</p>
                 <p>{{getAllowedTypes()}}</p>
               </div>
+              <div v-else-if="enableExternalShare">{{$t('externalShare.errors.Enabled')}}</div>
             </div>
           </v-tab-item>
         </v-tabs-items>
@@ -44,14 +45,18 @@
 import { fileTypes } from "@/config";
 import DriveShare from "./tabs/drive-share/DriveShare";
 import ExternalShare from "./tabs/external-share/ExternalShare";
+import { mapGetters } from "vuex";
 
 export default {
   name: "SharePopup",
+  computed: {
+    ...mapGetters(["enableExternalShare"]),
+  },
   components: { DriveShare, ExternalShare },
   data() {
     return {
       dialog: false,
-      tab: null
+      tab: null,
     };
   },
   props: ["files"],
@@ -65,12 +70,9 @@ export default {
       return fileTypes.externalShare.includes(fileType.toLowerCase());
     },
     getAllowedTypes() {
-      return fileTypes.externalShare
-        .toString()
-        .split(",")
-        .join(", ");
-    }
-  }
+      return fileTypes.externalShare.toString().split(",").join(", ");
+    },
+  },
 };
 </script>
 
