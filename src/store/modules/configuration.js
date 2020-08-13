@@ -6,12 +6,13 @@ const state = {
   authUrl: "",
   environment: "",
   supportLink: "",
+  dropboxSupportLink: "",
   approvalServiceUrl: "",
   externalShareName: "שיתוף חיצוני",
   myExternalSharesName: "השיתופים החיצוניים שלי",
   enableExternalShare: false,
   onlineEditorUrl: "http://13.79.160.153:3000/api/files",
-  whiteListText: "או להיות מאושר באופן מיוחד"
+  whiteListText: "או להיות מאושר באופן מיוחד",
 };
 
 const getters = {
@@ -19,6 +20,7 @@ const getters = {
   authUrl: (state) => state.authUrl,
   environment: (state) => state.environment,
   supportLink: (state) => state.supportLink,
+  dropboxSupportLink: (state) => state.dropboxSupportLink,
   approvalServiceUrl: (state) => state.approvalServiceUrl,
   externalShareName: (state) => state.externalShareName,
   whiteListText: (state) => state.approverWhiteListText,
@@ -41,15 +43,16 @@ const actions = {
 
 const mutations = {
   setConfig: (state, config) => {
-    state.apmServerUrl = config.apmServerUrl,
-      state.authUrl = config.authUrl,
-      state.environment = config.environment,
-      state.supportLink = config.supportLink,
-      state.approvalServiceUrl = config.approvalServiceUrl,
-      state.externalShareName = config.externalShareName,
-      state.myExternalSharesName = config.myExternalSharesName,
-      state.whiteListText = config.whiteListText || state.whiteListText,
-      state.enableExternalShare = config.enableExternalShare;
+    (state.apmServerUrl = config.apmServerUrl),
+      (state.authUrl = config.authUrl),
+      (state.environment = config.environment),
+      (state.supportLink = config.supportLink),
+      (state.dropboxSupportLink = config.dropboxSupportLink),
+      (state.approvalServiceUrl = config.approvalServiceUrl),
+      (state.externalShareName = config.externalShareName),
+      (state.myExternalSharesName = config.myExternalSharesName),
+      (state.whiteListText = config.whiteListText || state.whiteListText),
+      (state.enableExternalShare = config.enableExternalShare);
   },
 };
 

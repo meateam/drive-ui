@@ -158,7 +158,7 @@ export default {
   text-align: center;
 }
 .sidenav-title {
-  color: white;
+  color: #fff9e5;
 }
 .white-icon {
   display: block;

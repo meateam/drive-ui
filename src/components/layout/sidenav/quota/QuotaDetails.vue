@@ -24,7 +24,7 @@ export default {
 .quota-usage-container {
   direction: ltr;
   margin: 0 auto;
-  color: white;
+  color: #fff9e5;
   font-size: 0.75em;
   margin-top: 0.5em;
 }
