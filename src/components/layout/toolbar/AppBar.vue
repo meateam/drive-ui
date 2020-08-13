@@ -20,7 +20,6 @@
       </div>
       <v-divider vertical light></v-divider>
       <div id="info">
-        <TourButton />
         <ChatButton />
         <p id="user-name">{{getUserName()}}</p>
       </div>
@@ -43,11 +42,10 @@ import ChatButton from "@/components/buttons/ChatButton";
 import LoadingFiles from "@/components/shared/BaseLoadingFiles";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import Preview from "@/components/popups/Preview";
-import TourButton from "@/components/buttons/TourButton";
 
 export default {
   name: "AppBar",
-  components: { ChatButton, Autocomplete, TourButton, LoadingFiles, Preview },
+  components: { ChatButton, Autocomplete, LoadingFiles, Preview },
   data() {
     return {
       results: [],
