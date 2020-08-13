@@ -8,15 +8,18 @@
             <template v-slot:activator="{ on }">
               <v-icon color="#2c3448" v-on="on">info</v-icon>
             </template>
+
             <div class="align-center">
               <p>{{$t('externalShare.ApprovalInstructions')}}</p>
-              <p>
-                {{$t('externalShare.ApproverUnit')}}
-                <span class="bold">{{user.approvalInfo.unit}}</span>
-                , {{$t('externalShare.ApproverRanks')}}
-              </p>
-              <p class="bold">{{getRanks()}}</p>
-              <p class="bold">{{whiteListText}}</p>
+              <div v-if="user.approverInfo.ranks && user.approverInfo.unit" >
+                <p>
+                  {{$t('externalShare.ApproverUnit')}}
+                  <span class="bold">{{user.approvalInfo.unit}}</span>
+                  , {{$t('externalShare.ApproverRanks')}}
+                </p>
+                <p class="bold">{{getRanks()}}</p>
+                <p class="bold">{{whiteListText}}</p>
+              </div>
             </div>
           </v-tooltip>
         </div>

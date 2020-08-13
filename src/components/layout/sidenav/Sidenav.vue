@@ -3,101 +3,89 @@
     <v-list nav>
       <v-list-item id="logo-container">
         <v-list-item-content>
-          <v-list-item-title class="title">
-            <img id="logo" class="auto-margin" src="@/assets/images/logo.png" />
+          <v-list-item-title>
+            <img id="logo" class="auto-margin" src="@/assets/images/logo.svg" />
           </v-list-item-title>
-          <v-list-item-title id="version">{{version}}</v-list-item-title>
+          <v-list-item-title class="sidenav-title" id="version">{{version}}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
-      <v-divider></v-divider>
-
-      <router-link to="/my-drive">
+      <router-link to="/my-drive" exact-active-class="route-active">
         <v-list-item link id="my-drive-link">
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/home.svg" />
+            <img class="icons white-icon" src="@/assets/icons/home.svg" />
+            <img class="icons green-icon" src="@/assets/icons/green-home.svg" />
           </v-list-item-icon>
-          <v-list-item-title>{{ $t("sidenav.MyDrive") }}</v-list-item-title>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.MyDrive") }}</v-list-item-title>
         </v-list-item>
       </router-link>
 
-      <v-divider></v-divider>
-
-      <router-link to="/shared-with-me">
+      <router-link to="/shared-with-me" exact-active-class="route-active">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/share.svg" />
+            <img class="icons white-icon" src="@/assets/icons/share.svg" />
+            <img class="icons green-icon" src="@/assets/icons/green-share.svg" />
           </v-list-item-icon>
-          <v-list-item-title>{{ $t("sidenav.SharedWithMe") }}</v-list-item-title>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.SharedWithMe") }}</v-list-item-title>
         </v-list-item>
       </router-link>
 
-      <v-divider></v-divider>
-
-      <router-link to="/last-updated">
+      <router-link to="/last-updated" exact-active-class="route-active">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/last-update.svg" />
+            <img class="icons white-icon" src="@/assets/icons/last-update.svg" />
+            <img class="icons green-icon" src="@/assets/icons/green-last-update.svg" />
           </v-list-item-icon>
-          <v-list-item-title>{{ $t("sidenav.LastUpdated") }}</v-list-item-title>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.LastUpdated") }}</v-list-item-title>
         </v-list-item>
       </router-link>
 
-      <v-divider></v-divider>
-
-      <router-link to="/external-transferd">
+      <router-link to="/external-transferd" exact-active-class="route-active">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/move.svg" />
+            <img class="icons white-icon" src="@/assets/icons/move.svg" />
+            <img class="icons green-icon" src="@/assets/icons/green-move.svg" />
           </v-list-item-icon>
-          <v-list-item-title>{{ $t("sidenav.ExternalTransferd") }}</v-list-item-title>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalTransferd") }}</v-list-item-title>
         </v-list-item>
       </router-link>
-
-      <v-divider></v-divider>
 
       <v-list-item link @click="openApprovalService">
         <v-list-item-icon>
           <img class="icons" src="@/assets/icons/pending.svg" />
         </v-list-item-icon>
-        <v-list-item-title>{{ myExternalSharesName }}</v-list-item-title>
+        <v-list-item-title class="sidenav-title">{{ myExternalSharesName }}</v-list-item-title>
       </v-list-item>
 
-      <v-divider></v-divider>
-
-      <!-- <router-link to="/favorites">
+      <!-- <router-link to="/favorites" exact-active-class="route-active">
         <v-list-item link>
           <v-list-item-icon>
             <img class="icons" src="@/assets/icons/favorites.svg" />
           </v-list-item-icon>
-          <v-list-item-title>{{ $t("sidenav.Favorites") }}</v-list-item-title>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.Favorites") }}</v-list-item-title>
         </v-list-item>
       </router-link>
 
-      <v-divider></v-divider>
+      
 
-      <router-link to="/deleted-files">
+      <router-link to="/deleted-files" exact-active-class="route-active">
         <v-list-item link>
           <v-list-item-icon>
             <img class="icons" src="@/assets/icons/delete.svg" />
           </v-list-item-icon>
-          <v-list-item-title>{{ $t("sidenav.Deleted") }}</v-list-item-title>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.Deleted") }}</v-list-item-title>
         </v-list-item>
-      </router-link>
-
-      <v-divider></v-divider>-->
+      </router-link>-->
 
       <div>
         <v-list-item>
           <v-list-item-icon>
             <img class="icons" src="@/assets/icons/storage.svg" />
           </v-list-item-icon>
-          <v-list-item-title>{{ $t("sidenav.Quota.Quota") }}</v-list-item-title>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.Quota.Quota") }}</v-list-item-title>
         </v-list-item>
         <Quota :quota="quota" />
       </div>
-
-      <v-divider></v-divider>
     </v-list>
     <img id="yesodot" class="icons" src="@/assets/images/yesodot.svg" />
   </v-navigation-drawer>
@@ -132,15 +120,11 @@ export default {
 
 <style scoped>
 #sidenav {
-  background-image: linear-gradient(to bottom, #357e6f, #4d804d);
+  background-image: linear-gradient(to bottom, #347A99, #2f7e71);
   display: block;
 }
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
-  color: #c8d9d5 !important;
   padding: 0 20px;
-}
-.theme--light.v-divider {
-  border-color: #255f53 !important;
 }
 .v-list {
   padding: 0;
@@ -152,6 +136,7 @@ export default {
 }
 #logo-container {
   height: 86px;
+  margin: 0 35px;
 }
 #logo {
   padding-bottom: 5px;
@@ -171,5 +156,26 @@ export default {
 }
 #version {
   text-align: center;
+}
+.sidenav-title {
+  color: white;
+}
+.white-icon {
+  display: block;
+}
+.green-icon {
+  display: none;
+}
+.route-active {
+  background-color: #f0f3f8;
+}
+.route-active .white-icon {
+  display: none;
+}
+.route-active .green-icon {
+  display: block;
+}
+.route-active .sidenav-title {
+  color: #035c64;
 }
 </style>

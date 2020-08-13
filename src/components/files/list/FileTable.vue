@@ -21,7 +21,7 @@
           @dblclick.prevent="onDblClick($event, item)"
         >
           <td>
-            <v-simple-checkbox color="#357e6f" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
+            <v-simple-checkbox color="#035c64" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </td>
           <td id="file-icon">
             <FileTypeIcon :file="item" :size="30" />
@@ -33,12 +33,12 @@
         </tr>
       </template>
       <template v-slot:header.data-table-select="{props,on}">
-        <v-simple-checkbox color="#357e6f" v-ripple v-bind="props" v-on="on"></v-simple-checkbox>
+        <v-simple-checkbox color="#035c64" v-ripple v-bind="props" v-on="on"></v-simple-checkbox>
       </template>
       <template v-slot:no-data>{{$t('NoData')}}</template>
     </v-data-table>
     <v-row justify="center">
-      <v-pagination id="pagination" color="#357e6f" v-model="page" :length="pageCount"></v-pagination>
+      <v-pagination id="pagination" color="#035c64" v-model="page" :length="pageCount"></v-pagination>
     </v-row>
     <BottomMenu :chosenFiles="chosenFiles" />
     <FileContextMenu ref="contextmenu" :files="chosenFiles" />

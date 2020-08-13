@@ -93,7 +93,7 @@ export async function multipartUpload({ file, parent }) {
  */
 export async function resumableUpload({ file, parent }) {
 
-    const uploadID = await getUploadID({ file, parent });
+    const uploadID = await createResumableUpload({ file, parent });
 
     const source = Axios.CancelToken.source();
     const formData = new FormData();
@@ -123,10 +123,10 @@ export function cancelUpload(source) {
 
 
 /**
- * getUploadID is used for the resumable upload (for connecting all the pieces when the upload is finished)
+ * createResumableUpload is used for the resumable upload (for connecting all the pieces when the upload is finished)
  * @param file is the file to upload
  */
-export async function getUploadID({ file, parent }) {
+export async function createResumableUpload({ file, parent }) {
     const res = await Axios.post(
         `${baseURL}/api/upload${
         parent ? `?parent=${parent.id}` : ""
