@@ -4,6 +4,7 @@ import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { formatFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
+import { pushUpdatedFile } from "@/utils/lastUpdatedFileHandler";
 import { fixFileName } from "@/utils/fixFileName";
 import router from "@/router";
 
@@ -44,12 +45,15 @@ const actions = {
   async fetchSharedFiles({ commit, dispatch }) {
     try {
       let files = await filesApi.fetchSharedFiles(state.currentFolder);
-      files = files.filter(file => !file.isExternal)
-      commit("setFiles", await Promise.all(
-        files.map((file) => {
-          return formatFile(file);
-        })
-      ));
+      files = files.filter((file) => !file.isExternal);
+      commit(
+        "setFiles",
+        await Promise.all(
+          files.map((file) => {
+            return formatFile(file);
+          })
+        )
+      );
     } catch (err) {
       dispatch("onError", err);
     }
@@ -57,12 +61,15 @@ const actions = {
   async fetchExternalTransferdFiles({ commit, dispatch }) {
     try {
       let files = await filesApi.fetchSharedFiles(state.currentFolder);
-      files = files.filter(file => file.isExternal)
-      commit("setFiles", await Promise.all(
-        files.map((file) => {
-          return formatFile(file);
-        })
-      ));
+      files = files.filter((file) => file.isExternal);
+      commit(
+        "setFiles",
+        await Promise.all(
+          files.map((file) => {
+            return formatFile(file);
+          })
+        )
+      );
     } catch (err) {
       dispatch("onError", err);
     }
@@ -72,17 +79,15 @@ const actions = {
    */
   async fetchLastUpdatedFiles({ commit, dispatch }) {
     try {
-      const files = await filesApi.fetchFiles();
-      const lastUpdatedFiles = files.filter((file) => {
-        return (
-          new Date(file.updatedAt).toDateString() === new Date().toDateString()
-        );
-      });
-      commit("setFiles", await Promise.all(
-        lastUpdatedFiles.map((file) => {
-          return formatFile(file);
+      const fileIDs = JSON.parse(
+        window.localStorage.getItem("lastUpdatedFiles")
+      );
+      const files = await Promise.all(
+        fileIDs.map((fileID) => {
+          return filesApi.getFileByID(fileID);
         })
-      ));
+      );
+      commit("setFiles", files);
     } catch (err) {
       dispatch("onError", err);
     }
@@ -100,40 +105,52 @@ const actions = {
    * deleteFiles uses the method delete file to delete all the files in the chosen array
    */
   deleteFiles({ dispatch, commit }, files) {
-    Promise.all(
-      files.map((file) => dispatch("deleteFile", file.id))
-    ).then(() => {
-      commit('onSuccess', files.length === 1 ? "success.DeleteItem" : "success.DeleteItems");
-    }).catch(err => {
-      dispatch("onError", err);
-    })
+    Promise.all(files.map((file) => dispatch("deleteFile", file.id)))
+      .then(() => {
+        commit(
+          "onSuccess",
+          files.length === 1 ? "success.DeleteItem" : "success.DeleteItems"
+        );
+      })
+      .catch((err) => {
+        dispatch("onError", err);
+      });
   },
   /**
    * uploadFile create multipart or resumable upload by the file size
    * @param file is the file to upload
    */
   async uploadFile({ commit }, file) {
-
     if (isFileNameExists({ name: file.name, files: state.files }))
       throw new Error("שם הקובץ קים בתיקייה");
 
     let metadata = undefined;
 
-    const fixedFile = new File([file], fixFileName(file.name), { type: file.type });
+    const fixedFile = new File([file], fixFileName(file.name), {
+      type: file.type,
+    });
 
     if (file.size <= 5 << 20) {
-      metadata = await filesApi.multipartUpload({ file: fixedFile, parent: state.currentFolder });
+      metadata = await filesApi.multipartUpload({
+        file: fixedFile,
+        parent: state.currentFolder,
+      });
     } else {
-      metadata = await filesApi.resumableUpload({ file: fixedFile, parent: state.currentFolder });
+      metadata = await filesApi.resumableUpload({
+        file: fixedFile,
+        parent: state.currentFolder,
+      });
     }
 
     const formatedFile = await formatFile(metadata);
+
+
+    pushUpdatedFile(formatedFile.id);
 
     commit("removeLoadingFile", formatedFile.name);
     commit("addFile", formatedFile);
 
     commit("addQuota", metadata.size);
-
   },
   /**
    * uploadFiles uploads all the files async
@@ -145,8 +162,13 @@ const actions = {
         return dispatch("uploadFile", file);
       })
     )
-      .then(() => commit("onSuccess", files.length === 1 ? "success.File" : "success.Files"))
-      .catch(err => {
+      .then(() =>
+        commit(
+          "onSuccess",
+          files.length === 1 ? "success.File" : "success.Files"
+        )
+      )
+      .catch((err) => {
         dispatch("onError", err);
       });
   },
@@ -154,11 +176,10 @@ const actions = {
     try {
       await filesApi.cancelUpload(file.source);
       commit("removeLoadingFile", file.name);
-      commit("onSuccess", "success.Cancel")
+      commit("onSuccess", "success.Cancel");
     } catch (err) {
       dispatch("onError", err);
     }
-
   },
   /**
    * uploadFolder in the current folder
@@ -168,7 +189,10 @@ const actions = {
     try {
       if (isFileNameExists({ name, files: state.files }))
         throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
-      const folder = await filesApi.uploadFolder({ name, parent: state.currentFolder });
+      const folder = await filesApi.uploadFolder({
+        name,
+        parent: state.currentFolder,
+      });
       const formatedFile = await formatFile(folder);
       commit("onSuccess", "success.Folder");
       commit("addFile", formatedFile);
@@ -191,7 +215,7 @@ const actions = {
         dispatch("getAncestors", folder.id);
       }
     } catch (err) {
-      router.push("/404")
+      router.push("/404");
     }
   },
   async getAncestors({ commit }, folderID) {
@@ -202,8 +226,9 @@ const actions = {
     try {
       name = fixFileName(name);
       const fileType = getFileType(file.name);
-      const newName = file.name.includes('.') ? `${name}.${fileType}` : name;
-      const res = await filesApi.editFile({ file, name: newName })
+      const newName = file.name.includes(".") ? `${name}.${fileType}` : name;
+      const res = await filesApi.editFile({ file, name: newName });
+
       commit("onFileRename", res);
       commit("onSuccess", "success.Edit");
     } catch (err) {
@@ -212,7 +237,7 @@ const actions = {
   },
   async moveFile({ commit, dispatch }, { folderID, fileIDs }) {
     try {
-      await filesApi.moveFile({ folderID, fileIDs })
+      await filesApi.moveFile({ folderID, fileIDs });
       fileIDs.forEach((fileID) => {
         commit("deleteFile", fileID);
       });
