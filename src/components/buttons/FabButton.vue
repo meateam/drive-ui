@@ -7,7 +7,7 @@
     v-if="canUpload()"
   >
     <template v-slot:activator>
-      <v-btn v-model="fab" fab color="#2f7e71" @click="onFabClick">
+      <v-btn v-model="fab" fab color="#2f7e71">
         <v-icon color="white" v-if="fab">close</v-icon>
         <v-icon color="white" v-else>add</v-icon>
       </v-btn>
@@ -57,16 +57,7 @@ export default {
   },
   methods: {
     onFolderConfirm(name) {
-      this.$store.dispatch("uploadFolder", name).then(() => {
-        if (this.$tours["tour"].currentStep === 5) {
-          this.$tours["tour"].nextStep();
-        }
-      });
-    },
-    onFabClick() {
-      if (this.$tours["tour"].currentStep === 3) {
-        this.$tours["tour"].nextStep();
-      }
+      this.$store.dispatch("uploadFolder", name);
     },
     canUpload() {
       return !this.currentFolder || writeRole(this.currentFolder.role);

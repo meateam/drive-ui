@@ -42,9 +42,6 @@ export default {
   methods: {
     open() {
       this.dialog = true;
-      if (this.$tours["tour"].currentStep === 5) {
-        this.$tours["tour"].nextStep();
-      }
     },
     onNameChange(name) {
       this.name = name;

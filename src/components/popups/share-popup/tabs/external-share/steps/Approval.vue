@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="!user.approvalInfo.canApprove">
+    <div v-if="user.approvalInfo.canApprove">
+      <p class="popup-text align-center">{{$t('externalShare.CanApprove')}}</p>
+    </div>
+    <div v-else>
       <div>
         <div id="approval-header" class="space-between">
           <p class="popup-text">{{$t('externalShare.ApprovalChoose')}}</p>
@@ -11,7 +14,7 @@
 
             <div class="align-center">
               <p>{{$t('externalShare.ApprovalInstructions')}}</p>
-              <div v-if="user.approverInfo.ranks && user.approverInfo.unit" >
+              <div v-if="user.approvalInfo.unit && user.approvalInfo.ranks">
                 <p>
                   {{$t('externalShare.ApproverUnit')}}
                   <span class="bold">{{user.approvalInfo.unit}}</span>
@@ -38,10 +41,6 @@
       <v-chip-group show-arrows>
         <Chips v-for="user in selectedApprovals" :key="user.id" :user="user" @remove="onRemove" />
       </v-chip-group>
-    </div>
-
-    <div v-else>
-      <p class="popup-text align-center">{{$t('externalShare.CanApprove')}}</p>
     </div>
 
     <v-card-actions class="popup-confirm">

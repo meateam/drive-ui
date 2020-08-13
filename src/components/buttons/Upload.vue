@@ -17,9 +17,6 @@ export default {
       const files = event.currentTarget.files;
       this.$store.dispatch("uploadFiles", files);
       event.currentTarget.value = ""; // resets file choice
-      if (this.$tours["tour"].currentStep === 4) {
-        this.$tours["tour"].nextStep();
-      }
     },
     open() {
       document.getElementById("upload-input").click();

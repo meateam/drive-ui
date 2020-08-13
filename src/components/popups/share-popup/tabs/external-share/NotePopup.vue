@@ -5,7 +5,7 @@
       <p id="notice">{{$t('externalShare.note.Notice')}}</p>
       <p class="secret">{{$t('externalShare.note.SecretNetwork')}}</p>
       <p class="secret">{{$t('externalShare.note.SecretData')}}</p>
-      <div id="marks" class="space-right">
+      <div id="marks">
         <v-checkbox
           v-for="mark in marks"
           :key="mark"
