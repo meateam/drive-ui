@@ -13,7 +13,7 @@
         <p
           class="button-text"
           v-if="!icon"
-        >{{ isUserOwner()? $t("buttons.Delete"): $t('buttons.RenoveShare') }}</p>
+        >{{ isUserOwner()? $t("buttons.Delete"): $t('buttons.RemoveShare') }}</p>
       </v-btn>
     </template>
     <DeletePopup
@@ -23,7 +23,7 @@
       :text="$t('file.Delete')"
       :button="$t('buttons.DeleteNow')"
     />
-    <span>{{ isUserOwner()? $t("buttons.Delete"): $t('buttons.RenoveShare') }}</span>
+    <span>{{ isUserOwner()? $t("buttons.Delete"): $t('buttons.RemoveShare') }}</span>
   </v-tooltip>
 </template>
 

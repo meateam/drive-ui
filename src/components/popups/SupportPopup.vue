@@ -6,10 +6,10 @@
         <p class="d-title">{{$t('support.Header')}}</p>
       </div>
       <div class="popup-body">
-        <div class="support">
+        <!-- <div class="support">
           <GreenTextButton :label="$t('questions.Header')" @click="openQuestions" />
         </div>
-        <v-divider />
+        <v-divider />-->
         <div class="support">
           <p>{{$t('support.DriveSupport')}}</p>
           <GreenTextButton :label="$t('buttons.ClickHere')" @click="openDriveSupport" />
@@ -32,12 +32,12 @@ export default {
   name: "SupportPopup",
   data() {
     return {
-      dialog: false
+      dialog: false,
     };
   },
   components: { GreenTextButton },
   computed: {
-    ...mapGetters(["supportLink"])
+    ...mapGetters(["supportLink", "dropboxSupportLink"]),
   },
   methods: {
     open() {
@@ -49,13 +49,13 @@ export default {
     },
     openDropboxSupport() {
       this.dialog = false;
-      window.open(this.supportLink);
+      window.open(this.dropboxSupportLink);
     },
     openQuestions() {
       this.dialog = false;
       this.$router.push("/q&a");
-    }
-  }
+    },
+  },
 };
 </script>
 

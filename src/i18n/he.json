@@ -62,7 +62,7 @@
         "Back": "חזור",
         "Skip": "דלג",
         "ClickHere": "לחץ כאן",
-        "RenoveShare": "הסרת השיתוף",
+        "RemoveShare": "הסרת השיתוף",
         "Finish": "סיים",
         "Preview": "תצוגה מקדימה"
     },
@@ -164,15 +164,6 @@
         "Unavailable": "המערכת אינה זמינה",
         "BackSoon": "נשוב בקרוב"
     },
-    "tour": {
-        "Tooltip": "התחל בסיור עכשיו",
-        "GetStarted": "התחילו בסיור עכשיו 😎",
-        "MyDrive1": "זהו האיזו האישי שלכם, לכאן תוכלו לעלות קבצים ותיקיות",
-        "MyDrive2": "תוכלו לנהל בעצמכם את הקבצים, למחוק, לשתף להעביר בין תיקיות, ולערוך",
-        "Fab": "לחצו על הכפתור",
-        "UploadFile": "לחץ על הכפתור העלה קובץ, על מנת לעלות קובץ אחד או יותר",
-        "UploadFolder": "לחץ על הכפתור העלה תיקייה על מנת לעלות תיקייה חדשה"
-    },
     "questions": {
         "Header": "שאלות ותשובות נפוצות",
         "items": {
@@ -180,6 +171,15 @@
                 "header": "איך למחוק?",
                 "content": "לא למחוק"
             }
+        }
+    },
+    "newFeatures": {
+        "Title": "חדש בדרייב!",
+        "features": {
+            "1": "ממשק משתמש חדש וחדשני",
+            "2": "עריכת מסמכים אונליין לקבצי docx, pptx וxlsx",
+            "3": "לשונית \"שונו לאחרונה\" לגישה נוחה",
+            "4": "לשונית \"הועברו מרשת חיצונית\""
         }
     }
 }

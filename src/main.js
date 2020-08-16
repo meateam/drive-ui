@@ -1,5 +1,4 @@
 import Vue from "vue";
-import VueTour from "vue-tour";
 
 import { isAlive } from "@/api/healthcheck";
 
@@ -10,10 +9,8 @@ import router from "@/router";
 import vuetify from "@/plugins/vuetify";
 
 import "@/interceptors/axios";
-import "vue-tour/dist/vue-tour.css";
 
 Vue.config.productionTip = false;
-Vue.use(VueTour);
 
 (async () => {
     if (await isAlive()) {

@@ -23,6 +23,7 @@
         <slot />
       </v-content>
 
+      <NewFeaturesPopup ref="newFeaturesPopup" />
       <ErrorSnackbar />
       <SuccessSnackbar />
     </v-app>
@@ -36,23 +37,28 @@
 import { mapGetters } from "vuex";
 import AppBar from "@/components/layout/toolbar/AppBar";
 import Sidenav from "@/components/layout/sidenav/Sidenav";
+import NewFeaturesPopup from "@/components/popups/NewFeaturesPopup";
 import SuccessSnackbar from "@/components/popups/SuccessSnackbar";
 import ErrorSnackbar from "@/components/popups/ErrorSnackbar";
 
 export default {
   name: "App",
   computed: {
-    ...mapGetters(["isLoading", "user"])
+    ...mapGetters(["isLoading", "user"]),
   },
   components: {
     AppBar,
     Sidenav,
+    NewFeaturesPopup,
     SuccessSnackbar,
-    ErrorSnackbar
+    ErrorSnackbar,
+  },
+  mounted() {
+    if (this.$route.path === "/my-drive") this.$refs.newFeaturesPopup.open();
   },
   data() {
     return {
-      drag: false
+      drag: false,
     };
   },
   methods: {
@@ -62,8 +68,8 @@ export default {
       const files = event.dataTransfer.files;
       if (!files) return;
       this.$store.dispatch("uploadFiles", files);
-    }
-  }
+    },
+  },
 };
 </script>
 
