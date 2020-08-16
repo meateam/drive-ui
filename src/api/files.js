@@ -43,6 +43,19 @@ export async function fetchSharedFiles() {
   return files;
 }
 
+/**
+ * isFileExists checks if the file exists in the server
+ * @param fileID is the id of the file
+ */
+export async function isFileExists(fileID) {
+  try {
+    const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
+    return !!res.data;
+  } catch (err) {
+    return false;
+  }
+}
+
 export async function getFileByID(fileID) {
   const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
   return res.data;
