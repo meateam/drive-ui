@@ -19,6 +19,10 @@ const router = new Router({
       redirect: "/my-drive",
     },
     {
+      path: "/files",
+      redirect: "/my-drive",
+    },
+    {
       path: "*",
       redirect: "/404",
     },
