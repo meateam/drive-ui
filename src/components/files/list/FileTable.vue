@@ -48,9 +48,11 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { fileTypes } from "@/config";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
 import { isFolder } from "@/utils/isFolder";
+import * as filesApi from "@/api/files";
 import BottomMenu from "@/components/popups/BottomMenu";
 import FileTypeIcon from "@/components/shared/BaseFileTypeIcon";
 import FileContextMenu from "@/components/popups/FileContextMenu";
@@ -61,7 +63,7 @@ export default {
   props: ["files"],
   components: { BottomMenu, FileContextMenu, Preview, FileTypeIcon },
   computed: {
-    ...mapGetters(["chosenFiles"])
+    ...mapGetters(["chosenFiles"]),
   },
   data() {
     return {
@@ -74,9 +76,9 @@ export default {
         { text: this.$t("file.Name"), value: "name" },
         { text: this.$t("file.Owner"), value: "owner" },
         { text: this.$t("file.LastUpdate"), value: "updatedAt" },
-        { text: this.$t("file.Size"), value: "size" }
+        { text: this.$t("file.Size"), value: "size" },
       ],
-      items: this.files
+      items: this.files,
     };
   },
   methods: {
@@ -105,33 +107,38 @@ export default {
       event.preventDefault();
       if (isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
+      } else if (this.canEditOnline(file)) {
+        filesApi.editOnline(this.chosenFiles[0].id);
       } else {
         this.$refs.preview.open(file);
       }
     },
     onCtrlCLick(file) {
       if (!this.selected.includes(file)) this.selected.push(file);
-      else this.selected = this.selected.filter(item => item !== file);
+      else this.selected = this.selected.filter((item) => item !== file);
     },
     onFileClick(file) {
       this.selected = [file];
-    }
+    },
+    canEditOnline(file) {
+      return fileTypes.office.includes(file.type);
+    },
   },
   watch: {
-    selected: function(files) {
+    selected: function (files) {
       this.$store.commit("onFilesSelect", files);
     },
-    files: function(files) {
+    files: function (files) {
       this.items = files;
     },
-    chosenFiles: function(files) {
+    chosenFiles: function (files) {
       this.selected = files;
-    }
+    },
   },
   created() {
     this.calculateItemsPerPage();
 
-    window.addEventListener("keydown", event => {
+    window.addEventListener("keydown", (event) => {
       if (event.key === "a" && event.ctrlKey) {
         event.preventDefault();
         this.selected = this.items;
@@ -139,7 +146,7 @@ export default {
     });
 
     window.addEventListener("resize", this.calculateItemsPerPage);
-  }
+  },
 };
 </script>
 

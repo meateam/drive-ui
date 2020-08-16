@@ -34,6 +34,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { fileTypes } from "@/config";
+import * as filesApi from "@/api/files";
 import Preview from "@/components/popups/Preview";
 import FileContextMenu from "@/components/popups/FileContextMenu";
 import Folder from "./items/Folder";
@@ -44,33 +45,35 @@ export default {
   props: ["files"],
   components: { File, Folder, FileContextMenu, Preview },
   computed: {
-    ...mapGetters(["chosenFiles"])
+    ...mapGetters(["chosenFiles"]),
   },
   data() {
     return {
       typeFolders: this.files.filter(
-        file => file.type === "application/vnd.drive.folder"
+        (file) => file.type === "application/vnd.drive.folder"
       ),
       typeFiles: this.files.filter(
-        file => file.type !== "application/vnd.drive.folder"
-      )
+        (file) => file.type !== "application/vnd.drive.folder"
+      ),
     };
   },
   watch: {
-    files: function(val) {
+    files: function (val) {
       this.typeFolders = val.filter(
-        file => file.type === "application/vnd.drive.folder"
+        (file) => file.type === "application/vnd.drive.folder"
       );
       this.typeFiles = val.filter(
-        file => file.type !== "application/vnd.drive.folder"
+        (file) => file.type !== "application/vnd.drive.folder"
       );
-    }
+    },
   },
   methods: {
     onDblClick(event, file) {
       event.preventDefault();
       if (file.type === fileTypes.folder) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
+      } else if (this.canEditOnline(file)) {
+        filesApi.editOnline(this.chosenFiles[0].id);
       } else {
         this.$refs.preview.open(file);
       }
@@ -88,14 +91,17 @@ export default {
         selected.push(file);
         this.$store.commit("onFilesSelect", selected);
       } else {
-        selected = selected.filter(item => item !== file);
+        selected = selected.filter((item) => item !== file);
         this.$store.commit("onFilesSelect", selected);
       }
     },
     onFileClick(event, file) {
       this.$store.commit("onFilesSelect", [file]);
-    }
-  }
+    },
+    canEditOnline(file) {
+      return fileTypes.office.includes(file.type);
+    },
+  },
 };
 </script>
 
