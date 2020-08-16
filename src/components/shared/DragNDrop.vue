@@ -66,7 +66,6 @@ export default {
             const files = Object.values(event.dataTransfer.items).map(file =>
               file.getAsFile()
             );
-            console.log(files);
             this.$store.dispatch("uploadFiles", files);
           }
         },

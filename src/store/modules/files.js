@@ -4,10 +4,7 @@ import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { formatFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
-import {
-  pushUpdatedFile,
-  getUpdatedFilesFromLocalStorage,
-} from "@/utils/lastUpdatedFileHandler";
+import { pushUpdatedFile } from "@/utils/lastUpdatedFileHandler";
 import { fixFileName } from "@/utils/fixFileName";
 import router from "@/router";
 
@@ -82,9 +79,20 @@ const actions = {
    */
   async fetchLastUpdatedFiles({ commit, dispatch }) {
     try {
-      const fileIDs = await getUpdatedFilesFromLocalStorage();
+      const fileIDs =
+        JSON.parse(window.localStorage.getItem("lastUpdatedFiles")) || [];
+
+      const lastUpdatedFiles = await Promise.all(
+        fileIDs.filter((id) => filesApi.isFileExists(id))
+      );
+
+      window.localStorage.setItem(
+        "lastUpdatedFiles",
+        JSON.stringify(lastUpdatedFiles)
+      );
+
       const files = await Promise.all(
-        fileIDs.map((fileID) => {
+        lastUpdatedFiles.map((fileID) => {
           return filesApi.getFileByID(fileID);
         })
       );

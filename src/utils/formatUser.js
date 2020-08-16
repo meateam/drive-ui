@@ -8,7 +8,7 @@ export function formatUser(user) {
 
 export function formatExternalUser(user) {
     const formatedUser = user;
-    formatedUser.display = `${user.hierarchy} < ${user.full_name}`;
+    formatedUser.display = `${user.full_name} > ${user.hierarchy}`;
     formatedUser.firstName = user.first_name;
     formatedUser.lastName = user.last_name;
     formatedUser.fullName = user.full_name;
