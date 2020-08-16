@@ -150,7 +150,7 @@ export default {
 }
 
 .bg-purple {
-  background: url(http://salehriaz.com/404Page/img/bg_purple.png);
+  background: url("../../assets/images/bg_purple.png");
   background-repeat: repeat-x;
   background-size: cover;
   background-position: left top;
@@ -265,7 +265,7 @@ export default {
 }
 
 .stars {
-  background: url(http://salehriaz.com/404Page/img/overlay_stars.svg);
+  background: url("../../assets/images/overlay_stars.svg");
   background-repeat: repeat;
   background-size: contain;
   background-position: left top;
