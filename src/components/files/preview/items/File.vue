@@ -6,7 +6,7 @@
       class="pointer"
       @dblclick="$emit('dblclick', $event, file)"
       @click.native.exact="$emit('click', $event, file)"
-      @click.ctrl.native="$emit('ctrlClick', $event, file)"
+      @click.ctrl.native="$emit('ctrlclick', $event, file)"
       @contextmenu.prevent="$emit('contextmenu', $event, file)"
     >
       <img v-if="file.type.startsWith('image')" :src="getImage" id="image" />

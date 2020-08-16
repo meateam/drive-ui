@@ -5,7 +5,7 @@
     :class="{selected: isSelected}"
     @dblclick="$emit('dblclick', $event, folder)"
     @click.native.exact="$emit('click', $event, folder)"
-    @click.ctrl.native="$emit('ctrlClick', $event, folder)"
+    @click.ctrl.native="$emit('ctrlclick', $event, folder)"
     @contextmenu.prevent="$emit('contextmenu', $event, folder)"
   >
     <v-icon color="#fc8946" id="folder-icon">folder</v-icon>

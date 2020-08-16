@@ -153,6 +153,7 @@ export default {
 }
 .icons {
   width: 18px;
+  height: 18px;
 }
 #version {
   text-align: center;
