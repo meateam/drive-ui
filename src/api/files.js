@@ -222,7 +222,7 @@ export async function editOnline(fileID) {
 export async function moveFile({ folderID, fileIDs }) {
   const res = await Axios.put(`${baseURL}/api/files`, {
     partialFile: {
-      parent: folderID,
+      parent: folderID ? folderID : "",
     },
     idList: fileIDs,
   });

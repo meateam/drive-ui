@@ -28,22 +28,22 @@ export default {
   props: ["icon"],
   components: { MovePopup },
   computed: {
-    ...mapGetters(["chosenFiles", "currentFolder"])
+    ...mapGetters(["chosenFiles", "currentFolder"]),
   },
   methods: {
     onSubmit(folderID) {
       if (folderID === this.currentFolder) return;
       this.$store.dispatch("moveFile", {
         folderID,
-        fileIDs: this.chosenFiles.map(file => file.id)
+        fileIDs: this.chosenFiles.map((file) => file.id),
       });
     },
     canMove() {
       return (
         (!this.currentFolder || ownerRole(this.currentFolder.role)) &&
-        this.chosenFiles.every(file => ownerRole(file.role))
+        this.chosenFiles.every((file) => ownerRole(file.role))
       );
-    }
-  }
+    },
+  },
 };
 </script>
