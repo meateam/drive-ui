@@ -21,7 +21,7 @@
     <v-img v-else-if="fileType==='dwg'" src="@/assets/file-types/dwg.svg" :width="size" />
     <v-img v-else-if="fileType==='ai'" src="@/assets/file-types/ai.svg" :width="size" />
     <v-img v-else-if="fileType==='dbf'" src="@/assets/file-types/dbf.svg" :width="size" />
-    <v-img v-else-if="fileType==='ppt'" src="@/assets/file-types/ppt.svg" :width="size" />
+    <v-img v-else-if="fileType.startsWith('ppt')" src="@/assets/file-types/ppt.svg" :width="size" />
     <v-img v-else-if="fileType.startsWith('xls')" src="@/assets/file-types/xls.svg" :width="size" />
     <v-img v-else-if="fileType.startsWith('doc')" src="@/assets/file-types/doc.svg" :width="size" />
 
