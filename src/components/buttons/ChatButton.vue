@@ -2,7 +2,7 @@
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
       <v-btn @click="$refs.popup.open()" v-on="on" icon class="auto-margin">
-        <img class="fab-icon" src="@/assets/icons/chat.png" />
+        <img src="@/assets/icons/chat.svg" />
       </v-btn>
     </template>
     <SupportPopup ref="popup" />
@@ -15,6 +15,6 @@ import SupportPopup from "../popups/SupportPopup";
 
 export default {
   name: "Chat",
-  components: { SupportPopup }
+  components: { SupportPopup },
 };
 </script>

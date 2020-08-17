@@ -25,7 +25,7 @@ export default {
   border-bottom: 2px solid #035c64;
   padding-bottom: 8px;
   color: #2c3448;
-  font-family: Rubik-light;
+  font-family: Assistant-light;
   font-weight: 400;
   text-align: right;
   margin-bottom: 20px;

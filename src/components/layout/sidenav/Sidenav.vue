@@ -23,8 +23,8 @@
       <router-link to="/shared-with-me" exact-active-class="route-active">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="icons white-icon" src="@/assets/icons/share.svg" />
-            <img class="icons green-icon" src="@/assets/icons/green-share.svg" />
+            <img class="white-icon" src="@/assets/icons/shared.svg" />
+            <img class="green-icon" src="@/assets/icons/green-share.svg" />
           </v-list-item-icon>
           <v-list-item-title class="sidenav-title">{{ $t("sidenav.SharedWithMe") }}</v-list-item-title>
         </v-list-item>
@@ -103,24 +103,24 @@ export default {
       "version",
       "quota",
       "approvalServiceUrl",
-      "myExternalSharesName"
-    ])
+      "myExternalSharesName",
+    ]),
   },
   methods: {
     ...mapActions(["getQuota"]),
     openApprovalService() {
       window.open(this.approvalServiceUrl);
-    }
+    },
   },
   created() {
     this.getQuota();
-  }
+  },
 };
 </script>
 
 <style scoped>
 #sidenav {
-  background-image: linear-gradient(to bottom, #347A99, #2f7e71);
+  background-image: linear-gradient(to bottom, #347a99, #2f7e71);
   display: block;
 }
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
@@ -152,8 +152,8 @@ export default {
   margin: auto;
 }
 .icons {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
 }
 #version {
   text-align: center;

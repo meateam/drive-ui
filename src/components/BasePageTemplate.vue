@@ -35,7 +35,7 @@ export default {
 #page-name {
   font-size: 40px;
   color: #2c3448;
-  font-family: Rubik-light;
+  font-family: Assistant-ExtraBold;
   font-weight: 400;
   text-align: right;
 }

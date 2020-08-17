@@ -1,16 +1,21 @@
 @font-face {
-  font-family: Rubik;
-  src: url("../assets/fonts/Rubik/Rubik-Regular.ttf");
+  font-family: Assistant;
+  src: url("../assets/fonts/Assistant/Assistant-Regular.ttf");
 }
 
 @font-face {
-  font-family: Rubik-light;
-  src: url("../assets/fonts/Rubik/Rubik-Light.ttf");
+  font-family: Assistant-light;
+  src: url("../assets/fonts/Assistant/Assistant-Light.ttf");
 }
 
 @font-face {
-  font-family: Rubik-Bold;
-  src: url("../assets/fonts/Rubik/Rubik-Bold.ttf");
+  font-family: Assistant-Bold;
+  src: url("../assets/fonts/Assistant/Assistant-Bold.ttf");
+}
+
+@font-face {
+  font-family: Assistant-ExtraBold;
+  src: url("../assets/fonts/Assistant/Assistant-ExtraBold.ttf");
 }
 
 html {
@@ -32,7 +37,7 @@ a {
   margin: 0;
   direction: rtl !important;
   background-color: #f0f3f8 !important;
-  font-family: Rubik !important;
+  font-family: Assistant !important;
 }
 
 .v-toolbar__content {
@@ -188,5 +193,5 @@ a {
 }
 
 .bold {
-  font-family: Rubik-Bold;
+  font-family: Assistant-Bold;
 }

@@ -18,7 +18,7 @@ p {
   color: #1b2e35;
 }
 #value {
-  font-family: Rubik-Light;
+  font-family: Assistant-Light;
   margin-right: 15px;
   overflow: hidden;
   text-overflow: ellipsis;

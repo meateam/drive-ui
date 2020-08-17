@@ -66,7 +66,7 @@ export default {
 #page-name {
   font-size: 30px;
   color: #2c3448;
-  font-family: Rubik-light;
+  font-family: Assistant-light;
   font-weight: 400;
   display: flex;
   text-align: right;

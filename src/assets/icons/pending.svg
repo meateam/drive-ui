@@ -1,13 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 22.76">
-    <defs>
-        <style>.cls-1{fill:none;stroke:#fff9e5;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:#c1f6ed;}</style>
-    </defs>
-    <g id="Layer_2" data-name="Layer 2">
-        <g id="Layer_1-2" data-name="Layer 1">
-            <ellipse class="cls-1" cx="11.38" cy="11.38" rx="3.97" ry="10.38" />
-            <line class="cls-1" x1="1.79" y1="11.38" x2="14.82" y2="11.38" />
-            <circle class="cls-2" cx="21" cy="11.38" r="2" />
-            <path class="cls-1" d="M20.2,5.91a10.38,10.38,0,1,0,0,11" />
-        </g>
-    </g>
+<svg
+    xmlns="http://www.w3.org/2000/svg" width="26" height="26">
+    <path fill="none" fill-rule="evenodd" stroke="#fff9e5" stroke-width="2" d="M12.5 2C18.299 2 23 6.701 23 12.5S18.299 23 12.5 23 2 18.299 2 12.5 6.701 2 12.5 2z"/>
+    <path fill="none" fill-rule="evenodd" stroke="#fff9e5" stroke-width="2" d="M12.5 2c2.269 0 4.109 4.701 4.109 10.5S14.769 23 12.5 23s-4.109-4.701-4.109-10.5S10.231 2 12.5 2zM2 13h21"/>
 </svg>
