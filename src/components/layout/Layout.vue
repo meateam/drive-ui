@@ -75,6 +75,7 @@ export default {
 
 <style scoped>
 #loading {
+  z-index: 5;
   position: absolute;
   top: calc(50vh - 250px);
   right: calc(50% - 100px);
