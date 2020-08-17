@@ -82,20 +82,18 @@ const actions = {
       const fileIDs =
         JSON.parse(window.localStorage.getItem("lastUpdatedFiles")) || [];
 
-      const lastUpdatedFiles = await Promise.all(
-        fileIDs.filter((id) => filesApi.isFileExists(id))
-      );
+      const files = [];
+
+      fileIDs.forEach(async (fileID) => {
+        const file = await filesApi.getFileByID(fileID);
+        if (file) files.push(file);
+      });
 
       window.localStorage.setItem(
         "lastUpdatedFiles",
-        JSON.stringify(lastUpdatedFiles)
+        JSON.stringify(await Promise.all(files.map((file) => file.id)))
       );
 
-      const files = await Promise.all(
-        lastUpdatedFiles.map((fileID) => {
-          return filesApi.getFileByID(fileID);
-        })
-      );
       commit("setFiles", files);
     } catch (err) {
       dispatch("onError", err);
@@ -245,7 +243,7 @@ const actions = {
   },
   async moveFile({ commit, dispatch }, { folderID, fileIDs }) {
     try {
-      console.log(folderID)
+      console.log(folderID);
       await filesApi.moveFile({ folderID, fileIDs });
       fileIDs.forEach((fileID) => {
         commit("deleteFile", fileID);
