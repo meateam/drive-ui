@@ -1,11 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.14 20.14">
-    <defs>
-        <style>.cls-1{fill:none;stroke:#035c64;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-2{fill:#c1f6ed;}</style>
-    </defs>
-    <g id="Layer_2" data-name="Layer 2">
-        <g id="Layer_1-2" data-name="Layer 1">
-            <polyline class="cls-1" points="13.87 10.8 5.54 19.14 1 19.14 1 14.61 14.61 1 19.14 5.54" />
-            <circle class="cls-2" cx="16.62" cy="8.31" r="1.76" />
-        </g>
-    </g>
+<svg
+    xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+    <path fill="none" fill-rule="evenodd" stroke="#007A99" stroke-linejoin="round" stroke-width="2" d="M7.37 20.853H2.867v-4.504l13.51-13.51 4.504 4.503L7.37 20.853z"/>
+    <path fill="none" fill-rule="evenodd" stroke="#007A99" stroke-width="2" d="M13.679 4.655l4.088 4.088"/>
 </svg>

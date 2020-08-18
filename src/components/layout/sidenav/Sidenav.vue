@@ -23,7 +23,7 @@
       <router-link to="/shared-with-me" exact-active-class="route-active">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="white-icon" src="@/assets/icons/shared.svg" />
+            <img class="white-icon" src="@/assets/icons/share.svg" />
             <img class="green-icon" src="@/assets/icons/green-share.svg" />
           </v-list-item-icon>
           <v-list-item-title class="sidenav-title">{{ $t("sidenav.SharedWithMe") }}</v-list-item-title>

@@ -1,16 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="109" height="86" viewBox="0 0 109 86">
-    <g fill="none" fill-rule="evenodd" transform="translate(6 7)">
-        <path fill="#FFF" stroke="#3F9D67" stroke-width="5" d="M69.2 68.7H35c-1.795 0-3.42-.728-4.596-1.904C29.228 65.62 28.5 63.995 28.5 62.2V15.7h47.2v46.5c0 1.795-.728 3.42-1.904 4.596C72.62 67.972 70.995 68.7 69.2 68.7z"/>
-        <path fill="#227F2D" d="M1 16H5.5V20.5H1z" transform="rotate(-45 3.25 18.25)"/>
-        <path fill="#227F2D" d="M91 34H95.5V38.5H91z" transform="rotate(-45 93.25 36.25)"/>
-        <path fill="#AFC614" d="M83 4H87.5V8.5H83z" transform="rotate(-45 85.25 6.25)"/>
-        <rect width="4.5" height="4.5" x="11" y="4" fill="#AFC614" rx="2.25" transform="rotate(-45 13.25 6.25)"/>
-        <rect width="4.5" height="4.5" x="14" y="43" fill="#227F2D" rx="2.25" transform="rotate(-45 16.25 45.25)"/>
-        <path fill="#3F9D67" d="M24.6 13.114h53.8c1.988 0 3.6 1.611 3.6 3.6v1.492H21v-1.492c0-1.989 1.612-3.6 3.6-3.6z"/>
-        <path stroke="#3F9D67" stroke-width="5" d="M48 2.5h8c1.795 0 3.42.728 4.596 1.904C61.772 5.58 62.5 7.205 62.5 9v6.5h-21V9c0-1.795.728-3.42 1.904-4.596C44.58 3.228 46.205 2.5 48 2.5z"/>
-        <rect width="30" height="3.6" x="25.2" y="41.2" fill="#AFC614" rx="1.8" transform="rotate(90 40.2 43)"/>
-        <rect width="30" height="3.6" x="37.2" y="41.2" fill="#AFC614" rx="1.8" transform="rotate(90 52.2 43)"/>
-        <rect width="30" height="3.6" x="49.2" y="41.2" fill="#AFC614" rx="1.8" transform="rotate(90 64.2 43)"/>
-        <path fill="#227F2D" d="M26 13.114L31 13.114 31 18.206 26 18.206zM73.153 13.114L78.2 13.114 78.2 18.206 73.153 18.206zM60 13.114L65.047 13.114 65.047 18.206 60 18.206zM39 13.114L44.047 13.114 44.047 18.206 39 18.206z"/>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="25">
+    <path fill="none" fill-rule="evenodd" stroke="#007A99" stroke-width="2" d="M16.75 22h-8.5C5.903 22 4 20.097 4 17.75V5h17v12.75c0 2.347-1.903 4.25-4.25 4.25z"/>
+    <path fill="none" fill-rule="evenodd" stroke="#007A99" stroke-linecap="round" stroke-width="2" d="M2 5h21"/>
+    <path fill="#007A99" fill-rule="evenodd" d="M12.5 0c.828 0 1.5.672 1.5 1.5v3c0 .828-.672 1.5-1.5 1.5S11 5.328 11 4.5v-3c0-.828.672-1.5 1.5-1.5z"/>
 </svg>

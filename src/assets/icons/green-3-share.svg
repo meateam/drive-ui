@@ -1,15 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 69.8 32.34">
-    <defs>
-        <style>.cls-1{fill:none;stroke:#035c64;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}.cls-2{fill:#c1f6ed;}.cls-3{fill:#035c64;}</style>
-    </defs>
-    <g id="Layer_2" data-name="Layer 2">
-        <g id="Layer_1-2" data-name="Layer 1">
-            <circle class="cls-1" cx="34.68" cy="8.28" r="4.34" />
-            <path class="cls-1" d="M52.37,30.84a18.86,18.86,0,0,0-35.39,0" />
-            <path class="cls-1" d="M68.3,20.57A12.92,12.92,0,0,0,47.47,15.5" />
-            <circle class="cls-2" cx="56.18" cy="3.57" r="3.57" />
-            <path class="cls-1" d="M1.5,20.57A12.92,12.92,0,0,1,22.33,15.5" />
-            <circle class="cls-3" cx="13.62" cy="3.57" r="3.57" />
-        </g>
-    </g>
+<svg
+    xmlns="http://www.w3.org/2000/svg" width="75.5" height="36.5">
+    <path fill="none" fill-rule="evenodd" stroke="#007A99" stroke-linecap="round" stroke-width="3" d="M53.497 31.877c-2.663-7.353-9.558-12.603-17.67-12.603-8.112 0-15.007 5.25-17.67 12.603M70.437 20.734c-1.818-4.718-6.524-8.086-12.06-8.086-3.342 0-6.381 1.227-8.666 3.238M3.563 20.734c1.818-4.718 6.524-8.086 12.06-8.086 3.342 0 6.381 1.227 8.666 3.238"/>
+    <path fill="#007A99" fill-rule="evenodd" d="M19.497 3.995c0 1.933-1.567 3.5-3.5 3.5s-3.5-1.567-3.5-3.5c0-1.934 1.567-3.501 3.5-3.501s3.5 1.567 3.5 3.501zM61.497 3.995c0 1.933-1.567 3.5-3.5 3.5s-3.5-1.567-3.5-3.5c0-1.934 1.567-3.501 3.5-3.501s3.5 1.567 3.5 3.501z"/>
+    <path fill="none" fill-rule="evenodd" stroke="#007A99" stroke-width="3" d="M41.496 8.492c0 2.762-2.239 5.001-5 5.001-2.762 0-5.001-2.239-5.001-5.001 0-2.762 2.239-5 5.001-5 2.761 0 5 2.238 5 5z"/>
 </svg>

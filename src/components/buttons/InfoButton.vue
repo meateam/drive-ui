@@ -30,13 +30,13 @@ export default {
   name: "InfoButton",
   props: ["icon"],
   computed: {
-    ...mapGetters(["chosenFiles"])
+    ...mapGetters(["chosenFiles"]),
   },
   methods: {
     isFolder() {
       return this.chosenFiles[0].type === fileTypes.folder;
-    }
+    },
   },
-  components: { InfoPopup }
+  components: { InfoPopup },
 };
 </script>

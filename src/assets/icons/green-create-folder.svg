@@ -1,13 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40.68 34.04">
-    <defs>
-        <style>.cls-1{fill:#c1f6ed;}.cls-2{fill:none;stroke:#035c64;stroke-linecap:round;stroke-linejoin:round;stroke-width:3px;}</style>
-    </defs>
-    <g id="Layer_2" data-name="Layer 2">
-        <g id="Layer_1-2" data-name="Layer 1">
-            <circle class="cls-1" cx="3.57" cy="6.6" r="3.57" />
-            <path class="cls-2" d="M10.83,7h9.31L26.5,2A2.52,2.52,0,0,1,28,1.5h8.63A2.51,2.51,0,0,1,39.18,4V30a2.51,2.51,0,0,1-2.51,2.51H5.17A2.51,2.51,0,0,1,2.66,30V15.15" />
-            <line class="cls-2" x1="16.09" y1="19.8" x2="25.75" y2="19.8" />
-            <line class="cls-2" x1="20.92" y1="14.97" x2="20.92" y2="24.63" />
-        </g>
-    </g>
+<svg
+    xmlns="http://www.w3.org/2000/svg" width="45.5" height="39.5">
+    <path fill="none" fill-rule="evenodd" stroke="#007A99" stroke-linejoin="round" stroke-width="3" d="M3.096 8.967h17.695l6.443-4.943c.446-.342.994-.528 1.558-.528h8.741c1.401 0 2.537 1.121 2.537 2.503v25.997c0 1.382-1.136 2.503-2.537 2.503h-31.9c-1.402 0-2.537-1.121-2.537-2.503V8.967z"/>
+    <path fill="none" fill-rule="evenodd" stroke="#007A99" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21.5 16.5v9M26 21h-9"/>
 </svg>

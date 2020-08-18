@@ -1,6 +1,6 @@
 <template>
   <v-chip color="#035c64" id="chip">
-    <img id="user-icon" src="@/assets/icons/user.png" />
+    <v-icon id="user-icon">person_outline</v-icon>
     <p>{{`${user.firstName} ${user.lastName ? user.lastName: ""}`}}</p>
     <v-btn icon color="white" @click="$emit('remove', user)">
       <v-icon id="close-icon">close</v-icon>
@@ -11,13 +11,13 @@
 <script>
 export default {
   name: "Chips",
-  props: ["user"]
+  props: ["user"],
 };
 </script>
 
 <style scoped>
 #user-icon {
-  width: 10px;
+  font-size: 18px;
   margin-left: 5px;
 }
 #chip {

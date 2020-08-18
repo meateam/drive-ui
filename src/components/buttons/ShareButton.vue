@@ -27,16 +27,23 @@ export default {
   name: "Share",
   components: { SharePopup },
   computed: {
-    ...mapGetters(["currentFolder", "chosenFiles"])
+    ...mapGetters(["currentFolder", "chosenFiles"]),
   },
   props: ["icon"],
   methods: {
     canShare() {
       return (
         (!this.currentFolder || writeRole(this.currentFolder.role)) &&
-        this.chosenFiles.every(file => writeRole(file.role))
+        this.chosenFiles.every((file) => writeRole(file.role))
       );
-    }
-  }
+    },
+  },
 };
 </script>
+
+<style scoped>
+.fab-icon {
+  width: 21px;
+  height: 14px;
+}
+</style>

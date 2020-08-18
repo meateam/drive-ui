@@ -8,6 +8,7 @@
     <OnlineEditButton :icon="true" />
     <EditButton :icon="true" />
     <PreviewButton :icon="true" />
+    <LinkButton :icon="true" />
   </div>
 </template>
 
@@ -20,6 +21,7 @@ import OnlineEditButton from "@/components/buttons/OnlineEditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
+import LinkButton from "@/components/buttons/LinkButton";
 
 export default {
   name: "BottomMenu",
@@ -28,6 +30,7 @@ export default {
     DownloadButton,
     OnlineEditButton,
     ShareButton,
+    LinkButton,
     MoveButton,
     DeleteButton,
     InfoButton,

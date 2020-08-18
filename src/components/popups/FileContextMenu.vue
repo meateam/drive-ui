@@ -1,5 +1,13 @@
 <template>
-  <v-menu v-model="showMenu" :position-x="x" :position-y="y" max-width="160" absolute offset-y id="menu">
+  <v-menu
+    v-model="showMenu"
+    :position-x="x"
+    :position-y="y"
+    max-width="160"
+    absolute
+    offset-y
+    id="menu"
+  >
     <v-list color="#035c64" id="right-click-popup">
       <DownloadButton />
       <ShareButton />
@@ -9,6 +17,7 @@
       <OnlineEditButton />
       <EditButton />
       <PreviewButton />
+      <LinkButton />
     </v-list>
   </v-menu>
 </template>
@@ -22,6 +31,7 @@ import EditButton from "@/components/buttons/EditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
+import LinkButton from "@/components/buttons/LinkButton";
 
 export default {
   name: "FileMenu",
@@ -29,17 +39,18 @@ export default {
     DownloadButton,
     ShareButton,
     MoveButton,
+    LinkButton,
     DeleteButton,
     InfoButton,
     OnlineEditButton,
     EditButton,
-    PreviewButton
+    PreviewButton,
   },
   data() {
     return {
       showMenu: false,
       x: 0,
-      y: 0
+      y: 0,
     };
   },
   methods: {
@@ -51,8 +62,8 @@ export default {
       this.$nextTick(() => {
         this.showMenu = true;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
