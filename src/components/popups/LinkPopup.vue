@@ -32,7 +32,6 @@ export default {
   },
   methods: {
     open() {
-      console.log(this.$route.path === "/my-drive");
       this.dialog = true;
     },
     close() {

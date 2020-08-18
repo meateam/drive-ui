@@ -215,7 +215,7 @@ export async function editFile({ file, name }) {
 export async function editOnline(fileID) {
   pushUpdatedFile(fileID);
   window.open(
-    `${store.state.configuration.onlineEditorUrl}/${fileID}`
+    `${store.state.configuration.docsUrl}/${fileID}`
   );
 }
 

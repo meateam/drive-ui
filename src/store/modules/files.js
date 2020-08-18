@@ -221,7 +221,6 @@ const actions = {
         dispatch("getAncestors", folder.id);
       }
     } catch (err) {
-      console.log(err.status);
       router.push("/404");
     }
   },
@@ -244,7 +243,6 @@ const actions = {
   },
   async moveFile({ commit, dispatch }, { folderID, fileIDs }) {
     try {
-      console.log(folderID);
       await filesApi.moveFile({ folderID, fileIDs });
       fileIDs.forEach((fileID) => {
         commit("deleteFile", fileID);

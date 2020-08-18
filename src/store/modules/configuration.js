@@ -11,7 +11,7 @@ const state = {
   externalShareName: "שיתוף חיצוני",
   myExternalSharesName: "השיתופים החיצוניים שלי",
   enableExternalShare: false,
-  onlineEditorUrl: "http://13.79.160.153:3000/api/files",
+  docsUrl: "http://13.79.160.153:3000/api/files",
   whiteListText: "או להיות מאושר באופן מיוחד",
 };
 
@@ -26,7 +26,7 @@ const getters = {
   whiteListText: (state) => state.approverWhiteListText,
   myExternalSharesName: (state) => state.myExternalSharesName,
   enableExternalShare: (state) => state.enableExternalShare,
-  onlineEditorUrl: (state) => state.onlineEditorUrl,
+  docsUrl: (state) => state.docsUrl,
   version: (state) => state.version,
 };
 
@@ -50,6 +50,7 @@ const mutations = {
       (state.dropboxSupportLink = config.dropboxSupportLink),
       (state.approvalServiceUrl = config.approvalServiceUrl),
       (state.externalShareName = config.externalShareName),
+      (state.docsUrl = config.docsUrl),
       (state.myExternalSharesName = config.myExternalSharesName),
       (state.whiteListText = config.whiteListText || state.whiteListText),
       (state.enableExternalShare = config.enableExternalShare);
