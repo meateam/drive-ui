@@ -1,179 +1,176 @@
 {
-    "comingSoon": "Coming Soon",
-    "NoData": "No availble data",
-    "Error": "error",
-    "sidenav": {
-        "MyDrive": "my drive",
-        "ExternalTransferd": "external transferd",
-        "SharedWithMe": "shared with me",
-        "Deleted": "deleted files",
-        "LastUpdated": "last updated",
-        "Folders": "folders",
-        "Favorites": "favorites",
-        "Quota": {
-            "Quota": "storage",
-            "Usage": "{used} / {limit}"
-        }
-    },
-    "header": {
-        "connect": "contact us",
-        "notification": "notification"
-    },
-    "autocomplete": {
-        "NoResult": "no results...",
-        "Drive": "search in drive...",
-        "Users": "add users..."
-    },
-    "pageHeaders": {
-        "SharedWithMe": "Shared With Me",
-        "LastUpdated": "Last Updated",
-        "ExternalTransferd": "External Transferd",
-        "MyDrive": "My Drive",
-        "Search": "Search Results"
-    },
-    "file": {
-        "Name": "name",
-        "Files": "files",
-        "Folders": "folders",
-        "Preview": "preview items",
-        "List": "list",
-        "LastUpdated": "last update",
-        "Owner": "owner",
-        "LastUpdate": "last updated",
-        "Size": "file size",
-        "Loading": "loading",
-        "Delete": "Are you sure you want to delete?"
-    },
-    "buttons": {
-        "UploadFile": "upload file",
-        "NewFolder": "upload folder",
-        "Move": "move",
-        "Delete": "delete",
-        "Share": "share",
-        "Download": "download",
-        "Confirm": "confirm",
-        "Continue": "next",
-        "FileInfo": "file info",
-        "FolderInfo": "folder info",
-        "EditOnline": "edit online",
-        "Edit": "rename",
-        "DeleteNow": "delete",
-        "Cancel": "cancel",
-        "Back": "back",
-        "Skip": "skip",
-        "ClickHere": "click here",
-        "RemoveShare": "remove share",
-        "Finish": "finish",
-        "Preview": "preiview"
-    },
-    "success": {
-        "File": "Uploaded successfully",
-        "Files": "Uploaded successfully!",
-        "Edit": "Renamed successfully!",
-        "Folder": "Created folder successfully!",
-        "DeleteItem": "Deleted successfully!",
-        "Share": "Shared successfully!",
-        "ExternalShare": "Shared successfully!",
-        "DeleteItems": "Deleted successfully!",
-        "Cancel": "Canceld successfully!"
-    },
-    "preview": {
-        "Unavailable": "preview is unavailble"
-    },
-    "folder": {
-        "Upload": "create new folder",
-        "Name": "folder name",
-        "New": "new folder...",
-        "Move": "move file to..."
-    },
-    "renameFile": {
-        "Upload": "rename file",
-        "Name": "file name",
-        "New": "new name..."
-    },
-    "renameFolder": {
-        "Upload": "rename folder",
-        "Name": "folder name",
-        "New": "new name..."
-    },
-    "fileInfo": {
-        "Info": "File Info",
-        "Owner": "Owner",
-        "Name": "Name",
-        "Type": "Type",
-        "Size": "Size",
-        "CreatedAt": "Created At",
-        "UpdatedAt": "UpdatedAt",
-        "Shared": "Shared",
-        "ExternalShare": "External Shared"
-    },
-    "share": {
-        "DriveShare": "drive share",
-        "ExternalShare": "external share",
-        "Header": "Share",
-        "DriveChoose": "choose the user to share",
-        "ChoosePermission": "share type",
-        "role": {
-            "read": "read",
-            "write": "write"
-        }
-    },
-    "externalShare": {
-        "Destination": "Destination",
-        "Approval": "Approval",
-        "AddInfo": "Add Info",
-        "ApprovalChoose": "Choose the person who will approve your external share request.\nNot every person is a valid approver, check who are the approvers in your unit\nNotice! The approver will get read permission on the file.",
-        "MoreInfo": "The information will aid the approver with approving the share",
-        "Describe": "describe the file data...",
-        "ChooseClassification": "classification",
-        "Classifications": [
-            "Limited",
-            "Secret",
-            "Top Secret"
-        ],
-        "ApprovalInstructions": "The users are taken from the other domain",
-        "ApprovalService": "approval service",
-        "CanApprove": "this file will be approved automatically",
-        "ApproverUnit": "the approver needs to be in the unit:",
-        "ApproverRanks": "and with on of the ranks:",
-        "note": {
-            "Notice": "Alert!",
-            "SecretNetwork": "You are attempting to pass a document that might be classified.",
-            "SecretData": "It is under your responsibility to make sure the following:",
-            "Marks": [
-                "The document was not originally Samatz/Blue.",
-                "The document does not contain exact operative information",
-                "The document does not contain intelligence-based quotes",
-                "The document does not contain sensitive information collection methods"
-            ],
-            "IAgree": "By pressing 'Agree' I declare that I have read the above and that my request meets the requirements"
-        },
-        "errors": {
-            "FileType": "This file type cannot be shared exterrnally",
-            "OneFileOnly": "you can only share one file",
-            "Enabled": "The service is under maintenance"
-        }
-    },
-    "support": {
-        "Header": "contact us",
-        "DriveSupport": "for drive support",
-        "DropboxSupport": "for the external share support"
+  "comingSoon": "Coming Soon",
+  "NoData": "No availble data",
+  "Error": "error",
+  "sidenav": {
+    "MyDrive": "my drive",
+    "ExternalTransferd": "external transferd",
+    "SharedWithMe": "shared with me",
+    "Deleted": "deleted files",
+    "LastUpdated": "last updated",
+    "Folders": "folders",
+    "Favorites": "favorites",
+    "Quota": {
+      "Quota": "storage",
+      "Usage": "{used} / {limit}"
+    }
+  },
+  "header": {
+    "connect": "contact us",
+    "notification": "notification"
+  },
+  "autocomplete": {
+    "NoResult": "no results...",
+    "Drive": "search in drive...",
+    "Users": "add users..."
+  },
+  "pageHeaders": {
+    "SharedWithMe": "Shared With Me",
+    "LastUpdated": "Last Updated",
+    "ExternalTransferd": "External Transferd",
+    "MyDrive": "My Drive",
+    "Search": "Search Results"
+  },
+  "file": {
+    "Name": "name",
+    "Files": "files",
+    "Folders": "folders",
+    "Preview": "preview items",
+    "List": "list",
+    "LastUpdated": "last update",
+    "Owner": "owner",
+    "LastUpdate": "last updated",
+    "Size": "file size",
+    "Loading": "loading",
+    "Delete": "Are you sure you want to delete?"
+  },
+  "buttons": {
+    "UploadFile": "upload file",
+    "NewFolder": "upload folder",
+    "Move": "move",
+    "Delete": "delete",
+    "Share": "share",
+    "Download": "download",
+    "Confirm": "confirm",
+    "Continue": "next",
+    "FileInfo": "file info",
+    "FolderInfo": "folder info",
+    "EditOnline": "edit online",
+    "Edit": "rename",
+    "DeleteNow": "delete",
+    "Cancel": "cancel",
+    "Link": "copy link",
+    "Back": "back",
+    "Skip": "skip",
+    "ClickHere": "click here",
+    "RemoveShare": "remove share",
+    "Finish": "finish",
+    "Preview": "preiview"
+  },
+  "success": {
+    "File": "Uploaded successfully",
+    "Files": "Uploaded successfully!",
+    "Edit": "Renamed successfully!",
+    "Folder": "Created folder successfully!",
+    "DeleteItem": "Deleted successfully!",
+    "Share": "Shared successfully!",
+    "ExternalShare": "Shared successfully!",
+    "DeleteItems": "Deleted successfully!",
+    "Cancel": "Canceld successfully!"
+  },
+  "preview": {
+    "Unavailable": "preview is unavailble"
+  },
+  "folder": {
+    "Upload": "create new folder",
+    "Name": "folder name",
+    "New": "new folder...",
+    "Move": "move file to..."
+  },
+  "renameFile": {
+    "Upload": "rename file",
+    "Name": "file name",
+    "New": "new name..."
+  },
+  "renameFolder": {
+    "Upload": "rename folder",
+    "Name": "folder name",
+    "New": "new name..."
+  },
+  "fileInfo": {
+    "Info": "File Info",
+    "Owner": "Owner",
+    "Name": "Name",
+    "Type": "Type",
+    "Size": "Size",
+    "CreatedAt": "Created At",
+    "UpdatedAt": "UpdatedAt",
+    "Shared": "Shared",
+    "ExternalShare": "External Shared"
+  },
+  "share": {
+    "Link": "copy link",
+    "DriveShare": "drive share",
+    "ExternalShare": "external share",
+    "Header": "Share",
+    "DriveChoose": "choose the user to share",
+    "ChoosePermission": "share type",
+    "role": {
+      "read": "read",
+      "write": "write"
+    }
+  },
+  "externalShare": {
+    "Destination": "Destination",
+    "Approval": "Approval",
+    "AddInfo": "Add Info",
+    "ApprovalChoose": "Choose the person who will approve your external share request.\nNot every person is a valid approver, check who are the approvers in your unit\nNotice! The approver will get read permission on the file.",
+    "MoreInfo": "The information will aid the approver with approving the share",
+    "Describe": "describe the file data...",
+    "ChooseClassification": "classification",
+    "Classifications": ["Limited", "Secret", "Top Secret"],
+    "ApprovalInstructions": "The users are taken from the other domain",
+    "ApprovalService": "approval service",
+    "CanApprove": "this file will be approved automatically",
+    "ApproverUnit": "the approver needs to be in the unit:",
+    "ApproverRanks": "and with on of the ranks:",
+    "note": {
+      "Notice": "Alert!",
+      "SecretNetwork": "You are attempting to pass a document that might be classified.",
+      "SecretData": "It is under your responsibility to make sure the following:",
+      "Marks": [
+        "The document was not originally Samatz/Blue.",
+        "The document does not contain exact operative information",
+        "The document does not contain intelligence-based quotes",
+        "The document does not contain sensitive information collection methods"
+      ],
+      "IAgree": "By pressing 'Agree' I declare that I have read the above and that my request meets the requirements"
     },
     "errors": {
-        "GoBack": "GO HOME",
-        "Unavailable": "Unavailable System",
-        "BackSoon": "we will be back soon"
-    },
-    "questions": {
-        "Header": "Q&A",
-        "items": {
-        }
-    },
-    "newFeatures": {
-        "Title": "New In Drive!",
-        "features": {
-            "1": "new ui",
-            "2": "edit online files docx, pptx and xlsx"
-        }
+      "FileType": "This file type cannot be shared exterrnally",
+      "OneFileOnly": "you can only share one file",
+      "Enabled": "The service is under maintenance"
     }
+  },
+  "support": {
+    "Header": "contact us",
+    "DriveSupport": "for drive support",
+    "DropboxSupport": "for the external share support"
+  },
+  "errors": {
+    "GoBack": "GO HOME",
+    "Unavailable": "Unavailable System",
+    "BackSoon": "we will be back soon"
+  },
+  "questions": {
+    "Header": "Q&A",
+    "items": {}
+  },
+  "newFeatures": {
+    "Title": "New In Drive!",
+    "features": {
+      "1": "new ui",
+      "2": "edit online files docx, pptx and xlsx"
+    }
+  }
 }
