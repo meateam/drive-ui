@@ -221,6 +221,7 @@ const actions = {
         dispatch("getAncestors", folder.id);
       }
     } catch (err) {
+      console.log(err.status);
       router.push("/404");
     }
   },

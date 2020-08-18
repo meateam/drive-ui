@@ -1,7 +1,15 @@
 <template>
   <div class="page-container">
     <div id="page-header">
-      <h1 id="page-name">{{header}}</h1>
+      <h1 v-if="!folder" id="page-name">{{header}}</h1>
+      <div v-else id="page-breadcrumbs">
+        <Breadcrumbs
+          :folders="currentFolderHierarchy"
+          :currentFolder="currentFolder"
+          @click="$emit('breadcrumb', $event)"
+        />
+      </div>
+
       <FileViewButton />
     </div>
 
@@ -13,15 +21,20 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import FileViewButton from "@/components/buttons/FileViewButton";
 import FileView from "@/components/files/FileView";
 import FabButton from "@/components/buttons/FabButton";
-import DragNDrop from "@/components/shared/DragNDrop"
+import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
+import DragNDrop from "@/components/shared/DragNDrop";
 
 export default {
   name: "PageTemplate",
-  components: { FileView, FileViewButton, FabButton, DragNDrop },
-  props: ["files", "header", "upload"]
+  components: { FileView, FileViewButton, FabButton, DragNDrop, Breadcrumbs },
+  props: ["files", "header", "upload", "folder"],
+  computed: {
+    ...mapGetters(["currentFolder", "currentFolderHierarchy"]),
+  },
 };
 </script>
 
@@ -37,6 +50,14 @@ export default {
   color: #2c3448;
   font-family: Assistant-ExtraBold;
   font-weight: 400;
+  text-align: right;
+}
+#page-breadcrumbs {
+  font-size: 30px;
+  color: #2c3448;
+  font-family: Assistant-light;
+  font-weight: 400;
+  display: flex;
   text-align: right;
 }
 </style>
