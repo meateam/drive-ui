@@ -22,18 +22,24 @@ const actions = {
       return;
     }
   },
+  logout({ commit }) {
+    cookies.remove("kd-token");
+    commit("setToken", undefined);
+  },
   async parseToken({ commit, dispatch }) {
     try {
       const token = state.token;
       const parts = token.split(".");
 
       if (parts.length !== 3) {
+        dispatch("logout");
         throw new Error("token malformed");
       }
 
       let user = JSON.parse(Base64.decode(parts[1]));
 
       if (Math.round(new Date().getTime() / 1000) > user.exp) {
+        dispatch("logout");
         throw new Error("token expired");
       }
 
@@ -41,12 +47,12 @@ const actions = {
 
       user = {
         ...user,
-        approvalInfo
-      }
+        approvalInfo,
+      };
 
       commit("setUser", user);
     } catch (err) {
-      dispatch("onError", err)
+      dispatch("onError", err);
     }
   },
 };
