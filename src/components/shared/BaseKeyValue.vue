@@ -1,14 +1,19 @@
 <template>
   <div class="flex">
     <p>{{field}}</p>
-    <p id="value">{{value}}</p>
+    <v-tooltip top>
+      <template v-slot:activator="{ on }">
+        <p v-on="on" id="value">{{value}}</p>
+      </template>
+      <span>{{value}}</span>
+    </v-tooltip>
   </div>
 </template>
 
 <script>
 export default {
   name: "KeyValue",
-  props: ["field", "value"]
+  props: ["field", "value"],
 };
 </script>
 
@@ -24,6 +29,6 @@ p {
   text-overflow: ellipsis;
   white-space: nowrap;
   direction: ltr;
-  max-width: 300px;
+  max-width: 150px;
 }
 </style>
