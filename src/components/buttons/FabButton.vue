@@ -35,36 +35,53 @@
       </template>
       <span>{{ $t("buttons.UploadFile") }}</span>
     </v-tooltip>
+    <v-tooltip right>
+      <template v-slot:activator="{ on }">
+        <v-btn v-on="on" fab color="#035c64" @click.stop="$refs.newFile.open()">
+          <CreateFilePopup
+            ref="newFile"
+            @confirm="onFileConfirm"
+          />
+          <img class="icon" src="@/assets/icons/create-file.svg" />
+        </v-btn>
+      </template>
+      <span>{{ $t("buttons.CreateFile") }}</span>
+    </v-tooltip>
   </v-speed-dial>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import * as filesApi from "@/api/files";
 import { writeRole } from "@/utils/roles";
 import Upload from "./Upload";
 import NamePopup from "../popups/BaseNamePopup";
+import CreateFilePopup from "../popups/CreateFilePopup";
 
 export default {
   name: "FabButton",
   data() {
     return {
-      fab: false
+      fab: false,
     };
   },
-  components: { Upload, NamePopup },
+  components: { Upload, NamePopup, CreateFilePopup },
   computed: {
-    ...mapGetters(["currentFolder"])
+    ...mapGetters(["currentFolder"]),
   },
   methods: {
     onFolderConfirm(name) {
       this.$store.dispatch("uploadFolder", name);
     },
+    onFileConfirm(name, type) {
+      filesApi.createNewFile({ name, type });
+    },
     canUpload() {
       return !this.currentFolder || writeRole(this.currentFolder.role);
-    }
+    },
   },
   created() {
-    window.addEventListener("keydown", event => {
+    window.addEventListener("keydown", (event) => {
       // ctrl o shortcut to upload file
       if (
         event.keyCode === 79 &&
@@ -75,7 +92,7 @@ export default {
         document.getElementById("upload-input").click();
       }
     });
-  }
+  },
 };
 </script>
 

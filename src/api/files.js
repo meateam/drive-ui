@@ -214,11 +214,17 @@ export async function editFile({ file, name }) {
 
 export async function editOnline(fileID) {
   pushUpdatedFile(fileID);
-  window.open(`${store.state.configuration.docsUrl}/${fileID}`);
+  window.open(`${store.state.configuration.docsUrl}/api/files/${fileID}`);
 }
 
 export function getFileLink(fileID) {
-  return `${store.state.configuration.docsUrl}/${fileID}`;
+  return `${store.state.configuration.docsUrl}/api/files/${fileID}`;
+}
+
+export function createNewFile({ name, type }) {
+  window.open(
+    `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}`
+  );
 }
 
 export async function moveFile({ folderID, fileIDs }) {

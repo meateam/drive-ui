@@ -11,7 +11,7 @@ const state = {
   externalShareName: "שיתוף חיצוני",
   myExternalSharesName: "השיתופים החיצוניים שלי",
   enableExternalShare: false,
-  docsUrl: "http://13.79.160.153:3000/api/files",
+  docsUrl: "http://13.79.160.153:3000",
   whiteListText: "או להיות מאושר באופן מיוחד",
 };
 
