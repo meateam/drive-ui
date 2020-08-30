@@ -3,32 +3,37 @@
     <v-card>
       <div class="popup-header">
         <v-icon color="#007A99" class="popup-icon">share</v-icon>
-        <p class="d-title">{{$t('share.Link')}}</p>
+        <p class="d-title">{{$t('share.link.Copy')}}</p>
       </div>
       <div class="popup-body">
-        <v-text-field
-          readonly
-          :label="location"
-          solo
-          append-icon="content_copy"
-          @click:append="copy"
-        ></v-text-field>
+        <div v-if="canEditOnline(file)">
+          <p class="popup-text">{{$t('share.link.OnlyShare')}}</p>
+          <v-text-field readonly :label="link" solo append-icon="content_copy" @click:append="copy"></v-text-field>
+        </div>
+        <div v-else class="popup-text" id="error">
+          <p>{{$t('share.link.FileTypeError')}}</p>
+          <p>{{getAllowedTypes()}}</p>
+        </div>
       </div>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import * as filesApi from "@/api/files";
+import { fileTypes } from "@/config";
+
 export default {
   name: "LinkPopup",
+  props: ["file"],
   data() {
     return {
       dialog: false,
-      location:
-        this.$route.path === "/my-drive"
-          ? `${window.location.origin}/shared-with-me`
-          : window.location.href,
+      link: "",
     };
+  },
+  created() {
+    this.link = filesApi.getFileLink(this.file.id);
   },
   methods: {
     open() {
@@ -39,7 +44,13 @@ export default {
     },
     copy() {
       this.$store.commit("onSuccess", "success.Copied");
-      navigator.clipboard.writeText(this.location);
+      navigator.clipboard.writeText(this.link);
+    },
+    canEditOnline(file) {
+      return fileTypes.office.includes(file.type);
+    },
+    getAllowedTypes() {
+      return fileTypes.docs.toString().split(",").join(", ");
     },
   },
 };
@@ -50,6 +61,9 @@ export default {
   font-size: 70px;
   width: 100%;
   display: block;
+  text-align: center;
+}
+#error {
   text-align: center;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top :disabled="!icon">
+  <v-tooltip top :disabled="!icon" v-if="chosenFiles.length===1">
     <template v-slot:activator="{ on }">
       <v-btn
         @click="$refs.popup.open()"
@@ -13,17 +13,21 @@
         <p class="button-text" v-if="!icon">{{ $t("buttons.Link") }}</p>
       </v-btn>
     </template>
-    <LinkPopup ref="popup" />
+    <LinkPopup ref="popup" :file="chosenFiles[0]" />
     <span>{{ $t("buttons.Link") }}</span>
   </v-tooltip>
 </template>
 
 <script>
 import LinkPopup from "../popups/LinkPopup";
+import { mapGetters } from "vuex";
 
 export default {
   name: "LinkButton",
   props: ["icon"],
+  computed: {
+    ...mapGetters(["chosenFiles"]),
+  },
   components: { LinkPopup },
 };
 </script>

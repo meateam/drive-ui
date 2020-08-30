@@ -16,7 +16,9 @@ const fileTypes = {
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "application/pdf",
   ],
+  docs: ["pptx", "docx", "xlsx", "pdf"],
   externalShare: [
     "png",
     "xlsx",
