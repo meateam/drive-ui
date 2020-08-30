@@ -4,6 +4,7 @@
     @input="onSelect"
     @update:search-input="onInput"
     @keyup.enter.native="onEnter"
+    no-filter
     :items="items"
     :loading="isLoading"
     rounded

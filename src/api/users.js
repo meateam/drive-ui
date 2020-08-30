@@ -30,19 +30,6 @@ export function getUsersByIDs(userIDs) {
 }
 
 /**
- * getUserNameByID returnes the user name with the received id
- * @param id is the user id
- */
-export async function getUserNameByID(id) {
-  try {
-    const user = await getUserByID(id);
-    return user.fullName;
-  } catch (err) {
-    store.dispatch("onError", err);
-  }
-}
-
-/**
  * searchUsersByName gets all the users with the received name
  * @param name is the name of the users
  */

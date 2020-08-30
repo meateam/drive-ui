@@ -2,7 +2,7 @@ import * as filesApi from "@/api/files";
 import { getFileType } from "@/utils/getFileType";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
-import { formatFile } from "@/utils/formatFile";
+import { formatFile, formatExternalFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 import { pushUpdatedFile } from "@/utils/lastUpdatedFileHandler";
 import { fixFileName } from "@/utils/fixFileName";
@@ -66,7 +66,7 @@ const actions = {
         "setFiles",
         await Promise.all(
           files.map((file) => {
-            return formatFile(file);
+            return formatExternalFile(file);
           })
         )
       );

@@ -50,8 +50,8 @@ export default {
       disabled: true,
       isLoading: false,
       roles: [
-        { value: "READ", text: this.$t("share.role.read") },
-        { value: "WRITE", text: this.$t("share.role.write") }
+        { value: "READ", text: this.$t("share.role.READ") },
+        { value: "WRITE", text: this.$t("share.role.WRITE") }
       ]
     };
   },

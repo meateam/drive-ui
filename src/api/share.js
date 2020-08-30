@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { baseURL } from "@/config";
-import store from '@/store';
+import store from "@/store";
 import * as usersApi from "@/api/users";
 
 /**
@@ -8,15 +8,19 @@ import * as usersApi from "@/api/users";
  * @param fileID the id of the file
  */
 export async function getPermissions(fileID) {
-    try {
-        const res = await Axios.get(`${baseURL}/api/files/${fileID}/permissions`);
-        const users = await usersApi.getUsersByIDs(
-            res.data.map((permission) => permission.userID)
-        );
-        return users;
-    } catch (err) {
-        store.dispatch("onError", err);
-    }
+  try {
+    const res = await Axios.get(`${baseURL}/api/files/${fileID}/permissions`);
+    const users = await Promise.all(
+      res.data.map(async (permission) => {
+        const user = await usersApi.getUserByID(permission.userID);
+        user.role = permission.role;
+        return user;
+      })
+    );
+    return users;
+  } catch (err) {
+    store.dispatch("onError", err);
+  }
 }
 
 /**
@@ -24,15 +28,15 @@ export async function getPermissions(fileID) {
  * @param fileID the id of the file
  */
 export async function getExternalPermissions(fileID) {
-    try {
-        const res = await Axios.get(`${baseURL}/api/files/${fileID}/permits`);
-        const users = await usersApi.getExternalUsersByIDs(
-            res.data ? res.data.map((permit) => permit.userId) : []
-        );
-        return users;
-    } catch (err) {
-        store.dispatch("onError", err);
-    }
+  try {
+    const res = await Axios.get(`${baseURL}/api/files/${fileID}/permits`);
+    const users = await usersApi.getExternalUsersByIDs(
+      res.data ? res.data.map((permit) => permit.userId) : []
+    );
+    return users;
+  } catch (err) {
+    store.dispatch("onError", err);
+  }
 }
 
 /**
@@ -42,14 +46,11 @@ export async function getExternalPermissions(fileID) {
  * @param role is the role of the share
  */
 export async function shareUser({ fileID, userID, role }) {
-    await Axios.put(
-        `${baseURL}/api/files/${fileID}/permissions`,
-        {
-            userID,
-            role,
-            override: true,
-        }
-    );
+  await Axios.put(`${baseURL}/api/files/${fileID}/permissions`, {
+    userID,
+    role,
+    override: true,
+  });
 }
 
 /**
@@ -59,33 +60,39 @@ export async function shareUser({ fileID, userID, role }) {
  * @param role is the role of the share
  */
 export function shareUsers({ files, users, role }) {
-    Promise.all(
-        users.map(async (user) => {
-            files.forEach(async (file) => {
-                await shareUser({ fileID: file.id, userID: user.id, role });
-            });
-        })
-    ).then(() => {
-        store.commit("onSuccess", "success.Share");
-    }).catch(err => {
-        store.dispatch("onError", err);
+  Promise.all(
+    users.map(async (user) => {
+      files.forEach(async (file) => {
+        await shareUser({ fileID: file.id, userID: user.id, role });
+      });
     })
+  )
+    .then(() => {
+      store.commit("onSuccess", "success.Share");
+    })
+    .catch((err) => {
+      store.dispatch("onError", err);
+    });
 }
 
-export async function shareExternalUsers(
-    { fileID, users, classification, info, approvers, fileName }
-) {
-    try {
-        const body = { users, classification, info, approvers, fileName };
-        approvers.forEach(async (userID) => {
-            await shareUser({ fileID, userID, role: "READ" })
-        });
-        const res = await Axios.put(`${baseURL}/api/files/${fileID}/permits`, body);
-        store.commit("onSuccess", "success.ExternalShare");
+export async function shareExternalUsers({
+  fileID,
+  users,
+  classification,
+  info,
+  approvers,
+  fileName,
+}) {
+  try {
+    const body = { users, classification, info, approvers, fileName };
+    approvers.forEach(async (userID) => {
+      await shareUser({ fileID, userID, role: "READ" });
+    });
+    const res = await Axios.put(`${baseURL}/api/files/${fileID}/permits`, body);
+    store.commit("onSuccess", "success.ExternalShare");
 
-        return res.data;
-    } catch (err) {
-        store.dispatch("onError", err);
-    }
+    return res.data;
+  } catch (err) {
+    store.dispatch("onError", err);
+  }
 }
-

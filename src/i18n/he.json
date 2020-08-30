@@ -117,8 +117,8 @@
     "DriveChoose": "בחרו עם מי תרצו לשתף את הקובץ",
     "ChoosePermission": "סוג שיתוף",
     "role": {
-      "read": "קריאה",
-      "write": "כתיבה"
+      "READ": "קריאה",
+      "WRITE": "כתיבה"
     }
   },
   "externalShare": {

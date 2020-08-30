@@ -116,8 +116,8 @@
     "DriveChoose": "choose the user to share",
     "ChoosePermission": "share type",
     "role": {
-      "read": "read",
-      "write": "write"
+      "READ": "read",
+      "WRITE": "write"
     }
   },
   "externalShare": {

@@ -3,7 +3,8 @@
     <template v-slot:activator="{ on }">
       <v-btn small fab v-on="on" id="avatar" :color="color">{{getUserName()}}</v-btn>
     </template>
-    <span>{{user.fullName}}</span>
+    <span v-if="user.role">{{`${user.fullName} - ${$t(`share.role.${user.role}`)}`}}</span>
+    <span v-else>{{user.fullName}}</span>
   </v-tooltip>
 </template>
 
@@ -15,7 +16,7 @@ export default {
   props: ["user"],
   data() {
     return {
-      color: this.getColor()
+      color: this.getColor(),
     };
   },
   methods: {
@@ -29,10 +30,10 @@ export default {
       return `${firstName}${lastName}`;
     },
     getColor() {
-      const color = randomColor();
+      const color = randomColor({ luminosity: "light" });
       return color;
-    }
-  }
+    },
+  },
 };
 </script>
 
