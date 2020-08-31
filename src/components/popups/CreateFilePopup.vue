@@ -61,15 +61,15 @@ export default {
       dialog: false,
       types: [
         {
-          src: "doc.svg",
+          src: "word.svg",
           value: "docx",
         },
         {
-          src: "xls.svg",
+          src: "excel.svg",
           value: "xlsx",
         },
         {
-          src: "ppt.svg",
+          src: "powerpoint.svg",
           value: "pptx",
         },
       ],
@@ -99,7 +99,7 @@ export default {
 
 <style scoped>
 #type-image {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 </style>
