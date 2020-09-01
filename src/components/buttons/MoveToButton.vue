@@ -9,11 +9,11 @@
         class="auto-margin"
         text
       >
-        <v-icon class="fab-icon" color="#FFF9E5">arrow_right_alt</v-icon>
+        <img class="fab-icon" src="@/assets/icons/move-to.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Move") }}</p>
       </v-btn>
     </template>
-    <MovePopup ref="movePopup" :files="chosenFiles" @confirm="onSubmit" />
+    <MoveToPopup ref="movePopup" :files="chosenFiles" @confirm="onSubmit" />
     <span>{{ $t("buttons.Move") }}</span>
   </v-tooltip>
 </template>
@@ -21,12 +21,12 @@
 <script>
 import { mapGetters } from "vuex";
 import { ownerRole } from "@/utils/roles";
-import MovePopup from "../popups/MovePopup";
+import MoveToPopup from "@/components/popups/MoveToPopup";
 
 export default {
-  name: "MoveButton",
+  name: "MoveToButton",
   props: ["icon"],
-  components: { MovePopup },
+  components: { MoveToPopup },
   computed: {
     ...mapGetters(["chosenFiles", "currentFolder"]),
   },

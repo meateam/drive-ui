@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" max-width="550" class="popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/green-move.svg" />
+        <img class="popup-icon auto-margin" src="@/assets/icons/green-move-to.svg" />
         <p class="d-title">{{$t('folder.Move')}}</p>
         <div class="files">
           <p class="ltr space" v-for="file in files" :key="file.id">{{file.name}}</p>
@@ -38,7 +38,7 @@ import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 
 export default {
-  name: "MovePopup",
+  name: "MoveToPopup",
   components: { SubmitButton, FoldersPreview, TextButton, Breadcrumbs },
   data() {
     return {

@@ -12,7 +12,7 @@
       <DownloadButton />
       <ShareButton />
       <DeleteButton />
-      <MoveButton />
+      <MoveToButton />
       <InfoButton />
       <OnlineEditButton />
       <EditButton />
@@ -25,7 +25,7 @@
 <script>
 import DownloadButton from "@/components/buttons/DownloadButton";
 import DeleteButton from "@/components/buttons/DeleteButton";
-import MoveButton from "@/components/buttons/MoveButton";
+import MoveToButton from "@/components/buttons/MoveToButton";
 import OnlineEditButton from "@/components/buttons/OnlineEditButton";
 import EditButton from "@/components/buttons/EditButton";
 import InfoButton from "@/components/buttons/InfoButton";
@@ -38,7 +38,7 @@ export default {
   components: {
     DownloadButton,
     ShareButton,
-    MoveButton,
+    MoveToButton,
     LinkButton,
     DeleteButton,
     InfoButton,
