@@ -43,8 +43,8 @@
       <router-link to="/external-transferd" exact-active-class="route-active">
         <v-list-item link>
           <v-list-item-icon>
-            <img class="icons white-icon" src="@/assets/icons/move.svg" />
-            <img class="icons green-icon" src="@/assets/icons/green-move.svg" />
+            <img class="icons white-icon" src="@/assets/icons/transfer.svg" />
+            <img class="icons green-icon" src="@/assets/icons/green-transfer.svg" />
           </v-list-item-icon>
           <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalTransferd") }}</v-list-item-title>
         </v-list-item>

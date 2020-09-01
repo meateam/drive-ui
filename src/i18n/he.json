@@ -50,6 +50,7 @@
     "UploadFile": "העלה קובץ",
     "NewFolder": "צור תיקייה",
     "Move": "העבר אל",
+    "ExternalTransfer": "העברה בין רשתית",
     "Delete": "מחיקה",
     "Share": "שיתוף",
     "Download": "הורדה",
@@ -128,7 +129,8 @@
       "OnlyShare": "שים לב! הקישור יעבוד אך ורק לאנשים בעלי הרשאות על קובץ זה"
     }
   },
-  "externalShare": {
+  "externalTransfer": {
+    "Header": "העברה בין רשתית",
     "Destination": "יעד",
     "Approval": "מאשר",
     "AddInfo": "מידע נוסף",

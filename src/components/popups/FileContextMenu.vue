@@ -9,21 +9,22 @@
     id="menu"
   >
     <v-list color="#035c64" id="right-click-popup">
+      <InfoButton />
+      <PreviewButton />
       <DownloadButton />
-      <ShareButton />
       <DeleteButton />
       <MoveToButton />
-      <InfoButton />
-      <OnlineEditButton />
       <EditButton />
-      <PreviewButton />
-      <LinkButton />
+      <OnlineEditButton />
+      <ShareButton />
+      <ExternalTransferButton />
     </v-list>
   </v-menu>
 </template>
 
 <script>
 import DownloadButton from "@/components/buttons/DownloadButton";
+import ExternalTransferButton from "@/components/buttons/ExternalTransferButton";
 import DeleteButton from "@/components/buttons/DeleteButton";
 import MoveToButton from "@/components/buttons/MoveToButton";
 import OnlineEditButton from "@/components/buttons/OnlineEditButton";
@@ -31,15 +32,14 @@ import EditButton from "@/components/buttons/EditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
-import LinkButton from "@/components/buttons/LinkButton";
 
 export default {
   name: "FileMenu",
   components: {
     DownloadButton,
     ShareButton,
+    ExternalTransferButton,
     MoveToButton,
-    LinkButton,
     DeleteButton,
     InfoButton,
     OnlineEditButton,

@@ -1,14 +1,14 @@
 <template>
   <div>
-    <p class="popup-text">{{$t('externalShare.MoreInfo')}}</p>
-    <Textarea @input="onInfoChange" :placeholder="$t('externalShare.Describe')" />
+    <p class="popup-text">{{$t('externalTransfer.MoreInfo')}}</p>
+    <Textarea @input="onInfoChange" :placeholder="$t('externalTransfer.Describe')" />
     <div class="space-between">
       <div class="select-container">
         <Select
           :items="classifications"
           background="transparent"
           @change="onClassificationChange"
-          :placeholder="$t('externalShare.ChooseClassification')"
+          :placeholder="$t('externalTransfer.ChooseClassification')"
         />
       </div>
 
@@ -34,7 +34,7 @@ export default {
       info: "",
       classification: undefined,
       disabled: true,
-      classifications: this.$t("externalShare.Classifications")
+      classifications: this.$t("externalTransfer.Classifications")
     };
   },
   methods: {

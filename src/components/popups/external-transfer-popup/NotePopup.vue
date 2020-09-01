@@ -5,9 +5,9 @@
         <img class="popup-icon" src="@/assets/icons/note.svg" />
       </div>
 
-      <p id="notice">{{$t('externalShare.note.Notice')}}</p>
-      <p class="secret">{{$t('externalShare.note.SecretNetwork')}}</p>
-      <p class="secret">{{$t('externalShare.note.SecretData')}}</p>
+      <p id="notice">{{$t('externalTransfer.note.Notice')}}</p>
+      <p class="secret">{{$t('externalTransfer.note.SecretNetwork')}}</p>
+      <p class="secret">{{$t('externalTransfer.note.SecretData')}}</p>
       <div id="marks" class="space-right">
         <v-checkbox
           v-for="mark in marks"
@@ -19,7 +19,7 @@
         ></v-checkbox>
         <v-checkbox
           :disabled="selected.length !== marks.length"
-          :label="$t('externalShare.note.IAgree')"
+          :label="$t('externalTransfer.note.IAgree')"
           color="red"
           v-model="agreed"
         ></v-checkbox>
@@ -41,7 +41,7 @@ export default {
   components: { SubmitButton, TextButton },
   data() {
     return {
-      marks: this.$t("externalShare.note.Marks"),
+      marks: this.$t("externalTransfer.note.Marks"),
       selected: [],
       agreed: false,
       dialog: false,

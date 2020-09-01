@@ -1,24 +1,24 @@
 <template>
   <div>
     <div v-if="user.approvalInfo.canApprove">
-      <p class="popup-text align-center">{{$t('externalShare.CanApprove')}}</p>
+      <p class="popup-text align-center">{{$t('externalTransfer.CanApprove')}}</p>
     </div>
     <div v-else>
       <div>
         <div id="approval-header" class="space-between">
-          <p class="popup-text">{{$t('externalShare.ApprovalChoose')}}</p>
+          <p class="popup-text">{{$t('externalTransfer.ApprovalChoose')}}</p>
           <v-tooltip top color="#2c3448">
             <template v-slot:activator="{ on }">
               <v-icon color="#2c3448" v-on="on">info</v-icon>
             </template>
 
             <div class="align-center">
-              <p>{{$t('externalShare.ApprovalInstructions')}}</p>
+              <p>{{$t('externalTransfer.ApprovalInstructions')}}</p>
               <div v-if="user.approvalInfo.unit && user.approvalInfo.ranks">
                 <p>
-                  {{$t('externalShare.ApproverUnit')}}
+                  {{$t('externexternalTransferalShare.ApproverUnit')}}
                   <span class="bold">{{user.approvalInfo.unit}}</span>
-                  , {{$t('externalShare.ApproverRanks')}}
+                  , {{$t('externalTransfer.ApproverRanks')}}
                 </p>
                 <p class="bold">{{getRanks()}}</p>
                 <p class="bold">{{whiteListText}}</p>

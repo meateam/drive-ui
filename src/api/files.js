@@ -4,6 +4,7 @@ import {
   removeUpdatedFile,
 } from "@/utils/lastUpdatedFileHandler";
 import { baseURL, fileTypes } from "@/config";
+import { isFolder } from "@/utils/isFolder";
 import store from "@/store";
 
 /**
@@ -217,8 +218,14 @@ export async function editOnline(fileID) {
   window.open(`${store.state.configuration.docsUrl}/api/files/${fileID}`);
 }
 
-export function getFileLink(fileID) {
-  return `${store.state.configuration.docsUrl}/api/files/${fileID}`;
+export function getFileLink(file) {
+  if (fileTypes.office.includes(file.type)) {
+    return `${store.state.configuration.docsUrl}/api/files/${file.id}`;
+  } else if (isFolder(file.type)) {
+    return `${window.location.hostname}/folders?id=${file.id}`;
+  } else {
+    return `${window.location.hostname}/api/files/${file.id}?alt=media`;
+  }
 }
 
 export function createNewFile({ name, type }) {

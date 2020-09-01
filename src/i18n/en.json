@@ -47,7 +47,8 @@
   "buttons": {
     "UploadFile": "upload file",
     "NewFolder": "upload folder",
-    "Move": "move",
+    "Move": "move to",
+    "ExternalTransfer": "external share",
     "Delete": "delete",
     "Share": "share",
     "Download": "download",
@@ -122,6 +123,7 @@
     }
   },
   "externalShare": {
+    "Header": "External Transfer",
     "Destination": "Destination",
     "Approval": "Approval",
     "AddInfo": "Add Info",

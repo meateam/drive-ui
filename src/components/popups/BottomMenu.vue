@@ -1,14 +1,14 @@
 <template>
   <div id="action-bar" v-if="chosenFiles.length">
+    <InfoButton :icon="true" />
     <DownloadButton :icon="true" />
-    <ShareButton :icon="true" />
     <DeleteButton :icon="true" />
     <MoveToButton :icon="true" />
-    <InfoButton :icon="true" />
     <OnlineEditButton :icon="true" />
     <EditButton :icon="true" />
     <PreviewButton :icon="true" />
-    <LinkButton :icon="true" />
+    <ShareButton :icon="true" />
+    <ExternalTransferButton :icon="true" />
   </div>
 </template>
 
@@ -21,7 +21,7 @@ import OnlineEditButton from "@/components/buttons/OnlineEditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
-import LinkButton from "@/components/buttons/LinkButton";
+import ExternalTransferButton from "@/components/buttons/ExternalTransferButton";
 
 export default {
   name: "BottomMenu",
@@ -30,13 +30,13 @@ export default {
     DownloadButton,
     OnlineEditButton,
     ShareButton,
-    LinkButton,
     MoveToButton,
     DeleteButton,
     InfoButton,
     EditButton,
-    PreviewButton
-  }
+    ExternalTransferButton,
+    PreviewButton,
+  },
 };
 </script>
 
