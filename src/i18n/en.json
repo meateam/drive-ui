@@ -54,6 +54,7 @@
     "Download": "download",
     "Confirm": "confirm",
     "Continue": "next",
+    "CopyLink": "copy link",
     "FileInfo": "file info",
     "FolderInfo": "folder info",
     "EditOnline": "edit online",
@@ -120,6 +121,13 @@
     "role": {
       "READ": "read",
       "WRITE": "write"
+    },
+    "link": {
+      "FolderLink": "folder link",
+      "EditOnlineLink": "edit online link",
+      "DownloadLink": "download link",
+      "Copy": "copy link",
+      "OnlyShare": "please notice! only users with permissions on this file will be able to access it"
     }
   },
   "externalShare": {

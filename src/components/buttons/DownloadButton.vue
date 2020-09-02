@@ -7,6 +7,7 @@
         v-on="on"
         :icon="icon"
         class="auto-margin"
+        id="download-button"
         text
       >
         <img class="fab-icon" src="@/assets/icons/download.svg" />

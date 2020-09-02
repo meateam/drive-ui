@@ -6,6 +6,7 @@
         v-on="on"
         :icon="icon"
         class="auto-margin"
+        id="share-button"
         text
         :class="{right: !icon}"
       >

@@ -7,6 +7,7 @@
         :icon="icon"
         :class="{right: !icon}"
         class="auto-margin"
+        id="info-button"
         text
       >
         <img class="fab-icon" src="@/assets/icons/info.svg" />

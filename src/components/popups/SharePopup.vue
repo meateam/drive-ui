@@ -1,31 +1,24 @@
 <template>
   <v-dialog v-model="dialog" max-width="600" class="popup">
     <v-card>
-      <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/green-3-share.svg" />
-        <p class="d-title">{{$t('share.Header')}}</p>
-        <div class="files">
-          <p class="ltr space" v-for="file in files" :key="file.id">{{file.name}}</p>
-        </div>
+      <div class="share-header flex">
+        <v-icon class="share-icon">person_add</v-icon>
+        <p class="share-title">{{$t('share.Header')}}</p>
       </div>
 
       <div class="popup-body">
         <p class="popup-text">{{$t('share.DriveChoose')}}</p>
-
-        <Autocomplete
-          icon
-          background="white"
-          :placeholder="$t('autocomplete.Users')"
-          :items="users"
-          :isLoading="isLoading"
-          :minLength="2"
-          @select="onUserSelect"
-          @type="getUsersByName"
-        />
-        <v-chip-group show-arrows>
-          <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
-        </v-chip-group>
         <div class="space-between">
+          <Autocomplete
+            icon
+            background="white"
+            :placeholder="$t('autocomplete.Users')"
+            :items="users"
+            :isLoading="isLoading"
+            :minLength="2"
+            @select="onUserSelect"
+            @type="getUsersByName"
+          />
           <div class="select-container">
             <Select
               :items="roles"
@@ -34,17 +27,31 @@
               :placeholder="$t('share.ChoosePermission')"
             />
           </div>
-          <v-card-actions class="popup-confirm">
-            <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
-          </v-card-actions>
         </div>
+        <v-chip-group show-arrows>
+          <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
+        </v-chip-group>
+
+        <v-card-actions class="popup-confirm">
+          <SubmitButton @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
+        </v-card-actions>
       </div>
     </v-card>
 
     <v-card class="top-space" v-if="files.length === 1">
-      <div class="popup-body align-center">
-        <p class="popup-text">{{$t('share.link.OnlyShare')}}</p>
-        <v-text-field readonly :label="link" solo append-icon="content_copy" @click:append="copy"></v-text-field>
+      <div>
+        <div class="share-header flex">
+          <v-icon class="share-icon">share</v-icon>
+          <p class="share-title">{{getLinkType()}}</p>
+        </div>
+
+        <p class="link">{{$t('share.link.OnlyShare')}}</p>
+
+        <v-card-actions class="popup-confirm">
+          <v-btn text small @click="copy" class="link">
+            <p>{{$t('buttons.CopyLink')}}</p>
+          </v-btn>
+        </v-card-actions>
       </div>
     </v-card>
   </v-dialog>
@@ -128,8 +135,15 @@ export default {
       navigator.clipboard.writeText(this.link);
       this.$store.commit("onSuccess", "success.Copied");
     },
-    canEditOnline(file) {
-      return fileTypes.office.includes(file.type);
+    getLinkType() {
+      const type = this.files[0].type;
+      if (type === fileTypes.folder) {
+        return this.$t("share.link.FolderLink");
+      } else if (fileTypes.office.includes(type)) {
+        return this.$t("share.link.EditOnlineLink");
+      } else {
+        return this.$t("share.link.DownloadLink");
+      }
     },
     onConfirm() {
       shareApi.shareUsers({
@@ -145,12 +159,39 @@ export default {
 </script>
 
 <style scoped>
-.files {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
 .top-space {
   margin-top: 15px;
+}
+.d-title {
+  padding-bottom: 10px;
+}
+.popup-icon {
+  width: 70px;
+  padding-top: 30px;
+}
+.share-icon {
+  width: 40px;
+  height: 40px;
+  margin: auto 25px auto 10px;
+  font-size: 25px;
+  color: #fff9e5;
+  background-color: #007a99;
+  border-radius: 50%;
+}
+.share-header {
+  height: 80px;
+  line-height: 80px;
+}
+.share-title {
+  font-size: 26px;
+  color: #353446;
+}
+.popup-body {
+  padding: 10px 25px;
+}
+.link {
+  margin: 5px 25px;
+  font-size: 15px;
+  color: #353446;
 }
 </style>

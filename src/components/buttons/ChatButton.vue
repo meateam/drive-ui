@@ -1,7 +1,7 @@
 <template>
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-btn @click="$refs.popup.open()" v-on="on" icon class="auto-margin">
+      <v-btn @click="$refs.popup.open()" v-on="on" icon class="auto-margin" id="chat-button">
         <img src="@/assets/icons/chat.svg" />
       </v-btn>
     </template>

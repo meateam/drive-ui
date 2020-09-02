@@ -2,6 +2,7 @@
   <v-tooltip top :disabled="!icon" v-if="canDelete()">
     <template v-slot:activator="{ on }">
       <v-btn
+        id="delete-button"
         @click="$refs.popup.open()"
         v-on="on"
         :icon="icon"
@@ -44,11 +45,11 @@ export default {
       return !this.currentFolder || writeRole(this.currentFolder.role);
     },
     isUserOwner() {
-      return this.chosenFiles.every(file => ownerRole(file.role));
-    }
+      return this.chosenFiles.every((file) => ownerRole(file.role));
+    },
   },
   computed: {
-    ...mapGetters(["chosenFiles", "currentFolder"])
-  }
+    ...mapGetters(["chosenFiles", "currentFolder"]),
+  },
 };
 </script>
