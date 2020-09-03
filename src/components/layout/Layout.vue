@@ -38,8 +38,8 @@ import { mapGetters } from "vuex";
 import AppBar from "@/components/layout/toolbar/AppBar";
 import Sidenav from "@/components/layout/sidenav/Sidenav";
 import NewFeaturesPopup from "@/components/popups/NewFeaturesPopup";
-import SuccessSnackbar from "@/components/popups/SuccessSnackbar";
-import ErrorSnackbar from "@/components/popups/ErrorSnackbar";
+import SuccessSnackbar from "@/components/popups/snackbars/SuccessSnackbar";
+import ErrorSnackbar from "@/components/popups/snackbars/ErrorSnackbar";
 
 export default {
   name: "App",

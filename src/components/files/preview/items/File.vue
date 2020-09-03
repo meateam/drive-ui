@@ -27,7 +27,7 @@
 <script>
 import { getPdfPreview, getPreview } from "@/api/files";
 import { canPreviewPdf } from "@/utils/canPreview";
-import FileTypeIcon from "@/components/shared/BaseFileTypeIcon";
+import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
 
 export default {
   name: "File",

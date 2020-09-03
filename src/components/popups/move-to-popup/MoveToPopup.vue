@@ -32,7 +32,7 @@
 
 <script>
 import * as filesApi from "@/api/files";
-import FoldersPreview from "@/components/shared/FoldersPreview";
+import FoldersPreview from "./FoldersPreview";
 import TextButton from "@/components/buttons/BaseTextButton";
 import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";

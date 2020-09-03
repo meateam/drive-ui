@@ -36,8 +36,8 @@
   </v-dialog>
 </template>
 <script>
-import KeyValue from "@/components/shared/BaseKeyValue";
-import UserAvatar from "@/components/shared/UserAvatar";
+import KeyValue from "./BaseKeyValue";
+import UserAvatar from "./UserAvatar";
 import { getPermissions, getExternalPermissions } from "@/api/share";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";

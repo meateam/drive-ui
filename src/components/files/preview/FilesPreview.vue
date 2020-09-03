@@ -36,7 +36,7 @@ import { mapGetters } from "vuex";
 import { fileTypes } from "@/config";
 import * as filesApi from "@/api/files";
 import Preview from "@/components/popups/Preview";
-import FileContextMenu from "@/components/popups/FileContextMenu";
+import FileContextMenu from "@/components/popups/menus/FileContextMenu";
 import Folder from "./items/Folder";
 import File from "./items/File";
 

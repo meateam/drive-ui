@@ -53,9 +53,10 @@ import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
 import { isFolder } from "@/utils/isFolder";
 import * as filesApi from "@/api/files";
-import BottomMenu from "@/components/popups/BottomMenu";
-import FileTypeIcon from "@/components/shared/BaseFileTypeIcon";
-import FileContextMenu from "@/components/popups/FileContextMenu";
+
+import BottomMenu from "@/components/popups/menus/BottomMenu";
+import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
+import FileContextMenu from "@/components/popups/menus/FileContextMenu";
 import Preview from "@/components/popups/Preview";
 
 export default {

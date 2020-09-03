@@ -17,7 +17,7 @@
         >{{ isUserOwner()? $t("buttons.Delete"): $t('buttons.RemoveShare') }}</p>
       </v-btn>
     </template>
-    <DeletePopup
+    <AlertPopup
       ref="popup"
       @delete="onDelete"
       img="deletePopup.svg"
@@ -31,12 +31,12 @@
 <script>
 import { mapGetters } from "vuex";
 import { writeRole, ownerRole } from "@/utils/roles";
-import DeletePopup from "../popups/BaseDeletePopup";
+import AlertPopup from "../popups/BaseAlertPopup";
 
 export default {
   name: "DeleteButton",
   props: ["icon"],
-  components: { DeletePopup },
+  components: { AlertPopup },
   methods: {
     onDelete() {
       this.$store.dispatch("deleteFiles", this.chosenFiles);
