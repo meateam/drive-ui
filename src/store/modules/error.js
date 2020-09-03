@@ -15,7 +15,7 @@ const actions = {
       commit("setError", error);
     }
     console.error(error);
-    commit("setLoading", false);
+    commit("removeLoadingReq");
   },
 };
 

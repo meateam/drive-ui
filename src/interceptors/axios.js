@@ -7,7 +7,7 @@ import router from "@/router";
 
 Axios.interceptors.request.use(
   (request) => {
-    store.commit("setLoading", true);
+    store.commit("addLoadingReq");
     request.headers["Authorization"] = `Bearer ${store.state.auth.token}`;
     if (!store.state.auth.token) return Promise.reject();
     return request;
@@ -19,11 +19,11 @@ Axios.interceptors.request.use(
 
 Axios.interceptors.response.use(
   (response) => {
-    store.commit("setLoading", false);
+    store.commit("removeLoadingReq");
     return response;
   },
   async (error) => {
-    store.commit("setLoading", false);
+    store.commit("removeLoadingReq");
 
     if (!error.response && !(await isAlive())) return router.push("/503");
     else if (error.status === 401) return store.dispatch("authenticate");
