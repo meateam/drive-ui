@@ -51,6 +51,7 @@
     "ExternalTransfer": "external share",
     "Delete": "delete",
     "Share": "share",
+    "AddShare": "add share",
     "Download": "download",
     "Confirm": "confirm",
     "Continue": "next",
@@ -79,6 +80,8 @@
     "Share": "Shared successfully!",
     "ExternalShare": "Shared successfully!",
     "DeleteItems": "Deleted successfully!",
+    "EditShare": "role was changed successfully!",
+    "DeleteShare": "permission deleted successfully!",
     "Cancel": "Canceld successfully!"
   },
   "preview": {
@@ -113,10 +116,11 @@
   },
   "share": {
     "Link": "copy link",
-    "DriveShare": "drive share",
-    "ExternalShare": "external share",
-    "Header": "Share",
+    "ShareFile": "Share File",
+    "ShareFiles": "Share Files",
     "DriveChoose": "choose the user to share",
+    "NoPermissions": "there are not permissions on this file",
+    "RoleChoose": "choose the user to share",
     "ChoosePermission": "share type",
     "role": {
       "READ": "read",

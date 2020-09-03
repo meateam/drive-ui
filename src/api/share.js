@@ -45,12 +45,34 @@ export async function getExternalPermissions(fileID) {
  * @param userID is the id of the user ro share
  * @param role is the role of the share
  */
-export async function shareUser({ fileID, userID, role }) {
+async function shareUser({ fileID, userID, role }) {
   await Axios.put(`${baseURL}/api/files/${fileID}/permissions`, {
     userID,
     role,
     override: true,
   });
+}
+
+export async function editPermission({ fileID, userID, role }) {
+  await shareUser({ fileID, userID, role })
+    .then(() => {
+      store.commit("onSuccess", "success.EditShare");
+    })
+    .catch((err) => {
+      store.dispatch("onError", err);
+    });
+}
+
+export async function removePermission({ userID, fileID }) {
+  await Axios.delete(
+    `${baseURL}/api/files/${fileID}/permissions?userId=${userID}`
+  )
+    .then(() => {
+      store.commit("onSuccess", "success.DeleteShare");
+    })
+    .catch((err) => {
+      store.dispatch("onError", err);
+    });
 }
 
 /**
@@ -60,7 +82,7 @@ export async function shareUser({ fileID, userID, role }) {
  * @param role is the role of the share
  */
 export function shareUsers({ files, users, role }) {
-  Promise.all(
+  return Promise.all(
     users.map(async (user) => {
       files.forEach(async (file) => {
         await shareUser({ fileID: file.id, userID: user.id, role });

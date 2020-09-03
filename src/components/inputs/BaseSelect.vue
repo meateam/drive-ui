@@ -8,20 +8,23 @@
     :placeholder="placeholder"
     item-text="text"
     item-value="value"
-    v-model="value"
-    @change="$emit('change', value)"
+    v-model="selected"
+    @change="$emit('change', selected)"
   ></v-select>
 </template>
 
 <script>
 export default {
   name: "Select",
-  props: ["items", "background", "placeholder"],
+  props: ["items", "background", "placeholder", "value"],
   data() {
     return {
-      value: null
+      selected: null,
     };
-  }
+  },
+  created() {
+    this.selected = this.value || null;
+  },
 };
 </script>
 

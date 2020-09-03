@@ -154,6 +154,30 @@ a {
   width: 150px;
 }
 
+.share-icon {
+  width: 40px;
+  height: 40px;
+  margin: auto 25px auto 10px;
+  font-size: 25px;
+  background-color: #007a99;
+  border-radius: 50%;
+}
+
+.share-title {
+  font-size: 26px;
+  color: #353446;
+}
+
+.share-title {
+  font-size: 26px;
+  color: #353446;
+}
+
+.share-header {
+  height: 80px;
+  line-height: 80px;
+}
+
 .popup {
   border-radius: 10px;
   position: relative;

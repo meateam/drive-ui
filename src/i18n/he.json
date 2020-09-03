@@ -53,6 +53,7 @@
     "ExternalTransfer": "העברה בין רשתית",
     "Delete": "מחיקה",
     "Share": "שיתוף",
+    "AddShare": "שיתוף אנשים",
     "Download": "הורדה",
     "Confirm": "אישור",
     "Continue": "הבא",
@@ -82,6 +83,8 @@
     "ExternalShare": "הקובץ נשלח למערכת האישורים וממתין לאישור!",
     "DeleteItems": "הפריטים נמחקו בהצלחה!",
     "Copied": "הקישור הועתק",
+    "EditShare": "ההרשאה שונתה בהצלחה",
+    "DeleteShare": "ההרשאה הוסרה בהצלחה",
     "Cancel": "העלאת הקובץ בוטלה!"
   },
   "preview": {
@@ -115,11 +118,12 @@
     "ExternalShare": "שיתופים חיצוניים"
   },
   "share": {
-    "DriveShare": "שיתוף דרך דרייב",
-    "ExternalShare": "שיתוף דרך רשת חיצונית",
-    "Header": "שיתוף קובץ",
-    "DriveChoose": "בחרו עם מי תרצו לשתף את הקובץ",
-    "ChoosePermission": "סוג שיתוף",
+    "ShareFile": "שיתוף קובץ",
+    "ShareFiles": "שיתוף קבצים",
+    "DriveChoose": "בחר עם מי תרצו לשתף",
+    "ChoosePermission": "הרשאות",
+    "RoleChoose": "בחר את הרשאות השיתוף",
+    "NoPermissions": "לא משותפים משתמשים בקובץ",
     "role": {
       "READ": "צפייה",
       "WRITE": "עריכה"

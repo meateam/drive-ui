@@ -57,6 +57,7 @@ export default {
     async open() {
       this.users = await getPermissions(this.file.id);
       this.externalUsers = await getExternalPermissions(this.file.id);
+      
       this.dialog = true;
     },
     formatFileSize(size) {

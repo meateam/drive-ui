@@ -22,7 +22,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { writeRole } from "@/utils/roles";
-import SharePopup from "@/components/popups/SharePopup";
+import SharePopup from "@/components/popups/share-popup/SharePopup";
 
 export default {
   name: "Share",

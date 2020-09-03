@@ -13,7 +13,7 @@
 import * as filesApi from "@/api/files";
 
 export default {
-  name: "Folders",
+  name: "FoldersPreview",
   data() {
     return {
       chosenFolder: undefined,

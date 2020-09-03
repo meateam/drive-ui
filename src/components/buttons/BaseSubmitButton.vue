@@ -12,7 +12,8 @@ export default {
 </script>
 <style scoped>
 #confirm-button {
-  width: 100px;
+  min-width: 100px;
+  width: fit-content;
   height: 40px;
   line-height: 44px;
   border-radius: 22px;
