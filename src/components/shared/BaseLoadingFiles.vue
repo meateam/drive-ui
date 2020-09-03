@@ -11,9 +11,9 @@
       <v-list-item v-for="(file,index) in files" :key="index">
         <div id="file-container">
           <div class="space-between">
-            <v-btn icon @click="onCancel(file)">
+            <!-- <v-btn icon @click="onCancel(file)">
               <v-icon>cancel</v-icon>
-            </v-btn>
+            </v-btn> -->
             <v-list-item-title id="file-name">{{file.name}}</v-list-item-title>
           </div>
           <v-progress-linear :value="file.progress" color="#035c64"></v-progress-linear>
