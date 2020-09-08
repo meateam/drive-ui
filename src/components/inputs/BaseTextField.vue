@@ -13,16 +13,24 @@
 <script>
 export default {
   name: "TextField",
-  props: ["placeholder"],
+  props: ["placeholder", "val"],
   data() {
     return {
-      value: null
+      value: null,
     };
+  },
+  watch: {
+    val: function (value) {
+      this.value = value;
+    },
+  },
+  mounted() {
+    this.value = this.val;
   },
   methods: {
     clear() {
       this.value = "";
-    }
-  }
+    },
+  },
 };
 </script>

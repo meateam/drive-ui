@@ -29,7 +29,7 @@
 
     <v-card-actions class="popup-confirm">
       <SubmitButton @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
-      <TextButton v-if="files.length === 1" @click="$emit('back')" :label="$t('buttons.Back')" />
+      <TextButton v-if="files.length === 1" @click="$emit('back')" :label="$t('buttons.EditPermission')" />
     </v-card-actions>
   </div>
 </template>

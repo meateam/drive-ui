@@ -2,7 +2,7 @@
   <div>
     <v-list two-line max-height="300" min-height="200" color="transparent" v-if="users.length">
       <v-list-item v-for="user in users" :key="user.id">
-        <v-list-item-avatar :color="getColor()">{{`${user.firstName[0]}${user.lastName[0]}`}}</v-list-item-avatar>
+        <v-list-item-avatar :color="getColor(user.id)">{{`${user.firstName[0]}${user.lastName[0]}`}}</v-list-item-avatar>
 
         <v-list-item-content>
           <v-list-item-title v-text="user.fullName"></v-list-item-title>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import randomColor from "randomcolor";
+import { getColor } from "@/utils/getColor";
 import Select from "@/components/inputs/BaseSelect";
 import TextButton from "@/components/buttons/BaseSubmitButton";
 import IconButton from "@/components/buttons/BaseIconButton";
@@ -57,9 +57,8 @@ export default {
     };
   },
   methods: {
-    getColor() {
-      const color = randomColor({ luminosity: "light" });
-      return color;
+    getColor(text) {
+      return getColor(text);
     },
     getRole(role) {
       return this.roles.filter((r) => r.value === role)[0];

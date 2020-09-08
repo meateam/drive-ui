@@ -1,6 +1,6 @@
 <template>
-  <v-btn text small @click="$emit('click')">
-    <p id="back-button">{{label}}</p>
+  <v-btn text small @click="$emit('click')" id="back-button" class="space-left">
+    <p>{{label}}</p>
   </v-btn>
 </template>
 
@@ -13,6 +13,6 @@ export default {
 
 <style scoped>
 #back-button {
-  font-size: 20px;
+  font-size: 16px;
 }
 </style>

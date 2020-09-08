@@ -41,6 +41,11 @@ export default {
     };
   },
   components: { Share, EditPermissions, CopyPopup },
+  watch: {
+    dialog: function (val) {
+      if (!val) this.isShareMode = val;
+    },
+  },
   props: ["files"],
   methods: {
     async open() {

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import randomColor from "randomcolor";
+import { getColor } from "@/utils/getColor";
 
 export default {
   name: "UserAvatar",
@@ -30,8 +30,7 @@ export default {
       return `${firstName}${lastName}`;
     },
     getColor() {
-      const color = randomColor({ luminosity: "light" });
-      return color;
+      return getColor(this.user.id);
     },
   },
 };

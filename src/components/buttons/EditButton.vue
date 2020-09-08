@@ -17,6 +17,7 @@
     <NamePopup
       img="green-edit.svg"
       ref="rename"
+      :value="chosenFiles[0].name"
       :type="isFolder() ? 'renameFolder' : 'renameFile'"
       @confirm="onConfirm"
     />

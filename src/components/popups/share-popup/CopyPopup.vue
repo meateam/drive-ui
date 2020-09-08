@@ -9,9 +9,7 @@
       <p class="link">{{$t('share.link.OnlyShare')}}</p>
 
       <v-card-actions class="popup-confirm">
-        <v-btn text small @click="copy" class="link">
-          <p>{{$t('buttons.CopyLink')}}</p>
-        </v-btn>
+        <TextButton @click="copy" :label="$t('buttons.CopyLink')" />
       </v-card-actions>
     </div>
   </v-card>
@@ -19,10 +17,12 @@
 
 <script>
 import { fileTypes } from "@/config";
+import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "CopyPopup",
   props: ["link", "file"],
+  components: { TextButton },
   methods: {
     copy() {
       navigator.clipboard.writeText(this.link);

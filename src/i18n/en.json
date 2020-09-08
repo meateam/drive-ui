@@ -69,7 +69,8 @@
     "ClickHere": "click here",
     "RemoveShare": "remove share",
     "Finish": "finish",
-    "Preview": "preiview"
+    "Preview": "preiview",
+    "EditPermission": "edit permission"
   },
   "success": {
     "File": "Uploaded successfully",

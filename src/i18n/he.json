@@ -71,7 +71,8 @@
     "ClickHere": "לחץ כאן",
     "RemoveShare": "הסרת השיתוף",
     "Finish": "סיים",
-    "Preview": "תצוגה מקדימה"
+    "Preview": "תצוגה מקדימה",
+    "EditPermission": "ערוך הרשאות"
   },
   "success": {
     "File": "הקובץ עלה בהצלחה!",

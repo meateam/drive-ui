@@ -12,6 +12,7 @@
           @keyup.enter.native="onConfirm"
           @input="onNameChange"
           :placeholder="$t(`${type}.New`)"
+          :val="value"
         />
         <v-card-actions class="popup-confirm">
           <SubmitButton
@@ -35,10 +36,10 @@ export default {
   data() {
     return {
       dialog: false,
-      name: ""
+      name: "",
     };
   },
-  props: ["img", "type"],
+  props: ["img", "type", "value"],
   methods: {
     open() {
       this.dialog = true;
@@ -53,8 +54,8 @@ export default {
         this.$refs.input.clear();
         this.name = "";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
