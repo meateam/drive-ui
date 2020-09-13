@@ -8,6 +8,7 @@ import store from "@/store";
 import router from "@/router";
 import vuetify from "@/plugins/vuetify";
 
+import "@/plugins/socket.io";
 import "@/interceptors/axios";
 
 Vue.config.productionTip = false;

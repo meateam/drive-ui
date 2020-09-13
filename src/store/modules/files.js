@@ -154,7 +154,13 @@ const actions = {
     pushUpdatedFile(formatedFile.id);
 
     commit("removeLoadingFile", formatedFile.name);
-    commit("addFile", formatedFile);
+
+    if (
+      state.currentFolder === file.parent ||
+      state.currentFolder.id === file.parent
+    ) {
+      commit("addFile", formatedFile);
+    }
 
     commit("addQuota", metadata.size);
   },
@@ -177,6 +183,15 @@ const actions = {
       .catch((err) => {
         dispatch("onError", err);
       });
+  },
+  async addFileByID({ commit }, file) {
+    const formatedFile = await formatFile(file);
+
+    pushUpdatedFile(formatedFile.id);
+
+    commit("addFile", formatedFile);
+
+    commit("addQuota", formatedFile.size);
   },
   async cancelUpload({ commit, dispatch }, file) {
     try {
@@ -201,10 +216,24 @@ const actions = {
       });
       const formatedFile = await formatFile(folder);
       commit("onSuccess", "success.Folder");
-      commit("addFile", formatedFile);
+
+      if (
+        state.currentFolder === folder.parent ||
+        state.currentFolder.id === folder.parent
+      )
+        commit("addFile", formatedFile);
     } catch (err) {
       dispatch("onError", err);
     }
+  },
+  async updateFile({ commit }, file) {
+    const formatedFile = await formatFile(file);
+
+    pushUpdatedFile(formatedFile.id);
+
+    commit("updateFile", formatedFile);
+
+    commit("getQuota");
   },
   /**
    * onFolderChange change the current folder by the recived id
@@ -269,12 +298,12 @@ const mutations = {
     }
   },
   addFile: (state, file) => {
-    if (
-      state.currentFolder === file.parent ||
-      state.currentFolder.id === file.parent
-    ) {
-      state.files.push(file);
-    }
+    state.files.push(file);
+  },
+  updateFile: (state, file) => {
+    state.files.forEach((f) => {
+      if (f.id === file.id) f = file;
+    });
   },
   onFileChoose: (state, { isChecked, file }) => {
     if (isChecked && !state.chosenFiles.includes(file)) {

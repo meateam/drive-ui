@@ -12,8 +12,8 @@ export default {
   computed: {
     layout() {
       return this.$route.meta.layout ? Layout : "div";
-    }
-  }
+    },
+  },
 };
 </script>
 
