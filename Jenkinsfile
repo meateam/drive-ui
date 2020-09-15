@@ -11,7 +11,8 @@ pipeline {
             env.GIT_REPO_NAME = scm.getUserRemoteConfigs()[0].getUrl().tokenize('/')[3].split("\\.")[0]
             echo 'drivehub.azurecr.io/'+env.GIT_REPO_NAME+'/master:'+env.GIT_SHORT_COMMIT
 
-            env.JOB_NAME1 =sh "sed -i  's;/;%2F;g' env.JOB_NAME" 
+            env.JOB_NAME1 =sh "sed 's;/;%2F;g' env.JOB_NAME" 
+            echo env_NAME1
           }
         }
       }
