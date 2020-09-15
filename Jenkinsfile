@@ -12,7 +12,7 @@ pipeline {
             echo 'drivehub.azurecr.io/'+env.GIT_REPO_NAME+'/master:'+env.GIT_SHORT_COMMIT
              echo env.JOB_NAME
 
-           echo 'env.JOB_NAME' | sed -E 's;/;%2F;g' | envsubst
+           sh "sed 's;/;%2F;g'"env.JOB_NAME"'"
             echo env.JOB_NAME1
           }
         }
