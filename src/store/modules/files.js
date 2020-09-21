@@ -1,10 +1,10 @@
 import * as filesApi from "@/api/files";
+import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import { getFileType } from "@/utils/getFileType";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { formatFile, formatExternalFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
-import { pushUpdatedFile } from "@/utils/lastUpdatedFileHandler";
 import { fixFileName } from "@/utils/fixFileName";
 import router from "@/router";
 
@@ -79,20 +79,7 @@ const actions = {
    */
   async fetchLastUpdatedFiles({ commit, dispatch }) {
     try {
-      const fileIDs =
-        JSON.parse(window.localStorage.getItem("lastUpdatedFiles")) || [];
-
-      const files = [];
-
-      fileIDs.forEach(async (fileID) => {
-        const file = await filesApi.getFileByID(fileID);
-        if (file) files.push(file);
-      });
-
-      window.localStorage.setItem(
-        "lastUpdatedFiles",
-        JSON.stringify(await Promise.all(files.map((file) => file.id)))
-      );
+      const files = await lastUpdatedFileHandler.getUpdatedFiles();
 
       commit("setFiles", files);
     } catch (err) {
@@ -151,7 +138,7 @@ const actions = {
 
     const formatedFile = await formatFile(metadata);
 
-    pushUpdatedFile(formatedFile.id);
+    lastUpdatedFileHandler.pushUpdatedFile(formatedFile.id);
 
     commit("removeLoadingFile", formatedFile.name);
 

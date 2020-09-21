@@ -1,3 +1,21 @@
+import * as filesApi from "@/api/files";
+
+export async function getUpdatedFiles() {
+  const fileIDs =
+    JSON.parse(window.localStorage.getItem("lastUpdatedFiles")) || [];
+
+  const files = await Promise.all(fileIDs.filter((fileID) => {
+    return filesApi.getFileByID(fileID).catch(() => false);
+  }));
+
+  window.localStorage.setItem(
+    "lastUpdatedFiles",
+    JSON.stringify(await Promise.all(files.map((file) => file.id)))
+  );
+
+  return files;
+}
+
 export function pushUpdatedFile(fileID) {
   const fileIDs =
     JSON.parse(window.localStorage.getItem("lastUpdatedFiles")) || [];
