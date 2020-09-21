@@ -4,7 +4,7 @@ import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { formatFile, formatExternalFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
-import { pushUpdatedFile } from "@/utils/lastUpdatedFileHandler";
+import { pushUpdatedFile, removeUpdatedFile } from "@/utils/lastUpdatedFileHandler";
 import { fixFileName } from "@/utils/fixFileName";
 import router from "@/router";
 
@@ -85,7 +85,7 @@ const actions = {
       const files = [];
 
       fileIDs.forEach(async (fileID) => {
-        const file = await filesApi.getFileByID(fileID);
+        const file = await filesApi.getFileByID(fileID).catch(() => removeUpdatedFile(fileID));
         if (file) files.push(file);
       });
 
