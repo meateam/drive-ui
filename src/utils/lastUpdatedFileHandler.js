@@ -5,7 +5,7 @@ export async function getUpdatedFiles() {
     JSON.parse(window.localStorage.getItem("lastUpdatedFiles")) || [];
 
   const files = await Promise.all(fileIDs.filter((fileID) => {
-    return filesApi.getFileByID(fileID);
+    return filesApi.getFileByID(fileID).catch(() => false);
   }));
 
   window.localStorage.setItem(
