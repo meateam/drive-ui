@@ -136,17 +136,17 @@ const actions = {
       });
     }
 
-    const formatedFile = await formatFile(metadata);
+    const formattedFile = await formatFile(metadata);
 
-    lastUpdatedFileHandler.pushUpdatedFile(formatedFile.id);
+    lastUpdatedFileHandler.pushUpdatedFile(formattedFile.id);
 
-    commit("removeLoadingFile", formatedFile.name);
+    commit("removeLoadingFile", formattedFile.name);
 
     if (
       state.currentFolder === file.parent ||
       state.currentFolder.id === file.parent
     ) {
-      commit("addFile", formatedFile);
+      commit("addFile", formattedFile);
     }
 
     commit("addQuota", metadata.size);
@@ -172,13 +172,13 @@ const actions = {
       });
   },
   async addFileByID({ commit }, file) {
-    const formatedFile = await formatFile(file);
+    const formattedFile = await formatFile(file);
 
-    pushUpdatedFile(formatedFile.id);
+    pushUpdatedFile(formattedFile.id);
 
-    commit("addFile", formatedFile);
+    commit("addFile", formattedFile);
 
-    commit("addQuota", formatedFile.size);
+    commit("addQuota", formattedFile.size);
   },
   async cancelUpload({ commit, dispatch }, file) {
     try {
@@ -201,24 +201,24 @@ const actions = {
         name,
         parent: state.currentFolder,
       });
-      const formatedFile = await formatFile(folder);
+      const formattedFile = await formatFile(folder);
       commit("onSuccess", "success.Folder");
 
       if (
         state.currentFolder === folder.parent ||
         state.currentFolder.id === folder.parent
       )
-        commit("addFile", formatedFile);
+        commit("addFile", formattedFile);
     } catch (err) {
       dispatch("onError", err);
     }
   },
   async updateFile({ commit }, file) {
-    const formatedFile = await formatFile(file);
+    const formattedFile = await formatFile(file);
 
-    pushUpdatedFile(formatedFile.id);
+    pushUpdatedFile(formattedFile.id);
 
-    commit("updateFile", formatedFile);
+    commit("updateFile", formattedFile);
 
     commit("getQuota");
   },

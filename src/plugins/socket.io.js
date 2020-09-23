@@ -11,4 +11,3 @@ Vue.use(new VueSocketIO({
         mutationPrefix: 'SOCKET_'
     },
 }));
- 

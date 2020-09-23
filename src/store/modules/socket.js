@@ -1,32 +1,33 @@
 import * as filesApi from "@/api/files";
 import router from "@/router";
 
+function isInLocation(currentFolderID, folderID) {
+  return (
+    (currentFolderID === undefined && router.name === "MyDrive") ||
+    (router.name === "Folders" && folderID === currentFolderID)
+  );
+}
+
 const actions = {
   async SOCKET_FILE_ADD({ rootState, dispatch }, data) {
-    if (
-      (rootState.currentFolder === undefined && router.name === "MyDrive") ||
-      (router.name === "Folders" &&
-        data.folderID === rootState.files.currentFolder.id)
-    ) {
+    const currentFolderID = rootState.files.currentFolder.id;
+
+    if (isInLocation(currentFolderID, data.folderID)) {
       const file = await filesApi.getFileByID(data.fileID);
       await dispatch("addFileByID", file);
     }
   },
   async SOCKET_FILE_DELETE({ rootState, dispatch }, data) {
-    if (
-      (rootState.currentFolder === undefined && router.name === "MyDrive") ||
-      (router.name === "Folders" &&
-        data.folderID === rootState.files.currentFolder.id)
-    ) {
+    const currentFolderID = rootState.files.currentFolder.id;
+
+    if (isInLocation(currentFolderID, data.folderID)) {
       await dispatch("deleteFile", data.fileID);
     }
   },
   async SOCKET_FILE_UPDATE({ rootState, dispatch }, data) {
-    if (
-      (rootState.currentFolder === undefined && router.name === "MyDrive") ||
-      (router.name === "Folders" &&
-        data.folderID === rootState.files.currentFolder.id)
-    ) {
+    const currentFolderID = rootState.files.currentFolder.id;
+
+    if (isInLocation(currentFolderID, data.folderID)) {
       const file = await filesApi.getFileByID(data.fileID);
       await dispatch("updateFileByID", file);
     }
