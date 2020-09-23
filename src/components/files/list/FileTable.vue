@@ -43,6 +43,13 @@
     <BottomMenu :chosenFiles="chosenFiles" />
     <FileContextMenu ref="contextmenu" :files="chosenFiles" />
     <Preview ref="preview" />
+    <AlertPopup
+      ref="popup"
+      @delete="onConvert(chosenFiles[0])"
+      img="convertPopup.svg"
+      :text="$t('file.Convert')"
+      :button="$t('buttons.ConvertNow')"
+    />
   </div>
 </template>
 
@@ -58,11 +65,13 @@ import BottomMenu from "@/components/popups/menus/BottomMenu";
 import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
 import FileContextMenu from "@/components/popups/menus/FileContextMenu";
 import Preview from "@/components/popups/Preview";
+import AlertPopup from "@/components/popups/BaseAlertPopup";
+
 
 export default {
   name: "FileTable",
   props: ["files"],
-  components: { BottomMenu, FileContextMenu, Preview, FileTypeIcon },
+  components: { BottomMenu, FileContextMenu, Preview, FileTypeIcon, AlertPopup },
   computed: {
     ...mapGetters(["chosenFiles"]),
   },
@@ -110,6 +119,8 @@ export default {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (this.canEditOnline(file)) {
         filesApi.editOnline(this.chosenFiles[0].id);
+      } else if (this.isOldOffice(file)) {
+        this.$refs.popup.open()
       } else {
         this.$refs.preview.open(file);
       }
@@ -121,8 +132,14 @@ export default {
     onFileClick(file) {
       this.selected = [file];
     },
+    onConvert(file) {
+      filesApi.editOnline(file.id);
+    },
     canEditOnline(file) {
       return fileTypes.office.includes(file.type);
+    },
+    isOldOffice(file) {
+      return fileTypes.oldOffice.includes(file.type);
     },
   },
   watch: {

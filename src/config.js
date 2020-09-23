@@ -18,6 +18,9 @@ const fileTypes = {
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     "application/pdf",
   ],
+  oldOffice: [
+    "application/msword",
+  ],
   docs: ["pptx", "docx", "xlsx", "pdf"],
   externalShare: [
     "png",
