@@ -118,7 +118,7 @@ export default {
       if (isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (this.canEditOnline(file)) {
-        filesApi.editOnline(this.chosenFiles[0].id);
+        filesApi.editOnline(file.id);
       } else if (this.isOldOffice(file)) {
         this.$refs.popup.open()
       } else {
