@@ -4,7 +4,7 @@
       <img class="popup-image auto-margin" :src="require(`@/assets/images/${img}`)" />
       <p id="title">{{text}}</p>
       <v-card-actions id="actions">
-        <TextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
+        <TextButton @click="onCancel" :label="$t('buttons.Cancel')" />
         <SubmitButton @click="onConfirm" :label="button" />
       </v-card-actions>
     </v-card>
@@ -16,7 +16,7 @@ import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
-  name: "DeletePopup",
+  name: "BaseAlertPopup",
   components: { SubmitButton, TextButton },
   data() {
     return {
@@ -29,7 +29,11 @@ export default {
       this.dialog = true;
     },
     onConfirm() {
-      this.$emit("delete");
+      this.$emit("ok");
+      this.dialog = false;
+    },
+    onCancel() {
+      this.$emit("cancel");
       this.dialog = false;
     }
   }

@@ -30,7 +30,8 @@
     <Preview ref="preview" />
     <AlertPopup
       ref="popup"
-      @delete="onConvert(chosenFiles[0])"
+      @ok="onConvert(chosenFiles[0])"
+      @cancel="$refs.preview.open(chosenFiles[0])"
       img="convertPopup.svg"
       :text="$t('file.Convert')"
       :button="$t('buttons.ConvertNow')"
