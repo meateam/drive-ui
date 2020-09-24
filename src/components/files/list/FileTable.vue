@@ -44,12 +44,13 @@
     <FileContextMenu ref="contextmenu" :files="chosenFiles" />
     <Preview ref="preview" />
     <AlertPopup
-      ref="popup"
-      @ok="onConvert(chosenFiles[0])"
-      @cancel="$refs.preview.open(chosenFiles[0])"
+      ref="convertPopup"
+      @confirm="onConvert"
+      @cancel="openPreview"
       img="convertPopup.svg"
       :text="$t('file.Convert')"
       :button="$t('buttons.ConvertNow')"
+      :data="selectedFile"
     />
   </div>
 </template>
@@ -90,6 +91,7 @@ export default {
         { text: this.$t("file.Size"), value: "size" },
       ],
       items: this.files,
+      selectedFile: undefined,
     };
   },
   methods: {
@@ -108,6 +110,7 @@ export default {
       return formatDate(date);
     },
     onRightClick(event, file) {
+      this.selectedFile = file
       event.preventDefault();
       if (!this.selected.includes(file)) {
         this.selected = [file];
@@ -115,15 +118,16 @@ export default {
       this.$refs.contextmenu.show(event);
     },
     onDblClick(event, file) {
+      this.selectedFile = file
       event.preventDefault();
       if (isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (this.canEditOnline(file)) {
         filesApi.editOnline(file.id);
-      } else if (this.isOldOffice(file)) {
-        this.$refs.popup.open()
+      } else if (this.isOldOfficeType(file)) {
+        this.$refs.convertPopup.open()
       } else {
-        this.$refs.preview.open(file);
+        this.openPreview(file)
       }
     },
     onCtrlCLick(file) {
@@ -139,8 +143,11 @@ export default {
     canEditOnline(file) {
       return fileTypes.office.includes(file.type);
     },
-    isOldOffice(file) {
+    isOldOfficeType(file) {
       return fileTypes.oldOffice.includes(file.type);
+    },
+    openPreview(file) {
+      this.$refs.preview.open(file);
     },
   },
   watch: {

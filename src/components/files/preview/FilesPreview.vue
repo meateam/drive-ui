@@ -29,12 +29,13 @@
     <FileContextMenu ref="contextmenu" :files="chosenFiles" />
     <Preview ref="preview" />
     <AlertPopup
-      ref="popup"
-      @ok="onConvert(chosenFiles[0])"
-      @cancel="$refs.preview.open(chosenFiles[0])"
+      ref="convertPopup"
+      @confirm="onConvert"
+      @cancel="openPreview"
       img="convertPopup.svg"
       :text="$t('file.Convert')"
       :button="$t('buttons.ConvertNow')"
+      :data="selectedFile"
     />
   </div>
 </template>
@@ -64,6 +65,7 @@ export default {
       typeFiles: this.files.filter(
         (file) => file.type !== "application/vnd.drive.folder"
       ),
+      selectedFile: undefined
     };
   },
   watch: {
@@ -78,18 +80,20 @@ export default {
   },
   methods: {
     onDblClick(event, file) {
+      this.selectedFile = file
       event.preventDefault();
       if (file.type === fileTypes.folder) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (this.canEditOnline(file)) {
         filesApi.editOnline(file.id);
-      } else if (this.isOldOffice(file)) {
-        this.$refs.popup.open()
+      } else if (this.isOldOfficeType(file)) {
+        this.$refs.convertPopup.open()
       } else {
-        this.$refs.preview.open(file);
+        this.openPreview(file);
       }
     },
     onRightClick(event, file) {
+      this.selectedFile = file
       event.preventDefault();
       if (!this.chosenFiles.includes(file)) {
         this.$store.commit("onFilesSelect", [file]);
@@ -115,8 +119,11 @@ export default {
     canEditOnline(file) {
       return fileTypes.office.includes(file.type);
     },
-    isOldOffice(file) {
+    isOldOfficeType(file) {
       return fileTypes.oldOffice.includes(file.type);
+    },
+    openPreview(file) {
+      this.$refs.preview.open(file);
     },
   },
 };

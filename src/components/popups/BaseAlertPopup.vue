@@ -16,24 +16,24 @@ import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
-  name: "BaseAlertPopup",
+  name: "AlertPopup",
   components: { SubmitButton, TextButton },
   data() {
     return {
       dialog: false
     };
   },
-  props: ["img", "text", "button"],
+  props: ["img", "text", "button", "data"],
   methods: {
     open() {
       this.dialog = true;
     },
     onConfirm() {
-      this.$emit("ok");
+      this.$emit("confirm", this.data);
       this.dialog = false;
     },
     onCancel() {
-      this.$emit("cancel");
+      this.$emit("cancel", this.data);
       this.dialog = false;
     }
   }
