@@ -228,12 +228,10 @@ export function getFileLink(file) {
   }
 }
 
-export function createNewFile({ name, type }) {
+export function createNewFile({ name, type, parent }) {
   window.open(
     `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}${
-      store.state.files.currentFolder
-        ? `&parent=${store.state.files.currentFolder.id}`
-        : ""
+      parent ? `&parent=${parent.id}` : ""
     }`
   );
 }
