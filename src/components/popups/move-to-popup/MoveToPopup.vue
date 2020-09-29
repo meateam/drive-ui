@@ -2,10 +2,15 @@
   <v-dialog v-model="dialog" max-width="550" class="popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/green-move-to.svg" />
-        <p class="d-title">{{$t('folder.Move')}}</p>
+        <img
+          class="popup-icon auto-margin"
+          src="@/assets/icons/green-move-to.svg"
+        />
+        <p class="d-title">{{ $t("folder.Move") }}</p>
         <div class="files">
-          <p class="ltr space" v-for="file in files" :key="file.id">{{file.name}}</p>
+          <p class="ltr space" v-for="file in files" :key="file.id">
+            {{ file.name }}
+          </p>
         </div>
       </div>
       <div class="popup-body">
@@ -17,7 +22,7 @@
 
         <div>
           <FoldersPreview
-            :parent="currentFolder?currentFolder.id:undefined"
+            :parent="currentFolder ? currentFolder.id : undefined"
             @change="onFolderChange"
           />
         </div>
@@ -44,7 +49,7 @@ export default {
     return {
       dialog: false,
       folderHierarchy: undefined,
-      currentFolder: undefined
+      currentFolder: undefined,
     };
   },
   props: ["files"],
@@ -69,8 +74,8 @@ export default {
         this.currentFolder ? this.currentFolder.id : undefined
       );
       this.dialog = false;
-    }
-  }
+    },
+  },
 };
 </script>
 

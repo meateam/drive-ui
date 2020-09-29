@@ -15,7 +15,13 @@
     </template>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn @click.stop="$refs.newFolder.open()" v-on="on" fab big color="#035c64">
+        <v-btn
+          @click.stop="$refs.newFolder.open()"
+          v-on="on"
+          fab
+          big
+          color="#035c64"
+        >
           <NamePopup
             img="green-create-folder.svg"
             ref="newFolder"
@@ -38,10 +44,7 @@
     <v-tooltip right>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" fab color="#035c64" @click.stop="$refs.newFile.open()">
-          <CreateFilePopup
-            ref="newFile"
-            @confirm="onFileConfirm"
-          />
+          <CreateFilePopup ref="newFile" @confirm="onFileConfirm" />
           <img class="icon" src="@/assets/icons/create-file.svg" />
         </v-btn>
       </template>
@@ -74,7 +77,11 @@ export default {
       this.$store.dispatch("uploadFolder", name);
     },
     onFileConfirm(name, type) {
-      filesApi.createNewFile({ name, type });
+      filesApi.createNewFile({
+        name,
+        type,
+        parent: this.currentFolder,
+      });
     },
     canUpload() {
       return !this.currentFolder || writeRole(this.currentFolder.role);
