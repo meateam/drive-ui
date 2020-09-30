@@ -12,7 +12,7 @@ import store from "@/store";
  */
 export async function fetchFiles(parent) {
   const res = await Axios.get(
-    `${baseURL}/api/files${parent ? `?parent=${parent.id}` : ""}`
+    `${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id}` : ""}`
   );
   const files = res.data;
   return files;
@@ -36,10 +36,19 @@ export async function getFoldersByFolder(parent) {
 }
 
 /**
- * fetchSharedFiles fetch all the shared files in the current folder
+ * fetchSharedFiles fetch all the shared files in the root
  */
 export async function fetchSharedFiles() {
-  const res = await Axios.get(`${baseURL}/api/files?shares`);
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive`);
+  const files = res.data;
+  return files;
+}
+
+/**
+ * fetchExternalSharedFiles fetch all the externalShared files
+ */
+export async function fetchExternalTransferdFiles() {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=dropbox`);
   const files = res.data;
   return files;
 }

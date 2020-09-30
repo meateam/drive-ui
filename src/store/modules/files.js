@@ -44,8 +44,7 @@ const actions = {
    */
   async fetchSharedFiles({ commit, dispatch }) {
     try {
-      let files = await filesApi.fetchSharedFiles(state.currentFolder);
-      files = files.filter((file) => !file.isExternal);
+      const files = await filesApi.fetchSharedFiles();
       commit("resetFiles");
 
       await files.forEach(async (file) => {
@@ -58,8 +57,7 @@ const actions = {
   },
   async fetchExternalTransferdFiles({ commit, dispatch }) {
     try {
-      let files = await filesApi.fetchSharedFiles(state.currentFolder);
-      files = files.filter((file) => file.isExternal);
+      const files = await filesApi.fetchExternalTransferdFiles();
 
       commit("resetFiles");
 
