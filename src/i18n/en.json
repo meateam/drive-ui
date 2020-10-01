@@ -145,6 +145,7 @@
     "Describe": "describe the file data...",
     "ChooseClassification": "classification",
     "Classifications": ["Limited", "Secret", "Top Secret"],
+    "TopSecret": "top secret transfer is not allowed",
     "ApprovalInstructions": "The users are taken from the other domain",
     "ApprovalService": "approval service",
     "CanApprove": "this file will be approved automatically",
@@ -185,7 +186,7 @@
   },
   "newFeatures": {
     "Title": "New In Drive!",
-    "features": {
+    "Features": {
       "1": "new ui",
       "2": "edit online files docx, pptx and xlsx"
     }

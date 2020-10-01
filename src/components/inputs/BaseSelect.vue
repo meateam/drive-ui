@@ -32,4 +32,5 @@ export default {
 .v-select__slot {
   width: 100px;
 }
+
 </style>

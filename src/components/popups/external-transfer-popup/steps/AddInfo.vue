@@ -1,7 +1,10 @@
 <template>
   <div>
-    <p class="popup-text">{{$t('externalTransfer.MoreInfo')}}</p>
-    <Textarea @input="onInfoChange" :placeholder="$t('externalTransfer.Describe')" />
+    <p class="popup-text">{{ $t("externalTransfer.MoreInfo") }}</p>
+    <Textarea
+      @input="onInfoChange"
+      :placeholder="$t('externalTransfer.Describe')"
+    />
     <div class="space-between">
       <div class="select-container">
         <Select
@@ -11,12 +14,19 @@
           :placeholder="$t('externalTransfer.ChooseClassification')"
         />
       </div>
-
-      <v-card-actions class="popup-confirm">
-        <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
-        <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
-      </v-card-actions>
+      <p v-if="classification === 'סודי ביותר'" class="top-secret">
+        {{ $t("externalTransfer.TopSecret") }}
+      </p>
     </div>
+
+    <v-card-actions class="popup-confirm">
+      <SubmitButton
+        @click="onConfirm"
+        :label="$t('buttons.Continue')"
+        :disabled="disabled"
+      />
+      <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
+    </v-card-actions>
   </div>
 </template>
 
@@ -34,7 +44,7 @@ export default {
       info: "",
       classification: undefined,
       disabled: true,
-      classifications: this.$t("externalTransfer.Classifications")
+      classifications: this.$t("externalTransfer.Classifications"),
     };
   },
   methods: {
@@ -43,16 +53,24 @@ export default {
     },
     onInfoChange(value) {
       this.info = value;
-      this.info && this.classification
-        ? (this.disabled = false)
-        : (this.disabled = true);
+      this.toggleDisabled();
     },
     onClassificationChange(value) {
       this.classification = value;
-      this.info && this.classification
+      this.toggleDisabled();
+    },
+    toggleDisabled() {
+      this.info && this.classification && this.classification !== "סודי ביותר"
         ? (this.disabled = false)
         : (this.disabled = true);
-    }
-  }
+    },
+  },
 };
 </script>
+
+<style scoped>
+.top-secret {
+  padding-top: 10px;
+  color: red;
+}
+</style>
