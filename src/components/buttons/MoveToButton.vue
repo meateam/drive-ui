@@ -35,7 +35,7 @@ export default {
   methods: {
     onSubmit(folderID) {
       if (folderID === this.currentFolder) return;
-      this.$store.dispatch("moveFile", {
+      this.$store.dispatch("moveFiles", {
         folderID,
         fileIDs: this.chosenFiles.map((file) => file.id),
       });

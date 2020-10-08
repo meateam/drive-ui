@@ -41,7 +41,7 @@
       </template>
       <span>{{ $t("buttons.UploadFile") }}</span>
     </v-tooltip>
-    <v-tooltip right>
+    <!-- <v-tooltip right>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" fab color="#035c64" @click.stop="$refs.newFile.open()">
           <CreateFilePopup ref="newFile" @confirm="onFileConfirm" />
@@ -49,7 +49,7 @@
         </v-btn>
       </template>
       <span>{{ $t("buttons.CreateFile") }}</span>
-    </v-tooltip>
+    </v-tooltip> -->
   </v-speed-dial>
 </template>
 
@@ -59,7 +59,7 @@ import * as filesApi from "@/api/files";
 import { writeRole } from "@/utils/roles";
 import Upload from "./Upload";
 import NamePopup from "../popups/BaseNamePopup";
-import CreateFilePopup from "../popups/CreateFilePopup";
+// import CreateFilePopup from "../popups/CreateFilePopup";
 
 export default {
   name: "FabButton",
@@ -68,7 +68,7 @@ export default {
       fab: false,
     };
   },
-  components: { Upload, NamePopup, CreateFilePopup },
+  components: { Upload, NamePopup },
   computed: {
     ...mapGetters(["currentFolder"]),
   },

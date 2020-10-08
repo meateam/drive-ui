@@ -111,7 +111,7 @@ a {
 }
 
 .space-right {
-  margin: 0 13px 0 0;
+  margin-right: 13px;
 }
 
 .space-left {

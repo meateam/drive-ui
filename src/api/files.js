@@ -236,7 +236,7 @@ export function createNewFile({ name, type, parent }) {
   );
 }
 
-export async function moveFile({ folderID, fileIDs }) {
+export async function moveFiles({ folderID, fileIDs }) {
   const res = await Axios.put(`${baseURL}/api/files`, {
     partialFile: {
       parent: folderID ? folderID : "",

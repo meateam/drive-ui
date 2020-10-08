@@ -1,12 +1,12 @@
 <template>
   <div id="action-bar" v-if="chosenFiles.length">
     <InfoButton :icon="true" />
+    <PreviewButton :icon="true" />
     <DownloadButton :icon="true" />
     <DeleteButton :icon="true" />
     <MoveToButton :icon="true" />
     <OnlineEditButton :icon="true" />
     <EditButton :icon="true" />
-    <PreviewButton :icon="true" />
     <ShareButton :icon="true" />
     <ExternalTransferButton :icon="true" />
   </div>

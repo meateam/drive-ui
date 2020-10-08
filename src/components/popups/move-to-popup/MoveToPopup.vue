@@ -65,8 +65,16 @@ export default {
       }
     },
     async onFolderChange(folder) {
+      if (this.isFolderInFiles(folder)) return;
       this.fetchHierachy(folder ? folder.id : undefined);
       this.currentFolder = folder;
+    },
+    isFolderInFiles(folder) {
+      this.files.forEach((file) => {
+        if (file.id === folder.id) return true;
+      });
+
+      return false;
     },
     onConfirm() {
       this.$emit(

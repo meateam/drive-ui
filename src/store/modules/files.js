@@ -225,9 +225,9 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async moveFile({ commit, dispatch }, { folderID, fileIDs }) {
+  async moveFiles({ commit, dispatch }, { folderID, fileIDs }) {
     try {
-      await filesApi.moveFile({ folderID, fileIDs });
+      await filesApi.moveFiles({ folderID, fileIDs });
       fileIDs.forEach((fileID) => {
         commit("deleteFile", fileID);
       });
