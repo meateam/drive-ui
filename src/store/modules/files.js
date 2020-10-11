@@ -227,10 +227,24 @@ const actions = {
   },
   async moveFiles({ commit, dispatch }, { folderID, fileIDs }) {
     try {
-      await filesApi.moveFiles({ folderID, fileIDs });
-      fileIDs.forEach((fileID) => {
+      const data = await filesApi.moveFiles({ folderID, fileIDs });
+
+      const failedFiles = data
+        ? data.map((error) => {
+            if (error.error) return error.id;
+          })
+        : [];
+
+      const movedFiles = fileIDs.filter(
+        (fileID) => !failedFiles.includes(fileID)
+      );
+
+      movedFiles.forEach((fileID) => {
         commit("deleteFile", fileID);
       });
+
+      if (failedFiles.length)
+        throw new Error("חלק מהקבצים שניסית להעביר נכשלו");
     } catch (err) {
       dispatch("onError", err);
     }

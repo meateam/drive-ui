@@ -10,33 +10,20 @@
 </template>
 
 <script>
-import * as filesApi from "@/api/files";
 
 export default {
   name: "FoldersPreview",
   data() {
     return {
       chosenFolder: undefined,
-      folders: []
     };
   },
-  props: ["parent"],
-  watch: {
-    parent: function(val) {
-      this.fetchFolders(val);
-    }
-  },
+  props: ["folders"],
   methods: {
     onChoose(folder) {
       this.$emit("change", folder);
     },
-    async fetchFolders(parent) {
-      this.folders = await filesApi.getFoldersByFolder(parent);
-    }
   },
-  created() {
-    this.fetchFolders(this.parent);
-  }
 };
 </script>
 

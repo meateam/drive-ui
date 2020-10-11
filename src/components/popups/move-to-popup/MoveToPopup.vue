@@ -20,12 +20,7 @@
           :currentFolder="currentFolder"
         />
 
-        <div>
-          <FoldersPreview
-            :parent="currentFolder ? currentFolder.id : undefined"
-            @change="onFolderChange"
-          />
-        </div>
+        <FoldersPreview :folders="currentChildren" @change="onFolderChange" />
         <v-card-actions class="popup-confirm">
           <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
           <TextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
@@ -50,12 +45,19 @@ export default {
       dialog: false,
       folderHierarchy: undefined,
       currentFolder: undefined,
+      currentChildren: undefined,
     };
   },
   props: ["files"],
   methods: {
-    open() {
+    async open() {
+      await this.fetchFolders(this.currentFolder);
       this.dialog = true;
+    },
+    async fetchFolders(parent) {
+      this.currentChildren = await filesApi.getFoldersByFolder(
+        parent ? parent.id : undefined
+      );
     },
     async fetchHierachy(folderID) {
       if (!folderID) {
@@ -65,14 +67,19 @@ export default {
       }
     },
     async onFolderChange(folder) {
-      if (this.isFolderInFiles(folder)) return;
+      if (this.isFolderInFolder(folder)) return;
+
       this.fetchHierachy(folder ? folder.id : undefined);
       this.currentFolder = folder;
+
+      await this.fetchFolders(this.currentFolder);
     },
-    isFolderInFiles(folder) {
-      this.files.forEach((file) => {
-        if (file.id === folder.id) return true;
-      });
+    isFolderInFolder(folder) {
+      if (!folder) return false;
+
+      for (let i = 0; i < this.files.length; i++) {
+        if (this.files[i].id === folder.id) return true;
+      }
 
       return false;
     },

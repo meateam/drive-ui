@@ -243,7 +243,8 @@ export async function moveFiles({ folderID, fileIDs }) {
     },
     idList: fileIDs,
   });
-  return res;
+
+  return res.data;
 }
 
 export function getPreview(fileID) {
