@@ -17,6 +17,7 @@
         <Breadcrumbs :items="folderHierarchy" @click="onFolderChange" />
 
         <List :items="currentChildren" icon="folder" @change="onFolderChange" />
+        
         <v-card-actions class="popup-confirm">
           <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
           <TextButton @click="dialog = false" :label="$t('buttons.Cancel')" />

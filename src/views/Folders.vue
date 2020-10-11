@@ -75,27 +75,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#folder {
-  width: 30px;
-  height: 26px;
-}
-.space {
-  margin: 0 8px;
-}
-#page-header {
-  padding-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 2px solid #035c64;
-}
-#page-name {
-  font-size: 30px;
-  color: #2c3448;
-  font-family: Assistant-light;
-  font-weight: 400;
-  display: flex;
-  text-align: right;
-}
-</style>
