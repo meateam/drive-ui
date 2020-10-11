@@ -132,7 +132,6 @@ export default {
 }
 .v-list-item {
   height: 70px;
-  font-weight: 700;
 }
 #logo-container {
   height: 86px;
