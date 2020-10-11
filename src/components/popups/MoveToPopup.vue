@@ -14,13 +14,9 @@
         </div>
       </div>
       <div class="popup-body">
-        <Breadcrumbs
-          :folders="folderHierarchy"
-          @click="onFolderChange"
-          :currentFolder="currentFolder"
-        />
+        <Breadcrumbs :items="folderHierarchy" @click="onFolderChange" />
 
-        <FoldersPreview :folders="currentChildren" @change="onFolderChange" />
+        <List :items="currentChildren" icon="folder" @change="onFolderChange" />
         <v-card-actions class="popup-confirm">
           <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
           <TextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
@@ -32,14 +28,14 @@
 
 <script>
 import * as filesApi from "@/api/files";
-import FoldersPreview from "./FoldersPreview";
+import List from "@/components/shared/BaseList";
 import TextButton from "@/components/buttons/BaseTextButton";
 import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 
 export default {
   name: "MoveToPopup",
-  components: { SubmitButton, FoldersPreview, TextButton, Breadcrumbs },
+  components: { SubmitButton, List, TextButton, Breadcrumbs },
   data() {
     return {
       dialog: false,
@@ -51,7 +47,9 @@ export default {
   props: ["files"],
   methods: {
     async open() {
+      await this.fetchHierachy(this.currentFolder);
       await this.fetchFolders(this.currentFolder);
+
       this.dialog = true;
     },
     async fetchFolders(parent) {
@@ -59,20 +57,40 @@ export default {
         parent ? parent.id : undefined
       );
     },
-    async fetchHierachy(folderID) {
-      if (!folderID) {
-        this.folderHierarchy = undefined;
-      } else {
-        this.folderHierarchy = await filesApi.getFolderHierarchy(folderID);
+    async fetchHierachy(folder) {
+      const breadcrumbs = [];
+
+      breadcrumbs.push({
+        value: undefined,
+        text: this.$t("pageHeaders.MyDrive"),
+        disabled: !folder,
+      });
+
+      if (folder) {
+        const hierarchy = await filesApi.getFolderHierarchy(folder.id);
+
+        hierarchy.forEach((folder) => {
+          breadcrumbs.push({
+            value: folder,
+            text: folder.name,
+            disabled: false,
+          });
+        });
+
+        breadcrumbs.push({
+          text: folder.name,
+          disabled: true,
+        });
       }
+
+      this.folderHierarchy = breadcrumbs;
     },
     async onFolderChange(folder) {
       if (this.isFolderInFolder(folder)) return;
 
-      this.fetchHierachy(folder ? folder.id : undefined);
+      await this.fetchHierachy(folder);
+      await this.fetchFolders(folder);
       this.currentFolder = folder;
-
-      await this.fetchFolders(this.currentFolder);
     },
     isFolderInFolder(folder) {
       if (!folder) return false;

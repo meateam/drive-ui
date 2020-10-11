@@ -5,7 +5,7 @@
         @click="$refs.movePopup.open()"
         v-on="on"
         :icon="icon"
-        :class="{right: !icon}"
+        :class="{ right: !icon }"
         class="auto-margin"
         id="move-button"
         text
@@ -14,7 +14,7 @@
         <p class="button-text" v-if="!icon">{{ $t("buttons.Move") }}</p>
       </v-btn>
     </template>
-    
+
     <MoveToPopup ref="movePopup" :files="chosenFiles" @confirm="onSubmit" />
     <span>{{ $t("buttons.Move") }}</span>
   </v-tooltip>
@@ -23,7 +23,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { ownerRole } from "@/utils/roles";
-import MoveToPopup from "@/components/popups/move-to-popup/MoveToPopup";
+import MoveToPopup from "@/components/popups/MoveToPopup";
 
 export default {
   name: "MoveToButton",
