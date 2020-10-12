@@ -111,8 +111,14 @@ const actions = {
    * uploadFile create multipart or resumable upload by the file size
    * @param file is the file to upload
    */
-  async uploadFile({ commit }, file) {
-    if (isFileNameExists({ name: file.name, files: state.files }))
+  async uploadFile({ commit, rootState }, file) {
+    if (
+      isFileNameExists({
+        name: file.name,
+        files: state.files,
+        loadingFiles: rootState.loading.loadingFiles,
+      })
+    )
       throw new Error("שם הקובץ קים בתיקייה");
 
     let metadata = undefined;
@@ -149,7 +155,6 @@ const actions = {
   async uploadFiles({ dispatch, commit }, files) {
     return Promise.all(
       Object.values(files).map((file) => {
-        console.log(file);
         return dispatch("uploadFile", file);
       })
     )
@@ -176,9 +181,15 @@ const actions = {
    * uploadFolder in the current folder
    * @param name is the name of the folder
    */
-  async uploadFolder({ commit, dispatch }, name) {
+  async uploadFolder({ commit, dispatch, rootState }, name) {
     try {
-      if (isFileNameExists({ name, files: state.files }))
+      if (
+        isFileNameExists({
+          name,
+          files: state.files,
+          loadingFiles: rootState.loading.loadingFiles,
+        })
+      )
         throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
       const folder = await filesApi.uploadFolder({
         name,
