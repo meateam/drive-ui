@@ -15,6 +15,16 @@
       </v-btn>
     </template>
     <span>{{ $t("buttons.EditOnline") }}</span>
+
+    <AlertPopup
+      ref="convertPopup"
+      @confirm="editOnline"
+      img="convertPopup.svg"
+      :text="$t(`file.${convertMessage(chosenFiles[0])}`)"
+      :button="$t('buttons.ConvertNow')"
+      :data="this.chosenFiles[0]"
+    />
+
   </v-tooltip>
 </template>
 
@@ -22,17 +32,44 @@
 import { mapGetters } from "vuex";
 import { fileTypes } from "@/config";
 import * as filesApi from "@/api/files";
+import AlertPopup from "@/components/popups/BaseAlertPopup";
 
 export default {
   name: "OnlineEditButton",
   props: ["icon"],
+  components: { AlertPopup },
   methods: {
     onClick() {
-      filesApi.editOnline(this.chosenFiles[0].id);
+      if(this.isOldOfficeType(this.chosenFiles[0])) {
+        this.$refs.convertPopup.open()
+      } else {
+        this.editOnline(this.chosenFiles[0])
+      }
+    },
+    editOnline(file) {
+      filesApi.editOnline(file.id);
     },
     canEditOnline(file) {
-      return fileTypes.office.includes(file.type);
-    }
+      return fileTypes.office.includes(file.type) || fileTypes.oldOffice.includes(file.type);
+    },
+    isOldOfficeType(file) {
+      return fileTypes.oldOffice.includes(file.type);
+    },
+    convertMessage(file) {
+      if(file) {
+        switch(file.type) {
+          case fileTypes.officeConvert["doc"]: {
+            return "ConvertDOC";
+          }
+          case fileTypes.officeConvert["xls"]: {
+            return "ConvertXLS";
+          }
+          case fileTypes.officeConvert["ppt"]: {
+            return "ConvertPPT";
+          }
+        }
+      }
+    },
   },
   computed: {
     ...mapGetters(["chosenFiles"])

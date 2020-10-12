@@ -48,7 +48,7 @@
       @confirm="onConvert"
       @cancel="openPreview"
       img="convertPopup.svg"
-      :text="$t('file.Convert')"
+      :text="$t(`file.${convertMessage(selectedFile)}`)"
       :button="$t('buttons.ConvertNow')"
       :data="selectedFile"
     />
@@ -148,6 +148,21 @@ export default {
     },
     openPreview(file) {
       this.$refs.preview.open(file);
+    },
+    convertMessage(file) {
+      if(file) {
+        switch(file.type) {
+          case fileTypes.officeConvert["doc"]: {
+            return "ConvertDOC";
+          }
+          case fileTypes.officeConvert["xls"]: {
+            return "ConvertXLS";
+          }
+          case fileTypes.officeConvert["ppt"]: {
+            return "ConvertPPT";
+          }
+        }
+      }
     },
   },
   watch: {
