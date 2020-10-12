@@ -5,7 +5,7 @@
         @click="$refs.rename.open()"
         v-on="on"
         :icon="icon"
-        :class="{right: !icon}"
+        :class="{ right: !icon }"
         class="auto-margin"
         id="edit-button"
         text
@@ -36,11 +36,12 @@ export default {
   props: ["icon"],
   components: { NamePopup },
   computed: {
-    ...mapGetters(["chosenFiles", "currentFolder"])
+    ...mapGetters(["chosenFiles", "currentFolder"]),
   },
   methods: {
     onConfirm(name) {
       this.$store.dispatch("editFile", { name, file: this.chosenFiles[0] });
+      this.$emit("close");
     },
     isFolder() {
       return this.chosenFiles[0].type === fileTypes.folder;
@@ -49,9 +50,9 @@ export default {
       return (
         this.chosenFiles.length === 1 &&
         (!this.currentFolder || writeRole(this.currentFolder.role)) &&
-        this.chosenFiles.every(file => writeRole(file.role))
+        this.chosenFiles.every((file) => writeRole(file.role))
       );
-    }
-  }
+    },
+  },
 };
 </script>

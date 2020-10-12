@@ -149,6 +149,7 @@ const actions = {
   async uploadFiles({ dispatch, commit }, files) {
     return Promise.all(
       Object.values(files).map((file) => {
+        console.log(file);
         return dispatch("uploadFile", file);
       })
     )

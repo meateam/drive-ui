@@ -21,7 +21,6 @@ export default {
     };
   },
   created() {
-    document.title = this.currentFolder.name;
     this.onFolderChange(this.currentFolder);
   },
   watch: {

@@ -39,6 +39,7 @@ export default {
         folderID,
         fileIDs: this.chosenFiles.map((file) => file.id),
       });
+      this.$emit('close')
     },
     canMove() {
       return (
