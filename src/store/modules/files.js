@@ -29,12 +29,12 @@ const actions = {
   async fetchFiles({ commit, dispatch }) {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
-      Promise.all(
-        files.map((file) => {
-          return formatFile(file);
-        })
-      );
-      commit("setFiles", files);
+      commit("resetFiles");
+
+      await files.forEach(async (file) => {
+        const formattedFile = await formatFile(file);
+        commit("addFile", formattedFile);
+      });
     } catch (err) {
       dispatch("onError", err);
     }
@@ -46,14 +46,12 @@ const actions = {
     try {
       let files = await filesApi.fetchSharedFiles(state.currentFolder);
       files = files.filter((file) => !file.isExternal);
-      commit(
-        "setFiles",
-        await Promise.all(
-          files.map((file) => {
-            return formatFile(file);
-          })
-        )
-      );
+      commit("resetFiles");
+
+      await files.forEach(async (file) => {
+        const formattedFile = await formatFile(file);
+        commit("addFile", formattedFile);
+      });
     } catch (err) {
       dispatch("onError", err);
     }
@@ -62,14 +60,13 @@ const actions = {
     try {
       let files = await filesApi.fetchSharedFiles(state.currentFolder);
       files = files.filter((file) => file.isExternal);
-      commit(
-        "setFiles",
-        await Promise.all(
-          files.map((file) => {
-            return formatExternalFile(file);
-          })
-        )
-      );
+
+      commit("resetFiles");
+
+      await files.forEach(async (file) => {
+        const formattedFile = await formatExternalFile(file);
+        commit("addFile", formattedFile);
+      });
     } catch (err) {
       dispatch("onError", err);
     }
@@ -228,12 +225,26 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async moveFile({ commit, dispatch }, { folderID, fileIDs }) {
+  async moveFiles({ commit, dispatch }, { folderID, fileIDs }) {
     try {
-      await filesApi.moveFile({ folderID, fileIDs });
-      fileIDs.forEach((fileID) => {
+      const data = await filesApi.moveFiles({ folderID, fileIDs });
+
+      const failedFiles = data
+        ? data.map((error) => {
+            if (error.error) return error.id;
+          })
+        : [];
+
+      const movedFiles = fileIDs.filter(
+        (fileID) => !failedFiles.includes(fileID)
+      );
+
+      movedFiles.forEach((fileID) => {
         commit("deleteFile", fileID);
       });
+
+      if (failedFiles.length)
+        throw new Error("חלק מהקבצים שניסית להעביר נכשלו");
     } catch (err) {
       dispatch("onError", err);
     }
@@ -242,6 +253,7 @@ const actions = {
 
 const mutations = {
   setFiles: (state, files) => (state.files = files),
+  resetFiles: (state) => (state.files = []),
   deleteFile: (state, fileID) => {
     state.files = state.files.filter((file) => file.id !== fileID);
     state.chosenFiles = state.chosenFiles.filter((file) => {
@@ -256,12 +268,13 @@ const mutations = {
     }
   },
   addFile: (state, file) => {
-    if (
-      state.currentFolder === file.parent ||
-      state.currentFolder.id === file.parent
-    ) {
-      state.files.push(file);
-    }
+    const currentFolder = state.currentFolder
+      ? state.currentFolder.id
+      : undefined;
+
+    if (!currentFolder === file.parent || state.files.includes(file)) return;
+
+    state.files.push(file);
   },
   onFileChoose: (state, { isChecked, file }) => {
     if (isChecked && !state.chosenFiles.includes(file)) {

@@ -1,27 +1,70 @@
 <template>
-  <PageTemplate :files="files" :upload="true" :folder="true" @breadcrumb="onBreadcrumbClick" />
+  <PageTemplate
+    :files="files"
+    :upload="true"
+    :breadcrumbs="breadcrumbs"
+    @breadcrumb="onBreadcrumbClick"
+  />
 </template>
 
 <script>
+import * as filesApi from "@/api/files";
 import { mapGetters } from "vuex";
 import PageTemplate from "@/components/BasePageTemplate";
 
 export default {
   name: "Folder",
   components: { PageTemplate },
+  data() {
+    return {
+      breadcrumbs: [],
+    };
+  },
   created() {
     document.title = this.currentFolder.name;
-    this.$store.dispatch("fetchFiles");
+    this.onFolderChange(this.currentFolder);
   },
   watch: {
-    currentFolder: function () {
-      this.$store.dispatch("fetchFiles");
+    currentFolder: function (folder) {
+      this.onFolderChange(folder);
     },
   },
   computed: {
     ...mapGetters(["files", "currentFolder"]),
   },
   methods: {
+    async onFolderChange(folder) {
+      await this.getBreadcrumbs(folder);
+      this.$store.dispatch("fetchFiles");
+    },
+    async getBreadcrumbs(folder) {
+      if (!folder) return;
+
+      const breadcrumbs = [];
+
+      breadcrumbs.push({
+        value: undefined,
+        text: this.$t("pageHeaders.MyDrive"),
+        disabled: false,
+      });
+
+      const hierarchy = await filesApi.getFolderHierarchy(folder.id);
+
+      hierarchy.forEach((folder) => {
+        breadcrumbs.push({
+          value: folder,
+          text: folder.name,
+          disabled: false,
+        });
+      });
+
+      breadcrumbs.push({
+        text: folder.name,
+        disabled: true,
+      });
+
+      this.breadcrumbs = breadcrumbs;
+    },
     onBreadcrumbClick(folder) {
       if (!folder) {
         this.$router.push("/my-drive");

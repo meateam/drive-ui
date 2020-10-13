@@ -8,7 +8,11 @@ services:
     depends_on:
       - api-gateway
   api-gateway:
+<<<<<<< HEAD
     image: "drivehub.azurecr.io/meateam/api-gateway:convert"
+=======
+    image: "drivehub.azurecr.io/meateam/api-gateway:v2.0"
+>>>>>>> 6e45112a3acbc2a06d1aa7e6b30c0109f3525606
     env_file:
       - ../kdrive.env
     ports:
@@ -78,7 +82,7 @@ services:
     env_file:
       - ../kdrive.env
   user-service:
-    image: "drivehub.azurecr.io/meateam/user-service:approver"
+    image: "drivehub.azurecr.io/meateam/user-service:v1.3"
     ports:
       - "8086:8080"
     env_file:

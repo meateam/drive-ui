@@ -15,7 +15,13 @@
     </template>
     <v-tooltip right>
       <template v-slot:activator="{ on }">
-        <v-btn @click.stop="$refs.newFolder.open()" v-on="on" fab big color="#035c64">
+        <v-btn
+          @click.stop="$refs.newFolder.open()"
+          v-on="on"
+          fab
+          big
+          color="#035c64"
+        >
           <NamePopup
             img="green-create-folder.svg"
             ref="newFolder"
@@ -35,18 +41,15 @@
       </template>
       <span>{{ $t("buttons.UploadFile") }}</span>
     </v-tooltip>
-    <v-tooltip right>
+    <!-- <v-tooltip right>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" fab color="#035c64" @click.stop="$refs.newFile.open()">
-          <CreateFilePopup
-            ref="newFile"
-            @confirm="onFileConfirm"
-          />
+          <CreateFilePopup ref="newFile" @confirm="onFileConfirm" />
           <img class="icon" src="@/assets/icons/create-file.svg" />
         </v-btn>
       </template>
       <span>{{ $t("buttons.CreateFile") }}</span>
-    </v-tooltip>
+    </v-tooltip> -->
   </v-speed-dial>
 </template>
 
@@ -56,7 +59,7 @@ import * as filesApi from "@/api/files";
 import { writeRole } from "@/utils/roles";
 import Upload from "./Upload";
 import NamePopup from "../popups/BaseNamePopup";
-import CreateFilePopup from "../popups/CreateFilePopup";
+// import CreateFilePopup from "../popups/CreateFilePopup";
 
 export default {
   name: "FabButton",
@@ -65,7 +68,7 @@ export default {
       fab: false,
     };
   },
-  components: { Upload, NamePopup, CreateFilePopup },
+  components: { Upload, NamePopup },
   computed: {
     ...mapGetters(["currentFolder"]),
   },
@@ -74,7 +77,11 @@ export default {
       this.$store.dispatch("uploadFolder", name);
     },
     onFileConfirm(name, type) {
-      filesApi.createNewFile({ name, type });
+      filesApi.createNewFile({
+        name,
+        type,
+        parent: this.currentFolder,
+      });
     },
     canUpload() {
       return !this.currentFolder || writeRole(this.currentFolder.role);

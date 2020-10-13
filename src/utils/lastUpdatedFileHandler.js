@@ -4,13 +4,18 @@ export async function getUpdatedFiles() {
   const fileIDs =
     JSON.parse(window.localStorage.getItem("lastUpdatedFiles")) || [];
 
-  const files = await Promise.all(fileIDs.filter((fileID) => {
-    return filesApi.getFileByID(fileID).catch(() => false);
-  }));
+  let files = await Promise.all(
+    fileIDs.map(async (fileID) => {
+      const file = await filesApi.getFileByID(fileID).catch(() => undefined);
+      return file ? file : undefined;
+    })
+  );
+
+  files = files.filter((file) => !!file);
 
   window.localStorage.setItem(
     "lastUpdatedFiles",
-    JSON.stringify(await Promise.all(files.map((file) => file.id)))
+    JSON.stringify(files.map((file) => file.id))
   );
 
   return files;

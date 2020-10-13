@@ -91,15 +91,4 @@ export default {
 .space-right {
   padding-right: 20px;
 }
-#note-icon {
-  animation: grow 0.75s;
-}
-@keyframes grow {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-}
 </style>

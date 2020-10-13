@@ -14,8 +14,8 @@
       <DownloadButton />
       <DeleteButton />
       <MoveToButton />
-      <EditButton />
       <OnlineEditButton />
+      <EditButton />
       <ShareButton />
       <ExternalTransferButton />
     </v-list>
