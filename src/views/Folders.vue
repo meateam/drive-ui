@@ -10,6 +10,7 @@
 <script>
 import * as filesApi from "@/api/files";
 import { mapGetters } from "vuex";
+import { ownerRole } from "@/utils/roles";
 import PageTemplate from "@/components/BasePageTemplate";
 
 export default {
@@ -43,7 +44,9 @@ export default {
 
       breadcrumbs.push({
         value: undefined,
-        text: this.$t("pageHeaders.MyDrive"),
+        text: this.isFolderOwner()
+          ? this.$t("pageHeaders.MyDrive")
+          : this.$t("pageHeaders.SharedWithMe"),
         disabled: false,
       });
 
@@ -66,10 +69,15 @@ export default {
     },
     onBreadcrumbClick(folder) {
       if (!folder) {
-        this.$router.push("/my-drive");
+        this.isFolderOwner()
+          ? this.$router.push("/my-drive")
+          : this.$router.push("/shared-with-me");
       } else {
         this.$router.push({ path: "/folders", query: { id: folder.id } });
       }
+    },
+    isFolderOwner() {
+      return ownerRole(this.currentFolder.role);
     },
   },
 };

@@ -8,7 +8,7 @@
         />
         <p class="d-title">{{ $t("folder.Move") }}</p>
         <div class="files">
-          <p class="ltr space" v-for="file in files" :key="file.id">
+          <p class="ltr file" v-for="file in files" :key="file.id">
             {{ file.name }}
           </p>
         </div>
@@ -17,7 +17,7 @@
         <Breadcrumbs :items="folderHierarchy" @click="onFolderChange" />
 
         <List :items="currentChildren" icon="folder" @change="onFolderChange" />
-        
+
         <v-card-actions class="popup-confirm">
           <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
           <TextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
@@ -115,13 +115,16 @@ export default {
 
 <style scoped>
 .files {
+  flex-wrap: wrap;
   display: flex;
-  color: #035c64;
-  font-size: 16px;
   justify-content: center;
 }
-.space {
+.file {
   margin: 0 8px;
+  text-align: center;
+  max-width: 550px;
+  color: #035c64;
+  font-size: 16px;
 }
 .popup-body {
   height: 430px;

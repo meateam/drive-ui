@@ -5,7 +5,6 @@ import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { formatFile, formatExternalFile } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
-import { fixFileName } from "@/utils/fixFileName";
 import router from "@/router";
 
 const state = {
@@ -123,18 +122,14 @@ const actions = {
 
     let metadata = undefined;
 
-    const fixedFile = new File([file], fixFileName(file.name), {
-      type: file.type,
-    });
-
     if (file.size <= 5 << 20) {
       metadata = await filesApi.multipartUpload({
-        file: fixedFile,
+        file: file,
         parent: state.currentFolder,
       });
     } else {
       metadata = await filesApi.resumableUpload({
-        file: fixedFile,
+        file: file,
         parent: state.currentFolder,
       });
     }
@@ -226,9 +221,8 @@ const actions = {
   },
   async editFile({ commit, dispatch }, { file, name }) {
     try {
-      name = fixFileName(name);
       const fileType = getFileType(file.name);
-      const newName = file.name.includes(".") ? `${name}.${fileType}` : name;
+      const newName = `${name}.${fileType}`;
       const res = await filesApi.editFile({ file, name: newName });
 
       commit("onFileRename", res);
@@ -284,7 +278,7 @@ const mutations = {
       ? state.currentFolder.id
       : undefined;
 
-    if (!currentFolder === file.parent || state.files.includes(file)) return;
+    if (!(currentFolder === file.parent) || state.files.includes(file)) return;
 
     state.files.push(file);
   },

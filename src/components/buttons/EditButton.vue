@@ -17,7 +17,7 @@
     <NamePopup
       img="green-edit.svg"
       ref="rename"
-      :value="chosenFiles[0].name"
+      :value="getFileName(chosenFiles[0].name)"
       :type="isFolder() ? 'renameFolder' : 'renameFile'"
       @confirm="onConfirm"
     />
@@ -46,6 +46,9 @@ export default {
     isFolder() {
       return this.chosenFiles[0].type === fileTypes.folder;
     },
+    getFileName(name) {
+      return name.includes(".") ? name.substr(0, name.lastIndexOf(".")) : name;
+    },
     canEdit() {
       return (
         this.chosenFiles.length === 1 &&
@@ -53,6 +56,9 @@ export default {
         this.chosenFiles.every((file) => writeRole(file.role))
       );
     },
+  },
+  mounted() {
+    addEventListener("keydown", this.onF2Click);
   },
 };
 </script>

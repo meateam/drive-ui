@@ -60,7 +60,7 @@ export default {
   border-radius: 10px !important;
 }
 .selected {
-  box-shadow: 0px 30px 38px 0 rgba(54, 116, 163, 0.21) !important;
+  box-shadow: 0px 30px 38px 0 rgba(44, 110, 161, 0.308) !important;
 }
 #file-name {
   letter-spacing: 1px;
