@@ -1,31 +1,44 @@
 <template>
   <div>
     <div v-if="user.approvalInfo.canApprove">
-      <p class="popup-text align-center">{{$t('externalTransfer.CanApprove')}}</p>
+      <p class="popup-text align-center">
+        {{ $t("externalTransfer.CanApprove") }}
+      </p>
     </div>
     <div v-else>
       <div>
         <div id="approval-header" class="space-between">
-          <p class="popup-text">{{$t('externalTransfer.ApprovalChoose')}}</p>
+          <p class="popup-text">{{ $t("externalTransfer.ApprovalChoose") }}</p>
           <v-tooltip top color="#2c3448">
             <template v-slot:activator="{ on }">
               <v-icon color="#2c3448" v-on="on">info</v-icon>
             </template>
 
             <div class="align-center">
-              <p>{{$t('externalTransfer.ApprovalInstructions')}}</p>
-              <div v-if="user.approvalInfo.unit && user.approvalInfo.ranks">
-                <p>
-                  {{$t('externexternalTransferalShare.ApproverUnit')}}
-                  <span class="bold">{{user.approvalInfo.unit}}</span>
-                  , {{$t('externalTransfer.ApproverRanks')}}
+              <p>{{ $t("externalTransfer.ApprovalInstructions") }}</p>
+              <div v-if="!user.approvalInfo.requestFaild">
+                <p v-if="user.approvalInfo.unit">
+                  {{ $t("externexternalTransferalShare.ApproverUnit") }}
+                  <span class="bold">{{ user.approvalInfo.unit }}</span>
                 </p>
-                <p class="bold">{{getRanks()}}</p>
-                <p class="bold">{{whiteListText}}</p>
+                <p v-if="user.approvalInfo.ranks">
+                  , {{ $t("externalTransfer.ApproverRanks") }}
+                  <span class="bold">{{ getRanks() }}</span>
+                </p>
+                <p class="bold">{{ whiteListText }}</p>
               </div>
             </div>
           </v-tooltip>
         </div>
+
+        <v-checkbox
+          v-if="user.approvalInfo.requestFaild"
+          class="space-right"
+          :disabled="selectedApprovals.length !== 0"
+          :label="$t('externalTransfer.IAmApprover')"
+          color="#035c64"
+          v-model="canApprove"
+        ></v-checkbox>
 
         <Autocomplete
           icon
@@ -39,12 +52,21 @@
         />
       </div>
       <v-chip-group show-arrows>
-        <Chips v-for="user in selectedApprovals" :key="user.id" :user="user" @remove="onRemove" />
+        <Chips
+          v-for="user in selectedApprovals"
+          :key="user.id"
+          :user="user"
+          @remove="onRemove"
+        />
       </v-chip-group>
     </div>
 
     <v-card-actions class="popup-confirm">
-      <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
+      <SubmitButton
+        @click="onConfirm"
+        :label="$t('buttons.Continue')"
+        :disabled="disabled"
+      />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
   </div>
@@ -67,6 +89,7 @@ export default {
       isLoading: false,
       selectedApprovals: [],
       disabled: true,
+      canApprove: false,
     };
   },
   computed: {
@@ -75,6 +98,9 @@ export default {
   watch: {
     selectedApprovals: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
+    },
+    canApprove: function (canApprove) {
+      canApprove ? (this.disabled = false) : (this.disabled = true);
     },
   },
   created() {

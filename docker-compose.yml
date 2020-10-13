@@ -8,7 +8,7 @@ services:
     depends_on:
       - api-gateway
   api-gateway:
-    image: "drivehub.azurecr.io/meateam/api-gateway:approver"
+    image: "drivehub.azurecr.io/meateam/api-gateway:v2.0"
     env_file:
       - ../kdrive.env
     ports:
@@ -31,7 +31,7 @@ services:
       - ../kdrive.env
     command: server /data
   upload-service:
-    image: "drivehub.azurecr.io/meateam/upload-service:v1.2"
+    image: "drivehub.azurecr.io/meateam/upload-service:v1.3"
     env_file:
       - ../kdrive.env
     depends_on:
@@ -39,7 +39,7 @@ services:
     ports:
       - "8081:8080"
   download-service:
-    image: "drivehub.azurecr.io/meateam/download-service:v1.2"
+    image: "drivehub.azurecr.io/meateam/download-service:v1.3"
     env_file:
       - ../kdrive.env
     ports:
@@ -47,7 +47,7 @@ services:
     depends_on:
       - minio
   file-service:
-    image: "drivehub.azurecr.io/meateam/file-service:v1.2"
+    image: "drivehub.azurecr.io/meateam/file-service:v1.3"
     env_file:
       - ../kdrive.env
     ports:
@@ -63,7 +63,7 @@ services:
     depends_on:
       - minio
   authentication-service:
-    image: "drivehub.azurecr.io/meateam/authentication-service:v1.2"
+    image: "drivehub.azurecr.io/meateam/authentication-service:v1.3"
     ports:
       - "8084:8080"
     env_file:
@@ -78,7 +78,7 @@ services:
     env_file:
       - ../kdrive.env
   user-service:
-    image: "drivehub.azurecr.io/meateam/user-service:approver"
+    image: "drivehub.azurecr.io/meateam/user-service:v1.3"
     ports:
       - "8086:8080"
     env_file:
@@ -91,7 +91,7 @@ services:
     ports:
       - "6379:6379"
   permission-service:
-    image: "drivehub.azurecr.io/meateam/permission-service:v1.2"
+    image: "drivehub.azurecr.io/meateam/permission-service:v1.3"
     ports:
       - "8087:8080"
     env_file:
@@ -99,7 +99,7 @@ services:
     depends_on:
       - mongo
   search-service:
-    image: "drivehub.azurecr.io/meateam/search-service:v1.2"
+    image: "drivehub.azurecr.io/meateam/search-service:v1.3"
     env_file:
       - ../kdrive.env
     ports:
@@ -140,7 +140,7 @@ services:
     depends_on:
       - elasticsearch
   spike-service:
-    image: "drivehub.azurecr.io/meateam/spike-service:v1.2"
+    image: "drivehub.azurecr.io/meateam/spike-service:v1.3"
     env_file:
       - ../kdrive.env
     depends_on:
@@ -148,13 +148,13 @@ services:
     ports:
       - "8090:8080"
   delegation-service:
-    image: "drivehub.azurecr.io/meateam/delegation-service:v1.2"
+    image: "drivehub.azurecr.io/meateam/delegation-service:v1.3"
     ports:
       - "8091:8080"
     env_file:
       - ../kdrive.env
   permit-service:
-    image: "drivehub.azurecr.io/meateam/permit-service:v1.2"
+    image: "drivehub.azurecr.io/meateam/permit-service:v1.3"
     env_file:
       - ../kdrive.env
     ports:

@@ -135,7 +135,7 @@
       "OnlyShare": "please notice! only users with permissions on this file will be able to access it"
     }
   },
-  "externalShare": {
+  "externalTransfer": {
     "Header": "External Transfer",
     "Destination": "Destination",
     "Approval": "Approval",
@@ -145,11 +145,13 @@
     "Describe": "describe the file data...",
     "ChooseClassification": "classification",
     "Classifications": ["Limited", "Secret", "Top Secret"],
+    "TopSecret": "top secret transfer is not allowed",
     "ApprovalInstructions": "The users are taken from the other domain",
     "ApprovalService": "approval service",
     "CanApprove": "this file will be approved automatically",
     "ApproverUnit": "the approver needs to be in the unit:",
     "ApproverRanks": "and with on of the ranks:",
+    "IAmApprover": "I am an approver",
     "note": {
       "Notice": "Alert!",
       "SecretNetwork": "You are attempting to pass a document that might be classified.",
@@ -184,7 +186,7 @@
   },
   "newFeatures": {
     "Title": "New In Drive!",
-    "features": {
+    "Features": {
       "1": "new ui",
       "2": "edit online files docx, pptx and xlsx"
     }
