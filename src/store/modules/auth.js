@@ -26,6 +26,10 @@ const actions = {
     cookies.remove("kd-token");
     commit("setToken", undefined);
   },
+  async addApprovalInfo({ commit }, user) {
+    const approvalInfo = await usersApi.getApproverInfo(user.id);
+    commit("setApprovalInfo", approvalInfo);
+  },
   async parseToken({ commit, dispatch }) {
     try {
       const token = state.token;
@@ -43,14 +47,16 @@ const actions = {
         throw new Error("token expired");
       }
 
-      const approvalInfo = await usersApi.getApproverInfo(user.id);
-
       user = {
         ...user,
-        approvalInfo,
+        approvalInfo: {
+          canApprove: false,
+          requestFaild: true,
+        },
       };
 
       commit("setUser", user);
+      dispatch("addApprovalInfo", user)
     } catch (err) {
       dispatch("onError", err);
     }
@@ -60,6 +66,8 @@ const actions = {
 const mutations = {
   setToken: (state) => (state.token = cookies.get("kd-token")),
   setUser: (state, user) => (state.user = user),
+  setApprovalInfo: (state, approvalInfo) =>
+    (state.user.approvalInfo = approvalInfo),
 };
 
 export default {
