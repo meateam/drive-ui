@@ -8,11 +8,7 @@ services:
     depends_on:
       - api-gateway
   api-gateway:
-<<<<<<< HEAD
     image: "drivehub.azurecr.io/meateam/api-gateway:convert"
-=======
-    image: "drivehub.azurecr.io/meateam/api-gateway:v2.0"
->>>>>>> 6e45112a3acbc2a06d1aa7e6b30c0109f3525606
     env_file:
       - ../kdrive.env
     ports:
