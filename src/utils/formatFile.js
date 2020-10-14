@@ -2,25 +2,23 @@ import * as usersApi from "@/api/users";
 import store from "@/store";
 
 export async function formatFile(file) {
+  const formattedFile = file;
   if (file.ownerId === store.state.auth.user.id) {
-    file.owner = "אני";
+    formattedFile.owner = "אני";
   } else {
-    const user = await usersApi.getUserByID(file.ownerId).catch(err => {
-      store.dispatch("onError", err);
+    const user = await usersApi.getUserByID(file.ownerId).catch(() => {
+      return;
     });
-    file.owner = user.fullName || "???";
+    formattedFile.owner = user ? user.fullName : "???";
   }
-  return file;
+  return formattedFile;
 }
 
 export async function formatExternalFile(file) {
-  if (file.ownerId === store.state.auth.user.id) {
-    file.owner = "אני";
-  } else {
-    const user = await usersApi.getExternalUserByID(file.ownerId).catch(err => {
-      store.dispatch("onError", err);
-    });
-    file.owner = user.fullName || "???";
-  }
-  return file;
+  const formattedFile = file;
+  const user = await usersApi.getExternalUserByID(file.ownerId).catch(() => {
+    return;
+  });
+  formattedFile.owner = user ? user.fullName : "???";
+  return formattedFile;
 }

@@ -3,7 +3,11 @@
     <div id="page-header">
       <h1 v-if="!breadcrumbs" id="page-name">{{ header }}</h1>
       <div v-else>
-        <Breadcrumbs page="true" :items="breadcrumbs" @click="$emit('breadcrumb', $event)" />
+        <Breadcrumbs
+          page="true"
+          :items="breadcrumbs"
+          @click="$emit('breadcrumb', $event)"
+        />
       </div>
 
       <FileViewButton />

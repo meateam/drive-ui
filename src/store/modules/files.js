@@ -43,13 +43,11 @@ const actions = {
    */
   async fetchSharedFiles({ commit, dispatch }) {
     try {
-      let files = await filesApi.fetchSharedFiles(state.currentFolder);
-      files = files.filter((file) => !file.isExternal);
       commit("resetFiles");
+      const files = await filesApi.fetchSharedFiles(state.currentFolder);
 
-      await files.forEach(async (file) => {
-        const formattedFile = await formatFile(file);
-        commit("addFile", formattedFile);
+      files.forEach(async (file) => {
+        if (!file.isExternal) commit("addFile", await formatFile(file));
       });
     } catch (err) {
       dispatch("onError", err);
@@ -57,14 +55,11 @@ const actions = {
   },
   async fetchExternalTransferdFiles({ commit, dispatch }) {
     try {
-      let files = await filesApi.fetchSharedFiles(state.currentFolder);
-      files = files.filter((file) => file.isExternal);
-
       commit("resetFiles");
+      const files = await filesApi.fetchSharedFiles(state.currentFolder);
 
-      await files.forEach(async (file) => {
-        const formattedFile = await formatExternalFile(file);
-        commit("addFile", formattedFile);
+      files.forEach(async (file) => {
+        if (file.isExternal) commit("addFile", await formatExternalFile(file));
       });
     } catch (err) {
       dispatch("onError", err);
@@ -278,7 +273,11 @@ const mutations = {
       ? state.currentFolder.id
       : undefined;
 
-    if (!(currentFolder === file.parent) || state.files.includes(file)) return;
+    if (
+      (!(currentFolder === file.parent) && !file.isExternal) ||
+      state.files.includes(file)
+    )
+      return;
 
     state.files.push(file);
   },
