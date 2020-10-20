@@ -6,10 +6,11 @@ export async function formatFile(file) {
   if (file.ownerId === store.state.auth.user.id) {
     formattedFile.owner = "אני";
   } else {
-    const user = await usersApi.getUserByID(file.ownerId).catch(() => {
-      return;
-    });
-    formattedFile.owner = user ? user.fullName : "???";
+    // const user = await usersApi.getUserByID(file.ownerId).catch(() => {
+    //   return;
+    // });
+    // formattedFile.owner = user ? user.fullName : "???";
+    formattedFile.owner = "???";
   }
   return formattedFile;
 }
