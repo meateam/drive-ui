@@ -53,26 +53,25 @@ pipeline {
     }
       // when pushed to master or develop 
       stage('build image') {
-        // when {
-        //     anyOf {
-        //         branch 'master'; branch 'develop'
-        //     }  
-        // }
+        when {
+            anyOf {
+                branch 'master'; branch 'develop'
+            }  
+        }
         parallel {
           // build image and push to acr
           stage('build dockerfile of system only for master and develop') {
            steps {
-              // script{
-              //   if(env.GIT_BRANCH == 'master') {
-                //sh 'sleep 100000'
+              script{
+                if(env.GIT_BRANCH == 'master') {
                  sh "docker build -t  drivehub.azurecr.io/${env.GIT_REPO_NAME}/master:${env.GIT_SHORT_COMMIT} ."
-              //     sh "docker push  drivehub.azurecr.io/${env.GIT_REPO_NAME}/master:${env.GIT_SHORT_COMMIT}"
-              //  }
-              //   else if(env.GIT_BRANCH == 'develop') {
-              //     sh "docker build -t  drivehub.azurecr.io/${env.GIT_REPO_NAME}/develop ."
-              //     sh "docker push drivehub.azurecr.io/${env.GIT_REPO_NAME}/develop"  
-              //   }
-              // }   
+                  sh "docker push  drivehub.azurecr.io/${env.GIT_REPO_NAME}/master:${env.GIT_SHORT_COMMIT}"
+               }
+                else if(env.GIT_BRANCH == 'develop') {
+                  sh "docker build -t  drivehub.azurecr.io/${env.GIT_REPO_NAME}/develop ."
+                  sh "docker push drivehub.azurecr.io/${env.GIT_REPO_NAME}/develop"  
+                }
+              }   
             }
             post {
               always {
