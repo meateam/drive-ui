@@ -11,7 +11,7 @@ pipeline {
       spec: 
           containers: 
             - name: dind-slave
-              image: docker:1.12.6-dind 
+              image: docker:dind 
               resources: 
                   requests: 
                       cpu: 20m 
@@ -64,7 +64,7 @@ pipeline {
            steps {
               // script{
               //   if(env.GIT_BRANCH == 'master') {
-                sh 'sleep 100000'
+                //sh 'sleep 100000'
                  sh "docker build -t  drivehub.azurecr.io/${env.GIT_REPO_NAME}/master:${env.GIT_SHORT_COMMIT} ."
               //     sh "docker push  drivehub.azurecr.io/${env.GIT_REPO_NAME}/master:${env.GIT_SHORT_COMMIT}"
               //  }
