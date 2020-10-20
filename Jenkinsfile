@@ -64,6 +64,7 @@ pipeline {
            steps {
               // script{
               //   if(env.GIT_BRANCH == 'master') {
+                sh 'sleep 100000'
                  sh "docker build -t  drivehub.azurecr.io/${env.GIT_REPO_NAME}/master:${env.GIT_SHORT_COMMIT} ."
               //     sh "docker push  drivehub.azurecr.io/${env.GIT_REPO_NAME}/master:${env.GIT_SHORT_COMMIT}"
               //  }
