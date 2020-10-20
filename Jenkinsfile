@@ -1,6 +1,6 @@
 //drive-ui
 pipeline {
-  agent {    
+  agent any {    
 //        kubernetes {
 //        defaultContainer 'dind-slave'  
 //        yaml """
@@ -90,4 +90,5 @@ pipeline {
         }
        }
     }
-}
+  }
+} 
