@@ -1,37 +1,37 @@
 //drive-ui
 pipeline {
   agent {    
-       kubernetes {
-       defaultContainer 'dind-slave'  
-       yaml """
-      apiVersion: v1 
-      kind: Pod 
-      metadata: 
-          name: k8s-worker
-      spec: 
-          containers: 
-            - name: dind-slave
-              image: docker:1.12.6-dind 
-              resources: 
-                  requests: 
-                      cpu: 20m 
-                      memory: 512Mi 
-              securityContext: 
-                  privileged: true 
-              volumeMounts: 
-                - name: docker-graph-storage 
-                  mountPath: /var/lib/docker 
-          volumes: 
-            - name: docker-graph-storage 
-              emptyDir: {}
- """
-    }
-  }
+//        kubernetes {
+//        defaultContainer 'dind-slave'  
+//        yaml """
+//       apiVersion: v1 
+//       kind: Pod 
+//       metadata: 
+//           name: k8s-worker
+//       spec: 
+//           containers: 
+//             - name: dind-slave
+//               image: docker:1.12.6-dind 
+//               resources: 
+//                   requests: 
+//                       cpu: 20m 
+//                       memory: 512Mi 
+//               securityContext: 
+//                   privileged: true 
+//               volumeMounts: 
+//                 - name: docker-graph-storage 
+//                   mountPath: /var/lib/docker 
+//           volumes: 
+//             - name: docker-graph-storage 
+//               emptyDir: {}
+//  """
+//     }
+  //}
     stages {
       // this stage create enviroment variable from git for discored massage
       stage('get_commit_msg') {
         steps {
-          container('jnlp'){
+          //container('jnlp'){
           script {
             env.GIT_COMMIT_MSG = sh (script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
             env.GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
@@ -50,7 +50,7 @@ pipeline {
           }
         }
       }
-    }
+    
       // when pushed to master or develop 
       stage('build image') {
         // when {
