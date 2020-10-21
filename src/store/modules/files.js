@@ -3,7 +3,7 @@ import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import { getFileType } from "@/utils/getFileType";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
-import { formatFile, formatExternalFile } from "@/utils/formatFile";
+import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 import router from "@/router";
 
@@ -30,9 +30,16 @@ const actions = {
       const files = await filesApi.fetchFiles(state.currentFolder);
       commit("resetFiles");
 
-      await files.forEach(async (file) => {
-        const formattedFile = await formatFile(file);
-        commit("addFile", formattedFile);
+      files.forEach(async (file) => {
+        const isOwner = isFileOwner(file.ownerId);
+        file.owner = isOwner ? "אני" : "???";
+        commit("addFile", file);
+
+        if (!isOwner) {
+          const formattedFile = file;
+          formattedFile.owner = await getFileOwnerName(file.ownerId);
+          commit('updateFile', formattedFile);
+        }
       });
     } catch (err) {
       dispatch("onError", err);
@@ -47,7 +54,15 @@ const actions = {
       const files = await filesApi.fetchSharedFiles(state.currentFolder);
 
       files.forEach(async (file) => {
-        if (!file.isExternal) commit("addFile", await formatFile(file));
+
+        if (!file.isExternal) {
+          file.owner = "???";
+          commit("addFile", file);
+
+          const formattedFile = file;
+          formattedFile.owner = await getFileOwnerName(file.ownerId);
+          commit('updateFile', formattedFile);
+        }
       });
     } catch (err) {
       dispatch("onError", err);
@@ -59,7 +74,14 @@ const actions = {
       const files = await filesApi.fetchSharedFiles(state.currentFolder);
 
       files.forEach(async (file) => {
-        if (file.isExternal) commit("addFile", await formatExternalFile(file));
+        if (file.isExternal) {
+          file.owner = "???";
+          commit("addFile", file);
+
+          const formattedFile = file
+          formattedFile.owner = await getExternalFileOwnerName(file.ownerId);
+          commit("updateFile", formattedFile);
+        }
       });
     } catch (err) {
       dispatch("onError", err);
@@ -129,12 +151,11 @@ const actions = {
       });
     }
 
-    const formatedFile = await formatFile(metadata);
+    metadata.owner = "אני";
+    lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
 
-    lastUpdatedFileHandler.pushUpdatedFile(formatedFile.id);
-
-    commit("removeLoadingFile", formatedFile.name);
-    commit("addFile", formatedFile);
+    commit("removeLoadingFile", metadata.name);
+    commit("addFile", metadata);
 
     commit("addQuota", metadata.size);
   },
@@ -185,9 +206,11 @@ const actions = {
         name,
         parent: state.currentFolder,
       });
-      const formatedFile = await formatFile(folder);
+      folder.owner = "אני";
+
       commit("onSuccess", "success.Folder");
-      commit("addFile", formatedFile);
+      commit("addFile", folder);
+
     } catch (err) {
       dispatch("onError", err);
     }
@@ -232,8 +255,8 @@ const actions = {
 
       const failedFiles = data
         ? data.map((error) => {
-            if (error.error) return error.id;
-          })
+          if (error.error) return error.id;
+        })
         : [];
 
       const movedFiles = fileIDs.filter(
@@ -259,6 +282,11 @@ const mutations = {
     state.files = state.files.filter((file) => file.id !== fileID);
     state.chosenFiles = state.chosenFiles.filter((file) => {
       return file.id !== fileID;
+    });
+  },
+  updateFile: (state, f) => {
+    state.files.forEach(file => {
+      if (file.id === f.id) file = f;
     });
   },
   onFileRename: (state, { name, file }) => {
