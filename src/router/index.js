@@ -32,7 +32,7 @@ const router = new Router({
       meta: {
         layout: true
       },
-      name: "My Drive",
+      name: "MyDrive",
     },
     {
       path: "/shared-with-me",
@@ -40,7 +40,7 @@ const router = new Router({
       meta: {
         layout: true
       },
-      name: "Shared With Me",
+      name: "SharedWithMe",
     },
     {
       path: "/folders",
@@ -56,7 +56,7 @@ const router = new Router({
       meta: {
         layout: true
       },
-      name: "External Transferd",
+      name: "ExternalTransferd",
     },
     {
       path: "/last-updated",
@@ -64,7 +64,7 @@ const router = new Router({
       meta: {
         layout: true
       },
-      name: "Last Update",
+      name: "LastUpdate",
     },
     {
       path: "/search",
@@ -80,7 +80,7 @@ const router = new Router({
       meta: {
         layout: true
       },
-      name: "Deleted Files",
+      name: "DeletedFiles",
     },
     {
       path: "/favorites",
@@ -101,7 +101,7 @@ const router = new Router({
     {
       path: "/404",
       component: NotFound,
-      name: "Not Found",
+      name: "NotFound",
     },
     {
       path: "/503",

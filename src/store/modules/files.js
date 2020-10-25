@@ -133,12 +133,18 @@ const actions = {
       });
     }
 
-    const formatedFile = await formatFile(metadata);
+    const formattedFile = await formatFile(metadata);
 
-    lastUpdatedFileHandler.pushUpdatedFile(formatedFile.id);
+    lastUpdatedFileHandler.pushUpdatedFile(formattedFile.id);
 
-    commit("removeLoadingFile", formatedFile.name);
-    commit("addFile", formatedFile);
+    commit("removeLoadingFile", formattedFile.name);
+
+    if (
+      state.currentFolder === file.parent ||
+      state.currentFolder.id === file.parent
+    ) {
+      commit("addFile", formattedFile);
+    }
 
     commit("addQuota", metadata.size);
   },
@@ -162,6 +168,15 @@ const actions = {
         dispatch("onError", err);
       });
   },
+  async addFileByID({ commit }, file) {
+    const formattedFile = await formatFile(file);
+
+    pushUpdatedFile(formattedFile.id);
+
+    commit("addFile", formattedFile);
+
+    commit("addQuota", formattedFile.size);
+  },
   async cancelUpload({ commit, dispatch }, file) {
     try {
       await filesApi.cancelUpload(file.source);
@@ -183,12 +198,26 @@ const actions = {
         name,
         parent: state.currentFolder,
       });
-      const formatedFile = await formatFile(folder);
+      const formattedFile = await formatFile(folder);
       commit("onSuccess", "success.Folder");
-      commit("addFile", formatedFile);
+
+      if (
+        state.currentFolder === folder.parent ||
+        state.currentFolder.id === folder.parent
+      )
+        commit("addFile", formattedFile);
     } catch (err) {
       dispatch("onError", err);
     }
+  },
+  async updateFile({ commit }, file) {
+    const formattedFile = await formatFile(file);
+
+    pushUpdatedFile(formattedFile.id);
+
+    commit("updateFile", formattedFile);
+
+    commit("getQuota");
   },
   /**
    * onFolderChange change the current folder by the recived id
@@ -275,6 +304,11 @@ const mutations = {
     if (!currentFolder === file.parent || state.files.includes(file)) return;
 
     state.files.push(file);
+  },
+  updateFile: (state, file) => {
+    state.files.forEach((f) => {
+      if (f.id === file.id) f = file;
+    });
   },
   onFileChoose: (state, { isChecked, file }) => {
     if (isChecked && !state.chosenFiles.includes(file)) {
