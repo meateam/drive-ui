@@ -3,6 +3,7 @@ import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import { getFileType } from "@/utils/getFileType";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
+import { isOwner } from "@/utils/isOwner";
 import {
   isFileOwner,
   getFileOwnerName,
@@ -62,6 +63,7 @@ const actions = {
       files.forEach(async (file) => {
         if (!file.isExternal) {
           file.owner = "???";
+          console.log(file);
           commit("addFile", file);
 
           const formattedFile = file;
@@ -307,7 +309,7 @@ const mutations = {
       : undefined;
 
     if (
-      (!(currentFolder === file.parent) && !file.isExternal) ||
+      (!(currentFolder === file.parent) && isOwner(file.ownerId)) ||
       state.files.includes(file)
     )
       return;
