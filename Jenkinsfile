@@ -55,7 +55,7 @@ pipeline {
       stage('build image') {
         when {
             anyOf {
-                branch 'master'; branch 'develop'; branch 'devops/ci'
+                branch 'master'; branch 'develop'
             }  
         }
         parallel {
