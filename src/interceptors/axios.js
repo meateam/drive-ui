@@ -5,8 +5,6 @@ import { isAlive } from "@/api/healthcheck";
 import store from "@/store";
 import router from "@/router";
 
-Axios.defaults.timeout = 10000;
-
 Axios.interceptors.request.use(
   (request) => {
     store.commit("addLoadingReq");
