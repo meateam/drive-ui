@@ -1,26 +1,20 @@
 import * as usersApi from "@/api/users";
 import store from "@/store";
 
-export async function formatFile(file) {
-  if (file.ownerId === store.state.auth.user.id) {
-    file.owner = "אני";
-  } else {
-    const user = await usersApi.getUserByID(file.ownerId).catch(err => {
-      store.dispatch("onError", err);
-    });
-    file.owner = user.fullName || "???";
-  }
-  return file;
+export function isFileOwner(ownerID) {
+  return ownerID === store.state.auth.user.id;
 }
 
-export async function formatExternalFile(file) {
-  if (file.ownerId === store.state.auth.user.id) {
-    file.owner = "אני";
-  } else {
-    const user = await usersApi.getExternalUserByID(file.ownerId).catch(err => {
-      store.dispatch("onError", err);
-    });
-    file.owner = user.fullName || "???";
-  }
-  return file;
+export async function getFileOwnerName(ownerID) {
+  const user = await usersApi.getUserByID(ownerID).catch(() => {
+    return;
+  });
+  return user ? user.fullName : "???";
+}
+
+export async function getExternalFileOwnerName(ownerID) {
+  const user = await usersApi.getExternalUserByID(ownerID).catch(() => {
+    return;
+  });
+  return user ? user.fullName : "???";
 }

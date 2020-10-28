@@ -5,7 +5,7 @@
         @click="$refs.rename.open()"
         v-on="on"
         :icon="icon"
-        :class="{right: !icon}"
+        :class="{ right: !icon }"
         class="auto-margin"
         id="edit-button"
         text
@@ -17,7 +17,7 @@
     <NamePopup
       img="green-edit.svg"
       ref="rename"
-      :value="chosenFiles[0].name"
+      :value="getFileName(chosenFiles[0].name)"
       :type="isFolder() ? 'renameFolder' : 'renameFile'"
       @confirm="onConfirm"
     />
@@ -36,22 +36,29 @@ export default {
   props: ["icon"],
   components: { NamePopup },
   computed: {
-    ...mapGetters(["chosenFiles", "currentFolder"])
+    ...mapGetters(["chosenFiles", "currentFolder"]),
   },
   methods: {
     onConfirm(name) {
       this.$store.dispatch("editFile", { name, file: this.chosenFiles[0] });
+      this.$emit("close");
     },
     isFolder() {
       return this.chosenFiles[0].type === fileTypes.folder;
+    },
+    getFileName(name) {
+      return name.includes(".") ? name.substr(0, name.lastIndexOf(".")) : name;
     },
     canEdit() {
       return (
         this.chosenFiles.length === 1 &&
         (!this.currentFolder || writeRole(this.currentFolder.role)) &&
-        this.chosenFiles.every(file => writeRole(file.role))
+        this.chosenFiles.every((file) => writeRole(file.role))
       );
-    }
-  }
+    },
+  },
+  mounted() {
+    addEventListener("keydown", this.onF2Click);
+  },
 };
 </script>

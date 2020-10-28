@@ -10,6 +10,7 @@
 <script>
 import * as filesApi from "@/api/files";
 import { mapGetters } from "vuex";
+import { ownerRole } from "@/utils/roles";
 import PageTemplate from "@/components/BasePageTemplate";
 
 export default {
@@ -21,7 +22,6 @@ export default {
     };
   },
   created() {
-    document.title = this.currentFolder.name;
     this.onFolderChange(this.currentFolder);
   },
   watch: {
@@ -44,7 +44,9 @@ export default {
 
       breadcrumbs.push({
         value: undefined,
-        text: this.$t("pageHeaders.MyDrive"),
+        text: this.isFolderOwner()
+          ? this.$t("pageHeaders.MyDrive")
+          : this.$t("pageHeaders.SharedWithMe"),
         disabled: false,
       });
 
@@ -67,35 +69,16 @@ export default {
     },
     onBreadcrumbClick(folder) {
       if (!folder) {
-        this.$router.push("/my-drive");
+        this.isFolderOwner()
+          ? this.$router.push("/my-drive")
+          : this.$router.push("/shared-with-me");
       } else {
         this.$router.push({ path: "/folders", query: { id: folder.id } });
       }
     },
+    isFolderOwner() {
+      return ownerRole(this.currentFolder.role);
+    },
   },
 };
 </script>
-
-<style scoped>
-#folder {
-  width: 30px;
-  height: 26px;
-}
-.space {
-  margin: 0 8px;
-}
-#page-header {
-  padding-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 2px solid #035c64;
-}
-#page-name {
-  font-size: 30px;
-  color: #2c3448;
-  font-family: Assistant-light;
-  font-weight: 400;
-  display: flex;
-  text-align: right;
-}
-</style>

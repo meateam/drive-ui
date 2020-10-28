@@ -2,7 +2,7 @@
   <div class="page-container">
     <div id="page-header">
       <h1 v-if="!breadcrumbs" id="page-name">{{ header }}</h1>
-      <div v-else id="page-breadcrumbs">
+      <div v-else>
         <Breadcrumbs
           page="true"
           :items="breadcrumbs"

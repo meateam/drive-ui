@@ -1,25 +1,16 @@
 <template>
   <div>
     <v-app
-      :class="{dragging: drag}"
+      :class="{ dragging: drag }"
       v-if="user"
       @dragover.prevent
       @drop.stop.prevent="onDrop"
-      @dragenter="drag=true"
-      @dragleave="drag=false"
+      @dragenter="drag = true"
+      @dragleave="drag = false"
     >
       <AppBar />
       <Sidenav />
       <v-content>
-        <v-progress-circular
-          id="loading"
-          :size="200"
-          :width="7"
-          v-if="isLoading"
-          color="#035c64"
-          indeterminate
-        ></v-progress-circular>
-
         <slot />
       </v-content>
 
@@ -44,7 +35,7 @@ import ErrorSnackbar from "@/components/popups/snackbars/ErrorSnackbar";
 export default {
   name: "App",
   computed: {
-    ...mapGetters(["isLoading", "user"]),
+    ...mapGetters(["user"]),
   },
   components: {
     AppBar,
@@ -74,12 +65,6 @@ export default {
 </script>
 
 <style scoped>
-#loading {
-  z-index: 5;
-  position: absolute;
-  top: calc(50vh - 250px);
-  right: calc(50% - 100px);
-}
 #yesodot {
   position: fixed;
   width: 500px;

@@ -3,7 +3,7 @@
     v-model="showMenu"
     :position-x="x"
     :position-y="y"
-    max-width="160"
+    max-width="190"
     absolute
     offset-y
     id="menu"
