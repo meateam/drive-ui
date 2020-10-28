@@ -1,7 +1,19 @@
 <template>
-  <v-dialog v-if="dialog" v-model="dialog" fullscreen hide-overlay transition="fade-transition">
+  <v-dialog
+    v-if="dialog"
+    v-model="dialog"
+    fullscreen
+    hide-overlay
+    transition="fade-transition"
+  >
+    <PreviewMenu @close="close" />
     <v-card id="preview" @click.native="close">
-      <img @click.stop v-if="file.type.startsWith('image')" class="file-preview" :src="getFile" />
+      <img
+        @click.stop
+        v-if="file.type.startsWith('image')"
+        class="file-preview"
+        :src="getFile"
+      />
       <audio
         @click.stop
         v-else-if="file.type.startsWith('audio')"
@@ -10,7 +22,12 @@
         autoplay
         controls
       ></audio>
-      <video @click.stop v-else-if="file.type.startsWith('video')" class="file-preview" controls>
+      <video
+        @click.stop
+        v-else-if="file.type.startsWith('video')"
+        class="file-preview"
+        controls
+      >
         <source :src="getFile" :type="file.type" />
       </video>
       <iframe
@@ -20,10 +37,10 @@
         frameborder="0"
         id="pdf"
         allowtransparency="true"
-        style="background: #FFFFFF;"
+        style="background: #ffffff"
       ></iframe>
       <div @click.stop class="auto-margin" id="uavailable" v-else>
-        <p>{{$t('preview.Unavailable')}}</p>
+        <p>{{ $t("preview.Unavailable") }}</p>
       </div>
       <v-btn @click.stop="close" icon class="auto-margin" id="close">
         <v-icon>close</v-icon>
@@ -33,15 +50,17 @@
 </template>
 
 <script>
+import PreviewMenu from "./menus/PreviewMenu";
 import { getPdfPreview, getPreview } from "@/api/files";
 import { canPreviewPdf } from "@/utils/canPreview";
 
 export default {
   name: "Preview",
+  components: { PreviewMenu },
   data() {
     return {
       dialog: false,
-      file: undefined
+      file: undefined,
     };
   },
   methods: {
@@ -54,7 +73,7 @@ export default {
     },
     showPDF() {
       return canPreviewPdf(this.file.type);
-    }
+    },
   },
   computed: {
     getFile() {
@@ -62,14 +81,14 @@ export default {
     },
     getPDF() {
       return getPdfPreview(this.file.id);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 #preview {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
 }

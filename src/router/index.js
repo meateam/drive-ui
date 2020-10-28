@@ -7,7 +7,6 @@ import Unavailable from "@/views/errors/503";
 import DeletedFiles from "@/views/DeletedFiles";
 import Favorites from "@/views/Favorites";
 import QuestionAnswer from "@/views/Q&A";
-import { isAlive } from "../api/healthcheck";
 
 Vue.use(Router);
 
@@ -112,7 +111,6 @@ const router = new Router({
 });
 
 router.beforeEach(async (to, from, next) => {
-  document.title = to.name;
   await store.dispatch("onFolderChange", to.query.id);
   next();
 });

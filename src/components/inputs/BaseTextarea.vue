@@ -8,6 +8,7 @@
     filled
     auto-grow
     background-color="white"
+    @keydown.stop
     @input="$emit('input', value)"
   ></v-textarea>
 </template>
@@ -18,9 +19,9 @@ export default {
   props: ["placeholder"],
   data() {
     return {
-      value: null
+      value: null,
     };
-  }
+  },
 };
 </script>
 

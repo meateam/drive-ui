@@ -4,7 +4,7 @@
       link
       v-for="(item, index) in items"
       :key="index"
-      @dblclick="onChoose(item)"
+      @click="onChoose(item)"
     >
       <v-list-item-icon v-if="icon">
         <v-icon color="#fc8946" class="icons">{{ icon }}</v-icon>

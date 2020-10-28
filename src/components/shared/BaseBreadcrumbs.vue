@@ -6,9 +6,7 @@
         :class="{ page: page }"
         @click="$emit('click', item.value)"
         :disabled="item.disabled"
-      >
-        {{ item.text }}
-      </v-breadcrumbs-item>
+      >{{ item.text }}</v-breadcrumbs-item>
     </template>
   </v-breadcrumbs>
 </template>
@@ -24,8 +22,11 @@ export default {
 #breadcrumb {
   cursor: pointer;
 }
+.v-breadcrumbs {
+  padding: 0;
+}
 .page {
-  font-size: 25px;
+  font-size: 28px;
   color: #2c3448;
   font-family: Assistant-light;
   font-weight: 400;

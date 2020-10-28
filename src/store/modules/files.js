@@ -3,9 +3,13 @@ import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import { getFileType } from "@/utils/getFileType";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
-import { formatFile, formatExternalFile } from "@/utils/formatFile";
+import { isOwner } from "@/utils/isOwner";
+import {
+  isFileOwner,
+  getFileOwnerName,
+  getExternalFileOwnerName,
+} from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
-import { fixFileName } from "@/utils/fixFileName";
 import router from "@/router";
 
 const state = {
@@ -29,11 +33,19 @@ const actions = {
   async fetchFiles({ commit, dispatch }) {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
+
       commit("resetFiles");
 
-      await files.forEach(async (file) => {
-        const formattedFile = await formatFile(file);
-        commit("addFile", formattedFile);
+      files.forEach(async (file) => {
+        const isOwner = isFileOwner(file.ownerId);
+        file.owner = isOwner ? "אני" : "???";
+        commit("addFile", file);
+
+        if (!isOwner) {
+          const formattedFile = file;
+          formattedFile.owner = await getFileOwnerName(file.ownerId);
+          commit("updateFile", formattedFile);
+        }
       });
     } catch (err) {
       dispatch("onError", err);
@@ -44,13 +56,20 @@ const actions = {
    */
   async fetchSharedFiles({ commit, dispatch }) {
     try {
-      let files = await filesApi.fetchSharedFiles(state.currentFolder);
-      files = files.filter((file) => !file.isExternal);
+      const files = await filesApi.fetchSharedFiles(state.currentFolder);
+
       commit("resetFiles");
 
-      await files.forEach(async (file) => {
-        const formattedFile = await formatFile(file);
-        commit("addFile", formattedFile);
+      files.forEach(async (file) => {
+        if (!file.isExternal) {
+          file.owner = "???";
+          console.log(file);
+          commit("addFile", file);
+
+          const formattedFile = file;
+          formattedFile.owner = await getFileOwnerName(file.ownerId);
+          commit("updateFile", formattedFile);
+        }
       });
     } catch (err) {
       dispatch("onError", err);
@@ -58,14 +77,19 @@ const actions = {
   },
   async fetchExternalTransferdFiles({ commit, dispatch }) {
     try {
-      let files = await filesApi.fetchSharedFiles(state.currentFolder);
-      files = files.filter((file) => file.isExternal);
+      const files = await filesApi.fetchSharedFiles(state.currentFolder);
 
       commit("resetFiles");
 
-      await files.forEach(async (file) => {
-        const formattedFile = await formatExternalFile(file);
-        commit("addFile", formattedFile);
+      files.forEach(async (file) => {
+        if (file.isExternal) {
+          file.owner = "???";
+          commit("addFile", file);
+
+          const formattedFile = file;
+          formattedFile.owner = await getExternalFileOwnerName(file.ownerId);
+          commit("updateFile", formattedFile);
+        }
       });
     } catch (err) {
       dispatch("onError", err);
@@ -111,34 +135,35 @@ const actions = {
    * uploadFile create multipart or resumable upload by the file size
    * @param file is the file to upload
    */
-  async uploadFile({ commit }, file) {
-    if (isFileNameExists({ name: file.name, files: state.files }))
+  async uploadFile({ commit, rootState }, file) {
+    if (
+      isFileNameExists({
+        name: file.name,
+        files: state.files,
+        loadingFiles: rootState.loading.loadingFiles,
+      })
+    )
       throw new Error("שם הקובץ קים בתיקייה");
 
     let metadata = undefined;
 
-    const fixedFile = new File([file], fixFileName(file.name), {
-      type: file.type,
-    });
-
     if (file.size <= 5 << 20) {
       metadata = await filesApi.multipartUpload({
-        file: fixedFile,
+        file: file,
         parent: state.currentFolder,
       });
     } else {
       metadata = await filesApi.resumableUpload({
-        file: fixedFile,
+        file: file,
         parent: state.currentFolder,
       });
     }
 
-    const formatedFile = await formatFile(metadata);
+    metadata.owner = "אני";
+    lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
 
-    lastUpdatedFileHandler.pushUpdatedFile(formatedFile.id);
-
-    commit("removeLoadingFile", formatedFile.name);
-    commit("addFile", formatedFile);
+    commit("removeLoadingFile", metadata.name);
+    commit("addFile", metadata);
 
     commit("addQuota", metadata.size);
   },
@@ -175,17 +200,24 @@ const actions = {
    * uploadFolder in the current folder
    * @param name is the name of the folder
    */
-  async uploadFolder({ commit, dispatch }, name) {
+  async uploadFolder({ commit, dispatch, rootState }, name) {
     try {
-      if (isFileNameExists({ name, files: state.files }))
+      if (
+        isFileNameExists({
+          name,
+          files: state.files,
+          loadingFiles: rootState.loading.loadingFiles,
+        })
+      )
         throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
       const folder = await filesApi.uploadFolder({
         name,
         parent: state.currentFolder,
       });
-      const formatedFile = await formatFile(folder);
+      folder.owner = "אני";
+
       commit("onSuccess", "success.Folder");
-      commit("addFile", formatedFile);
+      commit("addFile", folder);
     } catch (err) {
       dispatch("onError", err);
     }
@@ -214,9 +246,8 @@ const actions = {
   },
   async editFile({ commit, dispatch }, { file, name }) {
     try {
-      name = fixFileName(name);
       const fileType = getFileType(file.name);
-      const newName = file.name.includes(".") ? `${name}.${fileType}` : name;
+      const newName = `${name}.${fileType}`;
       const res = await filesApi.editFile({ file, name: newName });
 
       commit("onFileRename", res);
@@ -260,6 +291,11 @@ const mutations = {
       return file.id !== fileID;
     });
   },
+  updateFile: (state, f) => {
+    state.files.forEach((file) => {
+      if (file.id === f.id) file = f;
+    });
+  },
   onFileRename: (state, { name, file }) => {
     if (state.files.includes(file)) {
       state.files.forEach((item) => {
@@ -272,7 +308,11 @@ const mutations = {
       ? state.currentFolder.id
       : undefined;
 
-    if (!currentFolder === file.parent || state.files.includes(file)) return;
+    if (
+      (!(currentFolder === file.parent) && isOwner(file.ownerId)) ||
+      state.files.includes(file)
+    )
+      return;
 
     state.files.push(file);
   },

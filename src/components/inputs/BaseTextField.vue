@@ -6,6 +6,7 @@
     dense
     filled
     background-color="white"
+    @keydown.stop
     @input="$emit('input', value)"
   ></v-text-field>
 </template>

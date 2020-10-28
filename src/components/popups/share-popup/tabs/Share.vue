@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="popup-text">{{$t('share.DriveChoose')}}</p>
+    <p class="popup-text">{{ $t("share.DriveChoose") }}</p>
     <div class="space-between">
       <Autocomplete
         icon
@@ -16,6 +16,7 @@
       <div class="select-container">
         <Select
           :items="roles"
+          :value="roles[0]"
           background="transparent"
           @change="onRoleSelect"
           :placeholder="$t('share.ChoosePermission')"
@@ -24,12 +25,25 @@
     </div>
 
     <v-chip-group show-arrows>
-      <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
+      <Chips
+        v-for="user in selectedUsers"
+        :key="user.id"
+        :user="user"
+        @remove="onRemove"
+      />
     </v-chip-group>
 
     <v-card-actions class="popup-confirm">
-      <SubmitButton @click="onConfirm" :label="$t('buttons.Share')" :disabled="disabled" />
-      <TextButton v-if="files.length === 1" @click="$emit('back')" :label="$t('buttons.EditPermission')" />
+      <SubmitButton
+        @click="onConfirm"
+        :label="$t('buttons.Share')"
+        :disabled="disabled"
+      />
+      <TextButton
+        v-if="files.length === 1"
+        @click="$emit('back')"
+        :label="$t('buttons.EditPermission')"
+      />
     </v-card-actions>
   </div>
 </template>
@@ -49,7 +63,7 @@ export default {
       dialog: false,
       selectedUsers: [],
       users: [],
-      role: undefined,
+      role: "READ",
       disabled: true,
       isLoading: false,
       roles: [

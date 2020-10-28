@@ -2,7 +2,7 @@
     background-color: rgb(231, 237, 248);
 }
 
-.file-size {
+.ltr-td {
     direction: ltr;
     text-align: right;
 }
@@ -13,7 +13,7 @@
     white-space: nowrap;
     text-align: right;
     direction: ltr;
-    max-width: 500px;
+    max-width: 100px;
 }
 
 .v-data-table {
