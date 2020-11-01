@@ -12,3 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
+
+## [2.1.0]
+
+### Added
+
+- appId query to fetch file by the app that uploaded it.
+
+## [2.1.1]
+
+### Fixed
+
+- owner name in the last updated files which wasn't shown.
