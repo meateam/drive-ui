@@ -56,20 +56,17 @@ const actions = {
    */
   async fetchSharedFiles({ commit, dispatch }) {
     try {
-      const files = await filesApi.fetchSharedFiles(state.currentFolder);
+      const files = await filesApi.fetchSharedFiles();
 
       commit("resetFiles");
 
       files.forEach(async (file) => {
-        if (!file.isExternal) {
-          file.owner = "???";
-          console.log(file);
-          commit("addFile", file);
+        file.owner = "???";
+        commit("addFile", file);
 
-          const formattedFile = file;
-          formattedFile.owner = await getFileOwnerName(file.ownerId);
-          commit("updateFile", formattedFile);
-        }
+        const formattedFile = file;
+        formattedFile.owner = await getFileOwnerName(file.ownerId);
+        commit("updateFile", formattedFile);
       });
     } catch (err) {
       dispatch("onError", err);
@@ -77,19 +74,17 @@ const actions = {
   },
   async fetchExternalTransferdFiles({ commit, dispatch }) {
     try {
-      const files = await filesApi.fetchSharedFiles(state.currentFolder);
+      const files = await filesApi.fetchExternalTransferdFiles();
 
       commit("resetFiles");
 
       files.forEach(async (file) => {
-        if (file.isExternal) {
-          file.owner = "???";
-          commit("addFile", file);
+        file.owner = "???";
+        commit("addFile", file);
 
-          const formattedFile = file;
-          formattedFile.owner = await getExternalFileOwnerName(file.ownerId);
-          commit("updateFile", formattedFile);
-        }
+        const formattedFile = file;
+        formattedFile.owner = await getExternalFileOwnerName(file.ownerId);
+        commit("updateFile", formattedFile);
       });
     } catch (err) {
       dispatch("onError", err);
@@ -102,7 +97,12 @@ const actions = {
     try {
       const files = await lastUpdatedFileHandler.getUpdatedFiles();
 
-      commit("setFiles", files);
+      commit("resetFiles");
+
+      files.forEach((file) => {
+        file.owner = "אני";
+        commit("addFile", file);
+      });
     } catch (err) {
       dispatch("onError", err);
     }
