@@ -97,7 +97,12 @@ const actions = {
     try {
       const files = await lastUpdatedFileHandler.getUpdatedFiles();
 
-      commit("setFiles", files);
+      commit("resetFiles");
+
+      files.forEach((file) => {
+        file.owner = "אני";
+        commit("addFile", file);
+      });
     } catch (err) {
       dispatch("onError", err);
     }
