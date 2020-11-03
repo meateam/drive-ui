@@ -149,6 +149,7 @@
     "ApprovalInstructions": "The users are taken from the other domain",
     "ApprovalService": "approval service",
     "CanApprove": "this file will be approved automatically",
+    "IsBlocked": "you are blocked",
     "ApproverUnit": "the approver needs to be in the unit:",
     "ApproverRanks": "and with on of the ranks:",
     "IAmApprover": "I am an approver",

@@ -1,8 +1,13 @@
 <template>
   <div>
-    <div v-if="user.approvalInfo.canApprove">
+    <div v-if="user.approvalInfo.isApprover">
       <p class="popup-text align-center">
         {{ $t("externalTransfer.CanApprove") }}
+      </p>
+    </div>
+    <div v-else-if="user.approvalInfo.isBlocked">
+      <p class="popup-text align-center">
+        {{ $t("externalTransfer.IsBlocked") }}
       </p>
     </div>
     <div v-else>
@@ -18,12 +23,14 @@
               <p>{{ $t("externalTransfer.ApprovalInstructions") }}</p>
               <div v-if="!user.approvalInfo.requestFaild">
                 <p v-if="user.approvalInfo.unit">
-                  {{ $t("externexternalTransferalShare.ApproverUnit") }}
-                  <span class="bold">{{ user.approvalInfo.unit }}</span>
+                  {{ $t("externalTransfer.ApproverUnit") }}
+                  <span class="bold">{{ user.approvalInfo.unit.name }}</span>
                 </p>
-                <p v-if="user.approvalInfo.ranks">
+                <p v-if="user.approvalInfo.unit.approvers">
                   , {{ $t("externalTransfer.ApproverRanks") }}
-                  <span class="bold">{{ getRanks() }}</span>
+                  <span class="bold">{{
+                    getRanks(user.approvalInfo.unit.approvers)
+                  }}</span>
                 </p>
                 <p class="bold">{{ whiteListText }}</p>
               </div>
@@ -37,7 +44,7 @@
           :disabled="selectedApprovals.length !== 0"
           :label="$t('externalTransfer.IAmApprover')"
           color="#035c64"
-          v-model="canApprove"
+          v-model="isApprover"
         ></v-checkbox>
 
         <Autocomplete
@@ -75,6 +82,7 @@
 <script>
 import { mapGetters } from "vuex";
 import * as usersApi from "@/api/users";
+
 import Chips from "@/components/shared/BaseChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
@@ -89,7 +97,7 @@ export default {
       isLoading: false,
       selectedApprovals: [],
       disabled: true,
-      canApprove: false,
+      isApprover: false,
     };
   },
   computed: {
@@ -99,12 +107,12 @@ export default {
     selectedApprovals: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
     },
-    canApprove: function (canApprove) {
-      canApprove ? (this.disabled = false) : (this.disabled = true);
+    isApprover: function (isApprover) {
+      isApprover ? (this.disabled = false) : (this.disabled = true);
     },
   },
   created() {
-    this.disabled = !this.user.approvalInfo.canApprove;
+    this.disabled = !this.user.approvalInfo.isApprover;
   },
   methods: {
     getUsersByName(name) {
@@ -123,8 +131,8 @@ export default {
         this.selectedApprovals.map((user) => user.id)
       );
     },
-    getRanks() {
-      return this.user.approvalInfo.ranks.toString().split(",").join(", ");
+    getRanks(ranks) {
+      return ranks.toString().split(",").join(", ");
     },
     onSelect(user) {
       this.users = [];

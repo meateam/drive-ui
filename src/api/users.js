@@ -92,8 +92,7 @@ export async function searchExternalUsersByName(name) {
 }
 
 export async function getApproverInfo(userID) {
-    const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
-      timeout: 500,
-    });
-    return res.data;
+  const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`);
+
+  return res.data.approverInfo;
 }
