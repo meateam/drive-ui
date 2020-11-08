@@ -19,7 +19,7 @@
     <AlertPopup
       ref="convertPopup"
       @confirm="editOnline"
-      img="convertPopup.svg"
+      img="greenConvertFile.svg"
       :text="$t(`file.${convertMessage(chosenFiles[0])}`)"
       :button="$t('buttons.ConvertNow')"
       :data="this.chosenFiles[0]"

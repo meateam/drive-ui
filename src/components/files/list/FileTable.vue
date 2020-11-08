@@ -47,7 +47,7 @@
       ref="convertPopup"
       @confirm="onConvert"
       @cancel="openPreview"
-      img="convertPopup.svg"
+      img="greenConvertFile.svg"
       :text="$t(`file.${convertMessage(selectedFile)}`)"
       :button="$t('buttons.ConvertNow')"
       :data="selectedFile"
