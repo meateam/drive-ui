@@ -15,13 +15,15 @@
     </div>
     <v-spacer></v-spacer>
     <div id="left">
+      <Progress :show="isLoading" color="#035c64" :size="60" />
+
       <div v-if="loadingFiles.length">
         <LoadingFiles :files="loadingFiles" />
       </div>
       <v-divider vertical light></v-divider>
       <div id="info">
         <ChatButton />
-        <p id="user-name">{{getUserName()}}</p>
+        <p id="user-name">{{ getUserName() }}</p>
       </div>
       <v-divider vertical light></v-divider>
       <div id="drive-logo">
@@ -38,6 +40,7 @@
 import { mapGetters } from "vuex";
 import { search } from "@/api/search";
 import { isFolder } from "@/utils/isFolder";
+import Progress from "@/components/shared/BaseProgress";
 import ChatButton from "@/components/buttons/ChatButton";
 import LoadingFiles from "@/components/shared/BaseLoadingFiles";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
@@ -45,11 +48,11 @@ import Preview from "@/components/popups/Preview";
 
 export default {
   name: "AppBar",
-  components: { ChatButton, Autocomplete, LoadingFiles, Preview },
+  components: { ChatButton, Autocomplete, LoadingFiles, Preview, Progress },
   data() {
     return {
       results: [],
-      isSearchLoading: false
+      isSearchLoading: false,
     };
   },
   methods: {
@@ -65,8 +68,8 @@ export default {
       if (this.isSearchLoading) return;
       this.isSearchLoading = true;
       search(query)
-        .then(results => {
-          results.forEach(res => (res.display = `${res.name}`));
+        .then((results) => {
+          results.forEach((res) => (res.display = `${res.name}`));
           this.results = results;
         })
         .finally(() => (this.isSearchLoading = false));
@@ -80,11 +83,11 @@ export default {
       } else {
         this.$refs.preview.open(result);
       }
-    }
+    },
   },
   computed: {
-    ...mapGetters(["user", "loadingFiles"])
-  }
+    ...mapGetters(["user", "loadingFiles", "isLoading"]),
+  },
 };
 </script>
 

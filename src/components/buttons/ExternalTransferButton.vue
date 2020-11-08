@@ -8,20 +8,27 @@
         class="auto-margin"
         id="external-transfer-button"
         text
-        :class="{right: !icon}"
+        :class="{ right: !icon }"
       >
         <img class="fab-icon" src="@/assets/icons/transfer.svg" />
-        <p class="button-text" v-if="!icon">{{ $t("buttons.ExternalTransfer") }}</p>
+        <p class="button-text" v-if="!icon">
+          {{ $t("buttons.ExternalTransfer") }}
+        </p>
       </v-btn>
     </template>
     <span>{{ $t("buttons.ExternalTransfer") }}</span>
-    <ExternalTransferPopup ref="transfer" :file="chosenFiles[0]" />
+    <ExternalTransferPopup
+      ref="transfer"
+      :file="chosenFiles[0]"
+      @onShare="onShare"
+    />
   </v-tooltip>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { writeRole } from "@/utils/roles";
+import * as shareApi from "@/api/share";
 import ExternalTransferPopup from "@/components/popups/external-transfer-popup/ExternalTransferPopup";
 
 export default {
@@ -36,9 +43,13 @@ export default {
       return (
         this.chosenFiles.length === 1 &&
         (!this.currentFolder || writeRole(this.currentFolder.role)) &&
-        this.chosenFiles.every(file => writeRole(file.role))
+        this.chosenFiles.every((file) => writeRole(file.role))
       );
-    }
+    },
+    onShare(shareObject) {
+      this.$emit("close");
+      shareApi.shareExternalUsers(shareObject);
+    },
   },
 };
 </script>

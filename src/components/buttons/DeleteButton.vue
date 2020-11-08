@@ -40,6 +40,7 @@ export default {
   methods: {
     onDelete() {
       this.$store.dispatch("deleteFiles", this.chosenFiles);
+      this.$emit('close')
     },
     canDelete() {
       return !this.currentFolder || writeRole(this.currentFolder.role);

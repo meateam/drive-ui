@@ -12,33 +12,50 @@
       @dblclick:row="onDblClick"
       @page-count="pageCount = $event"
     >
-      <template v-slot:item="{item,isSelected,select}">
+      <template v-slot:item="{ item, isSelected, select }">
         <tr
-          :class="{'selected-list-item': isSelected}"
+          :class="{ 'selected-list-item': isSelected }"
           @click.exact="onFileClick(item)"
           @click.ctrl.stop="onCtrlCLick(item)"
           @contextmenu.prevent="onRightClick($event, item)"
           @dblclick.prevent="onDblClick($event, item)"
         >
           <td>
-            <v-simple-checkbox color="#035c64" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
+            <v-simple-checkbox
+              color="#035c64"
+              v-ripple
+              :value="isSelected"
+              @input="select($event)"
+            ></v-simple-checkbox>
           </td>
           <td id="file-icon">
             <FileTypeIcon :file="item" :size="30" />
           </td>
+
           <td class="file-name">{{ item.name }}</td>
+
           <td>{{ item.owner }}</td>
-          <td>{{ formatFileDate(item.updatedAt) }}</td>
-          <td class="file-size">{{ formatFileSize(item.size) }}</td>
+          <td class="ltr-td">{{ formatFileDate(item.updatedAt) }}</td>
+          <td class="ltr-td">{{ formatFileSize(item.size) }}</td>
         </tr>
       </template>
-      <template v-slot:header.data-table-select="{props,on}">
-        <v-simple-checkbox color="#035c64" v-ripple v-bind="props" v-on="on"></v-simple-checkbox>
+      <template v-slot:header.data-table-select="{ props, on }">
+        <v-simple-checkbox
+          color="#035c64"
+          v-ripple
+          v-bind="props"
+          v-on="on"
+        ></v-simple-checkbox>
       </template>
-      <template v-slot:no-data>{{$t('NoData')}}</template>
+      <template v-slot:no-data>{{ $t("NoData") }}</template>
     </v-data-table>
     <v-row justify="center">
-      <v-pagination id="pagination" color="#035c64" v-model="page" :length="pageCount"></v-pagination>
+      <v-pagination
+        id="pagination"
+        color="#035c64"
+        v-model="page"
+        :length="pageCount"
+      ></v-pagination>
     </v-row>
     <BottomMenu :chosenFiles="chosenFiles" />
     <FileContextMenu ref="contextmenu" :files="chosenFiles" />

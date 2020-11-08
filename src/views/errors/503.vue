@@ -3,8 +3,8 @@
     <div class="container">
       <div id="text">
         <h3 id="error">503</h3>
-        <h1 id="unavailable">{{$t('errors.Unavailable')}}</h1>
-        <h2 id="soon">{{$t('errors.BackSoon')}}</h2>
+        <h1 id="unavailable">{{ $t("errors.Unavailable") }}</h1>
+        <h2 id="soon">{{ $t("errors.BackSoon") }}</h2>
       </div>
 
       <div class="area">
@@ -37,7 +37,7 @@ export default {
   name: "Unavailable",
   data() {
     return {
-      interval: ""
+      interval: "",
     };
   },
   created() {
@@ -52,9 +52,9 @@ export default {
       this.interval = setInterval(this.healthcheck, 10000);
     },
     async healthcheck() {
-      if (await isAlive()) this.$router.push("/my-drive");
-    }
-  }
+      if (await isAlive()) window.location.replace("/my-drive");
+    },
+  },
 };
 </script>
 

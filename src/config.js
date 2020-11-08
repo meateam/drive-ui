@@ -13,6 +13,9 @@ const fileTypes = {
     "application/rtf",
     "application/vnd.oasis.opendocument.text",
     "application/vnd.oasis.opendocument.presentation",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   ],
   office: [
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",

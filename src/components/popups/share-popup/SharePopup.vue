@@ -3,13 +3,20 @@
     <v-card>
       <div class="share-header flex">
         <v-icon class="share-icon" color="#fff9e5">person_add</v-icon>
-        <p
-          class="share-title"
-        >{{files.length === 1 ? $t('share.ShareFile'):$t('share.ShareFiles') }}</p>
+        <p class="share-title">
+          {{
+            files.length === 1 ? $t("share.ShareFile") : $t("share.ShareFiles")
+          }}
+        </p>
       </div>
 
       <div class="popup-body">
-        <Share v-if="isShareMode" @share="onShare" @back="onBack" :files="files" />
+        <Share
+          v-if="isShareMode"
+          @share="onShare"
+          @back="onBack"
+          :files="files"
+        />
         <EditPermissions
           v-else-if="files.length === 1"
           :users="users"
@@ -74,7 +81,7 @@ export default {
       this.users = this.users.filter((user) => user.id != permission.userID);
     },
     async onShare(shareObject) {
-      await shareApi.shareUsers(shareObject);
+      this.$emit("onShare", shareObject);
 
       if (this.files.length === 1) {
         shareObject.users.forEach((user) => {

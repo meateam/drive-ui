@@ -1,8 +1,8 @@
 <template>
-  <div :class="{onDrag}">
+  <div :class="{ onDrag }">
     <div v-if="onDrag" id="drop-description">
       <v-icon id="upload-icon">cloud_upload</v-icon>
-      <p>{{$t('buttons.UploadFile')}}</p>
+      <p>{{ $t("buttons.UploadFile") }}</p>
     </div>
   </div>
 </template>
@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       onDrag: false,
-      dragCount: 0
+      dragCount: 0,
     };
   },
   methods: {
@@ -30,7 +30,7 @@ export default {
     dragInit() {
       window.addEventListener(
         "dragenter",
-        event => {
+        (event) => {
           event.preventDefault();
           this.dragCount += 1;
         },
@@ -38,7 +38,7 @@ export default {
       );
       window.addEventListener(
         "dragleave",
-        event => {
+        (event) => {
           event.preventDefault();
           this.dragCount -= 1;
           if (this.isFileDrag(event) && !this.dragCount) {
@@ -49,7 +49,7 @@ export default {
       );
       window.addEventListener(
         "dragover",
-        event => {
+        (event) => {
           event.preventDefault();
           if (this.isFileDrag(event)) {
             this.onDrag = true;
@@ -59,11 +59,11 @@ export default {
       );
       window.addEventListener(
         "drop",
-        event => {
+        (event) => {
           event.preventDefault();
           if (this.isFileDrag(event)) {
             this.onDrag = false;
-            const files = Object.values(event.dataTransfer.items).map(file =>
+            const files = Object.values(event.dataTransfer.items).map((file) =>
               file.getAsFile()
             );
             this.$store.dispatch("uploadFiles", files);
@@ -71,11 +71,11 @@ export default {
         },
         false
       );
-    }
+    },
   },
   created() {
     this.dragInit();
-  }
+  },
 };
 </script>
 

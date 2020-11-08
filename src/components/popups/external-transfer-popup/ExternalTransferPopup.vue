@@ -2,21 +2,23 @@
   <v-dialog v-model="dialog" max-width="600" class="popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/green-transfer.svg" />
-        <p class="d-title">{{$t('externalTransfer.Header')}}</p>
-        <p class="align-center">{{file.name}}</p>
+        <img
+          class="popup-icon auto-margin"
+          src="@/assets/icons/green-transfer.svg"
+        />
+        <p class="d-title">{{ $t("externalTransfer.Header") }}</p>
+        <p class="align-center">{{ file.name }}</p>
       </div>
 
       <div class="popup-body">
         <div class="align-center" v-if="!isFileAllowed()">
-          <p class="popup-text">{{$t('externalTransfer.errors.FileType')}}</p>
-          <p>{{getAllowedTypes()}}</p>
+          <p class="popup-text">{{ $t("externalTransfer.errors.FileType") }}</p>
+          <p>{{ getAllowedTypes() }}</p>
         </div>
-        
-        <div
-          v-else-if="!enableExternalShare"
-          class="align-center"
-        >{{$t('externalTransfer.errors.Enabled')}}</div>
+
+        <div v-else-if="!enableExternalShare" class="align-center">
+          {{ $t("externalTransfer.errors.Enabled") }}
+        </div>
 
         <div id="stepper" v-else>
           <v-stepper v-model="currentStep" alt-labels>
@@ -25,7 +27,8 @@
                 :complete="currentStep > 1"
                 step="1"
                 color="#035c64"
-              >{{$t('externalTransfer.Destination')}}</v-stepper-step>
+                >{{ $t("externalTransfer.Destination") }}</v-stepper-step
+              >
 
               <v-divider></v-divider>
 
@@ -33,11 +36,14 @@
                 :complete="currentStep > 2"
                 step="2"
                 color="#035c64"
-              >{{$t('externalTransfer.Approval')}}</v-stepper-step>
+                >{{ $t("externalTransfer.Approval") }}</v-stepper-step
+              >
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="3" color="#035c64">{{$t('externalTransfer.AddInfo')}}</v-stepper-step>
+              <v-stepper-step step="3" color="#035c64">{{
+                $t("externalTransfer.AddInfo")
+              }}</v-stepper-step>
             </v-stepper-header>
 
             <v-stepper-items>
@@ -63,7 +69,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import * as shareApi from "@/api/share";
 import { fileTypes } from "@/config";
 
 import AddInfo from "./steps/AddInfo";
@@ -117,7 +122,9 @@ export default {
       this.currentStep--;
     },
     onComplete() {
-      shareApi.shareExternalUsers({
+      this.currentStep = 1;
+      this.dialog = false;
+      this.$emit("onShare", {
         users: this.destination,
         fileID: this.file.id,
         fileName: this.file.name,
@@ -125,8 +132,6 @@ export default {
         classification: this.classification,
         approvers: this.approvers,
       });
-      this.currentStep = 1;
-      this.dialog = false;
     },
   },
 };
