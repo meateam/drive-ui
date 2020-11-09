@@ -3,6 +3,8 @@
     <template v-slot:activator="{ on }">
       <v-btn
         @click="$refs.rename.open()"
+        @shortkey="openNameEdit()"
+        v-shortkey="['f12']"
         v-on="on"
         :icon="icon"
         :class="{ right: !icon }"
@@ -48,6 +50,9 @@ export default {
     },
     getFileName(name) {
       return name.includes(".") ? name.substr(0, name.lastIndexOf(".")) : name;
+    },
+    openNameEdit() {
+      if (this.canEdit()) this.$refs.rename.open();
     },
     canEdit() {
       return (

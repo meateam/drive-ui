@@ -5,6 +5,7 @@
         <h3 id="error">503</h3>
         <h1 id="unavailable">{{ $t("errors.Unavailable") }}</h1>
         <h2 id="soon">{{ $t("errors.BackSoon") }}</h2>
+        <p>{{ $t("errors.ForHelp") }}</p>
       </div>
 
       <div class="area">
@@ -64,21 +65,16 @@ export default {
   width: 100px;
   margin: auto;
 }
-#error {
-  text-align: center;
-}
 #unavailable {
   text-align: center;
   font-size: 50px;
-}
-#soon {
-  text-align: center;
 }
 #text {
   background-color: white;
   padding: 30px 40px;
   width: fit-content;
   margin: 50px auto;
+  text-align: center;
   border-radius: 40px;
 }
 .area {
