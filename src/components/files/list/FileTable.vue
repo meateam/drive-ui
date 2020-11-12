@@ -134,6 +134,7 @@ export default {
     },
     onDblClick(event, file) {
       event.preventDefault();
+      if (!this.selected.includes(file)) this.selected = [file];
       if (isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (this.canEditOnline(file)) {
