@@ -65,9 +65,9 @@
       @confirm="onConvert"
       @cancel="openPreview"
       img="greenConvertFile.svg"
-      :text="$t(`file.${convertMessage(selectedFile)}`)"
+      :text="$t(`file.${convertMessage(selected[0])}`)"
       :button="$t('buttons.ConvertNow')"
-      :data="selectedFile"
+      :data="selected[0]"
     />
   </div>
 </template>
@@ -108,7 +108,6 @@ export default {
         { text: this.$t("file.Size"), value: "size" },
       ],
       items: this.files,
-      selectedFile: undefined,
     };
   },
   methods: {
@@ -127,7 +126,6 @@ export default {
       return formatDate(date);
     },
     onRightClick(event, file) {
-      this.selectedFile = file
       event.preventDefault();
       if (!this.selected.includes(file)) {
         this.selected = [file];
@@ -135,7 +133,6 @@ export default {
       this.$refs.contextmenu.show(event);
     },
     onDblClick(event, file) {
-      this.selectedFile = file
       event.preventDefault();
       if (isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
