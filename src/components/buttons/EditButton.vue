@@ -3,8 +3,6 @@
     <template v-slot:activator="{ on }">
       <v-btn
         @click="$refs.rename.open()"
-        @shortkey="openNameEdit()"
-        v-shortkey="['f12']"
         v-on="on"
         :icon="icon"
         :class="{ right: !icon }"

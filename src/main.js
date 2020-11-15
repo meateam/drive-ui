@@ -7,9 +7,6 @@ import i18n from "@/i18n";
 import store from "@/store";
 import router from "@/router";
 import vuetify from "@/plugins/vuetify";
-import Shortkey from "vue-shortkey";
-
-Vue.use(Shortkey);
 
 import "@/interceptors/axios";
 
