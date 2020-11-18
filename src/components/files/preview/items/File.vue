@@ -107,8 +107,8 @@ export default {
   font-size: 80px;
 }
 #pdf {
-  pointer-events: none !importent;
   width: 100%;
   height: 100%;
+  pointer-events: none !importent;
 }
 </style>
