@@ -49,6 +49,9 @@ export default {
     getFileName(name) {
       return name.includes(".") ? name.substr(0, name.lastIndexOf(".")) : name;
     },
+    openNameEdit() {
+      if (this.canEdit()) this.$refs.rename.open();
+    },
     canEdit() {
       return (
         this.chosenFiles.length === 1 &&
