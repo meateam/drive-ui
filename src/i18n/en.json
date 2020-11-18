@@ -179,7 +179,8 @@
   "errors": {
     "GoBack": "GO HOME",
     "Unavailable": "Unavailable System",
-    "BackSoon": "we will be back soon"
+    "BackSoon": "we will be back soon",
+    "ForHelp": "for support, massage us in the hi chat group - drive support"
   },
   "questions": {
     "Header": "Q&A",

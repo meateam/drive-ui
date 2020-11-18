@@ -1,9 +1,9 @@
 <template>
-  <v-tooltip top v-if="chosenFiles.length===1" :disabled="!icon">
+  <v-tooltip top v-if="canDownload()" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
         @click="onDownload"
-        :class="{right: !icon}"
+        :class="{ right: !icon }"
         v-on="on"
         :icon="icon"
         class="auto-margin"
@@ -20,6 +20,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { isFolder } from "@/utils/isFolder";
 import * as filesApi from "@/api/files";
 
 export default {
@@ -28,10 +29,15 @@ export default {
   methods: {
     onDownload() {
       filesApi.downloadFile(this.chosenFiles[0].id);
-    }
+    },
+    canDownload() {
+      return (
+        this.chosenFiles.length === 1 && !isFolder(this.chosenFiles[0].type)
+      );
+    },
   },
   computed: {
-    ...mapGetters(["chosenFiles"])
-  }
+    ...mapGetters(["chosenFiles"]),
+  },
 };
 </script>

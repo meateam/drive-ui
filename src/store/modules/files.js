@@ -99,9 +99,16 @@ const actions = {
 
       commit("resetFiles");
 
-      files.forEach((file) => {
-        file.owner = "אני";
+      files.forEach(async (file) => {
+        const isOwner = isFileOwner(file.ownerId);
+        file.owner = isOwner ? "אני" : "???";
         commit("addFile", file);
+
+        if (!isOwner) {
+          const formattedFile = file;
+          formattedFile.owner = await getFileOwnerName(file.ownerId);
+          commit("updateFile", formattedFile);
+        }
       });
     } catch (err) {
       dispatch("onError", err);
