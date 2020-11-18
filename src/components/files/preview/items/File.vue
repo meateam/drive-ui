@@ -109,6 +109,6 @@ export default {
 #pdf {
   width: 100%;
   height: 100%;
-  pointer-events: none !importent;
+  pointer-events: none !important;
 }
 </style>
