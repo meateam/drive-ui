@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="popup-text">{{$t('share.DriveChoose')}}</p>
+    <p class="popup-text">{{ $t("share.DriveChoose") }}</p>
     <Autocomplete
       icon
       background="white"
@@ -12,10 +12,19 @@
       @type="getExternalUsersByName"
     />
     <v-chip-group show-arrows>
-      <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
+      <Chips
+        v-for="user in selectedUsers"
+        :key="user.id"
+        :user="user"
+        @remove="onRemove"
+      />
     </v-chip-group>
     <v-card-actions class="popup-confirm">
-      <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
+      <SubmitButton
+        @click="onConfirm"
+        :label="$t('buttons.Continue')"
+        :disabled="disabled"
+      />
     </v-card-actions>
   </div>
 </template>
@@ -34,13 +43,13 @@ export default {
       selectedUsers: [],
       users: [],
       isLoading: false,
-      disabled: true
+      disabled: true,
     };
   },
   watch: {
-    selectedUsers: function(users) {
+    selectedUsers: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
-    }
+    },
   },
   methods: {
     getExternalUsersByName(name) {
@@ -48,32 +57,33 @@ export default {
       this.isLoading = true;
       usersApi
         .searchExternalUsersByName(name)
-        .then(users => (this.users = users))
+        .then((users) => (this.users = users))
         .finally(() => (this.isLoading = false));
     },
     onSelect(user) {
       this.users = [];
-      if (!user) return;
-      else if (this.isUserExists(this.selectedUsers, user.id))
-        this.remove(user);
-      else this.selectedUsers.push(user);
+      if (!user || this.isUserExists(this.selectedUsers, user.id)) {
+        return;
+      } else {
+        this.selectedUsers.push(user);
+      }
     },
     onRemove(item) {
-      this.selectedUsers = this.selectedUsers.filter(user => {
+      this.selectedUsers = this.selectedUsers.filter((user) => {
         return user.id !== item.id;
       });
     },
     isUserExists(users, id) {
-      return users.some(user => user.id === id);
+      return users.some((user) => user.id === id);
     },
     onConfirm() {
       this.$emit(
         "continue",
-        this.selectedUsers.map(user => {
+        this.selectedUsers.map((user) => {
           return { id: user.id, full_name: user.full_name };
         })
       );
-    }
-  }
+    },
+  },
 };
 </script>

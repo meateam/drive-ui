@@ -96,3 +96,11 @@ export async function getApproverInfo(userID) {
 
   return res.data.approverInfo;
 }
+
+export async function canApproveToUser(userID, approverID) {
+  const res = await Axios.get(`${baseURL}/api/users/${approverID}/canApproveToUser/${userID}`);
+
+  console.log(res.data)
+
+  return res.data;
+}

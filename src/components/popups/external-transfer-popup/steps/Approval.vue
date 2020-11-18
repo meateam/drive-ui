@@ -134,12 +134,15 @@ export default {
     getRanks(ranks) {
       return ranks.toString().split(",").join(", ");
     },
-    onSelect(user) {
+    async onSelect(approver) {
       this.users = [];
-      if (!user) return;
-      else if (this.isUserExists(this.selectedApprovals, user.id))
-        this.remove(user);
-      else this.selectedApprovals.push(user);
+      if (!approver || this.isUserExists(this.selectedApprovals, approver.id)) {
+        return;
+      } else {
+        await usersApi.canApproveToUser(this.user.id, approver.id);
+
+        this.selectedApprovals.push(approver);
+      }
     },
     onRemove(item) {
       this.selectedApprovals = this.selectedApprovals.filter((user) => {
