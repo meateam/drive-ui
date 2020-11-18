@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - appId query to fetch file by the app that uploaded it.
 
-## [v2.1.1]
+## [2.1.1]
 
 ### Fixed
 
