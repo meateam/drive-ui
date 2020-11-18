@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - the ui allows download on folders.
 
+- last updated files owner name.
+
 ### Added 
 
 - a new button for uploading a docx file in the ui.
