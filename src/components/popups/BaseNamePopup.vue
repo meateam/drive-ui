@@ -2,11 +2,14 @@
   <v-dialog v-model="dialog" max-width="600" class="popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" :src="require(`@/assets/icons/${img}`)" />
-        <p class="d-title">{{$t(`${type}.Upload`)}}</p>
+        <img
+          class="popup-icon auto-margin"
+          :src="require(`@/assets/icons/${img}`)"
+        />
+        <p class="d-title">{{ $t(`${type}.Upload`) }}</p>
       </div>
       <div class="popup-body">
-        <p class="d-subtitle">{{$t(`${type}.Name`)}}</p>
+        <p class="d-subtitle">{{ $t(`${type}.Name`) }}</p>
         <TextField
           ref="input"
           @keyup.enter.native="onConfirm"
@@ -18,7 +21,7 @@
           <SubmitButton
             @click="onConfirm"
             :label="$t('buttons.Confirm')"
-            :disabled="name.length<2"
+            :disabled="name.length < 2"
           />
         </v-card-actions>
       </div>
