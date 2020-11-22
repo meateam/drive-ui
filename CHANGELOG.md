@@ -46,3 +46,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added 
 
 - a new button for uploading a docx file in the ui.
+
+## [v2.2.1]
+
+### Fixed
+
+- remove new features popup
+
+- reload location on create doc file
