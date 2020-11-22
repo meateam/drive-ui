@@ -139,7 +139,7 @@ export default {
       if (!approver || this.isUserExists(this.selectedApprovals, approver.id)) {
         return;
       } else {
-        await usersApi.canApproveToUser(this.user.id, approver.id);
+        await usersApi.canBeApproved(this.user.id, approver.id);
 
         this.selectedApprovals.push(approver);
       }

@@ -11,14 +11,6 @@ const getters = {
   pendingGetRequests: (state) => state.pendingGetRequests,
 };
 
-const actions = {
-  onRouteChange() {
-    state.pendingGetRequests.forEach(source => {
-      source.cancel();
-    })
-  }
-}
-
 const mutations = {
   addLoadingReq: (state) => {
     if (state.loadingFiles.length) return;
@@ -27,7 +19,6 @@ const mutations = {
     state.isLoading = true;
   },
   addGetReq: (state, cancelToken) => {
-    console.log(cancelToken)
     state.pendingGetRequests.push(cancelToken);
   },
   removeLoadingReq: (state) => {
@@ -61,6 +52,5 @@ const mutations = {
 export default {
   state,
   getters,
-  actions,
   mutations,
 };
