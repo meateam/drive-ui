@@ -155,6 +155,13 @@
     "ApproverUnit": "המאשר צריך להיות ביחידה",
     "ApproverRanks": "ובאחת מהדרגות הבאות:",
     "IAmApprover": "אני יכול לאשר את הבקשה",
+    "cantApproveReasons": {
+      "ApproverIsBlocked": "המשתמש חסום ע\" יחבם",
+      "ApproverIsNotInTheSameUnit": "המאשר אינו נמצא באותה היחידה שלך",
+      "ApproverCantApproveInHisUnit": "המשתמש אינו מוסמך לאשר ביחידתך",
+      "ApproverHasNoUnit": "למאשר אין יחידה",
+      "UserHasNoUnit": "אין לך יחידה"
+    },
     "note": {
       "Notice": "שים לב!",
       "SecretNetwork": "הנך עומדים לשתף קובץ ברשת עם סיווג נמוך",

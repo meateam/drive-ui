@@ -76,6 +76,8 @@
       />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
+
+    <NoteSnackbar ref="snackbar" />
   </div>
 </template>
 
@@ -83,6 +85,7 @@
 import { mapGetters } from "vuex";
 import * as usersApi from "@/api/users";
 
+import NoteSnackbar from "@/components/popups/snackbars/BaseNoteSnackbar";
 import Chips from "@/components/shared/BaseChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
@@ -90,7 +93,7 @@ import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "Approval",
-  components: { Chips, SubmitButton, Autocomplete, TextButton },
+  components: { Chips, SubmitButton, Autocomplete, TextButton, NoteSnackbar },
   data() {
     return {
       users: [],
@@ -139,10 +142,24 @@ export default {
       if (!approver || this.isUserExists(this.selectedApprovals, approver.id)) {
         return;
       } else {
-        await usersApi.canBeApproved(this.user.id, approver.id);
+        const canApprove = await usersApi.canBeApproved(
+          this.user.id,
+          approver.id
+        );
 
-        this.selectedApprovals.push(approver);
+        if (canApprove.canApproveToUser) {
+          this.selectedApprovals.push(approver);
+        } else if (canApprove.cantApproveReasons) {
+          const reasons = this.getReasons(canApprove.cantApproveReasons);
+          this.$refs.snackbar.open(reasons);
+        }
       }
+    },
+    getReasons(cantApproveReasons) {
+      const reasons = cantApproveReasons.map((reason) =>
+        this.$t(`externalTransfer.cantApproveReasons.${reason}`)
+      );
+      return reasons.toString().split(",").join(", ");
     },
     onRemove(item) {
       this.selectedApprovals = this.selectedApprovals.filter((user) => {
