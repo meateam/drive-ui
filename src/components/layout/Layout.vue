@@ -14,7 +14,6 @@
         <slot />
       </v-content>
 
-      <NewFeaturesPopup ref="newFeaturesPopup" />
       <ErrorSnackbar />
       <SuccessSnackbar />
     </v-app>
@@ -28,7 +27,6 @@
 import { mapGetters } from "vuex";
 import AppBar from "@/components/layout/toolbar/AppBar";
 import Sidenav from "@/components/layout/sidenav/Sidenav";
-import NewFeaturesPopup from "@/components/popups/NewFeaturesPopup";
 import SuccessSnackbar from "@/components/popups/snackbars/SuccessSnackbar";
 import ErrorSnackbar from "@/components/popups/snackbars/ErrorSnackbar";
 
@@ -40,12 +38,8 @@ export default {
   components: {
     AppBar,
     Sidenav,
-    NewFeaturesPopup,
     SuccessSnackbar,
     ErrorSnackbar,
-  },
-  mounted() {
-    if (this.$route.path === "/my-drive") this.$refs.newFeaturesPopup.open();
   },
   data() {
     return {
