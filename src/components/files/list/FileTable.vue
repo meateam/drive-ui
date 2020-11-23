@@ -33,7 +33,7 @@
 
           <td class="file-name">{{ item.name }}</td>
 
-          <td>{{ item.owner }}</td>
+          <td>{{ item.owner || "???" }}</td>
           <td class="ltr-td">{{ formatFileDate(item.updatedAt) }}</td>
           <td class="ltr-td">{{ formatFileSize(item.size) }}</td>
         </tr>

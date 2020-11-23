@@ -37,14 +37,14 @@ export async function getFoldersByFolder(parent) {
 /**
  * fetchSharedFiles fetch all the shared files in the current folder
  */
-export async function fetchSharedFiles() {
-  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive`);
+export async function fetchSharedFiles(pageNum) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive&pageSum=10&pageNum=${pageNum}`);
   const files = res.data;
   return files;
 }
 
-export async function fetchExternalTransferdFiles() {
-  const res = await Axios.get(`${baseURL}/api/files?shares&appId=dropbox`);
+export async function fetchExternalTransferdFiles(pageNum) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=dropbox&pageSum=10&pageNum=${pageNum}`);
   const files = res.data;
   return files;
 }

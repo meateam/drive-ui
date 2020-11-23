@@ -36,18 +36,13 @@ const actions = {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
 
-      commit("resetFiles");
+      commit("setFiles", files);
 
       files.forEach(async (file) => {
+        const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        file.owner = isOwner ? "אני" : "???";
-        commit("addFile", file);
-
-        if (!isOwner) {
-          const formattedFile = file;
-          formattedFile.owner = await getFileOwnerName(file.ownerId);
-          commit("updateFile", formattedFile);
-        }
+        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+        commit('updateFile', formattedFile);
       });
     } catch (err) {
       dispatch("onError", err);
@@ -56,38 +51,32 @@ const actions = {
   /**
    * fetchSharedFiles fetch the shared files in the root folder
    */
-  async fetchSharedFiles({ commit, dispatch }) {
+  async fetchSharedFiles({ commit, dispatch }, pageNum) {
     try {
-      const files = await filesApi.fetchSharedFiles();
+      const files = await filesApi.fetchSharedFiles(pageNum || 0);
 
-      commit("resetFiles");
+      commit("setFiles", files);
 
-      files.forEach(async (file) => {
-        file.owner = "???";
-        commit("addFile", file);
-
+      for (const file of files) {
         const formattedFile = file;
         formattedFile.owner = await getFileOwnerName(file.ownerId);
         commit("updateFile", formattedFile);
-      });
+      }
     } catch (err) {
       dispatch("onError", err);
     }
   },
-  async fetchExternalTransferdFiles({ commit, dispatch }) {
+  async fetchExternalTransferdFiles({ commit, dispatch }, pageNum) {
     try {
-      const files = await filesApi.fetchExternalTransferdFiles();
+      const files = await filesApi.fetchExternalTransferdFiles(pageNum || 0);
 
-      commit("resetFiles");
+      commit("setFiles", files);
 
-      files.forEach(async (file) => {
-        file.owner = "???";
-        commit("addFile", file);
-
+      for (const file of files) {
         const formattedFile = file;
         formattedFile.owner = await getExternalFileOwnerName(file.ownerId);
         commit("updateFile", formattedFile);
-      });
+      }
     } catch (err) {
       dispatch("onError", err);
     }
@@ -99,18 +88,14 @@ const actions = {
     try {
       const files = await lastUpdatedFileHandler.getUpdatedFiles();
 
-      commit("resetFiles");
+      commit("setFiles", files);
 
       files.forEach(async (file) => {
+        const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        file.owner = isOwner ? "אני" : "???";
-        commit("addFile", file);
 
-        if (!isOwner) {
-          const formattedFile = file;
-          formattedFile.owner = await getFileOwnerName(file.ownerId);
-          commit("updateFile", formattedFile);
-        }
+        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+        commit("updateFile", formattedFile);
       });
     } catch (err) {
       dispatch("onError", err);
@@ -303,10 +288,15 @@ const mutations = {
       return file.id !== fileID;
     });
   },
-  updateFile: (state, f) => {
-    state.files.forEach((file) => {
-      if (file.id === f.id) file = f;
+  updateFile: (state, updateFile) => {
+    console.log(updateFile.name)
+    const updatedFiles = state.files.map((file) => {
+      if (file.id === updateFile.id) return updateFile;
+
+      return file;
     });
+
+    state.files = updatedFiles;
   },
   onFileRename: (state, { name, file }) => {
     if (state.files.includes(file)) {

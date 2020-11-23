@@ -18,11 +18,11 @@ export default {
     ...mapGetters(["files", "serverFilesLength"]),
   },
   created() {
-    this.$store.dispatch("fetchExternalTransferdFiles");
+    this.$store.dispatch("fetchExternalTransferdFiles", 0);
   },
   methods: {
     onPageChange(page) {
-      console.log(page);
+      this.$store.dispatch("fetchExternalTransferdFiles", page - 1);
     },
   },
 };

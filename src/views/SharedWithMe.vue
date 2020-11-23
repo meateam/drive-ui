@@ -18,11 +18,12 @@ export default {
     ...mapGetters(["files", "serverFilesLength"]),
   },
   created() {
-    this.$store.dispatch("fetchSharedFiles");
+    this.$store.dispatch("fetchSharedFiles", 0);
   },
   methods: {
     onPageChange(page) {
       console.log(page);
+      // this.$store.dispatch("fetchSharedFiles", page - 1);
     },
   },
 };
