@@ -25,8 +25,7 @@ export async function fetchFiles(parent) {
 export async function getFoldersByFolder(parent) {
   try {
     const res = await Axios.get(
-      `${baseURL}/api/files?type=${fileTypes.folder}${
-        parent ? `&parent=${parent}` : ""
+      `${baseURL}/api/files?type=${fileTypes.folder}${parent ? `&parent=${parent}` : ""
       }`
     );
     return res.data;
@@ -90,8 +89,7 @@ export async function multipartUpload({ file, parent }) {
 
   formData.append("file", file, file.name);
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=multipart${
-      parent ? `&parent=${parent.id}` : ""
+    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""
     }`,
     formData,
     {
@@ -120,8 +118,7 @@ export async function resumableUpload({ file, parent }) {
   const formData = new FormData();
   formData.append("file", file, file.name);
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${
-      parent ? `&parent=${parent.id}` : ""
+    `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${parent ? `&parent=${parent.id}` : ""
     }`,
     formData,
     {
@@ -180,8 +177,7 @@ export function downloadFile(fileID) {
  */
 export async function uploadFolder({ name, parent }) {
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=multipart${
-      parent ? `&parent=${parent.id}` : ""
+    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""
     }`,
     {},
     {
@@ -236,10 +232,10 @@ export function getFileLink(file) {
 
 export function createNewFile({ name, type, parent }) {
   window.open(
-    `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}${
-      parent ? `&parent=${parent.id}` : ""
+    `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}${parent ? `&parent=${parent.id}` : ""
     }`
   );
+  location.reload();
 }
 
 export async function moveFiles({ folderID, fileIDs }) {

@@ -9,6 +9,11 @@ Axios.interceptors.request.use(
   (request) => {
     store.commit("addLoadingReq");
     request.headers["Authorization"] = `Bearer ${store.state.auth.token}`;
+    if (request.method === "get") {
+      const source = Axios.CancelToken.source();
+      request.cancelToken = source.token;
+      store.commit("addGetReq", source)
+    }
     if (!store.state.auth.token) return Promise.reject();
     return request;
   },

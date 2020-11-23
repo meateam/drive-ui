@@ -2,12 +2,22 @@ const state = {
   onGoingRequests: 0,
   isLoading: false,
   loadingFiles: [],
+  pendingGetRequests: [],
 };
 
 const getters = {
   isLoading: (state) => state.isLoading,
   loadingFiles: (state) => state.loadingFiles,
+  pendingGetRequests: (state) => state.pendingGetRequests,
 };
+
+const actions = {
+  onRouteChange() {
+    state.pendingGetRequests.forEach(source => {
+      source.cancel();
+    })
+  }
+}
 
 const mutations = {
   addLoadingReq: (state) => {
@@ -15,6 +25,10 @@ const mutations = {
 
     state.onGoingRequests++;
     state.isLoading = true;
+  },
+  addGetReq: (state, cancelToken) => {
+    console.log(cancelToken)
+    state.pendingGetRequests.push(cancelToken);
   },
   removeLoadingReq: (state) => {
     if (state.onGoingRequests > 0) state.onGoingRequests--;
@@ -47,5 +61,6 @@ const mutations = {
 export default {
   state,
   getters,
+  actions,
   mutations,
 };
