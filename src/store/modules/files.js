@@ -289,7 +289,6 @@ const mutations = {
     });
   },
   updateFile: (state, updateFile) => {
-    console.log(updateFile.name)
     const updatedFiles = state.files.map((file) => {
       if (file.id === updateFile.id) return updateFile;
 
