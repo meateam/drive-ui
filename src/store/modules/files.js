@@ -17,10 +17,12 @@ const state = {
   chosenFiles: [],
   currentFolderHierarchy: [],
   currentFolder: undefined,
+  serverFilesLength: undefined,
 };
 
 const getters = {
   files: (state) => sortFiles(state.files),
+  serverFilesLength: (state) => state.serverFilesLength,
   chosenFiles: (state) => state.chosenFiles,
   folderRoles: (state) => state.folderRoles,
   currentFolder: (state) => state.currentFolder,
@@ -269,8 +271,8 @@ const actions = {
 
       const failedFiles = data
         ? data.map((error) => {
-            if (error.error) return error.id;
-          })
+          if (error.error) return error.id;
+        })
         : [];
 
       const movedFiles = fileIDs.filter(
@@ -291,7 +293,10 @@ const actions = {
 
 const mutations = {
   setFiles: (state, files) => (state.files = files),
-  resetFiles: (state) => (state.files = []),
+  resetFiles: (state) => {
+    state.serverFilesLength = undefined;
+    state.files = []
+  },
   deleteFile: (state, fileID) => {
     state.files = state.files.filter((file) => file.id !== fileID);
     state.chosenFiles = state.chosenFiles.filter((file) => {
@@ -323,19 +328,14 @@ const mutations = {
 
     state.files.push(file);
   },
-  onFileChoose: (state, { isChecked, file }) => {
-    if (isChecked && !state.chosenFiles.includes(file)) {
-      state.chosenFiles.push(file);
-    } else if (isChecked) {
-      return;
-    } else {
-      state.chosenFiles = state.chosenFiles.filter((chosenFile) => {
-        return chosenFile !== file;
-      });
-    }
-  },
-  onFilesSelect: (state, files) => {
+  setChosenFiles: (state, files) => {
     state.chosenFiles = files;
+  },
+  addSelectedFile: (state, file) => {
+    state.chosenFiles.push(file);
+  },
+  removeSelectedFile: (state, file) => {
+    state.chosenFiles = state.chosenFiles.filter(chosenFile => chosenFile !== file);
   },
   clearSelectedFiles: (state) => {
     state.chosenFiles = [];

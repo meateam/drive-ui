@@ -1,5 +1,10 @@
 <template>
-  <PageTemplate :files="files" :header="$t('pageHeaders.ExternalTransferd')" />
+  <PageTemplate
+    :files="files"
+    :serverFilesLength="serverFilesLength"
+    :header="$t('pageHeaders.ExternalTransferd')"
+    @page="onPageChange"
+  />
 </template>
 
 <script>
@@ -10,10 +15,15 @@ export default {
   name: "ExternalTransferd",
   components: { PageTemplate },
   computed: {
-    ...mapGetters(["files"])
+    ...mapGetters(["files", "serverFilesLength"]),
   },
   created() {
     this.$store.dispatch("fetchExternalTransferdFiles");
-  }
+  },
+  methods: {
+    onPageChange(page) {
+      console.log(page);
+    },
+  },
 };
 </script>

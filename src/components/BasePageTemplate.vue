@@ -13,7 +13,12 @@
       <FileViewButton />
     </div>
 
-    <FileView v-if="files" :files="files" />
+    <FileView
+      v-if="files"
+      :files="files"
+      :serverFilesLength="serverFilesLength"
+      @page="$emit('page', $event)"
+    />
 
     <DragNDrop v-if="upload" />
     <FabButton v-if="upload" />
@@ -30,7 +35,7 @@ import DragNDrop from "@/components/shared/DragNDrop";
 export default {
   name: "PageTemplate",
   components: { FileView, FileViewButton, FabButton, DragNDrop, Breadcrumbs },
-  props: ["files", "header", "upload", "breadcrumbs"],
+  props: ["files", "header", "upload", "breadcrumbs", "serverFilesLength"],
 };
 </script>
 

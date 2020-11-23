@@ -3,20 +3,19 @@
     <v-data-table
       v-model="selected"
       :headers="headers"
-      :items="items"
+      :items="files"
       :page.sync="page"
       :items-per-page="itemsPerPage"
+      :server-items-length="serverFilesLength"
       show-select
       hide-default-footer
-      @contextmenu:row="onRightClick"
-      @dblclick:row="onDblClick"
       @page-count="pageCount = $event"
     >
       <template v-slot:item="{ item, isSelected, select }">
         <tr
           :class="{ 'selected-list-item': isSelected }"
-          @click.exact="onFileClick(item)"
-          @click.ctrl.stop="onCtrlCLick(item)"
+          @click.exact.stop="$emit('fileclick', item)"
+          @click.ctrl.stop="$emit('ctrlclick', item)"
           @contextmenu.prevent="onRightClick($event, item)"
           @dblclick.prevent="onDblClick($event, item)"
         >
@@ -39,7 +38,7 @@
           <td class="ltr-td">{{ formatFileSize(item.size) }}</td>
         </tr>
       </template>
-      <template v-slot:header.data-table-select="{ props, on }">
+      <template v-slot:[`header.data-table-select`]="{ props, on }">
         <v-simple-checkbox
           color="#035c64"
           v-ripple
@@ -49,45 +48,38 @@
       </template>
       <template v-slot:no-data>{{ $t("NoData") }}</template>
     </v-data-table>
+
     <v-row justify="center">
       <v-pagination
         id="pagination"
         color="#035c64"
         v-model="page"
         :length="pageCount"
+        @input="$emit('page', $event)"
       ></v-pagination>
     </v-row>
-    <BottomMenu :chosenFiles="chosenFiles" />
-    <FileContextMenu ref="contextmenu" :files="chosenFiles" />
-    <Preview ref="preview" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { fileTypes } from "@/config";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
-import { isFolder } from "@/utils/isFolder";
-import * as filesApi from "@/api/files";
 
-import BottomMenu from "@/components/popups/menus/BottomMenu";
 import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
-import FileContextMenu from "@/components/popups/menus/FileContextMenu";
-import Preview from "@/components/popups/Preview";
 
 export default {
   name: "FileTable",
-  props: ["files"],
-  components: { BottomMenu, FileContextMenu, Preview, FileTypeIcon },
+  props: ["files", "serverFilesLength"],
+  components: { FileTypeIcon },
   computed: {
     ...mapGetters(["chosenFiles"]),
   },
   data() {
     return {
-      selected: [],
+      selected: this.chosenFiles,
       page: 1,
-      itemsPerPage: 7,
+      itemsPerPage: 10,
       pageCount: 1,
       headers: [
         { value: "type", align: "center", sortable: false },
@@ -96,74 +88,29 @@ export default {
         { text: this.$t("file.LastUpdate"), value: "updatedAt" },
         { text: this.$t("file.Size"), value: "size" },
       ],
-      items: this.files,
     };
   },
   methods: {
     formatFileSize(size) {
       return formatBytes(size);
     },
-    calculateItemsPerPage() {
-      const pageHeight = window.innerHeight;
-      const layoutHeight = 380;
-      const itemHeight = 70;
-      const items = Math.floor((pageHeight - layoutHeight) / itemHeight);
-
-      this.itemsPerPage = items < 7 ? 7 : items;
-    },
     formatFileDate(date) {
       return formatDate(date);
     },
     onRightClick(event, file) {
-      event.preventDefault();
-      if (!this.selected.includes(file)) {
-        this.selected = [file];
-      }
-      this.$refs.contextmenu.show(event);
+      this.$emit("contextmenu", { event, file });
     },
     onDblClick(event, file) {
-      event.preventDefault();
-      if (isFolder(file.type)) {
-        this.$router.push({ path: "/folders", query: { id: file.id } });
-      } else if (this.canEditOnline(file)) {
-        filesApi.editOnline(this.chosenFiles[0].id);
-      } else {
-        this.$refs.preview.open(file);
-      }
-    },
-    onCtrlCLick(file) {
-      if (!this.selected.includes(file)) this.selected.push(file);
-      else this.selected = this.selected.filter((item) => item !== file);
-    },
-    onFileClick(file) {
-      this.selected = [file];
-    },
-    canEditOnline(file) {
-      return fileTypes.office.includes(file.type);
+      this.$emit("dblclick", { event, file });
     },
   },
   watch: {
     selected: function (files) {
-      this.$store.commit("onFilesSelect", files);
-    },
-    files: function (files) {
-      this.items = files;
+      this.$store.commit("setChosenFiles", files);
     },
     chosenFiles: function (files) {
       this.selected = files;
     },
-  },
-  created() {
-    this.calculateItemsPerPage();
-
-    window.addEventListener("keydown", (event) => {
-      if (event.key === "a" && event.ctrlKey) {
-        event.preventDefault();
-        this.selected = this.items;
-      }
-    });
-
-    window.addEventListener("resize", this.calculateItemsPerPage);
   },
 };
 </script>

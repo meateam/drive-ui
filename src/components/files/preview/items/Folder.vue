@@ -2,21 +2,21 @@
   <v-card
     id="folder"
     class="pointer"
-    :class="{selected: isSelected}"
+    :class="{ selected: isSelected }"
     @dblclick="$emit('dblclick', $event, folder)"
-    @click.native.exact="$emit('click', $event, folder)"
-    @click.ctrl.native="$emit('ctrlclick', $event, folder)"
     @contextmenu.prevent="$emit('contextmenu', $event, folder)"
+    @click.native.exact="$emit('click', folder)"
+    @click.ctrl.native="$emit('ctrlclick', folder)"
   >
     <v-icon color="#fc8946" id="folder-icon">folder</v-icon>
-    <p id="folder-name">{{folder.name}}</p>
+    <p id="folder-name">{{ folder.name }}</p>
   </v-card>
 </template>
 
 <script>
 export default {
   name: "Folder",
-  props: ["folder", "isSelected"]
+  props: ["folder", "isSelected"],
 };
 </script>
 
