@@ -49,6 +49,7 @@ import AlertPopup from "@/components/popups/BaseAlertPopup";
 import FileContextMenu from "@/components/popups/menus/FileContextMenu";
 import Folder from "./items/Folder";
 import File from "./items/File";
+import { convertMessageType } from "@/utils/convertMessage";
 
 export default {
   name: "FilesPreview",
@@ -65,7 +66,7 @@ export default {
       typeFiles: this.files.filter(
         (file) => file.type !== "application/vnd.drive.folder"
       ),
-      selectedFile: undefined
+      selectedFile: undefined,
     };
   },
   watch: {
@@ -80,20 +81,20 @@ export default {
   },
   methods: {
     onDblClick(event, file) {
-      this.selectedFile = file
+      this.selectedFile = file;
       event.preventDefault();
       if (file.type === fileTypes.folder) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (this.canEditOnline(file)) {
         filesApi.editOnline(file.id);
       } else if (this.isOldOfficeType(file)) {
-        this.$refs.convertPopup.open()
+        this.$refs.convertPopup.open();
       } else {
         this.openPreview(file);
       }
     },
     onRightClick(event, file) {
-      this.selectedFile = file
+      this.selectedFile = file;
       event.preventDefault();
       if (!this.chosenFiles.includes(file)) {
         this.$store.commit("onFilesSelect", [file]);
@@ -126,20 +127,10 @@ export default {
       this.$refs.preview.open(file);
     },
     convertMessage(file) {
-      if(file) {
-        switch(file.type) {
-          case fileTypes.officeConvert["doc"]: {
-            return "ConvertDOC";
-          }
-          case fileTypes.officeConvert["xls"]: {
-            return "ConvertXLS";
-          }
-          case fileTypes.officeConvert["ppt"]: {
-            return "ConvertPPT";
-          }
-        }
+      if (file) {
+        return convertMessageType(file.type);
       }
-    }
+    },
   },
 };
 </script>

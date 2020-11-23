@@ -79,6 +79,7 @@ import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
 import { isFolder } from "@/utils/isFolder";
 import * as filesApi from "@/api/files";
+import { convertMessageType } from "@/utils/convertMessage";
 
 import BottomMenu from "@/components/popups/menus/BottomMenu";
 import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
@@ -86,11 +87,16 @@ import FileContextMenu from "@/components/popups/menus/FileContextMenu";
 import Preview from "@/components/popups/Preview";
 import AlertPopup from "@/components/popups/BaseAlertPopup";
 
-
 export default {
   name: "FileTable",
   props: ["files"],
-  components: { BottomMenu, FileContextMenu, Preview, FileTypeIcon, AlertPopup },
+  components: {
+    BottomMenu,
+    FileContextMenu,
+    Preview,
+    FileTypeIcon,
+    AlertPopup,
+  },
   computed: {
     ...mapGetters(["chosenFiles"]),
   },
@@ -140,9 +146,9 @@ export default {
       } else if (this.canEditOnline(file)) {
         filesApi.editOnline(file.id);
       } else if (this.isOldOfficeType(file)) {
-        this.$refs.convertPopup.open()
+        this.$refs.convertPopup.open();
       } else {
-        this.openPreview(file)
+        this.openPreview(file);
       }
     },
     onCtrlCLick(file) {
@@ -165,18 +171,8 @@ export default {
       this.$refs.preview.open(file);
     },
     convertMessage(file) {
-      if(file) {
-        switch(file.type) {
-          case fileTypes.officeConvert["doc"]: {
-            return "ConvertDOC";
-          }
-          case fileTypes.officeConvert["xls"]: {
-            return "ConvertXLS";
-          }
-          case fileTypes.officeConvert["ppt"]: {
-            return "ConvertPPT";
-          }
-        }
+      if (file) {
+        return convertMessageType(file.type);
       }
     },
   },
