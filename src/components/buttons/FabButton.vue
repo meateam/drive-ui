@@ -55,8 +55,9 @@
 
 <script>
 import { mapGetters } from "vuex";
-import * as filesApi from "@/api/files";
 import { writeRole } from "@/utils/roles";
+import * as filesApi from "@/api/files";
+
 import Upload from "./Upload";
 import NamePopup from "../popups/BaseNamePopup";
 import CreateFilePopup from "../popups/CreateFilePopup";
