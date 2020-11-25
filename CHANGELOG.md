@@ -7,23 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v2.0.2] - 2020-10-28
-
-### Removed
-
-- default timoout for the axios request because some big files uploads that took more then 10 sec faild.
-
-## [v2.1.0]
-
-### Added
-
-- appId query to fetch file by the app that uploaded it.
-
-## [2.1.1]
+## [v2.2.1]
 
 ### Fixed
 
-- owner name in the last updated files which wasn't shown.
+- remove new features popup
+
+- reload location on create doc file
 
 ## [v2.2.0]
 
@@ -43,10 +33,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - a new button for uploading a docx file in the ui.
 
-## [v2.2.1]
+## [2.1.1]
 
 ### Fixed
 
-- remove new features popup
+- owner name in the last updated files which wasn't shown.
 
-- reload location on create doc file
+## [v2.1.0]
+
+### Added
+
+- appId query to fetch file by the app that uploaded it.
+
+## [v2.0.2] - 2020-10-28
+
+### Removed
+
+- default timoout for the axios request because some big files uploads that took more then 10 sec faild.
+
+
+
+
