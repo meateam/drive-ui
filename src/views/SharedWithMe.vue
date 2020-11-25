@@ -22,8 +22,7 @@ export default {
   },
   methods: {
     onPageChange(page) {
-      console.log(page);
-      // this.$store.dispatch("fetchSharedFiles", page - 1);
+      this.$store.dispatch("fetchSharedFiles", page - 1);
     },
   },
 };

@@ -53,9 +53,11 @@ const actions = {
    */
   async fetchSharedFiles({ commit, dispatch }, pageNum) {
     try {
-      const files = await filesApi.fetchSharedFiles(pageNum || 0);
+      const permissions = await filesApi.fetchSharedFiles(pageNum || 0);
+      const files = permissions.files;
 
       commit("setFiles", files);
+      commit("setServerFilesLength", permissions.itemCount);
 
       for (const file of files) {
         const formattedFile = file;
@@ -68,9 +70,11 @@ const actions = {
   },
   async fetchExternalTransferdFiles({ commit, dispatch }, pageNum) {
     try {
-      const files = await filesApi.fetchExternalTransferdFiles(pageNum || 0);
+      const permissions = await filesApi.fetchExternalTransferdFiles(pageNum || 0);
+      const files = permissions.files;
 
       commit("setFiles", files);
+      commit("setServerFilesLength", permissions.itemCount);
 
       for (const file of files) {
         const formattedFile = file;
@@ -277,10 +281,12 @@ const actions = {
 };
 
 const mutations = {
-  setFiles: (state, files) => (state.files = files),
-  resetFiles: (state) => {
+  setFiles: (state, files) => {
     state.serverFilesLength = undefined;
-    state.files = []
+    state.files = files
+  },
+  setServerFilesLength: (state, itemCount) => {
+    state.serverFilesLength = itemCount;
   },
   deleteFile: (state, fileID) => {
     state.files = state.files.filter((file) => file.id !== fileID);
