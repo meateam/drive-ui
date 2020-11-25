@@ -10,9 +10,9 @@
     >
       <AppBar />
       <Sidenav />
-      <v-content>
+      <v-main>
         <slot />
-      </v-content>
+      </v-main>
 
       <ErrorSnackbar />
       <SuccessSnackbar />

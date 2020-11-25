@@ -1,5 +1,5 @@
 <template>
-  <v-btn-toggle id="toggle-button" v-model="view" rounded dense borderless color="primary">
+  <v-btn-toggle v-model="view" rounded dense borderless color="primary">
     <v-tooltip top>
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
@@ -42,9 +42,6 @@ export default {
 </script>
 
 <style scoped>
-#toggle-button {
-  direction: ltr;
-}
 .view-icon {
   width: 15px;
 }
