@@ -27,7 +27,6 @@ const mutations = {
     state.isLoading = true;
   },
   addGetReq: (state, cancelToken) => {
-    console.log(cancelToken)
     state.pendingGetRequests.push(cancelToken);
   },
   removeLoadingReq: (state) => {

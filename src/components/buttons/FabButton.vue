@@ -1,62 +1,72 @@
 <template>
-  <v-speed-dial
-    id="fab"
-    v-model="fab"
-    direction="top"
-    transition="scale-transition"
-    v-if="canUpload()"
-  >
-    <template v-slot:activator>
-      <v-btn v-model="fab" fab color="#2f7e71">
-        <v-icon color="white" v-if="fab">close</v-icon>
-        <v-icon color="white" v-else>add</v-icon>
-      </v-btn>
-      <Upload ref="upload" />
-    </template>
-    <v-tooltip right>
-      <template v-slot:activator="{ on }">
-        <v-btn
-          @click.stop="$refs.newFolder.open()"
-          v-on="on"
-          fab
-          big
-          color="#035c64"
-        >
-          <NamePopup
-            img="green-create-folder.svg"
-            ref="newFolder"
-            type="folder"
-            @confirm="onFolderConfirm"
-          />
-          <img class="icon" src="@/assets/icons/create-folder.svg" />
+  <div>
+    <v-speed-dial
+      id="fab"
+      v-model="fab"
+      direction="top"
+      transition="scale-transition"
+      v-if="canUpload()"
+    >
+      <template v-slot:activator>
+        <v-btn v-model="fab" fab color="#2f7e71">
+          <v-icon color="white" v-if="fab">close</v-icon>
+          <v-icon color="white" v-else>add</v-icon>
         </v-btn>
       </template>
-      <span>{{ $t("buttons.NewFolder") }}</span>
-    </v-tooltip>
-    <v-tooltip right>
-      <template v-slot:activator="{ on }">
-        <v-btn v-on="on" fab color="#035c64" @click="$refs.upload.open()">
-          <img class="icon" src="@/assets/icons/upload.svg" />
-        </v-btn>
-      </template>
-      <span>{{ $t("buttons.UploadFile") }}</span>
-    </v-tooltip>
-    <v-tooltip right>
-      <template v-slot:activator="{ on }">
-        <v-btn v-on="on" fab color="#035c64" @click.stop="$refs.newFile.open()">
-          <CreateFilePopup ref="newFile" @confirm="onFileConfirm" />
-          <img class="icon" src="@/assets/icons/create-file.svg" />
-        </v-btn>
-      </template>
-      <span>{{ $t("buttons.CreateFile") }}</span>
-    </v-tooltip>
-  </v-speed-dial>
+
+      <v-tooltip right>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            @click.stop="$refs.newFolder.open()"
+            v-on="on"
+            fab
+            big
+            color="#035c64"
+          >
+            <img class="icon" src="@/assets/icons/create-folder.svg" />
+          </v-btn>
+        </template>
+        <span>{{ $t("buttons.NewFolder") }}</span>
+      </v-tooltip>
+      <v-tooltip right>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" fab color="#035c64" @click="$refs.upload.open()">
+            <img class="icon" src="@/assets/icons/upload.svg" />
+          </v-btn>
+        </template>
+        <span>{{ $t("buttons.UploadFile") }}</span>
+      </v-tooltip>
+      <v-tooltip right>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            fab
+            color="#035c64"
+            @click.stop="$refs.newFile.open()"
+          >
+            <img class="icon" src="@/assets/icons/create-file.svg" />
+          </v-btn>
+        </template>
+        <span>{{ $t("buttons.CreateFile") }}</span>
+      </v-tooltip>
+    </v-speed-dial>
+    
+    <CreateFilePopup ref="newFile" @confirm="onFileConfirm" />
+    <Upload ref="upload" />
+    <NamePopup
+      img="green-create-folder.svg"
+      ref="newFolder"
+      type="folder"
+      @confirm="onFolderConfirm"
+    />
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import * as filesApi from "@/api/files";
 import { writeRole } from "@/utils/roles";
+import * as filesApi from "@/api/files";
+
 import Upload from "./Upload";
 import NamePopup from "../popups/BaseNamePopup";
 import CreateFilePopup from "../popups/CreateFilePopup";
