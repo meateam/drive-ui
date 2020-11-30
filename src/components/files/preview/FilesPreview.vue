@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="d-subtitle folders-header">{{$t('file.Folders')}}</p>
+    <p class="d-subtitle folders-header">{{ $t("file.Folders") }}</p>
     <div class="flex">
       <Folder
         @dblclick="onDblClick"
@@ -13,7 +13,7 @@
         :folder="folder"
       />
     </div>
-    <p class="d-subtitle">{{$t('file.Files')}}</p>
+    <p class="d-subtitle">{{ $t("file.Files") }}</p>
     <div class="flex">
       <File
         @dblclick="onDblClick"
@@ -28,6 +28,15 @@
     </div>
     <FileContextMenu ref="contextmenu" :files="chosenFiles" />
     <Preview ref="preview" />
+    <AlertPopup
+      ref="convertPopup"
+      @confirm="onConvert"
+      @cancel="openPreview"
+      img="greenConvertFile.svg"
+      :text="$t(`file.${convertMessage(selectedFile)}`)"
+      :button="$t('buttons.ConvertNow')"
+      :data="selectedFile"
+    />
   </div>
 </template>
 
@@ -36,14 +45,16 @@ import { mapGetters } from "vuex";
 import { fileTypes } from "@/config";
 import * as filesApi from "@/api/files";
 import Preview from "@/components/popups/Preview";
+import AlertPopup from "@/components/popups/BaseAlertPopup";
 import FileContextMenu from "@/components/popups/menus/FileContextMenu";
 import Folder from "./items/Folder";
 import File from "./items/File";
+import { convertMessageType } from "@/utils/convertMessage";
 
 export default {
   name: "FilesPreview",
   props: ["files"],
-  components: { File, Folder, FileContextMenu, Preview },
+  components: { File, Folder, FileContextMenu, Preview, AlertPopup },
   computed: {
     ...mapGetters(["chosenFiles"]),
   },
@@ -55,6 +66,7 @@ export default {
       typeFiles: this.files.filter(
         (file) => file.type !== "application/vnd.drive.folder"
       ),
+      selectedFile: undefined,
     };
   },
   watch: {
@@ -69,16 +81,20 @@ export default {
   },
   methods: {
     onDblClick(event, file) {
+      this.selectedFile = file;
       event.preventDefault();
       if (file.type === fileTypes.folder) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (this.canEditOnline(file)) {
-        filesApi.editOnline(this.chosenFiles[0].id);
+        filesApi.editOnline(file.id);
+      } else if (this.isOldOfficeType(file)) {
+        this.$refs.convertPopup.open();
       } else {
-        this.$refs.preview.open(file);
+        this.openPreview(file);
       }
     },
     onRightClick(event, file) {
+      this.selectedFile = file;
       event.preventDefault();
       if (!this.chosenFiles.includes(file)) {
         this.$store.commit("onFilesSelect", [file]);
@@ -98,8 +114,22 @@ export default {
     onFileClick(event, file) {
       this.$store.commit("onFilesSelect", [file]);
     },
+    onConvert(file) {
+      filesApi.editOnline(file.id);
+    },
     canEditOnline(file) {
       return fileTypes.office.includes(file.type);
+    },
+    isOldOfficeType(file) {
+      return fileTypes.oldOffice.includes(file.type);
+    },
+    openPreview(file) {
+      this.$refs.preview.open(file);
+    },
+    convertMessage(file) {
+      if (file) {
+        return convertMessageType(file.type);
+      }
     },
   },
 };

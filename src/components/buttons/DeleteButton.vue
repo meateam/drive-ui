@@ -19,7 +19,7 @@
     </template>
     <AlertPopup
       ref="popup"
-      @delete="onDelete"
+      @confirm="onDelete"
       img="deletePopup.svg"
       :text="$t('file.Delete')"
       :button="$t('buttons.DeleteNow')"
