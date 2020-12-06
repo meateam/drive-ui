@@ -65,7 +65,6 @@
 import { mapGetters } from "vuex";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
-
 import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
 
 export default {
@@ -102,6 +101,13 @@ export default {
     },
     onDblClick(event, file) {
       this.$emit("dblclick", { event, file });
+    },
+    onCtrlCLick(file) {
+      if (!this.selected.includes(file)) this.selected.push(file);
+      else this.selected = this.selected.filter((item) => item !== file);
+    },
+    onFileClick(file) {
+      this.selected = [file];
     },
   },
   watch: {

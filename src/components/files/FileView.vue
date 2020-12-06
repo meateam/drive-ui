@@ -21,16 +21,26 @@
     <FileContextMenu ref="contextmenu" :files="chosenFiles" />
     <BottomMenu :chosenFiles="chosenFiles" />
     <Preview ref="preview" />
+    <AlertPopup
+      ref="convert"
+      img="greenConvertFile.svg"
+      @confirm="openEditOnline"
+      @cancel="openPreview"
+      :text="convertMessage(chosenFiles[0])"
+      :button="$t('buttons.ConvertNow')"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { fileTypes } from "@/config";
+import { convertMessageType } from "@/utils/convertMessage";
 import { isFolder } from "@/utils/isFolder";
 import * as filesApi from "@/api/files";
 
 import FileTable from "@/components/files/list/FileTable";
+import AlertPopup from "@/components/popups/BaseAlertPopup";
 import BottomMenu from "@/components/popups/menus/BottomMenu";
 import FilesPreview from "@/components/files/preview/FilesPreview";
 import FileContextMenu from "@/components/popups/menus/FileContextMenu";
@@ -38,7 +48,14 @@ import Preview from "@/components/popups/Preview";
 
 export default {
   name: "FileView",
-  components: { FileTable, FilesPreview, Preview, FileContextMenu, BottomMenu },
+  components: {
+    FileTable,
+    FilesPreview,
+    Preview,
+    FileContextMenu,
+    BottomMenu,
+    AlertPopup,
+  },
   props: ["files", "serverFilesLength"],
   computed: {
     ...mapGetters(["fileView", "chosenFiles"]),
@@ -55,6 +72,18 @@ export default {
     canEditOnline(file) {
       return fileTypes.office.includes(file.type);
     },
+    isOldOfficeType(file) {
+      return fileTypes.oldOffice.includes(file.type);
+    },
+    convertMessage(file) {
+      return file ? this.$t(`file.${convertMessageType(file.type)}`) : "";
+    },
+    openEditOnline(file) {
+      filesApi.editOnline(file.id);
+    },
+    openPreview(file) {
+      this.$refs.preview.open(file);
+    },
     onRightClick({ event, file }) {
       event.preventDefault();
       if (!this.chosenFiles.includes(file)) {
@@ -67,9 +96,11 @@ export default {
       if (isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (this.canEditOnline(file)) {
-        filesApi.editOnline(this.chosenFiles[0].id);
+        this.openEditOnline(file);
+      } else if (this.isOldOfficeType(file)) {
+        this.$refs.convert.open(file);
       } else {
-        this.$refs.preview.open(file);
+        this.openPreview(file);
       }
     },
     onCtrlCLick(file) {

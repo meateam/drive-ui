@@ -31,6 +31,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { isFolder } from "@/utils/isFolder";
 import Folder from "./items/Folder";
 import File from "./items/File";
 
@@ -43,22 +44,15 @@ export default {
   },
   data() {
     return {
-      typeFolders: this.files.filter(
-        (file) => file.type === "application/vnd.drive.folder"
-      ),
-      typeFiles: this.files.filter(
-        (file) => file.type !== "application/vnd.drive.folder"
-      ),
+      typeFolders: this.files.filter((file) => isFolder(file.type)),
+      typeFiles: this.files.filter((file) => !isFolder(file.type)),
+      selectedFile: undefined,
     };
   },
   watch: {
     files: function (val) {
-      this.typeFolders = val.filter(
-        (file) => file.type === "application/vnd.drive.folder"
-      );
-      this.typeFiles = val.filter(
-        (file) => file.type !== "application/vnd.drive.folder"
-      );
+      this.typeFolders = val.filter((file) => isFolder(file.type));
+      this.typeFiles = val.filter((file) => !isFolder(file.type));
     },
   },
   methods: {
