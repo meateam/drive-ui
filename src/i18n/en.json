@@ -42,7 +42,10 @@
     "LastUpdate": "last updated",
     "Size": "file size",
     "Loading": "loading",
-    "Delete": "Are you sure you want to delete?"
+    "Delete": "Are you sure you want to delete?",
+    "ConvertDOC": "This file is a DOC file. To edit it we need to convert it to DOCX Do you want to continue?",
+    "ConvertXLS": "This file is a XLS file. To edit it we need to convert it to XLSX Do you want to continue?",
+    "ConvertPPT": "This file is a PPT file. To edit it we need to convert it to PPTX Do you want to continue?"
   },
   "buttons": {
     "UploadFile": "upload file",
@@ -70,7 +73,8 @@
     "RemoveShare": "remove share",
     "Finish": "finish",
     "Preview": "preiview",
-    "EditPermission": "edit permission"
+    "EditPermission": "edit permission",
+    "ConvertNow": "convert"
   },
   "success": {
     "File": "Uploaded successfully",
