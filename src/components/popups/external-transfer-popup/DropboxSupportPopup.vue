@@ -9,7 +9,7 @@
       <div class="popup-header">
         <img
           class="popup-icon auto-margin"
-          src="@/assets/icons/green-note.svg"
+          src="@/assets/icons/green-alert.svg"
         />
         <p class="d-title">
           {{ $t("externalTransfer.CantChooseApprove", { name }) }}
@@ -110,7 +110,7 @@ export default {
 
 <style scoped>
 .popup-icon {
-  width: 100px;
+  width: 200px;
 }
 #close-button {
   position: absolute;
