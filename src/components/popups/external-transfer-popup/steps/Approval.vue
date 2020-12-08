@@ -58,6 +58,24 @@
           @type="getUsersByName"
         />
       </div>
+      <div v-if="blockedApprover">
+        <p id="cant-approve">
+          {{
+            $t("externalTransfer.BlockedApprover", {
+              name: blockedApprover.name,
+            })
+          }}
+        </p>
+        <v-btn
+          text
+          small
+          @click="$refs.support.open(blockedApprover)"
+          id="more-info-button"
+        >
+          <p>{{ $t("buttons.MoreInfo") }}</p>
+        </v-btn>
+      </div>
+
       <v-chip-group show-arrows>
         <Chips
           v-for="user in selectedApprovals"
@@ -77,7 +95,7 @@
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
 
-    <NoteSnackbar ref="snackbar" />
+    <DropboxSupportPopup ref="support" />
   </div>
 </template>
 
@@ -85,7 +103,7 @@
 import { mapGetters } from "vuex";
 import * as usersApi from "@/api/users";
 
-import NoteSnackbar from "@/components/popups/snackbars/BaseNoteSnackbar";
+import DropboxSupportPopup from "@/components/popups/external-transfer-popup/DropboxSupportPopup";
 import Chips from "@/components/shared/BaseChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
@@ -93,12 +111,19 @@ import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "Approval",
-  components: { Chips, SubmitButton, Autocomplete, TextButton, NoteSnackbar },
+  components: {
+    Chips,
+    SubmitButton,
+    Autocomplete,
+    TextButton,
+    DropboxSupportPopup,
+  },
   data() {
     return {
       users: [],
-      isLoading: false,
       selectedApprovals: [],
+      blockedApprover: undefined,
+      isLoading: false,
       disabled: true,
       isApprover: false,
     };
@@ -138,6 +163,7 @@ export default {
       return ranks.toString().split(",").join(", ");
     },
     async onSelect(approver) {
+      this.blockedApprover = undefined;
       this.users = [];
       if (!approver || this.isUserExists(this.selectedApprovals, approver.id)) {
         return;
@@ -150,16 +176,12 @@ export default {
         if (canApprove.canApproveToUser) {
           this.selectedApprovals.push(approver);
         } else if (canApprove.cantApproveReasons) {
-          const reasons = this.getReasons(canApprove.cantApproveReasons);
-          this.$refs.snackbar.open(reasons);
+          this.blockedApprover = {
+            name: approver.fullName,
+            reasons: canApprove.cantApproveReasons,
+          };
         }
       }
-    },
-    getReasons(cantApproveReasons) {
-      const reasons = cantApproveReasons.map((reason) =>
-        this.$t(`externalTransfer.cantApproveReasons.${reason}`)
-      );
-      return reasons.toString().split(",").join(", ");
     },
     onRemove(item) {
       this.selectedApprovals = this.selectedApprovals.filter((user) => {
@@ -176,5 +198,13 @@ export default {
 <style scoped>
 #approval-header {
   padding: 3px;
+}
+#cant-approve {
+  color: red;
+  text-align: center;
+}
+#more-info-button {
+  margin: auto;
+  display: block;
 }
 </style>
