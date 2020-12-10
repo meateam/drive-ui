@@ -39,14 +39,14 @@ export async function getFoldersByFolder(parent) {
  */
 export async function fetchSharedFiles() {
   const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive`);
-  const files = res.data;
-  return files.successful;
+  const files = res.data.successful;
+  return files;
 }
 
 export async function fetchExternalTransferdFiles() {
   const res = await Axios.get(`${baseURL}/api/files?shares&appId=dropbox`);
-  const files = res.data;
-  return files.successful;
+  const files = res.data.successful;
+  return files;
 }
 
 /**
