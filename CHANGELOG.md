@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - add popup for convert docs.
 
+### Fixed
+- fix fetch shared files bug.
+
 ## [v2.2.1]
 
 ### Fixed
