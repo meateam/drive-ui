@@ -65,6 +65,7 @@
 import { mapGetters } from "vuex";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
+import { pageSize } from "@/config";
 import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
 
 export default {
@@ -78,7 +79,7 @@ export default {
     return {
       selected: this.chosenFiles,
       page: 1,
-      itemsPerPage: 10,
+      itemsPerPage: pageSize,
       pageCount: 1,
       headers: [
         { value: "type", align: "center", sortable: false },
