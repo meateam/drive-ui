@@ -11,6 +11,9 @@ export async function getUserByID(userID) {
   try {
     const res = await Axios.get(`${baseURL}/api/users/${userID}`);
     const user = formatUser(res.data.user);
+    
+    store.commit("addUserToictionary", user);
+
     return user;
   } catch (err) {
     store.dispatch("onError", err);
@@ -40,8 +43,8 @@ export async function searchUsersByName(name) {
     });
     const users = res.data.users
       ? res.data.users.filter((user) => {
-          return user.id !== store.state.auth.user.id;
-        })
+        return user.id !== store.state.auth.user.id;
+      })
       : [];
     return Promise.all(users.map((user) => formatUser(user)));
   } catch (err) {
@@ -92,8 +95,8 @@ export async function searchExternalUsersByName(name) {
 }
 
 export async function getApproverInfo(userID) {
-    const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
-      timeout: 500,
-    });
-    return res.data;
+  const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
+    timeout: 500,
+  });
+  return res.data;
 }

@@ -3,7 +3,7 @@ import {
   pushUpdatedFile,
   removeUpdatedFile,
 } from "@/utils/lastUpdatedFileHandler";
-import { baseURL, fileTypes } from "@/config";
+import { baseURL, fileTypes, pageSize } from "@/config";
 import { isFolder } from "@/utils/isFolder";
 import store from "@/store";
 
@@ -37,16 +37,16 @@ export async function getFoldersByFolder(parent) {
 /**
  * fetchSharedFiles fetch all the shared files in the current folder
  */
-export async function fetchSharedFiles() {
-  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive`);
-  const files = res.data.successful;
-  return files;
+export async function fetchSharedFiles(pageNum) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive&pageSize=${pageSize}&pageNum=${pageNum}`);
+  const permissions = res.data;
+  return permissions;
 }
 
-export async function fetchExternalTransferdFiles() {
-  const res = await Axios.get(`${baseURL}/api/files?shares&appId=dropbox`);
-  const files = res.data.successful;
-  return files;
+export async function fetchExternalTransferdFiles(pageNum) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=dropbox&pageSize=${pageSize}&pageNum=${pageNum}`);
+  const permissions = res.data;
+  return permissions;
 }
 
 /**

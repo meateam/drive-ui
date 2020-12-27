@@ -1,5 +1,10 @@
 <template>
-  <PageTemplate :files="files" :header="$t('pageHeaders.SharedWithMe')" />
+  <PageTemplate
+    :files="files"
+    :serverFilesLength="serverFilesLength"
+    :header="$t('pageHeaders.SharedWithMe')"
+    @page="onPageChange"
+  />
 </template>
 
 <script>
@@ -10,10 +15,15 @@ export default {
   name: "Shared",
   components: { PageTemplate },
   computed: {
-    ...mapGetters(["files"])
+    ...mapGetters(["files", "serverFilesLength"]),
   },
   created() {
-    this.$store.dispatch("fetchSharedFiles");
-  }
+    this.$store.dispatch("fetchSharedFiles", 0);
+  },
+  methods: {
+    onPageChange(page) {
+      this.$store.dispatch("fetchSharedFiles", page - 1);
+    },
+  },
 };
 </script>

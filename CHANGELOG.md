@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - add popup for convert docs.
+- add pagination to shared files and external transferd.
 
 ### Fixed
 - hotfix: ([49](https://github.com/meateam/drive-ui/pull/49/)) : fix fetch shared files bug.

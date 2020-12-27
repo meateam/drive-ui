@@ -1,8 +1,11 @@
 <template>
   <v-dialog v-model="dialog" max-width="450" class="popup">
     <v-card>
-      <img class="popup-image auto-margin" :src="require(`@/assets/images/${img}`)" />
-      <p id="title">{{text}}</p>
+      <img
+        class="popup-image auto-margin"
+        :src="require(`@/assets/images/${img}`)"
+      />
+      <p id="title">{{ text }}</p>
       <v-card-actions id="actions">
         <TextButton @click="onCancel" :label="$t('buttons.Cancel')" />
         <SubmitButton @click="onConfirm" :label="button" />
@@ -20,12 +23,14 @@ export default {
   components: { SubmitButton, TextButton },
   data() {
     return {
-      dialog: false
+      dialog: false,
+      data: undefined,
     };
   },
-  props: ["img", "text", "button", "data"],
+  props: ["img", "text", "button"],
   methods: {
-    open() {
+    open(data) {
+      this.data = data;
       this.dialog = true;
     },
     onConfirm() {
@@ -35,8 +40,8 @@ export default {
     onCancel() {
       this.$emit("cancel", this.data);
       this.dialog = false;
-    }
-  }
+    },
+  },
 };
 </script>
 

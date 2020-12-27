@@ -56,4 +56,6 @@ const fileTypes = {
   ],
 };
 
-export { baseURL, fileTypes };
+const pageSize  = 10;
+
+export { baseURL, fileTypes, pageSize };
