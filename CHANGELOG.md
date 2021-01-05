@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-
 ## Added
 
 - info about the approvers in the ui.
@@ -17,9 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
-
-## [v2.1.0]
-
+## [v2.3.0] - 2020-12-24
 ### Added
 
 - add popup for convert docs.
