@@ -39,7 +39,7 @@ export default {
   components: { AlertPopup },
   methods: {
     onDelete() {
-      this.$store.dispatch("deleteFiles", this.chosenFiles);
+      this.isUserOwner() ? this.$store.dispatch("deleteFiles", this.chosenFiles): this.$store.dispatch("removePermissions", this.chosenFiles);
       this.$emit('close')
     },
     canDelete() {

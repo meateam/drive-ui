@@ -55,7 +55,6 @@
         color="#035c64"
         v-model="page"
         :length="pageCount"
-        @input="$emit('page', $event)"
       ></v-pagination>
     </v-row>
   </div>
@@ -73,12 +72,19 @@ export default {
   props: ["files", "serverFilesLength"],
   components: { FileTypeIcon },
   computed: {
-    ...mapGetters(["chosenFiles"]),
+    ...mapGetters(["chosenFiles", "pageNum"]),
+    page: {
+      get() {
+        return this.pageNum;
+      },
+      set(value) {
+        this.$store.commit("updatePageNum", value);
+      },
+    },
   },
   data() {
     return {
       selected: this.chosenFiles,
-      page: 1,
       itemsPerPage: pageSize,
       pageCount: 1,
       headers: [
@@ -118,6 +124,9 @@ export default {
     chosenFiles: function (files) {
       this.selected = files;
     },
+    pageNum: function (page) {
+      this.$emit('page', page)
+    }
   },
 };
 </script>

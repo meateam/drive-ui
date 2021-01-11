@@ -16,6 +16,7 @@ const state = {
   files: [],
   chosenFiles: [],
   currentFolderHierarchy: [],
+  pageNum: 1,
   currentFolder: undefined,
   serverFilesLength: undefined,
 };
@@ -23,6 +24,7 @@ const state = {
 const getters = {
   files: (state) => sortFiles(state.files),
   serverFilesLength: (state) => state.serverFilesLength,
+  pageNum: (state) => state.pageNum,
   chosenFiles: (state) => state.chosenFiles,
   folderRoles: (state) => state.folderRoles,
   currentFolder: (state) => state.currentFolder,
@@ -56,6 +58,7 @@ const actions = {
       const permissions = await filesApi.fetchSharedFiles(pageNum || 0);
       const files = permissions.files;
 
+      commit("updatePageNum", pageNum + 1)
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
@@ -120,6 +123,23 @@ const actions = {
   deleteFiles({ dispatch, commit }, files) {
     Promise.all(files.map((file) => dispatch("deleteFile", file.id)))
       .then(() => {
+        commit(
+          "onSuccess",
+          files.length === 1 ? "success.DeleteItem" : "success.DeleteItems"
+        );
+      })
+      .catch((err) => {
+        dispatch("onError", err);
+      });
+  },
+  removePermissions({ dispatch, commit }, files) {
+    Promise.all(files.map(async (file) => {
+      await filesApi.deleteFile(file.id)
+      commit("deleteFile", file.id);
+    }))
+      .then(() => {
+        commit('updatePageNum', 1);
+        dispatch("getQuota");
         commit(
           "onSuccess",
           files.length === 1 ? "success.DeleteItem" : "success.DeleteItems"
@@ -309,6 +329,9 @@ const mutations = {
         if (file === item) item.name = name;
       });
     }
+  },
+  updatePageNum: (state, pageNum) => {
+    state.pageNum = pageNum
   },
   addFile: (state, file) => {
     const currentFolder = state.currentFolder
