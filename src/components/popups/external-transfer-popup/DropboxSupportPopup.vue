@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    fullscreen
-    hide-overlay
-    transition="dialog-bottom-transition"
-  >
+  <v-dialog max-width="800" v-model="dialog" hide-overlay>
     <v-card color="#f0f4f7">
       <div class="popup-header">
         <img
@@ -118,10 +113,8 @@ export default {
   left: 10px;
 }
 #back-to-share {
-  position: absolute;
-  width: 100%;
-  bottom: 100px;
   display: flex;
+  padding-bottom: 50px;
   justify-content: center;
 }
 #reasons-header {
