@@ -26,110 +26,47 @@
         :file="file"
       />
     </div>
-    <FileContextMenu ref="contextmenu" :files="chosenFiles" />
-    <Preview ref="preview" />
-    <AlertPopup
-      ref="convertPopup"
-      @confirm="onConvert"
-      @cancel="openPreview"
-      img="greenConvertFile.svg"
-      :text="$t(`file.${convertMessage(selectedFile)}`)"
-      :button="$t('buttons.ConvertNow')"
-      :data="selectedFile"
-    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { fileTypes } from "@/config";
-import * as filesApi from "@/api/files";
-import Preview from "@/components/popups/Preview";
-import AlertPopup from "@/components/popups/BaseAlertPopup";
-import FileContextMenu from "@/components/popups/menus/FileContextMenu";
+import { isFolder } from "@/utils/isFolder";
 import Folder from "./items/Folder";
 import File from "./items/File";
-import { convertMessageType } from "@/utils/convertMessage";
 
 export default {
   name: "FilesPreview",
   props: ["files"],
-  components: { File, Folder, FileContextMenu, Preview, AlertPopup },
+  components: { File, Folder },
   computed: {
     ...mapGetters(["chosenFiles"]),
   },
   data() {
     return {
-      typeFolders: this.files.filter(
-        (file) => file.type === "application/vnd.drive.folder"
-      ),
-      typeFiles: this.files.filter(
-        (file) => file.type !== "application/vnd.drive.folder"
-      ),
+      typeFolders: this.files.filter((file) => isFolder(file.type)),
+      typeFiles: this.files.filter((file) => !isFolder(file.type)),
       selectedFile: undefined,
     };
   },
   watch: {
     files: function (val) {
-      this.typeFolders = val.filter(
-        (file) => file.type === "application/vnd.drive.folder"
-      );
-      this.typeFiles = val.filter(
-        (file) => file.type !== "application/vnd.drive.folder"
-      );
+      this.typeFolders = val.filter((file) => isFolder(file.type));
+      this.typeFiles = val.filter((file) => !isFolder(file.type));
     },
   },
   methods: {
     onDblClick(event, file) {
-      this.selectedFile = file;
-      event.preventDefault();
-      if (file.type === fileTypes.folder) {
-        this.$router.push({ path: "/folders", query: { id: file.id } });
-      } else if (this.canEditOnline(file)) {
-        filesApi.editOnline(file.id);
-      } else if (this.isOldOfficeType(file)) {
-        this.$refs.convertPopup.open();
-      } else {
-        this.openPreview(file);
-      }
+      this.$emit("dblclick", { event, file });
     },
     onRightClick(event, file) {
-      this.selectedFile = file;
-      event.preventDefault();
-      if (!this.chosenFiles.includes(file)) {
-        this.$store.commit("onFilesSelect", [file]);
-      }
-      this.$refs.contextmenu.show(event);
+      this.$emit("contextmenu", { event, file });
     },
-    onCtrlCLick(event, file) {
-      let selected = this.chosenFiles;
-      if (!this.chosenFiles.includes(file)) {
-        selected.push(file);
-        this.$store.commit("onFilesSelect", selected);
-      } else {
-        selected = selected.filter((item) => item !== file);
-        this.$store.commit("onFilesSelect", selected);
-      }
+    onCtrlCLick(file) {
+      this.$emit("ctrlclick", file);
     },
-    onFileClick(event, file) {
-      this.$store.commit("onFilesSelect", [file]);
-    },
-    onConvert(file) {
-      filesApi.editOnline(file.id);
-    },
-    canEditOnline(file) {
-      return fileTypes.office.includes(file.type);
-    },
-    isOldOfficeType(file) {
-      return fileTypes.oldOffice.includes(file.type);
-    },
-    openPreview(file) {
-      this.$refs.preview.open(file);
-    },
-    convertMessage(file) {
-      if (file) {
-        return convertMessageType(file.type);
-      }
+    onFileClick(file) {
+      this.$emit("fileclick", file);
     },
   },
 };
