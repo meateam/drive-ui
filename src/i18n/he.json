@@ -167,6 +167,7 @@
     "IAmApprover": "אני יכול לאשר את הבקשה",
     "CantChooseApprove": "בחירת המאשר {name} נכשלה",
     "Reasons": "בחירת המאשר נכשלה מהסיבות הבאות",
+    "NoUnit": "שים לב הינך חסר יחידה ולכן אינך יכול להעביר קבצים",
     "BlockedApprover": "המשתמש {name} אינו מוסמך לאשר את הבקשה. ",
     "cantApproveReasons": {
       "ApproverIsBlocked": "המשתמש חסום",

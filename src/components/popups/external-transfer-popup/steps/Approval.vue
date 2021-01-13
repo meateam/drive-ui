@@ -1,15 +1,29 @@
 <template>
   <div>
-    <div v-if="user.approvalInfo.isApprover">
+    <div v-if="user.approverInfo.isAdmin">
       <p class="popup-text align-center">
         {{ $t("externalTransfer.CanApprove") }}
       </p>
     </div>
-    <div v-else-if="user.approvalInfo.isBlocked">
+
+    <div v-else-if="user.approverInfo.noUnit">
+      <p class="popup-text align-center">
+        {{ $t("externalTransfer.NoUnit") }}
+      </p>
+    </div>
+
+    <div v-else-if="user.approverInfo.isBlocked">
       <p class="popup-text align-center">
         {{ $t("externalTransfer.IsBlocked") }}
       </p>
     </div>
+
+    <div v-else-if="user.approverInfo.isApprover">
+      <p class="popup-text align-center">
+        {{ $t("externalTransfer.CanApprove") }}
+      </p>
+    </div>
+
     <div v-else>
       <div>
         <div id="approval-header" class="space-between">
@@ -21,15 +35,15 @@
 
             <div class="align-center">
               <p>{{ $t("externalTransfer.ApprovalInstructions") }}</p>
-              <div v-if="!user.approvalInfo.requestFaild">
-                <p v-if="user.approvalInfo.unit">
+              <div v-if="!user.approverInfo.requestFaild">
+                <p v-if="user.approverInfo.unit">
                   {{ $t("externalTransfer.ApproverUnit") }}
-                  <span class="bold">{{ user.approvalInfo.unit.name }}</span>
+                  <span class="bold">{{ user.approverInfo.unit.name }}</span>
                 </p>
-                <p v-if="user.approvalInfo.unit.approvers">
+                <p v-if="user.approverInfo.unit.approvers">
                   , {{ $t("externalTransfer.ApproverRanks") }}
                   <span class="bold">{{
-                    getRanks(user.approvalInfo.unit.approvers)
+                    getRanks(user.approverInfo.unit.approvers)
                   }}</span>
                 </p>
                 <p class="bold">{{ whiteListText }}</p>
@@ -39,12 +53,12 @@
         </div>
 
         <v-checkbox
-          v-if="user.approvalInfo.requestFaild"
+          v-if="user.approverInfo.requestFaild"
           class="space-right"
           :disabled="selectedApprovals.length !== 0"
           :label="$t('externalTransfer.IAmApprover')"
           color="#035c64"
-          v-model="isApprover"
+          v-model="iAmApprover"
         ></v-checkbox>
 
         <Autocomplete
@@ -125,7 +139,7 @@ export default {
       blockedApprover: undefined,
       isLoading: false,
       disabled: true,
-      isApprover: false,
+      iAmApprover: false,
     };
   },
   computed: {
@@ -135,12 +149,16 @@ export default {
     selectedApprovals: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
     },
-    isApprover: function (isApprover) {
-      isApprover ? (this.disabled = false) : (this.disabled = true);
+    iAmApprover: function (value) {
+      value ? (this.disabled = false) : (this.disabled = true);
     },
   },
   created() {
-    this.disabled = !this.user.approvalInfo.isApprover;
+    this.disabled =
+      this.user.approverInfo.isAdmin ||
+      (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
+        ? false
+        : true;
   },
   methods: {
     getUsersByName(name) {
