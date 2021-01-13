@@ -114,6 +114,7 @@ const router = new Router({
 router.beforeEach(async (to, from, next) => {
   await store.dispatch("onRouteChange");
   await store.dispatch("onFolderChange", to.query.id);
+  await store.dispatch("onRouteChange")
   next();
 });
 
