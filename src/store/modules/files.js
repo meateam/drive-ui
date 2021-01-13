@@ -16,11 +16,15 @@ const state = {
   files: [],
   chosenFiles: [],
   currentFolderHierarchy: [],
+  pageNum: 1,
   currentFolder: undefined,
+  serverFilesLength: undefined,
 };
 
 const getters = {
   files: (state) => sortFiles(state.files),
+  serverFilesLength: (state) => state.serverFilesLength,
+  pageNum: (state) => state.pageNum,
   chosenFiles: (state) => state.chosenFiles,
   folderRoles: (state) => state.folderRoles,
   currentFolder: (state) => state.currentFolder,
@@ -34,18 +38,13 @@ const actions = {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
 
-      commit("resetFiles");
+      commit("setFiles", files);
 
       files.forEach(async (file) => {
+        const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        file.owner = isOwner ? "אני" : "???";
-        commit("addFile", file);
-
-        if (!isOwner) {
-          const formattedFile = file;
-          formattedFile.owner = await getFileOwnerName(file.ownerId);
-          commit("updateFile", formattedFile);
-        }
+        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+        commit('updateFile', formattedFile);
       });
     } catch (err) {
       dispatch("onError", err);
@@ -54,38 +53,37 @@ const actions = {
   /**
    * fetchSharedFiles fetch the shared files in the root folder
    */
-  async fetchSharedFiles({ commit, dispatch }) {
+  async fetchSharedFiles({ commit, dispatch }, pageNum) {
     try {
-      const files = await filesApi.fetchSharedFiles();
+      const permissions = await filesApi.fetchSharedFiles(pageNum || 0);
+      const files = permissions.files;
 
-      commit("resetFiles");
+      commit("updatePageNum", pageNum + 1)
+      commit("setFiles", files);
+      commit("setServerFilesLength", permissions.itemCount);
 
-      files.forEach(async (file) => {
-        file.owner = "???";
-        commit("addFile", file);
-
+      for (const file of files) {
         const formattedFile = file;
         formattedFile.owner = await getFileOwnerName(file.ownerId);
         commit("updateFile", formattedFile);
-      });
+      }
     } catch (err) {
       dispatch("onError", err);
     }
   },
-  async fetchExternalTransferdFiles({ commit, dispatch }) {
+  async fetchExternalTransferdFiles({ commit, dispatch }, pageNum) {
     try {
-      const files = await filesApi.fetchExternalTransferdFiles();
+      const permissions = await filesApi.fetchExternalTransferdFiles(pageNum || 0);
+      const files = permissions.files;
 
-      commit("resetFiles");
+      commit("setFiles", files);
+      commit("setServerFilesLength", permissions.itemCount);
 
-      files.forEach(async (file) => {
-        file.owner = "???";
-        commit("addFile", file);
-
+      for (const file of files) {
         const formattedFile = file;
         formattedFile.owner = await getExternalFileOwnerName(file.ownerId);
         commit("updateFile", formattedFile);
-      });
+      }
     } catch (err) {
       dispatch("onError", err);
     }
@@ -97,18 +95,14 @@ const actions = {
     try {
       const files = await lastUpdatedFileHandler.getUpdatedFiles();
 
-      commit("resetFiles");
+      commit("setFiles", files);
 
       files.forEach(async (file) => {
+        const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        file.owner = isOwner ? "אני" : "???";
-        commit("addFile", file);
 
-        if (!isOwner) {
-          const formattedFile = file;
-          formattedFile.owner = await getFileOwnerName(file.ownerId);
-          commit("updateFile", formattedFile);
-        }
+        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+        commit("updateFile", formattedFile);
       });
     } catch (err) {
       dispatch("onError", err);
@@ -129,6 +123,23 @@ const actions = {
   deleteFiles({ dispatch, commit }, files) {
     Promise.all(files.map((file) => dispatch("deleteFile", file.id)))
       .then(() => {
+        commit(
+          "onSuccess",
+          files.length === 1 ? "success.DeleteItem" : "success.DeleteItems"
+        );
+      })
+      .catch((err) => {
+        dispatch("onError", err);
+      });
+  },
+  removePermissions({ dispatch, commit }, files) {
+    Promise.all(files.map(async (file) => {
+      await filesApi.deleteFile(file.id)
+      commit("deleteFile", file.id);
+    }))
+      .then(() => {
+        commit('updatePageNum', 1);
+        dispatch("getQuota");
         commit(
           "onSuccess",
           files.length === 1 ? "success.DeleteItem" : "success.DeleteItems"
@@ -269,8 +280,8 @@ const actions = {
 
       const failedFiles = data
         ? data.map((error) => {
-            if (error.error) return error.id;
-          })
+          if (error.error) return error.id;
+        })
         : [];
 
       const movedFiles = fileIDs.filter(
@@ -290,18 +301,27 @@ const actions = {
 };
 
 const mutations = {
-  setFiles: (state, files) => (state.files = files),
-  resetFiles: (state) => (state.files = []),
+  setFiles: (state, files) => {
+    state.serverFilesLength = undefined;
+    state.files = files
+  },
+  setServerFilesLength: (state, itemCount) => {
+    state.serverFilesLength = itemCount;
+  },
   deleteFile: (state, fileID) => {
     state.files = state.files.filter((file) => file.id !== fileID);
     state.chosenFiles = state.chosenFiles.filter((file) => {
       return file.id !== fileID;
     });
   },
-  updateFile: (state, f) => {
-    state.files.forEach((file) => {
-      if (file.id === f.id) file = f;
+  updateFile: (state, updateFile) => {
+    const updatedFiles = state.files.map((file) => {
+      if (file.id === updateFile.id) return updateFile;
+
+      return file;
     });
+
+    state.files = updatedFiles;
   },
   onFileRename: (state, { name, file }) => {
     if (state.files.includes(file)) {
@@ -309,6 +329,9 @@ const mutations = {
         if (file === item) item.name = name;
       });
     }
+  },
+  updatePageNum: (state, pageNum) => {
+    state.pageNum = pageNum
   },
   addFile: (state, file) => {
     const currentFolder = state.currentFolder
@@ -323,19 +346,14 @@ const mutations = {
 
     state.files.push(file);
   },
-  onFileChoose: (state, { isChecked, file }) => {
-    if (isChecked && !state.chosenFiles.includes(file)) {
-      state.chosenFiles.push(file);
-    } else if (isChecked) {
-      return;
-    } else {
-      state.chosenFiles = state.chosenFiles.filter((chosenFile) => {
-        return chosenFile !== file;
-      });
-    }
-  },
-  onFilesSelect: (state, files) => {
+  setChosenFiles: (state, files) => {
     state.chosenFiles = files;
+  },
+  addSelectedFile: (state, file) => {
+    state.chosenFiles.push(file);
+  },
+  removeSelectedFile: (state, file) => {
+    state.chosenFiles = state.chosenFiles.filter(chosenFile => chosenFile !== file);
   },
   clearSelectedFiles: (state) => {
     state.chosenFiles = [];
