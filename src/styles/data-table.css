@@ -24,7 +24,7 @@
 .theme--light.v-data-table thead tr th {
     font-size: 17px !important;
     font-family: Assistant-Light;
-    height: 70px !important;
+    height: 62px !important;
     font-weight: 500;
     color: #2c3448 !important;
 }
@@ -34,7 +34,7 @@
     font-family: Assistant-Light;
     font-weight: 500;
     color: #2c3448 !important;
-    height: 70px !important;
+    height: 62px !important;
 }
 
 .theme--light.v-data-table thead tr:last-child th {

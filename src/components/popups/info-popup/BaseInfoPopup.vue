@@ -10,7 +10,7 @@
       </div>
       <div class="popup-body">
         <div class="file-info">
-          <KeyValue :field="$t('fileInfo.Owner')" :value="file.owner" />
+          <KeyValue :field="$t('fileInfo.Owner')" :value="file.owner || '???'" />
           <KeyValue
             :field="$t('fileInfo.Size')"
             :value="formatFileSize(file.size)"

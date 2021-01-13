@@ -7,23 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v2.0.2] - 2020-10-28
-
-### Removed
-
-- default timoout for the axios request because some big files uploads that took more then 10 sec faild.
-
-## [v2.1.0]
-
+## [v2.3.0] - 2020-12-24
 ### Added
 
-- appId query to fetch file by the app that uploaded it.
+- add popup for convert docs.
 
-## [2.1.1]
+- add pagination to shared files and external transferd.
+## [v2.2.1]
 
 ### Fixed
 
-- owner name in the last updated files which wasn't shown.
+- remove new features popup
+
+- reload location on create doc file
 
 ## [v2.2.0]
 
@@ -42,3 +38,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added 
 
 - a new button for uploading a docx file in the ui.
+
+## [2.1.1]
+
+### Fixed
+
+- owner name in the last updated files which wasn't shown.
+
+## [v2.1.0]
+
+### Added
+
+- appId query to fetch file by the app that uploaded it.
+
+## [v2.0.2] - 2020-10-28
+
+### Removed
+
+- default timoout for the axios request because some big files uploads that took more then 10 sec faild.
+
+
+
+

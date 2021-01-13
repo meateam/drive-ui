@@ -19,7 +19,7 @@
     </template>
     <AlertPopup
       ref="popup"
-      @delete="onDelete"
+      @confirm="onDelete"
       img="deletePopup.svg"
       :text="$t('file.Delete')"
       :button="$t('buttons.DeleteNow')"
@@ -39,7 +39,7 @@ export default {
   components: { AlertPopup },
   methods: {
     onDelete() {
-      this.$store.dispatch("deleteFiles", this.chosenFiles);
+      this.isUserOwner() ? this.$store.dispatch("deleteFiles", this.chosenFiles): this.$store.dispatch("removePermissions", this.chosenFiles);
       this.$emit('close')
     },
     canDelete() {

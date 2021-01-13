@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="d-subtitle folders-header">{{$t('file.Folders')}}</p>
+    <p class="d-subtitle folders-header">{{ $t("file.Folders") }}</p>
     <div class="flex">
       <Folder
         @dblclick="onDblClick"
@@ -13,7 +13,7 @@
         :folder="folder"
       />
     </div>
-    <p class="d-subtitle">{{$t('file.Files')}}</p>
+    <p class="d-subtitle">{{ $t("file.Files") }}</p>
     <div class="flex">
       <File
         @dblclick="onDblClick"
@@ -26,80 +26,47 @@
         :file="file"
       />
     </div>
-    <FileContextMenu ref="contextmenu" :files="chosenFiles" />
-    <Preview ref="preview" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { fileTypes } from "@/config";
-import * as filesApi from "@/api/files";
-import Preview from "@/components/popups/Preview";
-import FileContextMenu from "@/components/popups/menus/FileContextMenu";
+import { isFolder } from "@/utils/isFolder";
 import Folder from "./items/Folder";
 import File from "./items/File";
 
 export default {
   name: "FilesPreview",
   props: ["files"],
-  components: { File, Folder, FileContextMenu, Preview },
+  components: { File, Folder },
   computed: {
     ...mapGetters(["chosenFiles"]),
   },
   data() {
     return {
-      typeFolders: this.files.filter(
-        (file) => file.type === "application/vnd.drive.folder"
-      ),
-      typeFiles: this.files.filter(
-        (file) => file.type !== "application/vnd.drive.folder"
-      ),
+      typeFolders: this.files.filter((file) => isFolder(file.type)),
+      typeFiles: this.files.filter((file) => !isFolder(file.type)),
+      selectedFile: undefined,
     };
   },
   watch: {
     files: function (val) {
-      this.typeFolders = val.filter(
-        (file) => file.type === "application/vnd.drive.folder"
-      );
-      this.typeFiles = val.filter(
-        (file) => file.type !== "application/vnd.drive.folder"
-      );
+      this.typeFolders = val.filter((file) => isFolder(file.type));
+      this.typeFiles = val.filter((file) => !isFolder(file.type));
     },
   },
   methods: {
     onDblClick(event, file) {
-      event.preventDefault();
-      if (file.type === fileTypes.folder) {
-        this.$router.push({ path: "/folders", query: { id: file.id } });
-      } else if (this.canEditOnline(file)) {
-        filesApi.editOnline(this.chosenFiles[0].id);
-      } else {
-        this.$refs.preview.open(file);
-      }
+      this.$emit("dblclick", { event, file });
     },
     onRightClick(event, file) {
-      event.preventDefault();
-      if (!this.chosenFiles.includes(file)) {
-        this.$store.commit("onFilesSelect", [file]);
-      }
-      this.$refs.contextmenu.show(event);
+      this.$emit("contextmenu", { event, file });
     },
-    onCtrlCLick(event, file) {
-      let selected = this.chosenFiles;
-      if (!this.chosenFiles.includes(file)) {
-        selected.push(file);
-        this.$store.commit("onFilesSelect", selected);
-      } else {
-        selected = selected.filter((item) => item !== file);
-        this.$store.commit("onFilesSelect", selected);
-      }
+    onCtrlCLick(file) {
+      this.$emit("ctrlclick", file);
     },
-    onFileClick(event, file) {
-      this.$store.commit("onFilesSelect", [file]);
-    },
-    canEditOnline(file) {
-      return fileTypes.office.includes(file.type);
+    onFileClick(file) {
+      this.$emit("fileclick", file);
     },
   },
 };

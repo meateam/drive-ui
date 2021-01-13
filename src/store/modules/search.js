@@ -4,27 +4,19 @@ import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils
 const actions = {
   async fetchSearchFiles({ dispatch, commit }, query) {
     try {
-      commit("resetFiles");
       const results = await search(query);
+      commit("setFiles", results);
 
       results.forEach(async (file) => {
         if (file.isExternal) {
-          file.owner = "???";
-          commit("addFile", file);
-
           const formattedFile = file
           formattedFile.owner = await getExternalFileOwnerName(file.ownerId);
           commit("updateFile", formattedFile);
         } else {
-          const isOwner = isFileOwner(file.ownerId)
-          file.owner = isOwner ? "אני" : "???";
-          commit("addFile", file);
-
-          if (!isOwner) {
-            const formattedFile = file;
-            formattedFile.owner = await getFileOwnerName(file.ownerId);
-            commit('updateFile', formattedFile);
-          }
+          const formattedFile = file;
+          const isOwner = isFileOwner(file.ownerId);
+          formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+          commit('updateFile', formattedFile);
         }
       })
     } catch (err) {

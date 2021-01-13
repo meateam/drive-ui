@@ -23,6 +23,19 @@ const fileTypes = {
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     "application/pdf",
   ],
+  oldOffice: [
+    "application/msword",
+    "application/vnd.ms-excel",
+    "application/vnd.ms-powerpoint",
+  ],
+  officeConvert: {
+    "doc": "application/msword",
+    "xls": "application/vnd.ms-excel",
+    "ppt": "application/vnd.ms-powerpoint",
+    "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  },
   docs: ["pptx", "docx", "xlsx", "pdf"],
   externalShare: [
     "png",
@@ -43,4 +56,6 @@ const fileTypes = {
   ],
 };
 
-export { baseURL, fileTypes };
+const pageSize  = 10;
+
+export { baseURL, fileTypes, pageSize };
