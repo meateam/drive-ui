@@ -3,6 +3,7 @@
     :files="files"
     :upload="true"
     :breadcrumbs="breadcrumbs"
+    :sortable="true"
     @breadcrumb="onBreadcrumbClick"
   />
 </template>

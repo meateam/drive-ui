@@ -69,7 +69,7 @@ import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
 
 export default {
   name: "FileTable",
-  props: ["files", "serverFilesLength"],
+  props: ["files", "serverFilesLength", "sortable"],
   components: { FileTypeIcon },
   computed: {
     ...mapGetters(["chosenFiles", "pageNum"]),
@@ -89,10 +89,10 @@ export default {
       pageCount: 1,
       headers: [
         { value: "type", align: "center", sortable: false },
-        { text: this.$t("file.Name"), value: "name" },
-        { text: this.$t("file.Owner"), value: "owner" },
-        { text: this.$t("file.LastUpdate"), value: "updatedAt" },
-        { text: this.$t("file.Size"), value: "size" },
+        { text: this.$t("file.Name"), value: "name", sortable: this.sortable },
+        { text: this.$t("file.Owner"), value: "owner", sortable: this.sortable },
+        { text: this.$t("file.LastUpdate"), value: "updatedAt", sortable: this.sortable },
+        { text: this.$t("file.Size"), value: "size", sortable: this.sortable },
       ],
     };
   },
