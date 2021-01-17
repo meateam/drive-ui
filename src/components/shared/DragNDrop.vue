@@ -63,11 +63,15 @@ export default {
           event.preventDefault();
           if (this.isFileDrag(event)) {
             this.onDrag = false;
+            this.dragCount = 0;
+            
             const files = Object.values(event.dataTransfer.items).map((file) =>
               file.getAsFile()
             );
             this.$store.dispatch("uploadFiles", files);
           }
+
+          event.stopImmediatePropagation();
         },
         false
       );
