@@ -22,7 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - add popup for convert docs.
 
 - add pagination to shared files and external transferd.
-
 ## [v2.2.1]
 
 ### Fixed

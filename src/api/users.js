@@ -109,3 +109,7 @@ export async function canBeApproved(userID, approverID) {
 
   return res.data;
 }
+
+export function openAboutMePage() {
+  window.open(`${store.state.configuration.approvalServiceUrl}/myAccount`);
+}

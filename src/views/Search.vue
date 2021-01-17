@@ -1,5 +1,9 @@
 <template>
-  <PageTemplate :files="files" :header="$t('pageHeaders.Search')" />
+  <PageTemplate
+    :files="files"
+    :sortable="true"
+    :header="$t('pageHeaders.Search')"
+  />
 </template>
 
 <script>
@@ -10,10 +14,10 @@ export default {
   name: "Search",
   components: { PageTemplate },
   computed: {
-    ...mapGetters(["files"])
+    ...mapGetters(["files"]),
   },
   created() {
     this.$store.dispatch("fetchSearchFiles", this.$route.query.q);
-  }
+  },
 };
 </script>

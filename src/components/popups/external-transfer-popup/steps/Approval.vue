@@ -107,6 +107,11 @@
         :disabled="disabled"
       />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
+
+      <v-btn text small @click="onAboutMeClick">
+        <v-icon color="black">person</v-icon>
+        <p>{{ $t("buttons.AboutMe") }}</p>
+      </v-btn>
     </v-card-actions>
 
     <DropboxSupportPopup ref="support" />
@@ -208,6 +213,9 @@ export default {
     },
     isUserExists(users, id) {
       return users.some((user) => user.id === id);
+    },
+    onAboutMeClick() {
+      usersApi.openAboutMePage();
     },
   },
 };
