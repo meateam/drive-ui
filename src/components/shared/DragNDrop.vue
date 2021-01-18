@@ -8,6 +8,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { uploadFiles, getFilesFromDroppedItems } from "./../../utils/drop";
+
 export default {
   name: "DragNDrop",
   data() {
@@ -16,7 +19,12 @@ export default {
       dragCount: 0,
     };
   },
+  computed: {
+    ...mapGetters(["currentFolder"]),
+  },
   methods: {
+    uploadFiles,
+    getFilesFromDroppedItems,
     isFileDrag(event) {
       if (event.dataTransfer.types) {
         for (let i = 0; i < event.dataTransfer.types.length; i++) {
@@ -59,14 +67,43 @@ export default {
       );
       window.addEventListener(
         "drop",
-        (event) => {
+        async (event) => {
           event.preventDefault();
+
           if (this.isFileDrag(event)) {
             this.onDrag = false;
-            const files = Object.values(event.dataTransfer.items).map((file) =>
-              file.getAsFile()
-            );
-            this.$store.dispatch("uploadFiles", files);
+
+            let folderByPath = { "": undefined };
+            const rootFolder = this.currentFolder;
+
+            const res = await this.getFilesFromDroppedItems(event.dataTransfer);
+            for (const r of res) {
+              let data = await r;
+              // upload file without a folder
+              if (!data.key) {
+                await this.$store.dispatch("uploadFiles", data.files);
+                return;
+              }
+              let path = "";
+              let folders = data.key.split("/");
+              // set folder to root
+              await this.$store.commit("setCurrentFolder", rootFolder);
+              for (const folder of folders) {
+                if (folder == "") {
+                  continue;
+                }
+                path += "/" + folder;
+                if (!folderByPath[path]) {
+                  // upload a new folder and set tue currentFolder to the new folder
+                  await this.$store.dispatch("uploadFolderRecursive", folder);
+                  folderByPath[path] = this.currentFolder;
+                } else {
+                  await this.$store.commit("setCurrentFolder", folderByPath[path]);
+                }
+              }
+              await this.$store.commit("setCurrentFolder",folderByPath[data.key] );
+              await this.$store.dispatch("uploadFiles", data.files);
+            }
           }
         },
         false

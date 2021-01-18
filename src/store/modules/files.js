@@ -182,7 +182,6 @@ const actions = {
 
     commit("removeLoadingFile", metadata.name);
     commit("addFile", metadata);
-
     commit("addQuota", metadata.size);
   },
   /**
@@ -240,6 +239,35 @@ const actions = {
       dispatch("onError", err);
     }
   },
+
+  /**
+   * uploadFolder in the current folder
+   * @param name is the name of the folder
+   */
+  async uploadFolderRecursive({ commit, dispatch, rootState }, name) {
+    try {
+      if (
+        isFileNameExists({
+          name,
+          files: state.files,
+          loadingFiles: rootState.loading.loadingFiles,
+        })
+      )
+        throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
+      const folder = await filesApi.uploadFolder({
+        name,
+        parent: state.currentFolder,
+      });
+      folder.owner = "אני";
+
+      commit("setCurrentFolder", folder);
+      commit("onSuccess", "success.Folder");
+      //commit("addFile", folder);
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+
   /**
    * onFolderChange change the current folder by the recived id
    * @param folderID is the id of the current folder
