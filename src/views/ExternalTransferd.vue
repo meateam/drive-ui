@@ -2,6 +2,7 @@
   <PageTemplate
     :files="files"
     :serverFilesLength="serverFilesLength"
+    :sortable="false"
     :header="$t('pageHeaders.ExternalTransferd')"
     @page="onPageChange"
   />

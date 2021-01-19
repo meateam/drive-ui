@@ -12,6 +12,7 @@
       v-else
       :files="files"
       :serverFilesLength="serverFilesLength"
+      :sortable="sortable"
       @page="$emit('page', $event)"
       @contextmenu="onRightClick"
       @dblclick="onDblClick"
@@ -56,7 +57,7 @@ export default {
     BottomMenu,
     AlertPopup,
   },
-  props: ["files", "serverFilesLength"],
+  props: ["files", "serverFilesLength", "sortable"],
   computed: {
     ...mapGetters(["fileView", "chosenFiles"]),
   },
