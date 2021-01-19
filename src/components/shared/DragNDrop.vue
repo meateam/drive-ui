@@ -9,7 +9,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { uploadFiles, getFilesFromDroppedItems } from "./../../utils/drop";
+import { getFilesFromDroppedItems } from "./../../utils/drop";
 
 export default {
   name: "DragNDrop",
@@ -23,7 +23,6 @@ export default {
     ...mapGetters(["currentFolder"]),
   },
   methods: {
-    uploadFiles,
     getFilesFromDroppedItems,
     isFileDrag(event) {
       if (event.dataTransfer.types) {
@@ -75,6 +74,7 @@ export default {
 
             let folderByPath = { "": undefined };
             const rootFolder = this.currentFolder;
+            let mainFolder = null;
 
             const res = await this.getFilesFromDroppedItems(event.dataTransfer);
             for (const r of res) {
@@ -97,13 +97,26 @@ export default {
                   // upload a new folder and set tue currentFolder to the new folder
                   await this.$store.dispatch("uploadFolderRecursive", folder);
                   folderByPath[path] = this.currentFolder;
+                  if (!mainFolder) {
+                    mainFolder = this.currentFolder;
+                  }
                 } else {
-                  await this.$store.commit("setCurrentFolder", folderByPath[path]);
+                  await this.$store.commit(
+                    "setCurrentFolder",
+                    folderByPath[path]
+                  );
                 }
               }
-              await this.$store.commit("setCurrentFolder",folderByPath[data.key] );
-              await this.$store.dispatch("uploadFiles", data.files);
+              await this.$store.commit(
+                "setCurrentFolder",
+                folderByPath[data.key]
+              );
+              await this.$store.dispatch("uploadFilesToFolder", data.files);
             }
+            // set folder to root
+            await this.$store.commit("setCurrentFolder", rootFolder);
+            await this.$store.commit("addFile", mainFolder);
+            await this.$store.commit("onSuccess", "success.Folder");
           }
         },
         false

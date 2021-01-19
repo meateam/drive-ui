@@ -182,6 +182,39 @@ const actions = {
 
     commit("removeLoadingFile", metadata.name);
     commit("addFile", metadata);
+
+    commit("addQuota", metadata.size);
+  },
+  /**
+   * uploadFile create multipart or resumable upload by the file size
+   * @param file is the file to upload
+   */
+  async uploadFileToFolder({ commit, rootState }, file) {
+    if (
+      isFileNameExists({
+        name: file.name,
+        files: state.files,
+        loadingFiles: rootState.loading.loadingFiles,
+      })) throw new Error("שם הקובץ קים בתיקייה");
+
+    let metadata = undefined;
+
+    if (file.size <= 5 << 20) {
+      metadata = await filesApi.multipartUpload({
+        file: file,
+        parent: state.currentFolder,
+      });
+    } else {
+      metadata = await filesApi.resumableUpload({
+        file: file,
+        parent: state.currentFolder,
+      });
+    }
+
+    metadata.owner = "אני";
+    lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
+
+    commit("removeLoadingFile", metadata.name);
     commit("addQuota", metadata.size);
   },
   /**
@@ -192,8 +225,7 @@ const actions = {
     return Promise.all(
       Object.values(files).map((file) => {
         return dispatch("uploadFile", file);
-      })
-    )
+      }))
       .then(() =>
         commit(
           "onSuccess",
@@ -204,6 +236,23 @@ const actions = {
         dispatch("onError", err);
       });
   },
+
+  /**
+ * uploadFiles uploads all the files async
+ * @param files is the files to upload
+ */
+  async uploadFilesToFolder({ dispatch }, files) {
+    return Promise.all(
+      Object.values(files).map((file) => {
+        return dispatch("uploadFileToFolder", file);
+      }))
+      .catch((err) => {
+        dispatch("onError", err);
+      });
+  },
+
+
+
   async cancelUpload({ commit, dispatch }, file) {
     try {
       await filesApi.cancelUpload(file.source);
@@ -261,8 +310,6 @@ const actions = {
       folder.owner = "אני";
 
       commit("setCurrentFolder", folder);
-      commit("onSuccess", "success.Folder");
-      //commit("addFile", folder);
     } catch (err) {
       dispatch("onError", err);
     }
