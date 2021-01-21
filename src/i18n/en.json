@@ -137,6 +137,11 @@
       "DownloadLink": "download link",
       "Copy": "copy link",
       "OnlyShare": "please notice! only users with permissions on this file will be able to access it"
+    },
+    "AdvancedSearch": "advanced search",
+    "AdvancedSearchChoices": {
+      "SearchByT": "by T",
+      "SearchByMail": "by mail"
     }
   },
   "externalTransfer": {

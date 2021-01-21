@@ -125,9 +125,9 @@
   "share": {
     "ShareFile": "שיתוף קובץ",
     "ShareFiles": "שיתוף קבצים",
-    "DriveChoose": "בחר עם מי תרצו לשתף",
+    "DriveChoose": "בחרו עם מי תרצו לשתף",
     "ChoosePermission": "הרשאות",
-    "RoleChoose": "בחר את הרשאות השיתוף",
+    "RoleChoose": "בחרו את הרשאות השיתוף",
     "NoPermissions": "לא משותפים משתמשים בקובץ",
     "role": {
       "READ": "צפייה",
@@ -138,7 +138,12 @@
       "EditOnlineLink": "קישור לעריכה במקביל",
       "DownloadLink": "קישור להורדה",
       "Copy": "העתקת הקישור",
-      "OnlyShare": "שים לב! הקישור יעבוד אך ורק לאנשים בעלי הרשאות על קובץ זה"
+      "OnlyShare": "שימו לב! הקישור יעבוד אך ורק לאנשים בעלי הרשאות על קובץ זה"
+    },
+    "AdvancedSearch": "חיפוש מתקדם",
+    "AdvancedSearchChoices": {
+      "SearchByT": "לפי מס' T",
+      "SearchByMail": "לפי אימייל"
     }
   },
   "externalTransfer": {

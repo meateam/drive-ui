@@ -12,6 +12,10 @@
         @select="onUserSelect"
         @type="getUsersByName"
       />
+      <a @click="advancedSearch = !advancedSearch">{{$t('share.AdvancedSearch')}}</a>
+      <div v-if="advancedSearch">
+        <RadioButtons :radioGroup="radioGroup" />
+      </div>
 
       <div class="select-container">
         <Select
@@ -55,6 +59,7 @@ import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import Select from "@/components/inputs/BaseSelect";
 import TextButton from "@/components/buttons/BaseTextButton";
+import RadioButtons from "@/components/buttons/RadioButtons";
 
 export default {
   name: "SharePopup",
@@ -70,9 +75,18 @@ export default {
         { value: "READ", text: this.$t("share.role.READ") },
         { value: "WRITE", text: this.$t("share.role.WRITE") },
       ],
+      advancedSearch: false,
+      radioGroup: Object.values(this.$t("share.AdvancedSearchChoices")),
     };
   },
-  components: { Chips, SubmitButton, Autocomplete, Select, TextButton },
+  components: {
+    Chips,
+    SubmitButton,
+    Autocomplete,
+    Select,
+    TextButton,
+    RadioButtons,
+  },
   props: ["files"],
   watch: {
     selectedUsers: function (users) {
