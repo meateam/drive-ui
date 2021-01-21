@@ -1,10 +1,14 @@
 <template>
   <v-container fluid>
-    <v-radio-group v-model="radioGroupSelection" column>
+    <v-radio-group
+      v-model="radioGroupSelection"
+      @change="$emit('change', radioGroupSelection)"
+      column
+    >
       <v-radio
         v-for="radioItem in radioGroup"
         :key="radioItem"
-        :label="radioItem"
+        :label="$t(`share.${radioItem}`)"
         :value="radioItem"
       ></v-radio>
     </v-radio-group>

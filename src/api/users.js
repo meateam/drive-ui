@@ -100,3 +100,19 @@ export async function getApproverInfo(userID) {
   });
   return res.data;
 }
+
+export async function getUsers(content, flag) {
+  try {
+    const res = await Axios.get(`${baseURL}/api/users`, {
+      params: { partial: content, searchBy: flag },
+    });
+    const users = res.data.users
+      ? res.data.users.filter((user) => {
+        return user.id !== store.state.auth.user.id;
+      })
+      : [];
+    return Promise.all(users.map((user) => formatUser(user)));
+  } catch (err) {
+    store.dispatch("onError", err);
+  }
+}

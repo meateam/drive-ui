@@ -10,11 +10,16 @@
         :isLoading="isLoading"
         :minLength="2"
         @select="onUserSelect"
-        @type="getUsersByName"
+        @type="getUsersByContent"
       />
-      <a @click="advancedSearch = !advancedSearch">{{$t('share.AdvancedSearch')}}</a>
+      <a @click="advancedSearch = !advancedSearch">{{
+        $t("share.AdvancedSearch")
+      }}</a>
       <div v-if="advancedSearch">
-        <RadioButtons :radioGroup="radioGroup" />
+        <RadioButtons
+          :radioGroup="advancedSearchOptions"
+          @change="advancedSearchSelection = radioGroupSelection"
+        />
       </div>
 
       <div class="select-container">
@@ -60,6 +65,8 @@ import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import Select from "@/components/inputs/BaseSelect";
 import TextButton from "@/components/buttons/BaseTextButton";
 import RadioButtons from "@/components/buttons/RadioButtons";
+import AdvancedSearchToFlag from "@/utils/convertAdvancedSearchToFlag";
+import AdvancedSearchFlags from "@/utils/advancedSearchToFlags";
 
 export default {
   name: "SharePopup",
@@ -76,7 +83,10 @@ export default {
         { value: "WRITE", text: this.$t("share.role.WRITE") },
       ],
       advancedSearch: false,
-      radioGroup: Object.values(this.$t("share.AdvancedSearchChoices")),
+      advancedSearchOptions: Object.keys(
+        this.$t("share.AdvancedSearchChoices")
+      ),
+      advancedSearchSelection: null,
     };
   },
   components: {
@@ -96,11 +106,14 @@ export default {
     },
   },
   methods: {
-    getUsersByName(name) {
+    getUsersByContent(content) {
       if (this.isLoading) return;
       this.isLoading = true;
+      const flag = this.advancedSearch
+        ? AdvancedSearchToFlag(this.advancedSearchSelection)
+        : AdvancedSearchFlags.SearchByNameFlag;
       usersApi
-        .searchUsersByName(name)
+        .getUsersByContent(content, flag)
         .then((users) => {
           this.users = users;
         })
