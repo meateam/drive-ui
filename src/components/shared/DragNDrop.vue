@@ -72,51 +72,63 @@ export default {
           if (this.isFileDrag(event)) {
             this.onDrag = false;
 
-            let folderByPath = { "": undefined };
-            const rootFolder = this.currentFolder;
-            let mainFolder = null;
+            await this.getFilesFromDroppedItems(event.dataTransfer, (data) => {
+              // return new Promise(() => {
+                console.log(data)
+                for (let i = 0; i < 10; i++) {
+                  console.log(i)
+                }
+                //resolve(true);
+              // })
+            });
 
-            const res = await this.getFilesFromDroppedItems(event.dataTransfer);
-            for (const r of res) {
-              let data = await r;
-              // upload file without a folder
-              if (!data.key) {
-                await this.$store.dispatch("uploadFiles", data.files);
-                return;
-              }
-              let path = "";
-              let folders = data.key.split("/");
-              // set folder to root
-              await this.$store.commit("setCurrentFolder", rootFolder);
-              for (const folder of folders) {
-                if (folder == "") {
-                  continue;
-                }
-                path += "/" + folder;
-                if (!folderByPath[path]) {
-                  // upload a new folder and set tue currentFolder to the new folder
-                  await this.$store.dispatch("uploadFolderRecursive", folder);
-                  folderByPath[path] = this.currentFolder;
-                  if (!mainFolder) {
-                    mainFolder = this.currentFolder;
-                  }
-                } else {
-                  await this.$store.commit(
-                    "setCurrentFolder",
-                    folderByPath[path]
-                  );
-                }
-              }
-              await this.$store.commit(
-                "setCurrentFolder",
-                folderByPath[data.key]
-              );
-              await this.$store.dispatch("uploadFilesToFolder", data.files);
-            }
-            // set folder to root
-            await this.$store.commit("setCurrentFolder", rootFolder);
-            await this.$store.commit("addFile", mainFolder);
-            await this.$store.commit("onSuccess", "success.Folder");
+
+            // let folderByPath = { "": undefined };
+            // const rootFolder = this.currentFolder;
+            // let mainFolder = null;
+
+            // const res = await this.getFilesFromDroppedItems(event.dataTransfer);
+            // for (const r of res) {
+            //   let data = await r;
+            //   // upload file without a folder
+            //   if (!data.key) {
+            //     await this.$store.dispatch("uploadFiles", data.files);
+            //     return;
+            //   }
+            //   let path = "";
+            //   let folders = data.key.split("/");
+            //   // set folder to root
+            //   await this.$store.commit("setCurrentFolder", rootFolder);
+            //   for (const folder of folders) {
+            //     if (folder == "") {
+            //       continue;
+            //     }
+            //     path += "/" + folder;
+            //     if (!folderByPath[path]) {
+            //       // upload a new folder and set tue currentFolder to the new folder
+            //       await this.$store.dispatch("uploadFolderRecursive", folder);
+            //       folderByPath[path] = this.currentFolder;
+            //       if (!mainFolder) {
+            //         mainFolder = this.currentFolder;
+            //       }
+            //     } else {
+            //       await this.$store.commit(
+            //         "setCurrentFolder",
+            //         folderByPath[path]
+            //       );
+            //     }
+            //   }
+            //   await this.$store.commit(
+            //     "setCurrentFolder",
+            //     folderByPath[data.key]
+            //   );
+            //   await this.$store.dispatch("uploadFilesToFolder", data.files);
+            // }
+            // // set folder to root
+            // await this.$store.commit("setCurrentFolder", rootFolder);
+            // await this.$store.commit("addFile", mainFolder);
+            // await this.$store.commit("onSuccess", "success.Folder");
+            
           }
         },
         false
