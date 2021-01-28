@@ -12,15 +12,6 @@
         @select="onUserSelect"
         @type="getUsersByContent"
       />
-      <a @click="advancedSearch = !advancedSearch">{{
-        $t("share.AdvancedSearch")
-      }}</a>
-      <div v-if="advancedSearch">
-        <RadioButtons
-          :radioGroup="advancedSearchOptions"
-          @change="advancedSearchSelection = radioGroupSelection"
-        />
-      </div>
 
       <div class="select-container">
         <Select
@@ -33,14 +24,35 @@
       </div>
     </div>
 
-    <v-chip-group show-arrows>
-      <Chips
-        v-for="user in selectedUsers"
-        :key="user.id"
-        :user="user"
-        @remove="onRemove"
-      />
-    </v-chip-group>
+    <div id="advancedSearchContainer">
+      <div>
+        <TextButton
+          class="advancedSearchRadio"
+          @click="advancedSearch = !advancedSearch"
+          :label="$t('share.AdvancedSearch')"
+        />
+      </div>
+      <div
+        :class="[advancedSearch ? 'd-block' : 'd-none']"
+        id="advancedSearchButtons"
+      >
+        <RadioButtons
+          :radioGroup="advancedSearchOptions"
+          @change="changeAdvancedSearchSelection"
+        />
+      </div>
+    </div>
+
+    <div id="chips">
+      <v-chip-group show-arrows>
+        <Chips
+          v-for="user in selectedUsers"
+          :key="user.id"
+          :user="user"
+          @remove="onRemove"
+        />
+      </v-chip-group>
+    </div>
 
     <v-card-actions class="popup-confirm">
       <SubmitButton
@@ -64,9 +76,9 @@ import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import Select from "@/components/inputs/BaseSelect";
 import TextButton from "@/components/buttons/BaseTextButton";
-import RadioButtons from "@/components/buttons/RadioButtons";
-import AdvancedSearchToFlag from "@/utils/convertAdvancedSearchToFlag";
-import AdvancedSearchFlags from "@/utils/advancedSearchToFlags";
+import RadioButtons from "@/components/buttons/AdvancedSearchRadioButtons";
+import { AdvancedSearchToFlag } from "@/utils/convertAdvancedSearchToFlag";
+import { AdvancedSearchFlags } from "@/utils/advancedSearchFlags";
 
 export default {
   name: "SharePopup",
@@ -113,11 +125,14 @@ export default {
         ? AdvancedSearchToFlag(this.advancedSearchSelection)
         : AdvancedSearchFlags.SearchByNameFlag;
       usersApi
-        .getUsersByContent(content, flag)
+        .getUsers(content, flag)
         .then((users) => {
           this.users = users;
         })
         .finally(() => (this.isLoading = false));
+    },
+    changeAdvancedSearchSelection(radioGroupSelection) {
+      this.advancedSearchSelection = radioGroupSelection;
     },
     onUserSelect(user) {
       this.users = [];
@@ -155,4 +170,14 @@ export default {
 </script>
 
 <style scoped>
+#advancedSearchContainer {
+  margin-top: -10px;
+  height: 130px;
+}
+#advancedSearchButtons {
+  margin-top: -15px;
+}
+#chips {
+  min-height: 60px;
+}
 </style>

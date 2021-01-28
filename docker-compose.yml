@@ -8,7 +8,7 @@ services:
     depends_on:
       - api-gateway
   api-gateway:
-    image: "drivehub.azurecr.io/meateam/api-gateway:pagination"
+    image: "drivehub.azurecr.io/meateam/api-gateway:search-by-mail-or-t"
     env_file:
       - ../kdrive.env
     ports:

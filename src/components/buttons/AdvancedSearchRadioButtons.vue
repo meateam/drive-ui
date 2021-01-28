@@ -4,11 +4,12 @@
       v-model="radioGroupSelection"
       @change="$emit('change', radioGroupSelection)"
       column
+      class="d-flex flex-wrap"
     >
       <v-radio
         v-for="radioItem in radioGroup"
         :key="radioItem"
-        :label="$t(`share.${radioItem}`)"
+        :label="$t(`share.AdvancedSearchChoices.${radioItem}`)"
         :value="radioItem"
       ></v-radio>
     </v-radio-group>

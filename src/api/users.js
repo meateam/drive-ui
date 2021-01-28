@@ -106,11 +106,14 @@ export async function getUsers(content, flag) {
     const res = await Axios.get(`${baseURL}/api/users`, {
       params: { partial: content, searchBy: flag },
     });
-    const users = res.data.users
-      ? res.data.users.filter((user) => {
+    let users = [];
+    if (res.data.users) {
+      users = res.data.users.filter((user) => {
         return user.id !== store.state.auth.user.id;
-      })
-      : [];
+      });
+    } else if (res.data.user) {
+      users = [res.data.user];
+    }
     return Promise.all(users.map((user) => formatUser(user)));
   } catch (err) {
     store.dispatch("onError", err);

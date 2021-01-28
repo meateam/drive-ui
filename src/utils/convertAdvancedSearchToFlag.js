@@ -1,4 +1,4 @@
-import AdvancedSearchFlags from "@/utils/advancedSearchFlags";
+import { AdvancedSearchFlags } from "@/utils/advancedSearchFlags";
 
 export function AdvancedSearchToFlag(advancedSearch) {
     switch (advancedSearch) {
