@@ -11,7 +11,6 @@ import {
 } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 import router from "@/router";
-import { resolve } from "core-js/fn/promise";
 
 const state = {
   files: [],
@@ -188,35 +187,6 @@ const actions = {
   },
 
   /**
-   * uploadFile create multipart or resumable upload by the file size
-   * @param file is the file to upload
-   */
-  uploadFileToFolder({ commit }, folder, file) {
-    return new Promise(async (resolve) => {
-      let metadata = undefined;
-
-      if (file.size <= 5 << 20) {
-        metadata = await filesApi.multipartUpload({
-          file: file,
-          parent: folder,
-        });
-      } else {
-        metadata = await filesApi.resumableUpload({
-          file: file,
-          parent: folder,
-        });
-      }
-
-      metadata.owner = "אני";
-      lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
-
-      commit("removeLoadingFile", metadata.name);
-      commit("addQuota", metadata.size);
-      resolve(metadata);
-    })
-  },
-
-  /**
    * uploadFiles uploads all the files async
    * @param files is the files to upload
    */
@@ -237,20 +207,84 @@ const actions = {
   },
 
   /**
- * uploadFiles uploads all the files async
- * @param files is the files to upload
- */
-  async uploadFilesToFolder({ dispatch }, files) {
-    return Promise.all(
-      Object.values(files).map((file) => {
-        return dispatch("uploadFileToFolder", file);
-      }))
-      .catch((err) => {
+   * createFolder in the current folder without notification
+   * @param name is the name of the folder
+   */
+  async createFolder({ dispatch, rootState, commit }, name) {
+    return new Promise((resolve) => {
+
+      if (
+        isFileNameExists({
+          name,
+          files: state.files,
+          loadingFiles: rootState.loading.loadingFiles,
+        })
+      ) throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
+
+      filesApi.uploadFolder({
+        name,
+        parent: state.currentFolder,
+      }).then((folder) => {
+        folder.owner = "אני";
+        commit("addFile", folder);
+        resolve(folder)
+      }).catch((err) => {
         dispatch("onError", err);
       });
+
+    })
   },
 
+  /**
+ * createFolderInFolder create folder in folder without notification
+ * @param parentAndName is contains parent: is the file to create, name: is the name of the folder
+ */
+  async createFolderInFolder({ dispatch }, parentAndName) {
+    console.log("createFolderInFolder", name)
+    return new Promise((resolve) => {
+      filesApi.uploadFolder({
+        name: parentAndName.name,
+        parent: parentAndName.parent,
+      }).then((folder) => {
+        folder.owner = "אני";
+        resolve(folder)
+      }).catch((err) => {
+        dispatch("onError", err);
+      });
+    });
+  },
 
+  /**
+ * uploadFileToFolder create multipart or resumable upload by the file size
+ * @param file is the file to upload
+ */
+  uploadFileToFolder({ commit }, folderAndFile) {
+    return new Promise((resolve) => {
+      if (folderAndFile.file.size <= 5 << 20) {
+        filesApi.multipartUpload({
+          file: folderAndFile.file,
+          parent: folderAndFile.folder,
+        }).then((metadata) => {
+          metadata.owner = "אני";
+          lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
+          commit("removeLoadingFile", metadata.name);
+          commit("addQuota", metadata.size);
+          resolve(metadata)
+        });
+      } else {
+        filesApi.resumableUpload({
+          file: folderAndFile.file,
+          parent: folderAndFile.folder,
+        }).then((metadata) => {
+          metadata.owner = "אני";
+          lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
+          commit("removeLoadingFile", metadata.name);
+          commit("addQuota", metadata.size);
+          resolve(metadata)
+        });
+      }
+    })
+  },
 
   async cancelUpload({ commit, dispatch }, file) {
     try {
@@ -261,6 +295,7 @@ const actions = {
       dispatch("onError", err);
     }
   },
+
   /**
    * uploadFolder in the current folder
    * @param name is the name of the folder
@@ -275,6 +310,7 @@ const actions = {
         })
       )
         throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
+
       const folder = await filesApi.uploadFolder({
         name,
         parent: state.currentFolder,
@@ -286,25 +322,6 @@ const actions = {
     } catch (err) {
       dispatch("onError", err);
     }
-  },
-
-  /**
-   * uploadFolder in the current folder
-   * @param name is the name of the folder
-   */
-  uploadFolderRecursive({dispatch }, name) {
-    return new Promise((resolve) => {
-      try {
-        filesApi.uploadFolder({
-          name,
-          parent: state.currentFolder,
-        }).then(folder);
-        folder.owner = "אני";
-        resolve(folder)
-      } catch (err) {
-        dispatch("onError", err);
-      }
-    })
   },
 
   /**
