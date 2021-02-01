@@ -1,5 +1,10 @@
 <template>
-  <PageTemplate :files="files" :header="$t('pageHeaders.MyDrive')" :upload="true" />
+  <PageTemplate
+    :files="files"
+    :sortable="true"
+    :header="$t('pageHeaders.MyDrive')"
+    :upload="true"
+  />
 </template>
 
 <script>
@@ -10,10 +15,10 @@ export default {
   name: "MyDrive",
   components: { PageTemplate },
   computed: {
-    ...mapGetters(["files"])
+    ...mapGetters(["files"]),
   },
   created() {
     this.$store.dispatch("fetchFiles");
-  }
+  },
 };
 </script>

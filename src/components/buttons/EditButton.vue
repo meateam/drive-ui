@@ -17,7 +17,7 @@
     <NamePopup
       img="green-edit.svg"
       ref="rename"
-      :value="getFileName(chosenFiles[0].name)"
+      :value="chosenFiles[0].name"
       :type="isFolder() ? 'renameFolder' : 'renameFile'"
       @confirm="onConfirm"
     />
@@ -45,9 +45,6 @@ export default {
     },
     isFolder() {
       return this.chosenFiles[0].type === fileTypes.folder;
-    },
-    getFileName(name) {
-      return name.includes(".") ? name.substr(0, name.lastIndexOf(".")) : name;
     },
     openNameEdit() {
       if (this.canEdit()) this.$refs.rename.open();

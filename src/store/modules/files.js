@@ -1,6 +1,5 @@
 import * as filesApi from "@/api/files";
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
-import { getFileType } from "@/utils/getFileType";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { isOwner } from "@/utils/isOwner";
@@ -264,9 +263,7 @@ const actions = {
   },
   async editFile({ commit, dispatch }, { file, name }) {
     try {
-      const fileType = getFileType(file.name);
-      const newName = `${name}.${fileType}`;
-      const res = await filesApi.editFile({ file, name: newName });
+      const res = await filesApi.editFile({ file, name });
 
       commit("onFileRename", res);
       commit("onSuccess", "success.Edit");
