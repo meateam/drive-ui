@@ -74,7 +74,8 @@
     "Finish": "finish",
     "Preview": "preiview",
     "EditPermission": "edit permission",
-    "ConvertNow": "convert"
+    "ConvertNow": "convert",
+    "AboutMe": "About me"
   },
   "success": {
     "File": "Uploaded successfully",
