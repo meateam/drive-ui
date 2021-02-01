@@ -1,6 +1,6 @@
 <template>
   <PageTemplate
-    :files="files"
+    :files="sortFiles(files)"
     :sortable="true"
     :header="$t('pageHeaders.Search')"
   />
@@ -8,6 +8,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { sortFilesBySize } from "@/utils/sortFiles";
 import PageTemplate from "@/components/BasePageTemplate";
 
 export default {
@@ -18,6 +19,11 @@ export default {
   },
   created() {
     this.$store.dispatch("fetchSearchFiles", this.$route.query.q);
+  },
+  methods: {
+    sortFiles(files) {
+      return sortFilesBySize(files);
+    },
   },
 };
 </script>

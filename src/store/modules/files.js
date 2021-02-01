@@ -1,6 +1,5 @@
 import * as filesApi from "@/api/files";
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
-import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import {
@@ -21,7 +20,7 @@ const state = {
 };
 
 const getters = {
-  files: (state) => sortFiles(state.files),
+  files: (state) => state.files,
   serverFilesLength: (state) => state.serverFilesLength,
   pageNum: (state) => state.pageNum,
   chosenFiles: (state) => state.chosenFiles,

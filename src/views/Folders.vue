@@ -1,6 +1,6 @@
 <template>
   <PageTemplate
-    :files="files"
+    :files="sortFiles(files)"
     :upload="true"
     :breadcrumbs="breadcrumbs"
     :sortable="true"
@@ -12,6 +12,7 @@
 import * as filesApi from "@/api/files";
 import { mapGetters } from "vuex";
 import { ownerRole } from "@/utils/roles";
+import { sortFilesBySize } from "@/utils/sortFiles";
 import PageTemplate from "@/components/BasePageTemplate";
 
 export default {
@@ -34,6 +35,9 @@ export default {
     ...mapGetters(["files", "currentFolder"]),
   },
   methods: {
+    sortFiles(files) {
+      return sortFilesBySize(files);
+    },
     async onFolderChange(folder) {
       await this.getBreadcrumbs(folder);
       this.$store.dispatch("fetchFiles");

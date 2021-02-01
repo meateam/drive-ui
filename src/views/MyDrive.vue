@@ -1,6 +1,6 @@
 <template>
   <PageTemplate
-    :files="files"
+    :files="sortFiles(files)"
     :sortable="true"
     :header="$t('pageHeaders.MyDrive')"
     :upload="true"
@@ -9,6 +9,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { sortFilesBySize } from "@/utils/sortFiles";
 import PageTemplate from "@/components/BasePageTemplate";
 
 export default {
@@ -19,6 +20,11 @@ export default {
   },
   created() {
     this.$store.dispatch("fetchFiles");
+  },
+  methods: {
+    sortFiles(files) {
+      return sortFilesBySize(files);
+    },
   },
 };
 </script>

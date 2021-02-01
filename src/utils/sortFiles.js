@@ -1,6 +1,6 @@
-export function sortFiles(files) {
+export function sortFilesBySize(files) {
   const sortedFiles = files.concat().sort((a, b) => {
-    return new Date(b.updatedAt) - new Date(a.updatedAt);
+    return a.size - b.size;
   });
   return sortedFiles;
 }
