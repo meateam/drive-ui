@@ -11,7 +11,6 @@ export async function getUserByID(userID) {
   try {
     const res = await Axios.get(`${baseURL}/api/users/${userID}`);
     const user = formatUser(res.data.user);
-    
     store.commit("addUserToictionary", user);
 
     return user;
@@ -95,8 +94,21 @@ export async function searchExternalUsersByName(name) {
 }
 
 export async function getApproverInfo(userID) {
-  const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
-    timeout: 500,
-  });
+  const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`);
+
+  const approverInfo = res.data.approverInfo;
+
+  if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
+
+  return res.data.approverInfo;
+}
+
+export async function canBeApproved(userID, approverID) {
+  const res = await Axios.get(`${baseURL}/api/users/${userID}/canApproveToUser/${approverID}`);
+
   return res.data;
+}
+
+export function openAboutMePage() {
+  window.open(`${store.state.configuration.approvalServiceUrl}/myAccount`);
 }

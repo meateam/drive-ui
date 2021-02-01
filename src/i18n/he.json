@@ -76,7 +76,10 @@
     "Finish": "סיים",
     "Preview": "תצוגה מקדימה",
     "EditPermission": "ערוך הרשאות",
-    "ConvertNow": "המר"
+    "ConvertNow": "המר",
+    "MoreInfo": "לפרטים נוספים לחץ כאן",
+    "BackToShare": "חזרה לבחירת המאשרים",
+    "AboutMe": "לפרטים עלי"
   },
   "success": {
     "File": "הקובץ עלה בהצלחה!",
@@ -150,14 +153,35 @@
     "MoreInfo": "כתבו מידע על הקובץ",
     "Describe": "תארו את הדברים העיקריים שמכיל המסמך...",
     "ChooseClassification": "רמת סיווג",
-    "Classifications": ["שמור", "סודי", "סודי ביותר"],
+    "Classifications": [
+      "שמור",
+      "סודי",
+      "סודי ביותר"
+    ],
     "TopSecret": "לא ניתן להעביר קבצים בסיווג סודי ביותר",
     "ApprovalInstructions": "המאשרים שנבחרו יצטרכו לאשר באופן ידני את ההעברה במערכת האישורים",
     "ApprovalService": "במערכת האישורים",
     "CanApprove": "מאחר והינך מוסמך לאשר, השיתוף יאושר באופן אוטומטי",
+    "IsBlocked": "הנך חסום ע\" יחבם ולכן אינך יכול להעביר קבצים",
     "ApproverUnit": "המאשר צריך להיות ביחידה",
     "ApproverRanks": "ובאחת מהדרגות הבאות:",
     "IAmApprover": "אני יכול לאשר את הבקשה",
+    "CantChooseApprove": "בחירת המאשר {name} נכשלה",
+    "Reasons": "בחירת המאשר נכשלה מהסיבות הבאות",
+    "NoUnit": "שים לב הינך חסר יחידה ולכן אינך יכול להעביר קבצים",
+    "BlockedApprover": "המשתמש {name} אינו מוסמך לאשר את הבקשה. ",
+    "cantApproveReasons": {
+      "ApproverIsBlocked": "המשתמש חסום",
+      "ApproverIsNotInTheSameUnit": "שים לב הגורם שבחרת אינו גורם מאשר ביחידתך",
+      "ApproverCantApproveInHisUnit": "המאשר שבחרת אינו מוגדר כגורם מאשר",
+      "ApproverHasNoUnit": "המאשר שבחרת יכול לאשר העברת קבצים רק לעצמו (חסר יחידה)",
+      "UserHasNoUnit": "שים לב הינך חסר יחידה"
+    },
+    "cantApproveSupport": {
+      "Bam": "לפרטים נוספים אנא פנה ליחב\"ם",
+      "Bereshit": "ניתן לפתוח תקלה בtommy למול צוות בראשית",
+      "OpenInTomy": "לפתיחת תקלה"
+    },
     "note": {
       "Notice": "שים לב!",
       "SecretNetwork": "הנך עומדים לשתף קובץ ברשת עם סיווג נמוך",

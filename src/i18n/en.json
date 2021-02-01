@@ -74,7 +74,8 @@
     "Finish": "finish",
     "Preview": "preiview",
     "EditPermission": "edit permission",
-    "ConvertNow": "convert"
+    "ConvertNow": "convert",
+    "AboutMe": "About me"
   },
   "success": {
     "File": "Uploaded successfully",
@@ -153,9 +154,17 @@
     "ApprovalInstructions": "The users are taken from the other domain",
     "ApprovalService": "approval service",
     "CanApprove": "this file will be approved automatically",
+    "IsBlocked": "you are blocked",
     "ApproverUnit": "the approver needs to be in the unit:",
     "ApproverRanks": "and with on of the ranks:",
     "IAmApprover": "I am an approver",
+    "cantApproveReasons": {
+      "ApproverIsBlocked": "approver is blocked",
+      "ApproverIsNotInTheSameUnit": "approver is not in the same unit",
+      "ApproverCantApproveInHisUnit": "approver cant approve in his unit",
+      "ApproverHasNoUnit": "approver has no unit",
+      "UserHasNoUnit": "user has no unit"
+    },
     "note": {
       "Notice": "Alert!",
       "SecretNetwork": "You are attempting to pass a document that might be classified.",

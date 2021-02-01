@@ -13,6 +13,8 @@ const state = {
   enableExternalShare: false,
   docsUrl: "http://13.79.160.153:3000",
   whiteListText: "או להיות מאושר באופן מיוחד",
+  bereshitSupportLink: "",
+  bamSupportNumber: "03555555",
 };
 
 const getters = {
@@ -26,6 +28,8 @@ const getters = {
   whiteListText: (state) => state.approverWhiteListText,
   myExternalSharesName: (state) => state.myExternalSharesName,
   enableExternalShare: (state) => state.enableExternalShare,
+  bereshitSupportLink: (state) => state.bereshitSupportLink,
+  bamSupportNumber: (state) => state.bamSupportNumber,
   docsUrl: (state) => state.docsUrl,
   version: (state) => state.version,
 };
@@ -43,17 +47,19 @@ const actions = {
 
 const mutations = {
   setConfig: (state, config) => {
-    (state.apmServerUrl = config.apmServerUrl),
-      (state.authUrl = config.authUrl),
-      (state.environment = config.environment),
-      (state.supportLink = config.supportLink),
-      (state.dropboxSupportLink = config.dropboxSupportLink),
-      (state.approvalServiceUrl = config.approvalServiceUrl),
-      (state.externalShareName = config.externalShareName),
-      (state.docsUrl = config.docsUrl),
-      (state.myExternalSharesName = config.myExternalSharesName),
-      (state.whiteListText = config.whiteListText || state.whiteListText),
-      (state.enableExternalShare = config.enableExternalShare);
+    state.apmServerUrl = config.apmServerUrl;
+    state.authUrl = config.authUrl;
+    state.environment = config.environment;
+    state.supportLink = config.supportLink;
+    state.dropboxSupportLink = config.dropboxSupportLink;
+    state.approvalServiceUrl = config.approvalServiceUrl;
+    state.externalShareName = config.externalShareName;
+    state.docsUrl = config.docsUrl;
+    state.bamSupportNumber = config.bamSupportNumber;
+    state.bereshitSupportLink = config.bereshitSupportLink;
+    state.myExternalSharesName = config.myExternalSharesName;
+    state.whiteListText = config.whiteListText || state.whiteListText;
+    state.enableExternalShare = config.enableExternalShare;
   },
 };
 
