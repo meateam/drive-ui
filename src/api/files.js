@@ -224,9 +224,9 @@ export function getFileLink(file) {
   if (fileTypes.office.includes(file.type)) {
     return `${store.state.configuration.docsUrl}/api/files/${file.id}`;
   } else if (isFolder(file.type)) {
-    return `${window.location.hostname}/folders?id=${file.id}`;
+    return `https://${window.location.hostname}/folders?id=${file.id}`;
   } else {
-    return `${window.location.hostname}/api/files/${file.id}?alt=media`;
+    return `https://${window.location.hostname}/api/files/${file.id}?alt=media`;
   }
 }
 

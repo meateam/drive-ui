@@ -1,10 +1,29 @@
 <template>
   <div>
-    <div v-if="user.approvalInfo.canApprove">
+    <div v-if="user.approverInfo.isAdmin">
       <p class="popup-text align-center">
         {{ $t("externalTransfer.CanApprove") }}
       </p>
     </div>
+
+    <div v-else-if="user.approverInfo.noUnit">
+      <p class="popup-text align-center">
+        {{ $t("externalTransfer.NoUnit") }}
+      </p>
+    </div>
+
+    <div v-else-if="user.approverInfo.isBlocked">
+      <p class="popup-text align-center">
+        {{ $t("externalTransfer.IsBlocked") }}
+      </p>
+    </div>
+
+    <div v-else-if="user.approverInfo.isApprover">
+      <p class="popup-text align-center">
+        {{ $t("externalTransfer.CanApprove") }}
+      </p>
+    </div>
+
     <div v-else>
       <div>
         <div id="approval-header" class="space-between">
@@ -16,14 +35,16 @@
 
             <div class="align-center">
               <p>{{ $t("externalTransfer.ApprovalInstructions") }}</p>
-              <div v-if="!user.approvalInfo.requestFaild">
-                <p v-if="user.approvalInfo.unit">
-                  {{ $t("externexternalTransferalShare.ApproverUnit") }}
-                  <span class="bold">{{ user.approvalInfo.unit }}</span>
+              <div v-if="!user.approverInfo.requestFaild">
+                <p v-if="user.approverInfo.unit">
+                  {{ $t("externalTransfer.ApproverUnit") }}
+                  <span class="bold">{{ user.approverInfo.unit.name }}</span>
                 </p>
-                <p v-if="user.approvalInfo.ranks">
+                <p v-if="user.approverInfo.unit.approvers">
                   , {{ $t("externalTransfer.ApproverRanks") }}
-                  <span class="bold">{{ getRanks() }}</span>
+                  <span class="bold">{{
+                    getRanks(user.approverInfo.unit.approvers)
+                  }}</span>
                 </p>
                 <p class="bold">{{ whiteListText }}</p>
               </div>
@@ -32,12 +53,12 @@
         </div>
 
         <v-checkbox
-          v-if="user.approvalInfo.requestFaild"
+          v-if="user.approverInfo.requestFaild"
           class="space-right"
           :disabled="selectedApprovals.length !== 0"
           :label="$t('externalTransfer.IAmApprover')"
           color="#035c64"
-          v-model="canApprove"
+          v-model="iAmApprover"
         ></v-checkbox>
 
         <Autocomplete
@@ -51,6 +72,24 @@
           @type="getUsersByName"
         />
       </div>
+      <div v-if="blockedApprover">
+        <p id="cant-approve">
+          {{
+            $t("externalTransfer.BlockedApprover", {
+              name: blockedApprover.name,
+            })
+          }}
+        </p>
+        <v-btn
+          text
+          small
+          @click="$refs.support.open(blockedApprover)"
+          id="more-info-button"
+        >
+          <p>{{ $t("buttons.MoreInfo") }}</p>
+        </v-btn>
+      </div>
+
       <v-chip-group show-arrows>
         <Chips
           v-for="user in selectedApprovals"
@@ -68,13 +107,22 @@
         :disabled="disabled"
       />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
+
+      <v-btn text small @click="onAboutMeClick">
+        <v-icon color="black">person</v-icon>
+        <p>{{ $t("buttons.AboutMe") }}</p>
+      </v-btn>
     </v-card-actions>
+
+    <DropboxSupportPopup ref="support" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import * as usersApi from "@/api/users";
+
+import DropboxSupportPopup from "@/components/popups/external-transfer-popup/DropboxSupportPopup";
 import Chips from "@/components/shared/BaseChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
@@ -82,14 +130,21 @@ import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "Approval",
-  components: { Chips, SubmitButton, Autocomplete, TextButton },
+  components: {
+    Chips,
+    SubmitButton,
+    Autocomplete,
+    TextButton,
+    DropboxSupportPopup,
+  },
   data() {
     return {
       users: [],
-      isLoading: false,
       selectedApprovals: [],
+      blockedApprover: undefined,
+      isLoading: false,
       disabled: true,
-      canApprove: false,
+      iAmApprover: false,
     };
   },
   computed: {
@@ -99,12 +154,16 @@ export default {
     selectedApprovals: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
     },
-    canApprove: function (canApprove) {
-      canApprove ? (this.disabled = false) : (this.disabled = true);
+    iAmApprover: function (value) {
+      value ? (this.disabled = false) : (this.disabled = true);
     },
   },
   created() {
-    this.disabled = !this.user.approvalInfo.canApprove;
+    this.disabled =
+      this.user.approverInfo.isAdmin ||
+      (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
+        ? false
+        : true;
   },
   methods: {
     getUsersByName(name) {
@@ -123,15 +182,29 @@ export default {
         this.selectedApprovals.map((user) => user.id)
       );
     },
-    getRanks() {
-      return this.user.approvalInfo.ranks.toString().split(",").join(", ");
+    getRanks(ranks) {
+      return ranks.toString().split(",").join(", ");
     },
-    onSelect(user) {
+    async onSelect(approver) {
+      this.blockedApprover = undefined;
       this.users = [];
-      if (!user) return;
-      else if (this.isUserExists(this.selectedApprovals, user.id))
-        this.remove(user);
-      else this.selectedApprovals.push(user);
+      if (!approver || this.isUserExists(this.selectedApprovals, approver.id)) {
+        return;
+      } else {
+        const canApprove = await usersApi.canBeApproved(
+          this.user.id,
+          approver.id
+        );
+
+        if (canApprove.canApproveToUser) {
+          this.selectedApprovals.push(approver);
+        } else if (canApprove.cantApproveReasons) {
+          this.blockedApprover = {
+            name: approver.fullName,
+            reasons: canApprove.cantApproveReasons,
+          };
+        }
+      }
     },
     onRemove(item) {
       this.selectedApprovals = this.selectedApprovals.filter((user) => {
@@ -141,6 +214,9 @@ export default {
     isUserExists(users, id) {
       return users.some((user) => user.id === id);
     },
+    onAboutMeClick() {
+      usersApi.openAboutMePage();
+    },
   },
 };
 </script>
@@ -148,5 +224,13 @@ export default {
 <style scoped>
 #approval-header {
   padding: 3px;
+}
+#cant-approve {
+  color: red;
+  text-align: center;
+}
+#more-info-button {
+  margin: auto;
+  display: block;
 }
 </style>

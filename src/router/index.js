@@ -113,6 +113,12 @@ const router = new Router({
 router.beforeEach(async (to, from, next) => {
   await store.dispatch("onRouteChange");
   await store.dispatch("onFolderChange", to.query.id);
+
+  if (from.path !== "/") {
+    store.state.loading.pendingGetRequests.forEach(source => {
+      source.cancel();
+    });
+  }
   next();
 });
 
