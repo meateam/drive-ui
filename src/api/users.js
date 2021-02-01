@@ -11,7 +11,6 @@ export async function getUserByID(userID) {
   try {
     const res = await Axios.get(`${baseURL}/api/users/${userID}`);
     const user = formatUser(res.data.user);
-
     store.commit("addUserToictionary", user);
 
     return user;
