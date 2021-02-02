@@ -1,83 +1,68 @@
-export async function getFilesFromDroppedItems(dataTransfer, callback) {
-    console.log(dataTransfer.items)
+import store from '@/store'
 
-    // const readItems = () => {
-    //     const entries = dataTransfer.items;
-    //     const iterateEntry = async (i) => {
-    //         if (!entries[i] && i === 0) {
-    //             return console.log("empty drop");
-    //         }
-    //         if (!entries[i]) {
-    //             return console.log("finish read all dropt files");
-
-    //         }
-    //         if (entries[i].kind !== 'file') {
-    //             iterateEntry(i + 1);
-    //             return
-    //         }
-    //         getEntries(entries[i], undefined, callback);
-    //         iterateEntry(i + 1);
-    //     }
-    //     iterateEntry(0);
-    // }
-    // readItems()
-
-    for (let i = 0; i < dataTransfer.items.length; i++) {
-        const item = dataTransfer.items[i];
+export async function getFilesFromDroppedItems(dataTransfer, parent) {
+    console.log(dataTransfer.items.length)
+    const queue = [];
+    for (const item of dataTransfer.items) {
         if (item.kind !== 'file') {
             continue;
         }
-        getEntries(item, undefined, callback);
+        queue.push(getEntries(item, parent, true))
     }
-
+    await Promise.all(queue)
+    store.commit("removeLoadingFiles");
+    store.dispatch("fetchFiles");
 }
 
-export async function getEntries(entry, parent, callback) {
+async function getEntries(entry, parent, isFirstFolder) {
     // convert DataTransferItem to FileSystemEntry first if necessary
     if (entry.getAsEntry) {
-        return getEntries(entry.getAsEntry(), parent, callback);
+        await getEntries(entry.getAsEntry(), parent, isFirstFolder);
+        return
     }
     if (entry.webkitGetAsEntry) {
-        return getEntries(entry.webkitGetAsEntry(), parent, callback);
+        await getEntries(entry.webkitGetAsEntry(), parent, isFirstFolder);
+        return
     }
     // return if item is from a browser that does not support webkitGetAsEntry
     if (entry.getAsFile) {
+        console.log("entry.getAsFile")
         return;
     }
 
     if (entry.isFile) {
-        await callback({
-            parent: parent,
-            folder: undefined,
-            file: await getFile(entry)
-        })
-        return;
+        await store.dispatch("uploadFileToFolder", {
+            folder: parent,
+            file: await getFile(entry),
+        });
+        return console.log("finish upload")
     }
 
     if (entry.isDirectory) {
-        const res = await callback({
-            parent: parent,
-            folder: entry,
-            file: null
-        })
+        let res = null;
+        if (isFirstFolder) {
+            res = await store.dispatch("createFolder", entry.name)
+            isFirstFolder = !isFirstFolder;
+        } else {
+            res = await store.dispatch("createFolderInFolder", {
+                parent: parent,
+                name: entry.name,
+            })
+        }
 
         const entryReader = entry.createReader();
-        const readEntries = () => {
-            entryReader.readEntries((entries) => {
-                const iterateEntry = async (i) => {
-                    if (!entries[i] && i === 0) {
-                        return console.log("empty folder");
-                    }
-                    if (!entries[i]) {
-                        return console.log("finish read all files");
-                    }
-                    await getEntries(entries[i], res, callback)
-                    iterateEntry(i + 1);
-                }
-                iterateEntry(0);
-            });
+        const entries = await new Promise((resolve) => { entryReader.readEntries((entries) => { resolve(entries) }) })
+        let first = true;
+        for (const e of entries) {
+            if (!e && first) {
+                return console.log("empty folder");
+            }
+            first = false;
+            if (!e) {
+                return console.log("finish read all files");
+            }
+            await getEntries(e, res, isFirstFolder)
         }
-        readEntries()
     }
 }
 

@@ -72,34 +72,7 @@ export default {
           if (this.isFileDrag(event)) {
             this.onDrag = false;
 
-            this.getFilesFromDroppedItems(event.dataTransfer, (data) => {
-              return new Promise((resolve) => {
-                if (data.folder) {
-                  if (data.parent) {
-                    resolve(
-                      this.$store.dispatch("createFolderInFolder", {
-                        parent: data.parent,
-                        name: data.folder.name,
-                      })
-                    );
-                    return;
-                  }
-                  resolve(
-                    this.$store.dispatch("createFolder", data.folder.name)
-                  );
-                  return;
-                }
-                if (data.file) {
-                  resolve(
-                    this.$store.dispatch("uploadFileToFolder", {
-                      folder: data.parent,
-                      file: data.file,
-                    })
-                  );
-                  return;
-                }
-              });
-            });
+            this.getFilesFromDroppedItems(event.dataTransfer, this.currentFolder);
           }
         },
         false

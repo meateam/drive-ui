@@ -210,27 +210,31 @@ const actions = {
    * createFolder in the current folder without notification
    * @param name is the name of the folder
    */
-  async createFolder({ dispatch, rootState, commit }, name) {
+  async createFolder({ dispatch, rootState }, name) {
     return new Promise((resolve) => {
 
-      if (
-        isFileNameExists({
-          name,
-          files: state.files,
-          loadingFiles: rootState.loading.loadingFiles,
-        })
-      ) throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
+      try {
+        if (
+          isFileNameExists({
+            name,
+            files: state.files,
+            loadingFiles: rootState.loading.loadingFiles,
+          })
+        ) throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
 
-      filesApi.uploadFolder({
-        name,
-        parent: state.currentFolder,
-      }).then((folder) => {
-        folder.owner = "אני";
-        commit("addFile", folder);
-        resolve(folder)
-      }).catch((err) => {
+        filesApi.uploadFolder({
+          name,
+          parent: state.currentFolder,
+        }).then((folder) => {
+          folder.owner = "אני";
+          resolve(folder)
+        }).catch((err) => {
+          dispatch("onError", err);
+        });
+      } catch (err) {
         dispatch("onError", err);
-      });
+      }
+
 
     })
   },
@@ -240,7 +244,6 @@ const actions = {
  * @param parentAndName is contains parent: is the file to create, name: is the name of the folder
  */
   async createFolderInFolder({ dispatch }, parentAndName) {
-    console.log("createFolderInFolder", name)
     return new Promise((resolve) => {
       filesApi.uploadFolder({
         name: parentAndName.name,
@@ -258,7 +261,7 @@ const actions = {
  * uploadFileToFolder create multipart or resumable upload by the file size
  * @param file is the file to upload
  */
-  uploadFileToFolder({ commit }, folderAndFile) {
+  uploadFileToFolder({ commit, dispatch }, folderAndFile) {
     return new Promise((resolve) => {
       if (folderAndFile.file.size <= 5 << 20) {
         filesApi.multipartUpload({
@@ -267,9 +270,10 @@ const actions = {
         }).then((metadata) => {
           metadata.owner = "אני";
           lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
-          commit("removeLoadingFile", metadata.name);
           commit("addQuota", metadata.size);
           resolve(metadata)
+        }).catch((err) => {
+          dispatch("onError", err);
         });
       } else {
         filesApi.resumableUpload({
@@ -278,9 +282,10 @@ const actions = {
         }).then((metadata) => {
           metadata.owner = "אני";
           lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
-          commit("removeLoadingFile", metadata.name);
           commit("addQuota", metadata.size);
           resolve(metadata)
+        }).catch((err) => {
+          dispatch("onError", err);
         });
       }
     })
