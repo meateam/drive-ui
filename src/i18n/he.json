@@ -5,6 +5,7 @@
   "sidenav": {
     "MyDrive": "הדרייב שלי",
     "ExternalTransferd": "התקבלו מרשת חיצונית",
+    "ExternalFiles": "שיתופים חיצוניים",
     "SharedWithMe": "שותפו איתי",
     "Deleted": "קבצים שנמחקו",
     "LastUpdated": "שונו לאחרונה",
@@ -153,11 +154,7 @@
     "MoreInfo": "כתבו מידע על הקובץ",
     "Describe": "תארו את הדברים העיקריים שמכיל המסמך...",
     "ChooseClassification": "רמת סיווג",
-    "Classifications": [
-      "שמור",
-      "סודי",
-      "סודי ביותר"
-    ],
+    "Classifications": ["שמור", "סודי", "סודי ביותר"],
     "TopSecret": "לא ניתן להעביר קבצים בסיווג סודי ביותר",
     "ApprovalInstructions": "המאשרים שנבחרו יצטרכו לאשר באופן ידני את ההעברה במערכת האישורים",
     "ApprovalService": "במערכת האישורים",
