@@ -12,10 +12,19 @@ const getters = {
 };
 
 const actions = {
-  onRouteChange() {
+  onRouteChange(_, from) {
+    console.log(from.path)
     state.pendingGetRequests.forEach(source => {
       source.cancel();
     })
+
+    // need to check way noga haskal do this if statement for approval
+    if (from.path !== "/") {
+      state.pendingGetRequests.forEach(source => {
+        source.cancel();
+      });
+    }
+    
   }
 }
 
