@@ -13,9 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [v3.1.1]
 
-## Added
+### Added
 
 - info about the approvers in the ui.
+
+
 ## [v2.0.2] - 2020-10-28
 
 ### Removed
@@ -70,6 +72,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
+
+[unreleased]: https://github.com/meateam/api-gateway/compare/master...develop
+[v3.1.2]: https://github.com/meateam/api-gateway/compare/v3.1.1...v3.1.2
 
 
 
