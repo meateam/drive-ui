@@ -144,7 +144,8 @@
     "AdvancedSearchChoices": {
       "SearchByT": "לפי מס' T",
       "SearchByMail": "לפי אימייל"
-    }
+    },
+    "AdvancedSearchError": "המשתמש המבוקש לא נמצא. אנא ודאו שהכנסתם פרטים נכונים."
   },
   "externalTransfer": {
     "Header": "העברה לרשת חיצונית",

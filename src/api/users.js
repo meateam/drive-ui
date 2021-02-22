@@ -2,6 +2,8 @@ import Axios from "axios";
 import store from "@/store";
 import { formatUser, formatExternalUser } from "@/utils/formatUser";
 import { baseURL } from "@/config";
+import { AdvancedSearchFlags } from "@/utils/advancedSearchFlags";
+import i18n from "@/i18n";
 
 /**
  * getUserByID returns the user with the received id
@@ -105,6 +107,7 @@ export async function getUsers(content, flag) {
   try {
     const res = await Axios.get(`${baseURL}/api/users`, {
       params: { partial: content, searchBy: flag },
+      timeout: 3000,
     });
     let users = [];
     if (res.data.users) {
@@ -116,6 +119,11 @@ export async function getUsers(content, flag) {
     }
     return Promise.all(users.map((user) => formatUser(user)));
   } catch (err) {
-    store.dispatch("onError", err);
+    if (flag !== AdvancedSearchFlags.SearchByNameFlag) {
+      const advancedSearchError = new Error(i18n.t("share.AdvancedSearchError"));
+      store.dispatch("onError", advancedSearchError);
+    } else {
+      store.dispatch("onError", err);
+    }
   }
 }

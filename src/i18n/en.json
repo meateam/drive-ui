@@ -142,7 +142,8 @@
     "AdvancedSearchChoices": {
       "SearchByT": "by T",
       "SearchByMail": "by mail"
-    }
+    },
+    "AdvancedSearchError": "The requested user was not found. Please ensure that the items are valid."
   },
   "externalTransfer": {
     "Header": "External Transfer",

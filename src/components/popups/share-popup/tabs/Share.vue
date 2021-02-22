@@ -27,6 +27,7 @@
     <div id="advancedSearchContainer">
       <div>
         <TextButton
+          :class="{ 'toggleAdvancedSearch': advancedSearch }"
           class="advancedSearchRadio"
           @click="advancedSearch = !advancedSearch"
           :label="$t('share.AdvancedSearch')"
@@ -179,5 +180,8 @@ export default {
 }
 #chips {
   min-height: 60px;
+}
+.toggleAdvancedSearch {
+  background-color: rgb(200 , 200, 200);
 }
 </style>
