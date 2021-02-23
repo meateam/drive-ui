@@ -54,10 +54,13 @@ export async function searchUsersByName(name) {
 /**
  * getExternalUserByID returns the external user with the received id
  * @param userID is the user id
+ * @param destination external destination network
  */
-export async function getExternalUserByID(userID) {
+export async function getExternalUserByID(userID, destination) {
   try {
-    const res = await Axios.get(`${baseURL}/api/delegators/${userID}`);
+    const res = await Axios.get(`${baseURL}/api/users/${userID}`, {
+      headers: { 'destination': destination }
+    });
     const user = formatExternalUser(res.data.user);
     return user;
   } catch (err) {
@@ -68,11 +71,12 @@ export async function getExternalUserByID(userID) {
 /**
  * getUsersByIDs returns the array of the users with the id
  * @param userIDs is the array of the ids
+ * @param destination external destination network
  */
-export function getExternalUsersByIDs(userIDs) {
+export function getExternalUsersByIDs(userIDs, destination) {
   return Promise.all(
     userIDs.map((id) => {
-      return getExternalUserByID(id);
+      return getExternalUserByID(id, destination);
     })
   );
 }
@@ -80,11 +84,13 @@ export function getExternalUsersByIDs(userIDs) {
 /**
  * searchExternalUsersByName sets the current users to the external users with the received name
  * @param name
+ * @param destination external destination network
  */
-export async function searchExternalUsersByName(name) {
+export async function searchExternalUsersByName(name, destination) {
   try {
-    const res = await Axios.get(`${baseURL}/api/delegators`, {
+    const res = await Axios.get(`${baseURL}/api/users`, {
       params: { partial: name },
+      headers: { 'destination': destination }
     });
     const users = res.data.users || [];
     return Promise.all(users.map((user) => formatExternalUser(user)));

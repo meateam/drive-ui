@@ -13,8 +13,8 @@ export async function getFileOwnerName(ownerID) {
   return user.fullName;
 }
 
-export async function getExternalFileOwnerName(ownerID) {
-  const user = await usersApi.getExternalUserByID(ownerID).catch(() => {
+export async function getExternalFileOwnerName(ownerID, destination) {
+  const user = await usersApi.getExternalUserByID(ownerID, destination).catch(() => {
     return;
   });
   return user.fullName;

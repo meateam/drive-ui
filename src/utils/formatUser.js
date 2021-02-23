@@ -1,11 +1,10 @@
 export function formatUser(user) {
     const formatedUser = user;
-    formatedUser.display = `${user.firstName} ${
-        user.lastName ? user.lastName : ""
-        } > ${user.hierarchyFlat}`;
+    formatedUser.display = `${user.firstName} ${user.lastName ? user.lastName : ""} > ${user.hierarchyFlat}`;
     return formatedUser;
 }
 
+// TODO: check if needed
 export function formatExternalUser(user) {
     const formatedUser = user;
     formatedUser.display = `${user.full_name} > ${user.hierarchy}`;

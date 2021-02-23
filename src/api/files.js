@@ -9,6 +9,7 @@ import store from "@/store";
 
 /**
  * fetchFiles fetch all the files in the current folder
+ * @param parent - the parent folder id
  */
 export async function fetchFiles(parent) {
   const res = await Axios.get(
@@ -43,8 +44,13 @@ export async function fetchSharedFiles(pageNum) {
   return permissions;
 }
 
-export async function fetchExternalTransferdFiles(pageNum) {
-  const res = await Axios.get(`${baseURL}/api/files?shares&appId=dropbox&pageSize=${pageSize}&pageNum=${pageNum}`);
+/**
+ * fetchExternalTransferdFiles fetch all the external transfer files from cargo or dropbox
+ * @param pageNum - for pagination, the page number
+ * @param appId - appId, external sources app
+ */
+export async function fetchExternalTransferdFiles(pageNum, appId) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=${appId}&pageSize=${pageSize}&pageNum=${pageNum}`);
   const permissions = res.data;
   return permissions;
 }
@@ -62,6 +68,10 @@ export async function isFileExists(fileID) {
   }
 }
 
+/**
+ * getFileByID get the file by it's id
+ * @param fileID is the id of the file
+ */
 export async function getFileByID(fileID) {
   const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
   return res.data;

@@ -1,4 +1,5 @@
 import { search } from "@/api/search";
+import { getDestinationByAppId } from "@/utils/formatDestination";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 
 const actions = {
@@ -9,8 +10,9 @@ const actions = {
 
       results.forEach(async (file) => {
         if (file.isExternal) {
+          const dest = getDestinationByAppId(file.appId);
           const formattedFile = file
-          formattedFile.owner = await getExternalFileOwnerName(file.ownerId);
+          formattedFile.owner = await getExternalFileOwnerName(file.ownerId, dest);
           commit("updateFile", formattedFile);
         } else {
           const formattedFile = file;

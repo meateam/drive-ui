@@ -3,6 +3,7 @@ import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { isOwner } from "@/utils/isOwner";
+import { getDestinationByAppId } from "@/utils/formatDestination";
 import {
   isFileOwner,
   getFileOwnerName,
@@ -70,17 +71,17 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async fetchExternalTransferdFiles({ commit, dispatch }, pageNum) {
+  async fetchExternalTransferdFiles({ commit, dispatch }, pageNum, appId) {
     try {
-      const permissions = await filesApi.fetchExternalTransferdFiles(pageNum || 0);
+      const permissions = await filesApi.fetchExternalTransferdFiles(pageNum || 0, appId);
       const files = permissions.files;
-
+      const dest = getDestinationByAppId(appId)
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
       for (const file of files) {
         const formattedFile = file;
-        formattedFile.owner = await getExternalFileOwnerName(file.ownerId);
+        formattedFile.owner = await getExternalFileOwnerName(file.ownerId, dest);
         commit("updateFile", formattedFile);
       }
     } catch (err) {
