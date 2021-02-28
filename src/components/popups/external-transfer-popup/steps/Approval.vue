@@ -208,7 +208,6 @@ export default {
       this.blockedApprover = undefined;
       this.users = [];
       if (!approver || this.isUserExists(this.selectedApprovals, approver.id)) {
-        console.log("err");
         return;
       } else {
         const canApprove = await usersApi.canBeApproved(
@@ -236,9 +235,6 @@ export default {
     },
     onAboutMeClick() {
       usersApi.openAboutMePage();
-    },
-    p() {
-      console.log(this.disabled);
     },
   },
 };

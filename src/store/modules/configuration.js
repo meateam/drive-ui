@@ -56,7 +56,6 @@ const mutations = {
     state.dropboxSupportLink = config.dropboxSupportLink;
     state.approvalServiceUIUrl = config.approvalServiceUIUrl;
     state.approvalServiceUrl = config.approvalServiceUrl;
-    state.approvalServiceUIUrl = config.approvalServiceUIUrl;
     state.externalShareName = config.externalShareName;
     state.docsUrl = config.docsUrl;
     state.bamSupportNumber = config.bamSupportNumber;
