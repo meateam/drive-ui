@@ -147,12 +147,31 @@ export default {
       iAmApprover: false,
     };
   },
+  props: {
+    resrt: Boolean,
+  },
   computed: {
     ...mapGetters(["user", "whiteListText"]),
   },
   watch: {
+    resrt() {
+      this.users = [];
+      this.selectedApprovals = [];
+      this.blockedApprover = undefined;
+      this.isLoading = false;
+      this.iAmApprover = false;
+
+      this.disabled = !(
+        this.user.approverInfo.isAdmin ||
+        (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
+      );
+    },
     selectedApprovals: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
+      this.disabled = !(
+        this.user.approverInfo.isAdmin ||
+        (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
+      );
     },
     iAmApprover: function (value) {
       value ? (this.disabled = false) : (this.disabled = true);
