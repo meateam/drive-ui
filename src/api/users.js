@@ -42,8 +42,8 @@ export async function searchUsersByName(name) {
     });
     const users = res.data.users
       ? res.data.users.filter((user) => {
-        return user.id !== store.state.auth.user.id;
-      })
+          return user.id !== store.state.auth.user.id;
+        })
       : [];
     return Promise.all(users.map((user) => formatUser(user)));
   } catch (err) {
@@ -59,8 +59,9 @@ export async function searchUsersByName(name) {
 export async function getExternalUserByID(userID, destination) {
   try {
     const res = await Axios.get(`${baseURL}/api/users/${userID}`, {
-      headers: { 'destination': destination }
+      headers: { destination: destination },
     });
+    console.log(res);
     const user = formatExternalUser(res.data.user);
     return user;
   } catch (err) {
@@ -90,7 +91,7 @@ export async function searchExternalUsersByName(name, destination) {
   try {
     const res = await Axios.get(`${baseURL}/api/users`, {
       params: { partial: name },
-      headers: { 'destination': destination }
+      headers: { destination: destination },
     });
     const users = res.data.users || [];
     return Promise.all(users.map((user) => formatExternalUser(user)));
@@ -104,13 +105,16 @@ export async function getApproverInfo(userID) {
 
   const approverInfo = res.data.approverInfo;
 
-  if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
+  if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin)
+    approverInfo.noUnit = true;
 
   return res.data.approverInfo;
 }
 
 export async function canBeApproved(userID, approverID) {
-  const res = await Axios.get(`${baseURL}/api/users/${userID}/canApproveToUser/${approverID}`);
+  const res = await Axios.get(
+    `${baseURL}/api/users/${userID}/canApproveToUser/${approverID}`
+  );
 
   return res.data;
 }

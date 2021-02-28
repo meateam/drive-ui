@@ -129,7 +129,7 @@
   "share": {
     "ShareFile": "שיתוף קובץ",
     "ShareFiles": "שיתוף קבצים",
-    "DriveChoose": "בחר עם מי תרצו לשתף",
+    "DriveChoose": "בחר עם מי תרצה לשתף",
     "ChoosePermission": "הרשאות",
     "RoleChoose": "בחר את הרשאות השיתוף",
     "NoPermissions": "לא משותפים משתמשים בקובץ",
@@ -146,9 +146,22 @@
     }
   },
   "externalTransfer": {
-    "Header": "העברה לרשת חיצונית",
-    "Destination": "יעד",
-    "Approval": "מאשר",
+    "Header": "העברה לרשת {dest}",
+    "HeaderDestDefault": "חיצונית",
+    "HeaderDestTomcal": "תומכל",
+    "NetworkDest": "רשת יעד",
+    "NetworkDestChoose": "בחר רשת יעד",
+    "ExternalNetworkDests": [
+      {
+        "label": "תומכ'ל",
+        "value": "TOMCAL",
+        "appID": "dropbox",
+        "isColor": false
+      },
+      { "label": "CTS", "value": "CTS", "appID": "cargo", "isColor": true }
+    ],
+    "Destination": "נמענים",
+    "Approval": "מאשרים",
     "AddInfo": "מידע נוסף",
     "ApprovalChoose": "בחרו מי יאשר את השיתוף",
     "MoreInfo": "כתבו מידע על הקובץ",

@@ -9,7 +9,7 @@
       :isLoading="isLoading"
       :minLength="2"
       @select="onSelect"
-      @type="getExternalUsersByName"
+      @type="getExternalUsersByName($event, networkDest)"
     />
     <v-chip-group show-arrows>
       <Chips
@@ -25,6 +25,7 @@
         :label="$t('buttons.Continue')"
         :disabled="disabled"
       />
+      <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
   </div>
 </template>
@@ -34,10 +35,12 @@ import * as usersApi from "@/api/users";
 import Chips from "@/components/shared/BaseChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
+import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "Destination",
-  components: { Chips, SubmitButton, Autocomplete },
+  components: { Chips, SubmitButton, Autocomplete, TextButton },
+  props: ["networkDest"],
   data() {
     return {
       selectedUsers: [],
@@ -47,16 +50,16 @@ export default {
     };
   },
   watch: {
-    selectedUsers: function (users) {
+    selectedUsers: function(users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
     },
   },
   methods: {
-    getExternalUsersByName(name) {
+    getExternalUsersByName(name, dest) {
       if (this.isLoading) return;
       this.isLoading = true;
       usersApi
-        .searchExternalUsersByName(name)
+        .searchExternalUsersByName(name, dest)
         .then((users) => (this.users = users))
         .finally(() => (this.isLoading = false));
     },

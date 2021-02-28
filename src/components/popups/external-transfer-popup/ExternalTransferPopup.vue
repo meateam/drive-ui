@@ -4,13 +4,23 @@
       <div class="popup-header">
         <img
           class="popup-icon auto-margin"
-          src="@/assets/icons/green-transfer.svg"
+          :src="
+            require(`@/assets/icons/${
+              isColorChange ? 'purple' : 'green'
+            }-transfer.svg`)
+          "
         />
-        <p class="d-title">{{ $t("externalTransfer.Header") }}</p>
+        <p class="d-title">
+          {{
+            $t("externalTransfer.Header", {
+              dest: destHeader,
+            })
+          }}
+        </p>
         <p class="align-center">{{ file.name }}</p>
       </div>
 
-      <div class="popup-body">
+      <div :class="isColorChange ? 'popup-body-color' : 'popup-body'">
         <div class="align-center" v-if="!isFileAllowed()">
           <p class="popup-text">{{ $t("externalTransfer.errors.FileType") }}</p>
           <p>{{ getAllowedTypes() }}</p>
@@ -26,8 +36,8 @@
               <v-stepper-step
                 :complete="currentStep > 1"
                 step="1"
-                color="#035c64"
-                >{{ $t("externalTransfer.Destination") }}</v-stepper-step
+                :color="isColorChange ? '#581845' : '#035c64'"
+                >{{ $t("externalTransfer.NetworkDest") }}</v-stepper-step
               >
 
               <v-divider></v-divider>
@@ -35,27 +45,46 @@
               <v-stepper-step
                 :complete="currentStep > 2"
                 step="2"
-                color="#035c64"
+                :color="isColorChange ? '#581845' : '#035c64'"
+                >{{ $t("externalTransfer.Destination") }}</v-stepper-step
+              >
+
+              <v-divider></v-divider>
+
+              <v-stepper-step
+                :complete="currentStep > 3"
+                step="3"
+                :color="isColorChange ? '#581845' : '#035c64'"
                 >{{ $t("externalTransfer.Approval") }}</v-stepper-step
               >
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="3" color="#035c64">{{
-                $t("externalTransfer.AddInfo")
-              }}</v-stepper-step>
+              <v-stepper-step
+                step="4"
+                :color="isColorChange ? '#581845' : '#035c64'"
+                >{{ $t("externalTransfer.AddInfo") }}</v-stepper-step
+              >
             </v-stepper-header>
 
             <v-stepper-items>
               <v-stepper-content step="1">
-                <Destination @continue="onDestinationComplete" />
+                <ExternalNetwork @continue="onExternalNetworkComplete" />
               </v-stepper-content>
 
               <v-stepper-content step="2">
-                <Approval @continue="onApprovalComplete" @back="goBack" />
+                <Destination
+                  @continue="onDestinationComplete"
+                  @back="goBack"
+                  :networkDest="externalNetworkDest"
+                />
               </v-stepper-content>
 
               <v-stepper-content step="3">
+                <Approval @continue="onApprovalComplete" @back="goBack" />
+              </v-stepper-content>
+
+              <v-stepper-content step="4">
                 <AddInfo @continue="onInfoComplete" @back="goBack" />
               </v-stepper-content>
             </v-stepper-items>
@@ -74,6 +103,7 @@ import { fileTypes } from "@/config";
 import AddInfo from "./steps/AddInfo";
 import Destination from "./steps/Destination";
 import Approval from "./steps/Approval";
+import ExternalNetwork from "./steps/ExternalNetwork";
 import NotePopup from "./NotePopup";
 
 export default {
@@ -81,7 +111,7 @@ export default {
   computed: {
     ...mapGetters(["enableExternalShare"]),
   },
-  components: { AddInfo, Destination, Approval, NotePopup },
+  components: { AddInfo, Destination, Approval, ExternalNetwork, NotePopup },
   data() {
     return {
       dialog: false,
@@ -90,12 +120,16 @@ export default {
       approvers: [],
       classification: undefined,
       info: undefined,
+      externalNetworkDest: undefined,
+      destHeader: this.$t("externalTransfer.HeaderDestDefault"),
+      isColorChange: false,
     };
   },
   props: ["file"],
   methods: {
     open() {
       this.dialog = true;
+      this.currentStep = 1;
     },
     isFileAllowed() {
       const nameArray = this.file.name.split(".");
@@ -103,7 +137,20 @@ export default {
       return fileTypes.externalShare.includes(fileType.toLowerCase());
     },
     getAllowedTypes() {
-      return fileTypes.externalShare.toString().split(",").join(", ");
+      return fileTypes.externalShare
+        .toString()
+        .split(",")
+        .join(", ");
+    },
+    onExternalNetworkComplete(externalNetworkDest) {
+      var selectedNetwork = this.$t(
+        "externalTransfer.ExternalNetworkDests"
+      ).filter((networkDest) => networkDest.value == externalNetworkDest)[0];
+
+      this.isColorChange = selectedNetwork.isColor;
+      this.destHeader = selectedNetwork.label;
+      this.externalNetworkDest = externalNetworkDest;
+      this.currentStep++;
     },
     onDestinationComplete(users) {
       this.destination = users;
@@ -120,6 +167,11 @@ export default {
     },
     goBack() {
       this.currentStep--;
+
+      if (this.currentStep == 1) {
+        this.destHeader = this.$t("externalTransfer.HeaderDestDefault");
+        this.isColorChange = false;
+      }
     },
     onComplete() {
       this.currentStep = 1;
@@ -131,6 +183,7 @@ export default {
         info: this.info,
         classification: this.classification,
         approvers: this.approvers,
+        destination: this.externalNetworkDest, // TODO: CHANGE TO APP ID
       });
     },
   },
@@ -146,5 +199,11 @@ export default {
 }
 .v-stepper__header {
   box-shadow: none;
+}
+
+.popup-body-color {
+  background-color: #f4f0f7;
+  width: 100%;
+  padding: 30px 60px;
 }
 </style>

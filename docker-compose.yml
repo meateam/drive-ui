@@ -8,7 +8,8 @@ services:
     depends_on:
       - api-gateway
   api-gateway:
-    image: "drivehub.azurecr.io/meateam/api-gateway:pagination"
+    image: api-gateway
+    build: ../api-gateway
     env_file:
       - ../kdrive.env
     ports:
@@ -78,7 +79,8 @@ services:
     env_file:
       - ../kdrive.env
   user-service:
-    image: "drivehub.azurecr.io/meateam/user-service:v2.1.0"
+    image: user-service
+    build: ../user-service
     ports:
       - "8086:8080"
     env_file:
@@ -132,13 +134,13 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
-  kibana:
-    image: "docker.elastic.co/kibana/kibana:7.5.0"
-    container_name: kibana
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
+  # kibana:
+  #   image: "docker.elastic.co/kibana/kibana:7.5.0"
+  #   container_name: kibana
+  #   ports:
+  #     - "5601:5601"
+  #   depends_on:
+  #     - elasticsearch
   spike-service:
     image: "drivehub.azurecr.io/meateam/spike-service:v2.0.0"
     env_file:
@@ -147,18 +149,30 @@ services:
       - redis
     ports:
       - "8090:8080"
-  delegation-service:
-    image: "drivehub.azurecr.io/meateam/delegation-service:v2.0.0"
-    ports:
-      - "8091:8080"
-    env_file:
-      - ../kdrive.env
-  permit-service:
-    image: "drivehub.azurecr.io/meateam/permit-service:v2.0.0"
+  dropbox-service:
+    image: dropbox-service
+    build: ../dropbox-service
     env_file:
       - ../kdrive.env
     ports:
-      - "8092:8080"
+      - 8091:8080
     depends_on:
       - mongo
+      # - elasticsearch
       - spike-service
+      - user-service
+  # delegation-service:
+  #   image: "drivehub.azurecr.io/meateam/delegation-service:v2.0.0"
+  #   ports:
+  #     - "8091:8080"
+  #   env_file:
+  #     - ../kdrive.env
+  # permit-service:
+  #   image: "drivehub.azurecr.io/meateam/permit-service:v2.0.0"
+  #   env_file:
+  #     - ../kdrive.env
+  #   ports:
+  #     - "8092:8080"
+  #   depends_on:
+  #     - mongo
+  #     - spike-service

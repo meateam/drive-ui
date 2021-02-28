@@ -143,7 +143,17 @@
   },
   "externalTransfer": {
     "Header": "External Transfer",
-    "Destination": "Destination",
+    "NetworkDest": "Network Destination",
+    "NetworkDestChoose": "choose Network Destination",
+    "ExternalNetworkDests": [
+      {
+        "label": "tomcal",
+        "value": "TOMCAL",
+        "appID": "dropbox"
+      },
+      { "label": "CTS", "value": "CTS", "appID": "cargo" }
+    ],
+    "Destination": "User Destinations",
     "Approval": "Approval",
     "AddInfo": "Add Info",
     "ApprovalChoose": "Choose the person who will approve your external share request.\nNot every person is a valid approver, check who are the approvers in your unit\nNotice! The approver will get read permission on the file.",
