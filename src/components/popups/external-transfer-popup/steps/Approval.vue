@@ -159,11 +159,19 @@ export default {
       this.selectedApprovals = [];
       this.blockedApprover = undefined;
       this.isLoading = false;
-      this.disabled = true;
       this.iAmApprover = false;
+
+      this.disabled = !(
+        this.user.approverInfo.isAdmin ||
+        (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
+      );
     },
     selectedApprovals: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
+      this.disabled = !(
+        this.user.approverInfo.isAdmin ||
+        (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
+      );
     },
     iAmApprover: function (value) {
       value ? (this.disabled = false) : (this.disabled = true);
@@ -208,8 +216,6 @@ export default {
           approver.id
         );
 
-        console.log("==>", canApprove);
-
         if (canApprove.canApproveToUser) {
           this.selectedApprovals.push(approver);
         } else if (canApprove.cantApproveReasons) {
@@ -230,6 +236,9 @@ export default {
     },
     onAboutMeClick() {
       usersApi.openAboutMePage();
+    },
+    p() {
+      console.log(this.disabled);
     },
   },
 };
