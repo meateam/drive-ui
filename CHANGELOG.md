@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
--minor([64](https://github.com/meateam/drive-ui/pull/64)): fix all bugs and add approval info.
+- minor([64](https://github.com/meateam/drive-ui/pull/64)): fix all bugs and add approval info.
 
 ## [v3.1.1]
 
