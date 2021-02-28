@@ -46,9 +46,18 @@ export default {
       disabled: true,
     };
   },
+  props: {
+    resrt: Boolean,
+  },
   watch: {
     selectedUsers: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
+    },
+    resrt() {
+      this.selectedUsers = [];
+      this.users = [];
+      this.isLoading = false;
+      this.disabled = true;
     },
   },
   methods: {

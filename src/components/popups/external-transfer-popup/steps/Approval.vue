@@ -147,10 +147,21 @@ export default {
       iAmApprover: false,
     };
   },
+  props: {
+    resrt: Boolean,
+  },
   computed: {
     ...mapGetters(["user", "whiteListText"]),
   },
   watch: {
+    resrt() {
+      this.users = [];
+      this.selectedApprovals = [];
+      this.blockedApprover = undefined;
+      this.isLoading = false;
+      this.disabled = true;
+      this.iAmApprover = false;
+    },
     selectedApprovals: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
     },
@@ -189,12 +200,15 @@ export default {
       this.blockedApprover = undefined;
       this.users = [];
       if (!approver || this.isUserExists(this.selectedApprovals, approver.id)) {
+        console.log("err");
         return;
       } else {
         const canApprove = await usersApi.canBeApproved(
           this.user.id,
           approver.id
         );
+
+        console.log("==>", canApprove);
 
         if (canApprove.canApproveToUser) {
           this.selectedApprovals.push(approver);

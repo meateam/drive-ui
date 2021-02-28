@@ -27,6 +27,7 @@ const actions = {
     commit("setToken", undefined);
   },
   async addApproverInfo({ commit }, user) {
+    console.log(user);
     const approverInfo = await usersApi.getApproverInfo(user.id);
     commit("setApproverInfo", approverInfo);
   },

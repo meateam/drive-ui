@@ -47,6 +47,17 @@ export default {
       classifications: this.$t("externalTransfer.Classifications"),
     };
   },
+  props: {
+    resrt: Boolean,
+  },
+  watch: {
+    resrt() {
+      this.info = "";
+      this.classification = undefined;
+      this.disabled = true;
+      this.classifications = this.$t("externalTransfer.Classifications");
+    },
+  },
   methods: {
     onConfirm() {
       this.$emit("continue", this.info, this.classification);
