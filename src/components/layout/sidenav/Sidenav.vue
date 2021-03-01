@@ -102,14 +102,14 @@ export default {
     ...mapGetters([
       "version",
       "quota",
-      "approvalServiceUrl",
+      "approvalServiceUIUrl",
       "myExternalSharesName",
     ]),
   },
   methods: {
     ...mapActions(["getQuota"]),
     openApprovalService() {
-      window.open(this.approvalServiceUrl);
+      window.open(this.approvalServiceUIUrl);
     },
   },
   created() {

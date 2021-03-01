@@ -16,7 +16,7 @@
 <script>
 export default {
   name: "Select",
-  props: ["items", "background", "placeholder", "value"],
+  props: ["items", "background", "placeholder", "value", "reset"],
   data() {
     return {
       selected: null,
@@ -24,6 +24,11 @@ export default {
   },
   created() {
     this.selected = this.value || null;
+  },
+  watch: {
+    reset(value) {
+      this.selected = value
+    }
   },
 };
 </script>

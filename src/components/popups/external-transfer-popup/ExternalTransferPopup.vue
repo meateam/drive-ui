@@ -49,14 +49,14 @@
             <v-stepper-items>
               <v-stepper-content step="1">
                 <Destination
-                  :resrt="resetPopup"
+                  :reset="resetPopup"
                   @continue="onDestinationComplete"
                 />
               </v-stepper-content>
 
               <v-stepper-content step="2">
                 <Approval
-                  :resrt="resetPopup"
+                  :reset="resetPopup"
                   @continue="onApprovalComplete"
                   @back="goBack"
                 />
@@ -64,7 +64,7 @@
 
               <v-stepper-content step="3">
                 <AddInfo
-                  :resrt="resetPopup"
+                  :reset="resetPopup"
                   @continue="onInfoComplete"
                   @back="goBack"
                 />

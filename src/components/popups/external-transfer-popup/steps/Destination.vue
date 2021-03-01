@@ -64,13 +64,13 @@ export default {
     ...mapGetters(["user"]),
   },
   props: {
-    resrt: Boolean,
+    reset: Boolean,
   },
   watch: {
     selectedUsers: function (users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
     },
-    resrt() {
+    reset() {
       this.selectedUsers = [];
       this.users = [];
       this.isLoading = false;
