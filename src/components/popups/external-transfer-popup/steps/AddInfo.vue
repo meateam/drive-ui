@@ -58,7 +58,7 @@ export default {
     reset() {
       this.resetSelect = null;
       this.resetInfo = null;
-      this.toggleDisabled();
+      this.disabled = true;
     },
   },
   methods: {
