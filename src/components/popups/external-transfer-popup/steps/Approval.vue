@@ -205,13 +205,6 @@ export default {
         (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
       );
     },
-    // selectedApprovals: function (users) {
-    //   users.length ? (this.disabled = false) : (this.disabled = true);
-    //   this.disabled = !(
-    //     this.user.approverInfo.isAdmin ||
-    //     (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
-    //   );
-    // },
     iAmApprover: function (value) {
       value ? (this.disabled = false) : (this.disabled = true);
     },
