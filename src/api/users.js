@@ -107,7 +107,7 @@ export async function getUsers(content, flag) {
   try {
     const res = await Axios.get(`${baseURL}/api/users`, {
       params: { partial: content, searchBy: flag },
-      timeout: 3000,
+      timeout: 5000,
     });
     let users = [];
     if (res.data.users) {

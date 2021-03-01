@@ -112,6 +112,6 @@ export default {
   padding: 10px 40px;
 }
 #shareFile {
-  height: 350px;
+  height: 320px;
 }
 </style>

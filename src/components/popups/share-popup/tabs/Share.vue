@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="popup-text">{{ $t("share.DriveChoose") }}</p>
-    <div class="space-between">
+    <div class="space-between" @click="hideAdvancedSearchOptions">
       <Autocomplete
         icon
         background="white"
@@ -25,19 +25,24 @@
     </div>
 
     <div id="advancedSearchContainer">
-      <div>
-        <TextButton
-          :class="{ 'toggleAdvancedSearch': advancedSearch }"
-          class="advancedSearchRadio"
-          @click="advancedSearch = !advancedSearch"
-          :label="$t('share.AdvancedSearch')"
+      <div id="advancedSearchTitlesContainer">
+        <a
+          id="advancedSearch"
+          @click="onAdvancedSearch"
+        >{{ $t('share.AdvancedSearch') }}</a>
+        <div>
+          <AdvancedSearchChips v-if="advancedSearchSelection"
+          :searchBy="$t(`share.AdvancedSearchChoices.${advancedSearchSelection}`)"
+          @remove="onRemoveAdvancedSearch"
         />
+        </div>
       </div>
       <div
-        :class="[advancedSearch ? 'd-block' : 'd-none']"
+        :class="[displayAdvancedSearchOptions ? 'd-block' : 'd-none']"
         id="advancedSearchButtons"
       >
         <RadioButtons
+          :value="advancedSearchSelection"
           :radioGroup="advancedSearchOptions"
           @change="changeAdvancedSearchSelection"
         />
@@ -73,6 +78,7 @@
 <script>
 import * as usersApi from "@/api/users";
 import Chips from "@/components/shared/BaseChips";
+import AdvancedSearchChips from "@/components/shared/AdvancedSearchChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import Select from "@/components/inputs/BaseSelect";
@@ -95,15 +101,16 @@ export default {
         { value: "READ", text: this.$t("share.role.READ") },
         { value: "WRITE", text: this.$t("share.role.WRITE") },
       ],
-      advancedSearch: false,
       advancedSearchOptions: Object.keys(
         this.$t("share.AdvancedSearchChoices")
       ),
       advancedSearchSelection: null,
+      displayAdvancedSearchOptions: false,
     };
   },
   components: {
     Chips,
+    AdvancedSearchChips,
     SubmitButton,
     Autocomplete,
     Select,
@@ -122,9 +129,9 @@ export default {
     getUsersByContent(content) {
       if (this.isLoading) return;
       this.isLoading = true;
-      const flag = this.advancedSearch
-        ? AdvancedSearchToFlag(this.advancedSearchSelection)
-        : AdvancedSearchFlags.SearchByNameFlag;
+      const flag = !this.advancedSearchSelection
+        ? AdvancedSearchFlags.SearchByNameFlag
+        : AdvancedSearchToFlag(this.advancedSearchSelection);
       usersApi
         .getUsers(content, flag)
         .then((users) => {
@@ -153,6 +160,15 @@ export default {
         return user.id !== item.id;
       });
     },
+    onRemoveAdvancedSearch() {
+      this.advancedSearchSelection = null;
+    },
+    onAdvancedSearch() {
+      this.displayAdvancedSearchOptions = !this.displayAdvancedSearchOptions
+    },
+    hideAdvancedSearchOptions() {
+      this.displayAdvancedSearchOptions = false;
+    },
     isUserExists(users, id) {
       return users.some((user) => user.id === id);
     },
@@ -172,16 +188,31 @@ export default {
 
 <style scoped>
 #advancedSearchContainer {
-  margin-top: -10px;
-  height: 130px;
+  margin-top: -20px;
+  height: 110px;
 }
 #advancedSearchButtons {
-  margin-top: -15px;
+  margin-top: -35px;
+}
+#advancedSearchButtons > * {
+  margin-right: 10px;
+  padding-top: 0;
 }
 #chips {
   min-height: 60px;
 }
-.toggleAdvancedSearch {
-  background-color: rgb(200 , 200, 200);
+#advancedSearch {
+  height: 20px;
+  z-index: 1000;
+  font-size: smaller;
+  color: #1976d2 !important;
+  text-decoration: underline;
+  padding-left: 20px;
+  margin-right: 24px;
+  margin-top: 3px;
+}
+#advancedSearchTitlesContainer {
+  display: flex;
+  min-height: 50px;
 }
 </style>
