@@ -7,7 +7,8 @@ const state = {
   environment: "",
   supportLink: "",
   dropboxSupportLink: "",
-  approvalServiceUrl: "",
+  approvalServiceUrl: "http://approval.dropbox.rabaz.org",
+  approvalServiceUIUrl: "http://approval.dropbox.rabaz.org",
   externalShareName: "שיתוף חיצוני",
   myExternalSharesName: "השיתופים החיצוניים שלי",
   enableExternalShare: false,
@@ -24,6 +25,7 @@ const getters = {
   supportLink: (state) => state.supportLink,
   dropboxSupportLink: (state) => state.dropboxSupportLink,
   approvalServiceUrl: (state) => state.approvalServiceUrl,
+  approvalServiceUIUrl: (state) => state.approvalServiceUIUrl,
   externalShareName: (state) => state.externalShareName,
   whiteListText: (state) => state.approverWhiteListText,
   myExternalSharesName: (state) => state.myExternalSharesName,
@@ -52,6 +54,7 @@ const mutations = {
     state.environment = config.environment;
     state.supportLink = config.supportLink;
     state.dropboxSupportLink = config.dropboxSupportLink;
+    state.approvalServiceUIUrl = config.approvalServiceUIUrl;
     state.approvalServiceUrl = config.approvalServiceUrl;
     state.externalShareName = config.externalShareName;
     state.docsUrl = config.docsUrl;

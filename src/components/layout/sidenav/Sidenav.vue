@@ -28,7 +28,7 @@
             <img class="icons" src="@/assets/icons/pending.svg" />
           </v-list-item-icon>
 
-          <v-list-item-title class="sidenav-title">{{ $t('sidenav.ExternalFiles') }}</v-list-item-title>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalFiles") }}</v-list-item-title>
         </template>
 
         <v-list-item link @click="openApprovalService">
@@ -56,7 +56,7 @@
           <v-list-item-icon>
             <img class="icons" src="@/assets/icons/storage.svg" />
           </v-list-item-icon>
-          <v-list-item-title class="sidenav-title">{{ $t('sidenav.Quota.Quota') }}</v-list-item-title>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.Quota.Quota") }}</v-list-item-title>
         </v-list-item>
         <Quota :quota="quota" />
       </div>
@@ -66,140 +66,140 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex';
-  import Quota from './quota/Quota';
+import { mapGetters, mapActions } from "vuex";
+import Quota from "./quota/Quota";
 
-  export default {
-    name: 'Sidenav',
-    components: { Quota },
-    data: () => ({
-      menuItems: [
-        {
-          path: '/my-drive',
-          id: 'my-drive-link',
-          icons: {
-            white: 'home',
-            green: 'green-home',
-          },
-          title: 'sidenav.MyDrive',
+export default {
+  name: "Sidenav",
+  components: { Quota },
+  data: () => ({
+    menuItems: [
+      {
+        path: "/my-drive",
+        id: "my-drive-link",
+        icons: {
+          white: "home",
+          green: "green-home",
         },
-        {
-          path: '/shared-with-me',
-          icons: {
-            white: 'share',
-            green: 'green-share',
-          },
-          title: 'sidenav.SharedWithMe',
-        },
-        {
-          path: '/last-updated',
-          icons: {
-            white: 'last-update',
-            green: 'green-last-update',
-          },
-          title: 'sidenav.LastUpdated',
-        },
-        // {
-        //   path: '/favorites',
-        //   icons: {
-        //     white: 'favorites',
-        //     green: 'green-favorites',
-        //   },
-        //   title: 'sidenav.Favorites',
-        // },
-        //  {
-        //   path: '/deleted-files',
-        //   icons: {
-        //     white: 'delete',
-        //     green: 'green-delete',
-        //   },
-        //   title: 'sidenav.Deleted',
-        // },
-      ],
-      externalMenuItems: [
-        {
-          path: '/external-transferd',
-          icons: {
-            white: 'transfer',
-            green: 'green-transfer',
-          },
-          title: 'sidenav.ExternalTransferd',
-        },
-      ],
-    }),
-    computed: {
-      ...mapGetters(['version', 'quota', 'approvalServiceUrl', 'myExternalSharesName']),
-    },
-    methods: {
-      ...mapActions(['getQuota']),
-      openApprovalService() {
-        window.open(this.approvalServiceUrl);
+        title: "sidenav.MyDrive",
       },
+      {
+        path: "/shared-with-me",
+        icons: {
+          white: "share",
+          green: "green-share",
+        },
+        title: "sidenav.SharedWithMe",
+      },
+      {
+        path: "/last-updated",
+        icons: {
+          white: "last-update",
+          green: "green-last-update",
+        },
+        title: "sidenav.LastUpdated",
+      },
+      // {
+      //   path: '/favorites',
+      //   icons: {
+      //     white: 'favorites',
+      //     green: 'green-favorites',
+      //   },
+      //   title: 'sidenav.Favorites',
+      // },
+      //  {
+      //   path: '/deleted-files',
+      //   icons: {
+      //     white: 'delete',
+      //     green: 'green-delete',
+      //   },
+      //   title: 'sidenav.Deleted',
+      // },
+    ],
+    externalMenuItems: [
+      {
+        path: "/external-transferd",
+        icons: {
+          white: "transfer",
+          green: "green-transfer",
+        },
+        title: "sidenav.ExternalTransferd",
+      },
+    ],
+  }),
+  computed: {
+    ...mapGetters(["version", "quota", "approvalServiceUIUrl", "myExternalSharesName"]),
+  },
+  methods: {
+    ...mapActions(["getQuota"]),
+    openApprovalService() {
+      window.open(this.approvalServiceUIUrl);
     },
-    created() {
-      this.getQuota();
-    },
-  };
+  },
+  created() {
+    this.getQuota();
+  },
+};
 </script>
 
 <style scoped>
-  #sidenav {
-    background-image: linear-gradient(to bottom, #347a99, #2f7e71);
-    display: block;
-  }
-  .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
-    padding: 0 20px;
-  }
-  .v-list {
-    padding: 0;
-    min-height: calc(100% - 80px);
-  }
-  .v-list-item {
-    height: 70px;
-  }
-  #logo-container {
-    height: 86px;
-    margin: 0 35px;
-  }
-  #logo {
-    padding-bottom: 5px;
-  }
-  #yesodot {
-    display: block;
-    width: 70px;
-    height: 70px;
-    margin: 0 30px;
-    margin: auto;
-  }
-  .v-list-item__icon {
-    margin: auto;
-  }
-  .icons {
-    width: 22px;
-    height: 22px;
-  }
-  #version {
-    text-align: center;
-  }
-  .sidenav-title {
-    color: #fff9e5;
-  }
-  .white-icon {
-    display: block;
-  }
-  .green-icon {
-    display: none;
-  }
-  .route-active {
-    background-color: #f0f3f8;
-  }
-  .route-active .white-icon {
-    display: none;
-  }
-  .route-active .green-icon {
-    display: block;
-  }
-  .route-active .sidenav-title {
-    color: #035c64;
-  }
+#sidenav {
+  background-image: linear-gradient(to bottom, #347a99, #2f7e71);
+  display: block;
+}
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+  padding: 0 20px;
+}
+.v-list {
+  padding: 0;
+  min-height: calc(100% - 80px);
+}
+.v-list-item {
+  height: 70px;
+}
+#logo-container {
+  height: 86px;
+  margin: 0 35px;
+}
+#logo {
+  padding-bottom: 5px;
+}
+#yesodot {
+  display: block;
+  width: 70px;
+  height: 70px;
+  margin: 0 30px;
+  margin: auto;
+}
+.v-list-item__icon {
+  margin: auto;
+}
+.icons {
+  width: 22px;
+  height: 22px;
+}
+#version {
+  text-align: center;
+}
+.sidenav-title {
+  color: #fff9e5;
+}
+.white-icon {
+  display: block;
+}
+.green-icon {
+  display: none;
+}
+.route-active {
+  background-color: #f0f3f8;
+}
+.route-active .white-icon {
+  display: none;
+}
+.route-active .green-icon {
+  display: block;
+}
+.route-active .sidenav-title {
+  color: #035c64;
+}
 </style>

@@ -18,6 +18,36 @@
       <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
       <TextButton @click="onBack" :label="$t('buttons.Back')" />
     </v-card-actions>
+    <div v-if="user.approverInfo.isBlocked">
+      <p class="popup-text align-center">
+        {{ $t("externalTransfer.IsBlocked") }}
+      </p>
+
+      <v-row no-gutters align="center" justify="center">
+        <v-btn text small @click="onAboutMeClick" id="more-info-button">
+          <p>{{ $t("buttons.MoreInfo") }}</p>
+        </v-btn>
+      </v-row>
+    </div>
+    <div v-else>
+      <p class="popup-text">{{ $t("share.DriveChoose") }}</p>
+      <Autocomplete
+        icon
+        background="white"
+        :placeholder="$t('autocomplete.Users')"
+        :items="users"
+        :isLoading="isLoading"
+        :minLength="2"
+        @select="onSelect"
+        @type="getExternalUsersByName"
+      />
+      <v-chip-group show-arrows>
+        <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
+      </v-chip-group>
+      <v-card-actions class="popup-confirm">
+        <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
+      </v-card-actions>
+    </div>
   </div>
 </template>
 
@@ -27,11 +57,12 @@ import Chips from "@/components/shared/BaseChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import TextButton from "@/components/buttons/BaseTextButton";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Destination",
   components: { Chips, SubmitButton, Autocomplete, TextButton },
-  props: ["networkDest"],
+  props: { networkDest: String, reset: Boolean },
   data() {
     return {
       selectedUsers: [],
@@ -40,12 +71,21 @@ export default {
       disabled: true,
     };
   },
+  computed: {
+    ...mapGetters(["user"]),
+  },
   watch: {
     selectedUsers: function(users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
     },
     networkDest: function(newDest, oldDest) {
       if (newDest != oldDest) this.selectedUsers = [];
+    },
+    reset() {
+      this.selectedUsers = [];
+      this.users = [];
+      this.isLoading = false;
+      this.disabled = true;
     },
   },
   methods: {
@@ -60,6 +100,9 @@ export default {
         .searchExternalUsersByName(name, this.$props.networkDest)
         .then((users) => (this.users = users))
         .finally(() => (this.isLoading = false));
+    },
+    onAboutMeClick() {
+      usersApi.openAboutMePage();
     },
     onSelect(user) {
       this.users = [];

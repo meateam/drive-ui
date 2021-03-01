@@ -52,19 +52,33 @@
 
             <v-stepper-items>
               <v-stepper-content step="1">
-                <ExternalNetwork @continue="onExternalNetworkComplete" @change="onExternalNetworkChange" />
+                <ExternalNetwork
+                  @continue="onExternalNetworkComplete"
+                  @change="onExternalNetworkChange"
+                  :reset="resetPopup"
+                />
               </v-stepper-content>
 
               <v-stepper-content step="2">
-                <Destination @continue="onDestinationComplete" @back="goBack" :networkDest="externalNetworkDest" />
+                <Destination
+                  @continue="onDestinationComplete"
+                  @back="goBack"
+                  :networkDest="externalNetworkDest"
+                  :reset="resetPopup"
+                />
               </v-stepper-content>
 
               <v-stepper-content step="3">
-                <Approval @continue="onApprovalComplete" @back="goBack" :networkDest="externalNetworkDest" />
+                <Approval
+                  @continue="onApprovalComplete"
+                  @back="goBack"
+                  :networkDest="externalNetworkDest"
+                  :reset="resetPopup"
+                />
               </v-stepper-content>
 
               <v-stepper-content step="4">
-                <AddInfo @continue="onInfoComplete" @back="goBack" />
+                <AddInfo @continue="onInfoComplete" @back="goBack" :reset="resetPopup" />
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
@@ -106,9 +120,16 @@ export default {
       externalNetworkDest: undefined,
       destHeader: this.$t("externalTransfer.HeaderDestDefault"),
       isColorChange: false,
+      resetPopup: false,
     };
   },
   props: ["file"],
+  watch: {
+    dialog() {
+      this.resetPopup = !this.resetPopup;
+      this.currentStep = 1;
+    },
+  },
   methods: {
     open() {
       this.dialog = true;
@@ -153,10 +174,9 @@ export default {
     goBack() {
       this.currentStep--;
     },
-    onComplete() {
+    async onComplete() {
       this.currentStep = 1;
-      this.dialog = false;
-      this.$emit("onShare", {
+      await this.$emit("onShare", {
         users: this.destination,
         fileID: this.file.id,
         fileName: this.file.name,
@@ -165,6 +185,7 @@ export default {
         approvers: this.approvers,
         destination: this.externalNetworkDest, // TODO: CHANGE TO APP ID
       });
+      this.dialog = false;
     },
   },
 };

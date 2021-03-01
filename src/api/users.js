@@ -121,5 +121,5 @@ export async function canBeApproved(userID, approverID, destination) {
 }
 
 export function openAboutMePage() {
-  window.open(`${store.state.configuration.approvalServiceUrl}/myAccount`);
+  window.open(`${store.state.configuration.approvalServiceUIUrl}/myAccount`);
 }
