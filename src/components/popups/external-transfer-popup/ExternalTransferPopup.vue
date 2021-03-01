@@ -108,7 +108,7 @@ export default {
   watch: {
     dialog() {
       this.resetPopup = !this.resetPopup;
-      this.currentStep = 2;
+      this.currentStep = 1;
     },
   },
   methods: {
