@@ -156,9 +156,10 @@
         "label": "תומכ'ל",
         "value": "TOMCAL",
         "appID": "dropbox",
-        "isColor": false
+        "isColor": true,
+        "color": "success"
       },
-      { "label": "CTS", "value": "CTS", "appID": "cargo", "isColor": true }
+      { "label": "CTS", "value": "CTS", "appID": "cargo", "isColor": false }
     ],
     "Destination": "נמענים",
     "Approval": "מאשרים",

@@ -12,11 +12,7 @@
     </div>
 
     <v-card-actions class="popup-confirm">
-      <SubmitButton
-        @click="onConfirm"
-        :label="$t('buttons.Continue')"
-        :disabled="disabled"
-      />
+      <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
     </v-card-actions>
   </div>
 </template>
@@ -42,11 +38,11 @@ export default {
     onExternalNetworkDestChange(value) {
       this.externalNetworkDest = value;
       this.toggleDisabled();
+
+      this.$emit("change", value);
     },
     toggleDisabled() {
-      this.externalNetworkDest
-        ? (this.disabled = false)
-        : (this.disabled = true);
+      this.externalNetworkDest ? (this.disabled = false) : (this.disabled = true);
     },
   },
 };

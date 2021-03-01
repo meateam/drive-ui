@@ -42,9 +42,7 @@
                 </p>
                 <p v-if="user.approverInfo.unit.approvers">
                   , {{ $t("externalTransfer.ApproverRanks") }}
-                  <span class="bold">{{
-                    getRanks(user.approverInfo.unit.approvers)
-                  }}</span>
+                  <span class="bold">{{ getRanks(user.approverInfo.unit.approvers) }}</span>
                 </p>
                 <p class="bold">{{ whiteListText }}</p>
               </div>
@@ -80,32 +78,18 @@
             })
           }}
         </p>
-        <v-btn
-          text
-          small
-          @click="$refs.support.open(blockedApprover)"
-          id="more-info-button"
-        >
+        <v-btn text small @click="$refs.support.open(blockedApprover)" id="more-info-button">
           <p>{{ $t("buttons.MoreInfo") }}</p>
         </v-btn>
       </div>
 
       <v-chip-group show-arrows>
-        <Chips
-          v-for="user in selectedApprovals"
-          :key="user.id"
-          :user="user"
-          @remove="onRemove"
-        />
+        <Chips v-for="user in selectedApprovals" :key="user.id" :user="user" @remove="onRemove" />
       </v-chip-group>
     </div>
 
     <v-card-actions class="popup-confirm">
-      <SubmitButton
-        @click="onConfirm"
-        :label="$t('buttons.Continue')"
-        :disabled="disabled"
-      />
+      <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
 
       <v-btn text small @click="onAboutMeClick">
@@ -137,6 +121,7 @@ export default {
     TextButton,
     DropboxSupportPopup,
   },
+  props: ["networkDest"],
   data() {
     return {
       users: [],
@@ -151,17 +136,16 @@ export default {
     ...mapGetters(["user", "whiteListText"]),
   },
   watch: {
-    selectedApprovals: function (users) {
+    selectedApprovals: function(users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
     },
-    iAmApprover: function (value) {
+    iAmApprover: function(value) {
       value ? (this.disabled = false) : (this.disabled = true);
     },
   },
   created() {
     this.disabled =
-      this.user.approverInfo.isAdmin ||
-      (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
+      this.user.approverInfo.isAdmin || (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
         ? false
         : true;
   },
@@ -183,7 +167,10 @@ export default {
       );
     },
     getRanks(ranks) {
-      return ranks.toString().split(",").join(", ");
+      return ranks
+        .toString()
+        .split(",")
+        .join(", ");
     },
     async onSelect(approver) {
       this.blockedApprover = undefined;
@@ -191,10 +178,7 @@ export default {
       if (!approver || this.isUserExists(this.selectedApprovals, approver.id)) {
         return;
       } else {
-        const canApprove = await usersApi.canBeApproved(
-          this.user.id,
-          approver.id
-        );
+        const canApprove = await usersApi.canBeApproved(this.user.id, approver.id, this.$props.networkDest);
 
         if (canApprove.canApproveToUser) {
           this.selectedApprovals.push(approver);

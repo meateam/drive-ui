@@ -26,9 +26,16 @@ const actions = {
     cookies.remove("kd-token");
     commit("setToken", undefined);
   },
-  async addApproverInfo({ commit }, user) {
-    const approverInfo = await usersApi.getApproverInfo(user.id);
-    commit("setApproverInfo", approverInfo);
+  async addApproverInfos({ commit }, user) {
+    const approverInfos = user.approverInfos.map(async (approverInfo) => {
+      try {
+        const res = await usersApi.getApproverInfo(user.id, approverInfo.dest);
+        return res;
+      } catch (e) {
+        console.log(e);
+      }
+    });
+    commit("setApproverInfos", approverInfos);
   },
   async parseToken({ commit, dispatch }) {
     try {
@@ -49,15 +56,24 @@ const actions = {
 
       user = {
         ...user,
-        approverInfo: {
-          canApprove: false,
-          requestFaild: true,
-        },
+        // TODO: change to env
+        approverInfos: [
+          {
+            dest: "TOMCAL",
+            canApprove: false,
+            requestFaild: true,
+          },
+          {
+            dest: "CTS",
+            canApprove: false,
+            requestFaild: true,
+          },
+        ],
       };
 
       commit("setUser", user);
 
-      await dispatch("addApproverInfo", user);
+      await dispatch("addApproverInfos", user);
     } catch (err) {
       dispatch("onError", err);
     }
@@ -66,8 +82,12 @@ const actions = {
 
 const mutations = {
   setToken: (state) => (state.token = cookies.get("kd-token")),
-  setUser: (state, user) => { state.user = user },
-  setApproverInfo: (state, approverInfo) => { state.user.approverInfo = approverInfo },
+  setUser: (state, user) => {
+    state.user = user;
+  },
+  setApproverInfos: (state, approverInfos) => {
+    state.user.approverInfos = approverInfos;
+  },
 };
 
 export default {

@@ -4,11 +4,7 @@
       <div class="popup-header">
         <img
           class="popup-icon auto-margin"
-          :src="
-            require(`@/assets/icons/${
-              isColorChange ? 'purple' : 'green'
-            }-transfer.svg`)
-          "
+          :src="require(`@/assets/icons/${isColorChange ? 'blue' : 'green'}-transfer.svg`)"
         />
         <p class="d-title">
           {{
@@ -33,55 +29,38 @@
         <div id="stepper" v-else>
           <v-stepper v-model="currentStep" alt-labels>
             <v-stepper-header>
-              <v-stepper-step
-                :complete="currentStep > 1"
-                step="1"
-                :color="isColorChange ? '#581845' : '#035c64'"
-                >{{ $t("externalTransfer.NetworkDest") }}</v-stepper-step
-              >
+              <v-stepper-step :complete="currentStep > 1" step="1" :color="colorStepper">{{
+                $t("externalTransfer.NetworkDest")
+              }}</v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step
-                :complete="currentStep > 2"
-                step="2"
-                :color="isColorChange ? '#581845' : '#035c64'"
-                >{{ $t("externalTransfer.Destination") }}</v-stepper-step
-              >
+              <v-stepper-step :complete="currentStep > 2" step="2" :color="colorStepper">{{
+                $t("externalTransfer.Destination")
+              }}</v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step
-                :complete="currentStep > 3"
-                step="3"
-                :color="isColorChange ? '#581845' : '#035c64'"
-                >{{ $t("externalTransfer.Approval") }}</v-stepper-step
-              >
+              <v-stepper-step :complete="currentStep > 3" step="3" :color="colorStepper">{{
+                $t("externalTransfer.Approval")
+              }}</v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step
-                step="4"
-                :color="isColorChange ? '#581845' : '#035c64'"
-                >{{ $t("externalTransfer.AddInfo") }}</v-stepper-step
-              >
+              <v-stepper-step step="4" :color="colorStepper">{{ $t("externalTransfer.AddInfo") }}</v-stepper-step>
             </v-stepper-header>
 
             <v-stepper-items>
               <v-stepper-content step="1">
-                <ExternalNetwork @continue="onExternalNetworkComplete" />
+                <ExternalNetwork @continue="onExternalNetworkComplete" @change="onExternalNetworkChange" />
               </v-stepper-content>
 
               <v-stepper-content step="2">
-                <Destination
-                  @continue="onDestinationComplete"
-                  @back="goBack"
-                  :networkDest="externalNetworkDest"
-                />
+                <Destination @continue="onDestinationComplete" @back="goBack" :networkDest="externalNetworkDest" />
               </v-stepper-content>
 
               <v-stepper-content step="3">
-                <Approval @continue="onApprovalComplete" @back="goBack" />
+                <Approval @continue="onApprovalComplete" @back="goBack" :networkDest="externalNetworkDest" />
               </v-stepper-content>
 
               <v-stepper-content step="4">
@@ -110,6 +89,10 @@ export default {
   name: "ExternalTransferPopup",
   computed: {
     ...mapGetters(["enableExternalShare"]),
+    colorStepper: function() {
+      // #005616 TODO: CHANGE ALSO OTHER BUTTONS (AUTO-COMPLETE)
+      return this.isColorChange ? "#035c64" : "#035c64";
+    },
   },
   components: { AddInfo, Destination, Approval, ExternalNetwork, NotePopup },
   data() {
@@ -143,14 +126,16 @@ export default {
         .join(", ");
     },
     onExternalNetworkComplete(externalNetworkDest) {
-      var selectedNetwork = this.$t(
-        "externalTransfer.ExternalNetworkDests"
-      ).filter((networkDest) => networkDest.value == externalNetworkDest)[0];
+      this.externalNetworkDest = externalNetworkDest;
+      this.currentStep++;
+    },
+    onExternalNetworkChange(externalNetworkDest) {
+      var selectedNetwork = this.$t("externalTransfer.ExternalNetworkDests").filter(
+        (networkDest) => networkDest.value == externalNetworkDest
+      )[0];
 
       this.isColorChange = selectedNetwork.isColor;
       this.destHeader = selectedNetwork.label;
-      this.externalNetworkDest = externalNetworkDest;
-      this.currentStep++;
     },
     onDestinationComplete(users) {
       this.destination = users;
@@ -167,11 +152,6 @@ export default {
     },
     goBack() {
       this.currentStep--;
-
-      if (this.currentStep == 1) {
-        this.destHeader = this.$t("externalTransfer.HeaderDestDefault");
-        this.isColorChange = false;
-      }
     },
     onComplete() {
       this.currentStep = 1;
@@ -202,7 +182,7 @@ export default {
 }
 
 .popup-body-color {
-  background-color: #f4f0f7;
+  background-color: #f9fcfa;
   width: 100%;
   padding: 30px 60px;
 }

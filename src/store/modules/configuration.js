@@ -1,6 +1,5 @@
 import { fetchConfig } from "@/api/configuration";
 
-// TODO: add appid config
 const state = {
   version: "2.0",
   apmServerUrl: "",
