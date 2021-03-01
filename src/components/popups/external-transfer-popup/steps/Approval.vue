@@ -60,7 +60,6 @@
             <v-spacer />
             <v-btn
               class="mx-1"
-              flat
               rounded
               color="#2c3448"
               dark
@@ -84,7 +83,7 @@
                     <span class="bold">{{ user.approverInfo.unit.name }}</span>
                   </p>
                   <p v-if="user.approverInfo.unit.approvers">
-                    , {{ $t("externalTransfer.ApproverRanks") }}
+                    {{ $t("externalTransfer.ApproverRanks") }}
                     <span class="bold">{{
                       getRanks(user.approverInfo.unit.approvers)
                     }}</span>
@@ -188,13 +187,13 @@ export default {
     };
   },
   props: {
-    resrt: Boolean,
+    reset: Boolean,
   },
   computed: {
     ...mapGetters(["user", "whiteListText"]),
   },
   watch: {
-    resrt() {
+    reset() {
       this.users = [];
       this.selectedApprovals = [];
       this.blockedApprover = undefined;
@@ -264,7 +263,9 @@ export default {
             name: approver.fullName,
             reasons: canApprove.cantApproveReasons,
           };
-          this.disabled = true;
+          if (this.selectedApprovals.length == 0) {
+            this.disabled = true;
+          }
         }
       }
     },
@@ -272,6 +273,9 @@ export default {
       this.selectedApprovals = this.selectedApprovals.filter((user) => {
         return user.id !== item.id;
       });
+      if (this.selectedApprovals.length == 0) {
+        this.disabled = true;
+      }
     },
     isUserExists(users, id) {
       return users.some((user) => user.id === id);

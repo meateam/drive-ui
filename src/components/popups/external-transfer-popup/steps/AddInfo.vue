@@ -2,12 +2,14 @@
   <div>
     <p class="popup-text">{{ $t("externalTransfer.MoreInfo") }}</p>
     <Textarea
+      :reset="resetInfo"
       @input="onInfoChange"
       :placeholder="$t('externalTransfer.Describe')"
     />
     <div class="space-between">
       <div class="select-container">
         <Select
+          :reset="resetSelect"
           :items="classifications"
           background="transparent"
           @change="onClassificationChange"
@@ -45,17 +47,19 @@ export default {
       classification: undefined,
       disabled: true,
       classifications: this.$t("externalTransfer.Classifications"),
+      resetSelect: null,
+      resetInfo: null,
     };
   },
   props: {
-    resrt: Boolean,
+    reset: Boolean,
   },
   watch: {
-    resrt() {
-      this.info = "";
-      this.classification = undefined;
-      this.disabled = true;
-      this.classifications = this.$t("externalTransfer.Classifications");
+    reset() {
+      console.log("===>", this.reset);
+      this.resetSelect = null;
+      this.resetInfo = null;
+      this.toggleDisabled();
     },
   },
   methods: {
@@ -64,10 +68,12 @@ export default {
     },
     onInfoChange(value) {
       this.info = value;
+      this.resetInfo = value;
       this.toggleDisabled();
     },
     onClassificationChange(value) {
       this.classification = value;
+      this.resetSelect = value;
       this.toggleDisabled();
     },
     toggleDisabled() {
