@@ -56,7 +56,6 @@ export default {
   },
   watch: {
     reset() {
-      console.log("===>", this.reset);
       this.resetSelect = null;
       this.resetInfo = null;
       this.toggleDisabled();
