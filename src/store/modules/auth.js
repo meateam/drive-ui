@@ -26,15 +26,16 @@ const actions = {
     cookies.remove("kd-token");
     commit("setToken", undefined);
   },
-  async addApproverInfos({ commit }, user) {
-    const approverInfos = user.approverInfos.map(async (approverInfo) => {
-      try {
-        const res = await usersApi.getApproverInfo(user.id, approverInfo.dest);
-        return res;
-      } catch (e) {
-        console.log(e);
-      }
-    });
+  async addApproverInfos({ rootState, commit }, user) {
+    var approverInfos = {};
+
+    await Promise.all(
+      rootState.configuration.externalNetworkDests.map(async (externalNetworkDest) => {
+        const res = await usersApi.getApproverInfo(user.id, externalNetworkDest.value);
+        approverInfos[externalNetworkDest.value] = res;
+      })
+    );
+
     commit("setApproverInfos", approverInfos);
   },
   async parseToken({ commit, dispatch }) {
@@ -56,19 +57,7 @@ const actions = {
 
       user = {
         ...user,
-        // TODO: change to env
-        approverInfos: [
-          {
-            dest: "TOMCAL",
-            canApprove: false,
-            requestFaild: true,
-          },
-          {
-            dest: "CTS",
-            canApprove: false,
-            requestFaild: true,
-          },
-        ],
+        approverInfos: {},
       };
 
       commit("setUser", user);

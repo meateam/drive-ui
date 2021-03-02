@@ -105,11 +105,11 @@ export async function getApproverInfo(userID, destination) {
     headers: { destination: destination },
   });
 
-  const approverInfo = res.data.approverInfo;
+  const approverInfo = res.data;
 
-  if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
+  if (approverInfo.unitName === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
 
-  return res.data.approverInfo;
+  return approverInfo;
 }
 
 export async function canBeApproved(userID, approverID, destination) {
@@ -120,6 +120,9 @@ export async function canBeApproved(userID, approverID, destination) {
   return res.data;
 }
 
-export function openAboutMePage() {
-  window.open(`${store.state.configuration.approvalServiceUIUrl}/myAccount`);
+export function openAboutMePage(destination) {
+  const networkDest = store.state.configuration.externalNetworkDests.filter(
+    (networkDest) => networkDest.value == destination
+  )[0];
+  window.open(`${networkDest.approvalUIUrl}/myAccount`);
 }

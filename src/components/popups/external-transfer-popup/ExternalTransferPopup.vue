@@ -102,7 +102,7 @@ import NotePopup from "./NotePopup";
 export default {
   name: "ExternalTransferPopup",
   computed: {
-    ...mapGetters(["enableExternalShare"]),
+    ...mapGetters(["enableExternalShare", "externalNetworkDests"]),
     colorStepper: function() {
       // #005616 TODO: CHANGE ALSO OTHER BUTTONS (AUTO-COMPLETE)
       return this.isColorChange ? "#035c64" : "#035c64";
@@ -151,11 +151,11 @@ export default {
       this.currentStep++;
     },
     onExternalNetworkChange(externalNetworkDest) {
-      var selectedNetwork = this.$t("externalTransfer.ExternalNetworkDests").filter(
+      var selectedNetwork = this.externalNetworkDests.filter(
         (networkDest) => networkDest.value == externalNetworkDest
       )[0];
 
-      this.isColorChange = selectedNetwork.isColor;
+      this.isColorChange = selectedNetwork.isDefault;
       this.destHeader = selectedNetwork.label;
     },
     onDestinationComplete(users) {

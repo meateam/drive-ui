@@ -18,17 +18,21 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import RadioButton from "@/components/inputs/BaseRadioButton";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 
 export default {
   name: "ExternalNetwork",
   components: { SubmitButton, RadioButton },
+  computed: {
+    ...mapGetters(["externalNetworkDests"]),
+  },
   data() {
     return {
       externalNetworkDest: undefined,
       disabled: true,
-      externalNetworkDests: this.$t("externalTransfer.ExternalNetworkDests"),
     };
   },
   methods: {

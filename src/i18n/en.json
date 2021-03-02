@@ -145,14 +145,6 @@
     "Header": "External Transfer",
     "NetworkDest": "Network Destination",
     "NetworkDestChoose": "choose Network Destination",
-    "ExternalNetworkDests": [
-      {
-        "label": "tomcal",
-        "value": "TOMCAL",
-        "appID": "dropbox"
-      },
-      { "label": "CTS", "value": "CTS", "appID": "cargo" }
-    ],
     "Destination": "User Destinations",
     "Approval": "Approval",
     "AddInfo": "Add Info",

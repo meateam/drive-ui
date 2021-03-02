@@ -7,8 +7,6 @@ const state = {
   environment: "",
   supportLink: "",
   dropboxSupportLink: "",
-  approvalServiceUrl: "http://approval.dropbox.rabaz.org",
-  approvalServiceUIUrl: "http://approval.dropbox.rabaz.org",
   externalShareName: "שיתוף חיצוני",
   myExternalSharesName: "השיתופים החיצוניים שלי",
   enableExternalShare: false,
@@ -16,6 +14,24 @@ const state = {
   whiteListText: "או להיות מאושר באופן מיוחד",
   bereshitSupportLink: "",
   bamSupportNumber: "03555555",
+  externalNetworkDests: [
+    {
+      appID: "appId1",
+      approvalUiUrl: "http://approval.dropbox.rabaz.org",
+      approvalUrl: "http://approval.dropbox.rabaz.org",
+      label: "label1",
+      value: "value1",
+      isDefault: true,
+    },
+    {
+      appID: "appId2",
+      approvalUiUrl: "http://approval.dropbox.rabaz.org",
+      approvalUrl: "http://approval.dropbox.rabaz.org",
+      label: "label2",
+      value: "value2",
+      isDefault: false,
+    },
+  ],
 };
 
 const getters = {
@@ -34,6 +50,7 @@ const getters = {
   bamSupportNumber: (state) => state.bamSupportNumber,
   docsUrl: (state) => state.docsUrl,
   version: (state) => state.version,
+  externalNetworkDests: (state) => state.externalNetworkDests,
 };
 
 const actions = {
@@ -54,8 +71,6 @@ const mutations = {
     state.environment = config.environment;
     state.supportLink = config.supportLink;
     state.dropboxSupportLink = config.dropboxSupportLink;
-    state.approvalServiceUIUrl = config.approvalServiceUIUrl;
-    state.approvalServiceUrl = config.approvalServiceUrl;
     state.externalShareName = config.externalShareName;
     state.docsUrl = config.docsUrl;
     state.bamSupportNumber = config.bamSupportNumber;
@@ -63,6 +78,7 @@ const mutations = {
     state.myExternalSharesName = config.myExternalSharesName;
     state.whiteListText = config.whiteListText || state.whiteListText;
     state.enableExternalShare = config.enableExternalShare;
+    state.externalNetworkDests = config.externalNetworkDests;
   },
 };
 

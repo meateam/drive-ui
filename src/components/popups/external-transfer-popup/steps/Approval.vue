@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="user.approverInfo.isAdmin">
+    <div v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].isAdmin">
       <v-row class="ma-1" no-gutters justify="center">
         <p class="pa-0 popup-text align-center">
           {{ $t("externalTransfer.CanApprove") }}
@@ -11,7 +11,13 @@
       </v-row>
     </div>
 
-    <div v-else-if="user.approverInfo.noUnit && !user.approverInfo.isApprover">
+    <div
+      v-else-if="
+        user.approverInfos[networkDest] &&
+          user.approverInfos[networkDest].noUnit &&
+          !user.approverInfos[networkDest].isApprover
+      "
+    >
       <v-row class="ma-1" no-gutters justify="center">
         <p class="pa-0 popup-text align-center">
           {{ $t("externalTransfer.NoUnit") }}
@@ -23,7 +29,7 @@
       </v-row>
     </div>
 
-    <div v-else-if="user.approverInfo.isBlocked">
+    <div v-else-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].isBlocked">
       <v-row class="ma-1" no-gutters justify="center">
         <p class="pa-0 popup-text align-center">
           {{ $t("externalTransfer.IsBlocked") }}
@@ -34,7 +40,7 @@
       </v-row>
     </div>
 
-    <div v-else-if="user.approverInfo.isApprover">
+    <div v-else-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].isApprover">
       <v-row class="ma-1" no-gutters justify="center">
         <p class="pa-0 popup-text align-center">
           {{ $t("externalTransfer.CanApprove") }}
@@ -65,14 +71,14 @@
 
               <div class="align-center">
                 <p>{{ $t("externalTransfer.ApprovalInstructions") }}</p>
-                <div v-if="!user.approverInfo.requestFaild">
-                  <p v-if="user.approverInfo.unit">
+                <div v-if="user.approverInfos[networkDest] && !user.approverInfos[networkDest].requestFaild">
+                  <p v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].unit">
                     {{ $t("externalTransfer.ApproverUnit") }}
-                    <span class="bold">{{ user.approverInfo.unit.name }}</span>
+                    <span class="bold">{{ user.approverInfos[networkDest].unit.name }}</span>
                   </p>
-                  <p v-if="user.approverInfo.unit.approvers">
+                  <p v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].unit.approvers">
                     {{ $t("externalTransfer.ApproverRanks") }}
-                    <span class="bold">{{ getRanks(user.approverInfo.unit.approvers) }}</span>
+                    <span class="bold">{{ getRanks(user.approverInfos[networkDest].unit.approvers) }}</span>
                   </p>
                   <p class="bold">{{ whiteListText }}</p>
                 </div>
@@ -82,7 +88,7 @@
         </div>
 
         <v-checkbox
-          v-if="user.approverInfo.requestFaild"
+          v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].requestFaild"
           class="space-right"
           :disabled="selectedApprovals.length !== 0"
           :label="$t('externalTransfer.IAmApprover')"
@@ -176,10 +182,13 @@ export default {
       this.isLoading = false;
       this.iAmApprover = false;
 
-      this.disabled = !(
-        this.user.approverInfo.isAdmin ||
-        (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
-      );
+      this.disabled =
+        this.$prop?.networkDest == undefined ||
+        !(
+          this.user.approverInfos[this.$prop.networkDest].isAdmin ||
+          (this.user.approverInfos[this.$prop.networkDest].isApprover &&
+            !this.user.approverInfos[this.$prop.networkDest].isBlocked)
+        );
     },
     iAmApprover: function(value) {
       value ? (this.disabled = false) : (this.disabled = true);
@@ -187,7 +196,10 @@ export default {
   },
   created() {
     this.disabled =
-      this.user.approverInfo.isAdmin || (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
+      this.$prop?.networkDest == undefined ||
+      this.user.approverInfos[this.$prop.networkDest].isAdmin ||
+      (this.user.approverInfos[this.$prop.networkDest].isApprover &&
+        !this.user.approverInfos[this.$prop.networkDest].isBlocked)
         ? false
         : true;
   },
@@ -249,7 +261,8 @@ export default {
       return users.some((user) => user.id === id);
     },
     onAboutMeClick() {
-      usersApi.openAboutMePage();
+      console.log(this.$props.networkDest);
+      usersApi.openAboutMePage(this.$props.networkDest);
     },
   },
 };

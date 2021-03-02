@@ -151,16 +151,6 @@
     "HeaderDestTomcal": "תומכל",
     "NetworkDest": "רשת יעד",
     "NetworkDestChoose": "בחר רשת יעד",
-    "ExternalNetworkDests": [
-      {
-        "label": "תומכ'ל",
-        "value": "TOMCAL",
-        "appID": "dropbox",
-        "isColor": true,
-        "color": "success"
-      },
-      { "label": "CTS", "value": "CTS", "appID": "cargo", "isColor": false }
-    ],
     "Destination": "נמענים",
     "Approval": "מאשרים",
     "AddInfo": "מידע נוסף",

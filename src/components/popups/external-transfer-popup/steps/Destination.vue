@@ -1,24 +1,6 @@
 <template>
   <div>
-    <p class="popup-text">{{ $t("share.DriveChoose") }}</p>
-    <Autocomplete
-      icon
-      background="white"
-      :placeholder="$t('autocomplete.Users')"
-      :items="users"
-      :isLoading="isLoading"
-      :minLength="2"
-      @select="onSelect"
-      @type="getExternalUsersByName"
-    />
-    <v-chip-group show-arrows>
-      <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
-    </v-chip-group>
-    <v-card-actions class="popup-confirm">
-      <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
-      <TextButton @click="onBack" :label="$t('buttons.Back')" />
-    </v-card-actions>
-    <div v-if="user.approverInfo.isBlocked">
+    <div v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].isBlocked">
       <p class="popup-text align-center">
         {{ $t("externalTransfer.IsBlocked") }}
       </p>
@@ -46,6 +28,7 @@
       </v-chip-group>
       <v-card-actions class="popup-confirm">
         <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
+        <TextButton @click="onBack" :label="$t('buttons.Back')" />
       </v-card-actions>
     </div>
   </div>
@@ -102,7 +85,7 @@ export default {
         .finally(() => (this.isLoading = false));
     },
     onAboutMeClick() {
-      usersApi.openAboutMePage();
+      usersApi.openAboutMePage(this.$props.networkDest);
     },
     onSelect(user) {
       this.users = [];

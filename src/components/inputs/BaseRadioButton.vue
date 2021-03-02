@@ -15,9 +15,6 @@
 export default {
   name: "RadioButton",
   props: {
-    isRow: {
-      default: true,
-    },
     items: {
       type: Array,
     },
@@ -34,7 +31,9 @@ export default {
 </script>
 
 <style scoped>
-/* .v-select__slot {
-  width: 100px;
+/* #radioGroup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap !important;
 } */
 </style>
