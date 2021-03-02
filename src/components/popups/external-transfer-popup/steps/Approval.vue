@@ -190,6 +190,12 @@ export default {
             !this.user.approverInfos[this.$prop.networkDest].isBlocked)
         );
     },
+    networkDest: function(newDest) {
+      this.disabled = !(
+        this.user.approverInfos[newDest].isAdmin ||
+        (this.user.approverInfos[newDest].isApprover && !this.user.approverInfos[newDest].isBlocked)
+      );
+    },
     iAmApprover: function(value) {
       value ? (this.disabled = false) : (this.disabled = true);
     },
@@ -197,11 +203,13 @@ export default {
   created() {
     this.disabled =
       this.$prop?.networkDest == undefined ||
-      this.user.approverInfos[this.$prop.networkDest].isAdmin ||
-      (this.user.approverInfos[this.$prop.networkDest].isApprover &&
-        !this.user.approverInfos[this.$prop.networkDest].isBlocked)
-        ? false
-        : true;
+      !(
+        this.user.approverInfos[this.$prop?.networkDest].isAdmin ||
+        (this.user.approverInfos[this.$prop?.networkDest].isApprover &&
+          !this.user.approverInfos[this.$prop?.networkDest].isBlocked)
+      )
+        ? true
+        : false;
   },
   methods: {
     getUsersByName(name) {

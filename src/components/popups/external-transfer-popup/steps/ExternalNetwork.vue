@@ -6,7 +6,9 @@
       <RadioButton
         :items="externalNetworkDests"
         background="transparent"
+        :info="['appID']"
         @change="onExternalNetworkDestChange"
+        :reset="reset"
         :placeholder="$t('externalTransfer.NetworkDestChoose')"
       />
     </div>
@@ -26,6 +28,7 @@ import SubmitButton from "@/components/buttons/BaseSubmitButton";
 export default {
   name: "ExternalNetwork",
   components: { SubmitButton, RadioButton },
+  props: { reset: Boolean },
   computed: {
     ...mapGetters(["externalNetworkDests"]),
   },
@@ -34,6 +37,12 @@ export default {
       externalNetworkDest: undefined,
       disabled: true,
     };
+  },
+  watch: {
+    reset() {
+      this.externalNetworkDest = undefined;
+      this.disabled = true;
+    },
   },
   methods: {
     onConfirm() {

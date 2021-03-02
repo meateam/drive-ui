@@ -127,6 +127,9 @@ export default {
   watch: {
     dialog() {
       this.resetPopup = !this.resetPopup;
+      this.externalNetworkDest = undefined;
+      this.destHeader = this.$t("externalTransfer.HeaderDestDefault");
+      this.isColorChange = false;
       this.currentStep = 1;
     },
   },
