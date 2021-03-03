@@ -22,30 +22,57 @@
         </router-link>
       </div>
 
-      <v-list-group :value="false">
+      <v-list-group class="sidenav-submenu-title ">
         <template v-slot:activator>
           <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/pending.svg" />
+            <img class="icons" :src="require(`@/assets/icons/transfer.svg`)" />
           </v-list-item-icon>
-
-          <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalFiles") }}</v-list-item-title>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalTransferOutgoing") }}</v-list-item-title>
         </template>
 
-        <v-list-item link @click="openApprovalService">
-          <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/pending.svg" />
-          </v-list-item-icon>
-          <v-list-item-title class="sidenav-title">{{ myExternalSharesName }}</v-list-item-title>
-        </v-list-item>
+        <div v-if="externalNetworkDests">
+          <v-list-item
+            v-for="externalNetworkDest in externalNetworkDests"
+            v-bind:key="externalNetworkDest.value"
+            link
+            @click="openApprovalService(externalNetworkDest.value)"
+            class="sidenav-subitem"
+          >
+            <v-list-item-title class="sidenav-title"
+              >{{ $t("sidenav.ExternalTransferOutgoingName", { networkName: externalNetworkDest.label }) }}
+            </v-list-item-title>
+          </v-list-item>
+        </div>
 
-        <div v-for="(externalItem, i) in externalMenuItems" :key="i">
-          <router-link :to="externalItem.path" exact-active-class="route-active">
-            <v-list-item link :id="externalItem.id">
-              <v-list-item-icon>
-                <img class="icons white-icon" :src="require(`@/assets/icons/${externalItem.icons.white}.svg`)" />
-                <img class="icons green-icon" :src="require(`@/assets/icons/${externalItem.icons.green}.svg`)" />
-              </v-list-item-icon>
-              <v-list-item-title class="sidenav-title">{{ $t(externalItem.title) }}</v-list-item-title>
+        <router-link to="/statusTransferd" exact-active-class="route-active" class="sidenav-subitem">
+          <v-list-item link>
+            <v-list-item-title class="sidenav-title">{{
+              $t("sidenav.ExternalTransferOutgoingStatus")
+            }}</v-list-item-title>
+          </v-list-item>
+        </router-link>
+      </v-list-group>
+
+      <v-list-group class="sidenav-submenu-title ">
+        <template v-slot:activator>
+          <v-list-item-icon>
+            <img class="icons" :src="require(`@/assets/icons/transfer.svg`)" />
+          </v-list-item-icon>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalTransferIncoming") }}</v-list-item-title>
+        </template>
+
+        <div v-if="externalNetworkDests">
+          <router-link
+            to="/external-transferd"
+            v-for="externalNetworkDest in externalNetworkDests"
+            v-bind:key="externalNetworkDest.value"
+            exact-active-class="route-active"
+            class="sidenav-subitem"
+          >
+            <v-list-item link class="sidenav-subitem">
+              <v-list-item-title class="sidenav-title"
+                >{{ $t("sidenav.ExternalTransferIncomingName", { networkName: externalNetworkDest.label }) }}
+              </v-list-item-title>
             </v-list-item>
           </router-link>
         </div>
@@ -68,6 +95,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Quota from "./quota/Quota";
+import * as usersApi from "@/api/users";
 
 export default {
   name: "Sidenav",
@@ -99,6 +127,7 @@ export default {
         },
         title: "sidenav.LastUpdated",
       },
+
       // {
       //   path: '/favorites',
       //   icons: {
@@ -116,24 +145,17 @@ export default {
       //   title: 'sidenav.Deleted',
       // },
     ],
-    externalMenuItems: [
-      {
-        path: "/external-transferd",
-        icons: {
-          white: "transfer",
-          green: "green-transfer",
-        },
-        title: "sidenav.ExternalTransferd",
-      },
-    ],
   }),
   computed: {
-    ...mapGetters(["version", "quota", "approvalServiceUIUrl", "myExternalSharesName"]),
+    ...mapGetters(["version", "quota", "externalNetworkDests"]),
   },
   methods: {
     ...mapActions(["getQuota"]),
-    openApprovalService() {
-      window.open(this.approvalServiceUIUrl);
+    openApprovalService(destination) {
+      usersApi.openAboutMePage(destination);
+    },
+    handle_function_call(function_name, args) {
+      this[function_name](args);
     },
   },
   created() {
@@ -142,10 +164,21 @@ export default {
 };
 </script>
 
+<style>
+.sidenav-submenu-title .v-icon {
+  color: #fff9e5 !important;
+}
+</style>
+
 <style scoped>
 #sidenav {
   background-image: linear-gradient(to bottom, #347a99, #2f7e71);
   display: block;
+}
+.sidenav-subitem {
+  background-image: linear-gradient(to left, #347a99, #2f7e71);
+  background-color: #072333;
+  background-blend-mode: screen;
 }
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
   padding: 0 20px;
@@ -182,6 +215,9 @@ export default {
   text-align: center;
 }
 .sidenav-title {
+  color: #fff9e5;
+}
+.sidenav-submenu-title {
   color: #fff9e5;
 }
 .white-icon {

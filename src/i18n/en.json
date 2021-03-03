@@ -4,7 +4,8 @@
   "Error": "error",
   "sidenav": {
     "MyDrive": "my drive",
-    "ExternalTransferd": "external transferd",
+    "ExternalTransferIncoming": "incoming external transfer",
+    "ExternalTransferOutgoing": "outgoing external transfer",
     "ExternalFiles": "external networks",
     "SharedWithMe": "shared with me",
     "Deleted": "deleted files",

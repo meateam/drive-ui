@@ -4,7 +4,11 @@
   "Error": "שגיאה",
   "sidenav": {
     "MyDrive": "הדרייב שלי",
-    "ExternalTransferd": "התקבלו מרשת חיצונית",
+    "ExternalTransferIncoming": "התקבלו מרשת חיצונית",
+    "ExternalTransferIncomingName": "קבצים שהתקבלו מרשת {networkName}",
+    "ExternalTransferOutgoing": "נשלחו לרשת חיצונית",
+    "ExternalTransferOutgoingName": "קבצים שהעברתי לרשת {networkName}",
+    "ExternalTransferOutgoingStatus": "סטאטוס קבצים שהועברו",
     "ExternalFiles": "שיתופים חיצוניים",
     "SharedWithMe": "שותפו איתי",
     "Deleted": "קבצים שנמחקו",
@@ -194,7 +198,7 @@
     },
     "note": {
       "Notice": "שים לב!",
-      "SecretNetwork": "הנך עומדים לשתף קובץ ברשת עם סיווג נמוך",
+      "SecretNetwork": "הנך עומד לשתף קובץ ברשת עם סיווג נמוך",
       "SecretData": "באחריותך לוודא את הדגשים הבאים:",
       "Marks": [
         "המסמך לא היה במקור סמצ/כחול/סגול ",
