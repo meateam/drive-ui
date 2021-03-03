@@ -126,7 +126,7 @@
       </v-chip-group>
     </div>
 
-    <v-card-actions class="popup-confirm">
+    <v-card-actions class="popup-confirm d-flex justify-space-between mb-6">
       <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
@@ -183,18 +183,19 @@ export default {
       this.iAmApprover = false;
 
       this.disabled =
-        this.$prop?.networkDest == undefined ||
+        this.networkDest == undefined ||
         !(
-          this.user.approverInfos[this.$prop.networkDest].isAdmin ||
-          (this.user.approverInfos[this.$prop.networkDest].isApprover &&
-            !this.user.approverInfos[this.$prop.networkDest].isBlocked)
+          this.user.approverInfos[this.networkDest].isAdmin ||
+          (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
         );
     },
-    networkDest: function(newDest) {
-      this.disabled = !(
-        this.user.approverInfos[newDest].isAdmin ||
-        (this.user.approverInfos[newDest].isApprover && !this.user.approverInfos[newDest].isBlocked)
-      );
+    networkDest: function() {
+      this.disabled =
+        this.networkDest == undefined ||
+        !(
+          this.user.approverInfos[this.networkDest].isAdmin ||
+          (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
+        );
     },
     iAmApprover: function(value) {
       value ? (this.disabled = false) : (this.disabled = true);
@@ -202,11 +203,10 @@ export default {
   },
   created() {
     this.disabled =
-      this.$prop?.networkDest == undefined ||
+      this.networkDest == undefined ||
       !(
-        this.user.approverInfos[this.$prop?.networkDest].isAdmin ||
-        (this.user.approverInfos[this.$prop?.networkDest].isApprover &&
-          !this.user.approverInfos[this.$prop?.networkDest].isBlocked)
+        this.user.approverInfos[this.networkDest].isAdmin ||
+        (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
       )
         ? true
         : false;
@@ -241,7 +241,7 @@ export default {
         this.disabled = true;
         return;
       } else {
-        const canApprove = await usersApi.canBeApproved(this.user.id, approver.id, this.$props.networkDest);
+        const canApprove = await usersApi.canBeApproved(this.user.id, approver.id, this.networkDest);
 
         if (canApprove.canApproveToUser) {
           this.selectedApprovals.push(approver);
@@ -269,8 +269,7 @@ export default {
       return users.some((user) => user.id === id);
     },
     onAboutMeClick() {
-      console.log(this.$props.networkDest);
-      usersApi.openAboutMePage(this.$props.networkDest);
+      usersApi.openAboutMePage(this.networkDest);
     },
   },
 };

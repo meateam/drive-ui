@@ -152,7 +152,16 @@
     "MoreInfo": "The information will aid the approver with approving the share",
     "Describe": "describe the file data...",
     "ChooseClassification": "classification",
-    "Classifications": ["Limited", "Secret", "Top Secret"],
+    "Classifications": {
+      "TOMCAL": [{ "text": "Limited" }, { "text": "Secret" }, { "text": "Top secret", "enable": false }],
+      "CTS": [
+        { "text": "Limited" },
+        { "text": "Secret" },
+        { "text": "Top Secret - red", "color": "red" },
+        { "text": "Top Secret - purple", "color": "purple", "enable": false },
+        { "text": "Top Secret - blue", "color": "blue", "enable": false }
+      ]
+    },
     "TopSecret": "top secret transfer is not allowed",
     "ApprovalInstructions": "The users are taken from the other domain",
     "ApprovalService": "approval service",

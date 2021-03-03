@@ -26,9 +26,9 @@
       <v-chip-group show-arrows>
         <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
       </v-chip-group>
-      <v-card-actions class="popup-confirm">
+      <v-card-actions class="popup-confirm d-flex justify-space-between mb-6">
         <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
-        <TextButton @click="onBack" :label="$t('buttons.Back')" />
+        <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
       </v-card-actions>
     </div>
   </div>
@@ -80,12 +80,12 @@ export default {
       if (this.isLoading) return;
       this.isLoading = true;
       usersApi
-        .searchExternalUsersByName(name, this.$props.networkDest)
+        .searchExternalUsersByName(name, this.networkDest)
         .then((users) => (this.users = users))
         .finally(() => (this.isLoading = false));
     },
     onAboutMeClick() {
-      usersApi.openAboutMePage(this.$props.networkDest);
+      usersApi.openAboutMePage(this.networkDest);
     },
     onSelect(user) {
       this.users = [];

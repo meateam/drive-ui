@@ -1,11 +1,7 @@
 <template>
   <div>
     <p class="popup-text">{{ $t("externalTransfer.MoreInfo") }}</p>
-    <Textarea
-      :reset="resetInfo"
-      @input="onInfoChange"
-      :placeholder="$t('externalTransfer.Describe')"
-    />
+    <Textarea :reset="resetInfo" @input="onInfoChange" :placeholder="$t('externalTransfer.Describe')" />
     <div class="space-between">
       <div class="select-container">
         <Select
@@ -16,17 +12,17 @@
           :placeholder="$t('externalTransfer.ChooseClassification')"
         />
       </div>
-      <p v-if="classification === 'סודי ביותר'" class="top-secret">
-        {{ $t("externalTransfer.TopSecret") }}
+      <p v-if="classification && !isClassificationEnable" class="disable-classification">
+        {{
+          $t("externalTransfer.DisableClassification", {
+            classificationName: classification,
+          })
+        }}
       </p>
     </div>
 
-    <v-card-actions class="popup-confirm">
-      <SubmitButton
-        @click="onConfirm"
-        :label="$t('buttons.Continue')"
-        :disabled="disabled"
-      />
+    <v-card-actions class="popup-confirm d-flex justify-space-between mb-6">
+      <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
   </div>
@@ -46,16 +42,30 @@ export default {
       info: "",
       classification: undefined,
       disabled: true,
-      classifications: this.$t("externalTransfer.Classifications"),
+      classifications: [],
+      isClassificationEnable: true,
       resetSelect: null,
       resetInfo: null,
     };
   },
   props: {
     reset: Boolean,
+    networkDest: String,
   },
   watch: {
     reset() {
+      this.resetSelect = null;
+      this.resetInfo = null;
+      this.disabled = true;
+      this.classification = null;
+      this.isClassificationEnable = true;
+      this.classifications = [];
+    },
+    networkDest() {
+      this.classifications =
+        this.networkDest == undefined ? [] : this.$t(`externalTransfer.Classifications.${this.networkDest}`);
+      this.classification = null;
+      this.info = "";
       this.resetSelect = null;
       this.resetInfo = null;
       this.disabled = true;
@@ -76,16 +86,22 @@ export default {
       this.toggleDisabled();
     },
     toggleDisabled() {
-      this.info && this.classification && this.classification !== "סודי ביותר"
-        ? (this.disabled = false)
-        : (this.disabled = true);
+      if (this.classification) {
+        let currClassification = this.classifications.filter(
+          (classification) => this.classification == classification.text
+        )[0];
+        this.isClassificationEnable = currClassification?.enable == undefined ? true : currClassification.enable;
+      } else {
+        this.isClassificationEnable = false;
+      }
+      this.info && this.isClassificationEnable ? (this.disabled = false) : (this.disabled = true);
     },
   },
 };
 </script>
 
 <style scoped>
-.top-secret {
+.disable-classification {
   padding-top: 10px;
   color: red;
 }

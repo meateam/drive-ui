@@ -1,14 +1,14 @@
 <template>
   <v-radio-group row :background-color="background" v-model="selected">
     <v-layout row wrap>
-      <v-flex column v-for="(item, index) in items" :key="index">
+      <v-flex v-for="(item, index) in items" :key="index">
         <v-radio
           :label="item.label"
           :value="item.value"
           :color="item.color"
           @click="$emit('change', selected)"
         ></v-radio>
-        <v-chip class="ma-2" small disabled dark> {{ infoGenerator[index] }} </v-chip>
+        <v-chip v-if="info != undefined" class="ma-2" small disabled dark> {{ infoGenerator[index] }} </v-chip>
       </v-flex>
     </v-layout>
   </v-radio-group>
@@ -39,7 +39,6 @@ export default {
   computed: {
     infoGenerator: function() {
       return this.$props.items.map((item) => {
-        console.log("eejejej");
         if (this.$props.info != undefined) {
           let infos = [];
           this.$props.info.map((attr) => {

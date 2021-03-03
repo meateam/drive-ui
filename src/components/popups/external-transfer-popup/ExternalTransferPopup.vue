@@ -78,7 +78,12 @@
               </v-stepper-content>
 
               <v-stepper-content step="4">
-                <AddInfo @continue="onInfoComplete" @back="goBack" :reset="resetPopup" />
+                <AddInfo
+                  @continue="onInfoComplete"
+                  @back="goBack"
+                  :reset="resetPopup"
+                  :networkDest="externalNetworkDest"
+                />
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
