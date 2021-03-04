@@ -22,9 +22,9 @@
         </router-link>
       </div>
 
-      <v-list-group class="sidenav-submenu-title ">
+      <v-list-group class="sidenav-submenu-title" no-action>
         <template v-slot:activator>
-          <v-list-item-icon>
+          <v-list-item-icon class="mr-3 py-6">
             <img class="icons" :src="require(`@/assets/icons/transfer.svg`)" />
           </v-list-item-icon>
           <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalTransferOutgoing") }}</v-list-item-title>
@@ -36,9 +36,9 @@
             v-bind:key="externalNetworkDest.value"
             link
             @click="openApprovalService(externalNetworkDest.value)"
-            class="sidenav-subitem"
+            class="sidenav-subitem "
           >
-            <v-list-item-title class="sidenav-title"
+            <v-list-item-title class="sidenav-title mr-3"
               >{{ $t("sidenav.ExternalTransferOutgoingName", { networkName: externalNetworkDest.label }) }}
             </v-list-item-title>
           </v-list-item>
@@ -46,7 +46,7 @@
 
         <router-link to="/statusTransferd" exact-active-class="route-active" class="sidenav-subitem">
           <v-list-item link>
-            <v-list-item-title class="sidenav-title">{{
+            <v-list-item-title class="sidenav-title mr-3">{{
               $t("sidenav.ExternalTransferOutgoingStatus")
             }}</v-list-item-title>
           </v-list-item>
@@ -55,22 +55,22 @@
 
       <v-list-group class="sidenav-submenu-title ">
         <template v-slot:activator>
-          <v-list-item-icon>
-            <img class="icons" :src="require(`@/assets/icons/transfer.svg`)" />
+          <v-list-item-icon class="mr-3 py-6">
+            <img class="icons" src="@/assets/icons/transfer-inside.svg" />
           </v-list-item-icon>
           <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalTransferIncoming") }}</v-list-item-title>
         </template>
 
         <div v-if="externalNetworkDests">
           <router-link
-            to="/external-transferd"
+            :to="`/external-transferd-${externalNetworkDest.appID}`"
             v-for="externalNetworkDest in externalNetworkDests"
             v-bind:key="externalNetworkDest.value"
             exact-active-class="route-active"
             class="sidenav-subitem"
           >
-            <v-list-item link class="sidenav-subitem">
-              <v-list-item-title class="sidenav-title"
+            <v-list-item link>
+              <v-list-item-title class="sidenav-title mr-3"
                 >{{ $t("sidenav.ExternalTransferIncomingName", { networkName: externalNetworkDest.label }) }}
               </v-list-item-title>
             </v-list-item>
@@ -227,7 +227,7 @@ export default {
   display: none;
 }
 .route-active {
-  background-color: #f0f3f8;
+  background-color: #f0f3f8 !important;
 }
 .route-active .white-icon {
   display: none;
@@ -236,6 +236,6 @@ export default {
   display: block;
 }
 .route-active .sidenav-title {
-  color: #035c64;
+  color: #035c64 !important;
 }
 </style>

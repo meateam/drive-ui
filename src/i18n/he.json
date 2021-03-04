@@ -4,7 +4,7 @@
   "Error": "שגיאה",
   "sidenav": {
     "MyDrive": "הדרייב שלי",
-    "ExternalTransferIncoming": "התקבלו מרשת חיצונית",
+    "ExternalTransferIncoming": "התקבל מרשת חיצונית",
     "ExternalTransferIncomingName": "קבצים שהתקבלו מרשת {networkName}",
     "ExternalTransferOutgoing": "נשלחו לרשת חיצונית",
     "ExternalTransferOutgoingName": "קבצים שהעברתי לרשת {networkName}",
