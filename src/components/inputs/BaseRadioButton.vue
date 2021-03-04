@@ -8,7 +8,7 @@
           :color="item.color"
           @click="$emit('change', selected)"
         ></v-radio>
-        <v-chip v-if="info != undefined" small color="#466567" text-color="white" id="label-chip">
+        <v-chip v-if="info != undefined" small color="#466567" outlined id="label-chip">
           {{ infoGenerator[index] }}
         </v-chip>
       </v-flex>

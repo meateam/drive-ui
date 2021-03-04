@@ -6,7 +6,7 @@
     "MyDrive": "הדרייב שלי",
     "ExternalTransferIncoming": "התקבל מרשת חיצונית",
     "ExternalTransferIncomingName": "קבצים שהתקבלו מרשת {networkName}",
-    "ExternalTransferOutgoing": "נשלחו לרשת חיצונית",
+    "ExternalTransferOutgoing": "נשלח לרשת חיצונית",
     "ExternalTransferOutgoingName": "קבצים שהעברתי לרשת {networkName}",
     "ExternalTransferOutgoingStatus": "סטאטוס קבצים שהועברו",
     "ExternalFiles": "שיתופים חיצוניים",
@@ -32,7 +32,9 @@
   "pageHeaders": {
     "SharedWithMe": "שותפו איתי",
     "LastUpdated": "שונו לאחרונה",
-    "ExternalTransferd": "התקבלו מרשת חיצונית",
+    "ExternalTransferDefault": "חיצונית",
+    "ExternalTransferd": "קבצים שהתקבלו מרשת {networkName}",
+    "StatusTransferd": "סטטוס קבצים שהועברו",
     "MyDrive": "הדרייב שלי",
     "Search": "תוצאות החיפוש"
   },

@@ -54,7 +54,9 @@ const router = new Router({
       component: () => import("@/views/ExternalTransferd"),
       meta: {
         layout: true,
-        dest: "CARGO",
+      },
+      props: {
+        appID: "dropbox",
       },
       name: "External Transferd Dropbox",
     },
@@ -63,9 +65,19 @@ const router = new Router({
       component: () => import("@/views/ExternalTransferd"),
       meta: {
         layout: true,
-        dest: "TOMCAL",
+      },
+      props: {
+        appID: "cargo",
       },
       name: "External Transferd Cargo",
+    },
+    {
+      path: "/statusTransferd",
+      component: () => import("@/views/StatusTransferd"),
+      meta: {
+        layout: true,
+      },
+      name: "Status Transfers",
     },
     {
       path: "/last-updated",

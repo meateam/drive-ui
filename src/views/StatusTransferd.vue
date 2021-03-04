@@ -3,7 +3,7 @@
     :files="files"
     :serverFilesLength="serverFilesLength"
     :sortable="false"
-    :header="$t('pageHeaders.ExternalTransferd', { networkName: headerNetwork })"
+    :header="$t('pageHeaders.StatusTransferd')"
     @page="onPageChange"
   />
 </template>
@@ -13,28 +13,16 @@ import { mapGetters } from "vuex";
 import PageTemplate from "@/components/BasePageTemplate";
 
 export default {
-  name: "ExternalTransferd",
+  name: "StatusTransferd",
   components: { PageTemplate },
   data() {
-    return {
-      currentNetworkDest: undefined,
-      headerNetwork: this.$t("pageHeaders.ExternalTransferDefault"),
-    };
+    return {};
   },
   props: ["appID"],
   computed: {
     ...mapGetters(["files", "serverFilesLength", "externalNetworkDests"]),
   },
-  watch: {
-    appID(newAppId) {
-      this.currentNetworkDest = this.externalNetworkDests.filter((networkDest) => networkDest.appID == newAppId)[0];
-      this.headerNetwork = this.currentNetworkDest.label;
-    },
-  },
   created() {
-    this.currentNetworkDest = this.externalNetworkDests.filter((networkDest) => networkDest.appID == this.appID)[0];
-    this.headerNetwork = this.currentNetworkDest.label;
-
     this.$store.dispatch("fetchExternalTransferdFiles", { pageNum: 0, appId: this.appID });
   },
   methods: {
