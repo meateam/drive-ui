@@ -9,38 +9,52 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import PageTemplate from "@/components/BasePageTemplate";
+  import { mapGetters } from 'vuex';
+  import PageTemplate from '@/components/BasePageTemplate';
 
-export default {
-  name: "ExternalTransferd",
-  components: { PageTemplate },
-  data() {
-    return {
-      currentNetworkDest: undefined,
-      headerNetwork: this.$t("pageHeaders.ExternalTransferDefault"),
-    };
-  },
-  props: ["appID"],
-  computed: {
-    ...mapGetters(["files", "serverFilesLength", "externalNetworkDests"]),
-  },
-  watch: {
-    appID(newAppId) {
-      this.currentNetworkDest = this.externalNetworkDests.filter((networkDest) => networkDest.appID == newAppId)[0];
+  export default {
+    name: 'ExternalTransferd',
+    components: { PageTemplate },
+    data() {
+      return {
+        currentNetworkDest: undefined,
+        headerNetwork: this.$t('pageHeaders.ExternalTransferDefault'),
+      };
+    },
+    props: ['appID'],
+    computed: {
+      ...mapGetters(['files', 'serverFilesLength', 'externalNetworkDests']),
+    },
+    watch: {
+      appID(newAppId) {
+        this.currentNetworkDest = this.externalNetworkDests.filter((networkDest) => networkDest.appID == newAppId)[0];
+        this.headerNetwork = this.currentNetworkDest.label;
+
+        this.$store.dispatch('fetchExternalTransferdFiles', {
+          pageNum: 0,
+          appId: newAppId,
+          dest: this.currentNetworkDest.value,
+        });
+      },
+    },
+    created() {
+      this.currentNetworkDest = this.externalNetworkDests.filter((networkDest) => networkDest.appID == this.appID)[0];
       this.headerNetwork = this.currentNetworkDest.label;
-    },
-  },
-  created() {
-    this.currentNetworkDest = this.externalNetworkDests.filter((networkDest) => networkDest.appID == this.appID)[0];
-    this.headerNetwork = this.currentNetworkDest.label;
 
-    this.$store.dispatch("fetchExternalTransferdFiles", { pageNum: 0, appId: this.appID });
-  },
-  methods: {
-    onPageChange(page) {
-      this.$store.dispatch("fetchExternalTransferdFiles", { pageNum: page - 1, appId: this.appID });
+      this.$store.dispatch('fetchExternalTransferdFiles', {
+        pageNum: 0,
+        appId: this.appID,
+        dest: this.currentNetworkDest.value,
+      });
     },
-  },
-};
+    methods: {
+      onPageChange(page) {
+        this.$store.dispatch('fetchExternalTransferdFiles', {
+          pageNum: page - 1,
+          appId: this.appID,
+          dest: this.currentNetworkDest.value,
+        });
+      },
+    },
+  };
 </script>
