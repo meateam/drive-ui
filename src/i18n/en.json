@@ -4,8 +4,11 @@
   "Error": "error",
   "sidenav": {
     "MyDrive": "my drive",
+    "ExternalTransferOutgoingStatus": "status transferd files",
     "ExternalTransferIncoming": "incoming external transfer",
+    "ExternalTransferIncomingName": "incoming external transfer {networkName}",
     "ExternalTransferOutgoing": "outgoing external transfer",
+    "ExternalTransferOutgoingName": "outgoing external transfer {networkName}",
     "ExternalFiles": "external networks",
     "SharedWithMe": "shared with me",
     "Deleted": "deleted files",
@@ -29,7 +32,9 @@
   "pageHeaders": {
     "SharedWithMe": "Shared With Me",
     "LastUpdated": "Last Updated",
-    "ExternalTransferd": "External Transferd",
+    "ExternalTransferDefault": "",
+    "ExternalTransferd": "External Transferd {networkName}",
+    "StatusTransferd": "Status files transferd",
     "MyDrive": "My Drive",
     "Search": "Search Results"
   },

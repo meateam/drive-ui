@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- if the user is admin -->
     <div v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].isAdmin">
       <v-row class="ma-1" no-gutters justify="center">
         <p class="pa-0 popup-text align-center">
@@ -11,6 +12,7 @@
       </v-row>
     </div>
 
+    <!-- if the user has no unit and he isnt approver -->
     <div
       v-else-if="
         user.approverInfos[networkDest] &&
@@ -29,6 +31,7 @@
       </v-row>
     </div>
 
+    <!-- if the user is blocked -->
     <div v-else-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].isBlocked">
       <v-row class="ma-1" no-gutters justify="center">
         <p class="pa-0 popup-text align-center">
@@ -40,6 +43,7 @@
       </v-row>
     </div>
 
+    <!-- if the user is approver -->
     <div v-else-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].isApprover">
       <v-row class="ma-1" no-gutters justify="center">
         <p class="pa-0 popup-text align-center">
@@ -51,13 +55,12 @@
       </v-row>
     </div>
 
+    <!-- else -->
     <div v-else>
       <div>
         <div id="approval-header">
           <v-row class="ma-1 popup-text" no-gutters justify="center" align="center">
-            <p>
-              {{ $t("externalTransfer.ApprovalChoose") }}
-            </p>
+            <p>{{ $t("externalTransfer.ApprovalChoose") }}</p>
             <v-spacer />
             <v-btn class="mx-1" rounded color="#2c3448" dark x-small @click="onAboutMeClick">
               <v-icon small>person</v-icon>
@@ -72,10 +75,13 @@
               <div class="align-center">
                 <p>{{ $t("externalTransfer.ApprovalInstructions") }}</p>
                 <div v-if="user.approverInfos[networkDest] && !user.approverInfos[networkDest].requestFaild">
-                  <p v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].unit">
+                  <!-- the approver must be in unit msg -->
+                  <p v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].unit.name">
                     {{ $t("externalTransfer.ApproverUnit") }}
                     <span class="bold">{{ user.approverInfos[networkDest].unit.name }}</span>
                   </p>
+
+                  <!-- the approver must be in unit msg -->
                   <p v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].unit.approvers">
                     {{ $t("externalTransfer.ApproverRanks") }}
                     <span class="bold">{{ getRanks(user.approverInfos[networkDest].unit.approvers) }}</span>

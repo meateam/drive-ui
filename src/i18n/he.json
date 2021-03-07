@@ -5,9 +5,9 @@
   "sidenav": {
     "MyDrive": "הדרייב שלי",
     "ExternalTransferIncoming": "התקבל מרשת חיצונית",
-    "ExternalTransferIncomingName": "קבצים שהתקבלו מרשת {networkName}",
+    "ExternalTransferIncomingName": "התקבלו מרשת {networkName}",
     "ExternalTransferOutgoing": "נשלח לרשת חיצונית",
-    "ExternalTransferOutgoingName": "קבצים שהעברתי לרשת {networkName}",
+    "ExternalTransferOutgoingName": "העברתי לרשת {networkName}",
     "ExternalTransferOutgoingStatus": "סטאטוס קבצים שהועברו",
     "ExternalFiles": "שיתופים חיצוניים",
     "SharedWithMe": "שותפו איתי",
@@ -130,7 +130,8 @@
     "CreatedAt": "נוצר",
     "UpdatedAt": "שונה",
     "Shared": "שותפים",
-    "ExternalShare": "שיתופים חיצוניים"
+    "ExternalShare": "שיתופים חיצוניים",
+    "ExternalShareFailed": "שיתופים חיצוניים שלא התקבלו"
   },
   "share": {
     "ShareFile": "שיתוף קובץ",

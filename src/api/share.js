@@ -1,7 +1,7 @@
-import Axios from 'axios';
-import { baseURL } from '@/config';
-import store from '@/store';
-import * as usersApi from '@/api/users';
+import Axios from "axios";
+import { baseURL } from "@/config";
+import store from "@/store";
+import * as usersApi from "@/api/users";
 
 /**
  * getPermissions returns all the user id`s of the users that was shared with the file
@@ -19,7 +19,7 @@ export async function getPermissions(fileID) {
     );
     return users;
   } catch (err) {
-    store.dispatch('onError', err);
+    store.dispatch("onError", err);
   }
 }
 
@@ -30,40 +30,51 @@ export async function getPermissions(fileID) {
 export async function getExternalPermissions(fileID) {
   try {
     const users = [];
-    const res = await Axios.get(`${baseURL}/api/files/${fileID}/transferInfo`);
+    const res = await Axios.get(`${baseURL}/api/transfersInfo?all=true`, {
+      headers: { fileID },
+    });
 
     if (res.data) {
       res.data.map((transferInfo) => {
-        transferInfo.to.map((destUser) => users.push(destUser));
+        let isFailed = true;
+
+        if (["STEP_TERMINAL_SEND_FINISHED", "STEP_UPLOAD_CLEANUP_SUCCESSFULL"].includes(transferInfo.status.status)) {
+          isFailed = false;
+        }
+
+        transferInfo.to.map((destUser) => {
+          destUser.isFailed = isFailed;
+          users.push(destUser);
+        });
       });
     }
 
     return users;
   } catch (err) {
-    store.dispatch('onError', err);
+    store.dispatch("onError", err);
   }
 }
 
-/**
- * getExternalTransfer returns all the transfer that the user has made
- * @param fileID the id of the file
- */
-export async function getExternalTransfers(fileID) {
-  try {
-    const transfers = [];
-    const res = await Axios.get(`${baseURL}/api/files/transferInfo`);
-    transfers = res.data;
-    return transfers;
-  } catch (err) {
-    console.log('eeheh');
+// /**
+//  * getExternalTransfer returns all the transfer that the user has made
+//  * @param fileID the id of the file
+//  */
+// export async function getExternalTransfers(fileID) {
+//   try {
+//     const transfers = [];
+//     const res = await Axios.get(`${baseURL}/api/files/transferInfo`);
+//     transfers = res.data;
+//     return transfers;
+//   } catch (err) {
+//     console.log('eeheh');
 
-    if (err.response.status == 404) {
-      return [];
-    } else {
-      store.dispatch('onError', err);
-    }
-  }
-}
+//     if (err.response.status == 404) {
+//       return [];
+//     } else {
+//       store.dispatch('onError', err);
+//     }
+//   }
+// }
 
 /**
  * shareUser adds a permision on a file to another user
@@ -82,20 +93,20 @@ async function shareUser({ fileID, userID, role }) {
 export async function editPermission({ fileID, userID, role }) {
   await shareUser({ fileID, userID, role })
     .then(() => {
-      store.commit('onSuccess', 'success.EditShare');
+      store.commit("onSuccess", "success.EditShare");
     })
     .catch((err) => {
-      store.dispatch('onError', err);
+      store.dispatch("onError", err);
     });
 }
 
 export async function removePermission({ userID, fileID }) {
   await Axios.delete(`${baseURL}/api/files/${fileID}/permissions?userId=${userID}`)
     .then(() => {
-      store.commit('onSuccess', 'success.DeleteShare');
+      store.commit("onSuccess", "success.DeleteShare");
     })
     .catch((err) => {
-      store.dispatch('onError', err);
+      store.dispatch("onError", err);
     });
 }
 
@@ -114,10 +125,10 @@ export function shareUsers({ files, users, role }) {
     })
   )
     .then(() => {
-      store.commit('onSuccess', 'success.Share');
+      store.commit("onSuccess", "success.Share");
     })
     .catch((err) => {
-      store.dispatch('onError', err);
+      store.dispatch("onError", err);
     });
 }
 
@@ -135,13 +146,13 @@ export async function shareExternalUsers({ fileID, users, classification, info, 
   try {
     const body = { users, classification, info, approvers, fileName, destination };
     approvers.forEach(async (userID) => {
-      await shareUser({ fileID, userID, role: 'READ' });
+      await shareUser({ fileID, userID, role: "READ" });
     });
     const res = await Axios.put(`${baseURL}/api/files/${fileID}/transfer`, body);
-    store.commit('onSuccess', 'success.ExternalShare');
+    store.commit("onSuccess", "success.ExternalShare");
 
     return res.data;
   } catch (err) {
-    store.dispatch('onError', err);
+    store.dispatch("onError", err);
   }
 }
