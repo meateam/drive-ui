@@ -5,34 +5,26 @@
       <div v-else>
         <Breadcrumbs page="true" :items="breadcrumbs" @click="$emit('breadcrumb', $event)" />
       </div>
-
-      <FileViewButton />
     </div>
 
-    <FileView
+    <StatusView
       v-if="files"
       :files="files"
       :serverFilesLength="serverFilesLength"
       :sortable="sortable"
       @page="$emit('page', $event)"
     />
-
-    <DragNDrop v-if="upload" />
-    <FabButton v-if="upload" />
   </div>
 </template>
 
 <script>
-import FileViewButton from "@/components/buttons/FileViewButton";
-import FileView from "@/components/files/FileView";
-import FabButton from "@/components/buttons/FabButton";
+import StatusView from "@/components/status/StatusView";
 import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
-import DragNDrop from "@/components/shared/DragNDrop";
 
 export default {
-  name: "PageTemplate",
-  components: { FileView, FileViewButton, FabButton, DragNDrop, Breadcrumbs },
-  props: ["files", "header", "upload", "breadcrumbs", "serverFilesLength", "sortable"],
+  name: "PageTemplateStatus",
+  components: { StatusView, Breadcrumbs },
+  props: ["files", "header", "breadcrumbs", "serverFilesLength", "sortable"],
 };
 </script>
 

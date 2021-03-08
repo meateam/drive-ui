@@ -64,15 +64,21 @@ export default {
   methods: {
     async open() {
       this.users = await getPermissions(this.file.id);
-      const externalPermissionsRes = await getExternalPermissions(this.file.id);
+      let externalPermissionsRes = await getExternalPermissions(this.file.id);
+
+      externalPermissionsRes = externalPermissionsRes.slice().sort((a, b) => b.createdAt - a.createdAt);
+      externalPermissionsRes = externalPermissionsRes.filter(
+        (user, index, self) => index === self.findIndex((anotherUser) => anotherUser.id === user.id)
+      );
+
       this.externalUsers = [];
       this.externalUsersFailed = [];
 
-      externalPermissionsRes.map((externalPermission) =>
+      externalPermissionsRes.forEach((externalPermission) => {
         externalPermission.isFailed
           ? this.externalUsersFailed.push(externalPermission)
-          : this.externalUsers.push(externalPermission)
-      );
+          : this.externalUsers.push(externalPermission);
+      });
 
       this.dialog = true;
     },

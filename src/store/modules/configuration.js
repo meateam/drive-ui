@@ -14,10 +14,12 @@ const state = {
   whiteListText: "או להיות מאושר באופן מיוחד",
   bereshitSupportLink: "",
   bamSupportNumber: "03555555",
+  statusSuccessType: "success",
+  statusFailedType: "failed",
   externalNetworkDests: [
     {
       appID: "appId1",
-      approvalUiUrl: "http://approval.dropbox.rabaz.org",
+      approvalUIUrl: "http://approval.dropbox.rabaz.org",
       approvalUrl: "http://approval.dropbox.rabaz.org",
       label: "label1",
       value: "value1",
@@ -25,7 +27,7 @@ const state = {
     },
     {
       appID: "appId1",
-      approvalUiUrl: "http://approval.dropbox.rabaz.org",
+      approvalUIUrl: "http://approval.dropbox.rabaz.org",
       approvalUrl: "http://approval.dropbox.rabaz.org",
       label: "label1",
       value: "value1",
@@ -50,6 +52,8 @@ const getters = {
   bamSupportNumber: (state) => state.bamSupportNumber,
   docsUrl: (state) => state.docsUrl,
   version: (state) => state.version,
+  statusSuccessType: (state) => state.statusSuccessType,
+  statusFailedType: (state) => state.statusFailedType,
   externalNetworkDests: (state) => state.externalNetworkDests,
 };
 
@@ -78,6 +82,7 @@ const mutations = {
     state.myExternalSharesName = config.myExternalSharesName;
     state.whiteListText = config.whiteListText || state.whiteListText;
     state.enableExternalShare = config.enableExternalShare;
+    state.statusSuccessType = config.statusSuccessType;
     state.externalNetworkDests = config.externalNetworkDests;
   },
 };

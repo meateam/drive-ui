@@ -10,9 +10,10 @@ import error from "./modules/error";
 import search from "./modules/search";
 import success from "./modules/success";
 import directonary from "./modules/dictionary";
+import status from "./modules/status";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: { files, configuration, auth, quota, loading, preferences, error, success, search, directonary },
+  modules: { files, configuration, auth, quota, loading, preferences, error, success, search, directonary, status },
 });

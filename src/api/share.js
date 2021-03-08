@@ -38,12 +38,11 @@ export async function getExternalPermissions(fileID) {
       res.data.map((transferInfo) => {
         let isFailed = true;
 
-        if (["STEP_TERMINAL_SEND_FINISHED", "STEP_UPLOAD_CLEANUP_SUCCESSFULL"].includes(transferInfo.status.status)) {
-          isFailed = false;
-        }
+        if (store.getters.statusSuccessType === transferInfo.status.type) isFailed = false;
 
         transferInfo.to.map((destUser) => {
           destUser.isFailed = isFailed;
+          destUser.createdAt = transferInfo.createdAt;
           users.push(destUser);
         });
       });
@@ -55,26 +54,23 @@ export async function getExternalPermissions(fileID) {
   }
 }
 
-// /**
-//  * getExternalTransfer returns all the transfer that the user has made
-//  * @param fileID the id of the file
-//  */
-// export async function getExternalTransfers(fileID) {
-//   try {
-//     const transfers = [];
-//     const res = await Axios.get(`${baseURL}/api/files/transferInfo`);
-//     transfers = res.data;
-//     return transfers;
-//   } catch (err) {
-//     console.log('eeheh');
+/**
+ * getExternalTransfers returns all the transfer that the user has made
+ */
+export async function getExternalTransfers() {
+  try {
+    let transfers = [];
+    const res = await Axios.get(`${baseURL}/api/transfersInfo`);
 
-//     if (err.response.status == 404) {
-//       return [];
-//     } else {
-//       store.dispatch('onError', err);
-//     }
-//   }
-// }
+    if (res.data) {
+      transfers = res.data;
+    }
+
+    return transfers;
+  } catch (err) {
+    store.dispatch("onError", err);
+  }
+}
 
 /**
  * shareUser adds a permision on a file to another user
@@ -141,10 +137,20 @@ export function shareUsers({ files, users, role }) {
  * @param approvers the users that approve the external share
  * @param fileName the fileName to share
  * @param destination the external network to share
+ * @param ownerID
  */
-export async function shareExternalUsers({ fileID, users, classification, info, approvers, fileName, destination }) {
+export async function shareExternalUsers({
+  fileID,
+  users,
+  classification,
+  info,
+  approvers,
+  fileName,
+  destination,
+  ownerID,
+}) {
   try {
-    const body = { users, classification, info, approvers, fileName, destination };
+    const body = { users, classification, info, approvers, fileName, destination, ownerID };
     approvers.forEach(async (userID) => {
       await shareUser({ fileID, userID, role: "READ" });
     });

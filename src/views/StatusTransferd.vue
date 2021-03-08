@@ -1,34 +1,27 @@
 <template>
-  <PageTemplate
+  <PageTemplateStatus
     :files="files"
     :serverFilesLength="serverFilesLength"
-    :sortable="false"
+    :sortable="true"
     :header="$t('pageHeaders.StatusTransferd')"
-    @page="onPageChange"
   />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import PageTemplate from "@/components/BasePageTemplate";
+import PageTemplateStatus from "@/components/BasePageTemplateStatus";
 
 export default {
   name: "StatusTransferd",
-  components: { PageTemplate },
+  components: { PageTemplateStatus },
   data() {
     return {};
   },
-  props: ["appID"],
   computed: {
-    ...mapGetters(["files", "serverFilesLength", "externalNetworkDests"]),
+    ...mapGetters(["files", "serverFilesLength"]),
   },
   created() {
-    this.$store.dispatch("fetchExternalTransferdFiles", { pageNum: 0, appId: this.appID });
-  },
-  methods: {
-    onPageChange(page) {
-      this.$store.dispatch("fetchExternalTransferdFiles", { pageNum: page - 1, appId: this.appID });
-    },
+    this.$store.dispatch("fetchTransferdStatus");
   },
 };
 </script>

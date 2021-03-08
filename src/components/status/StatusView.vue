@@ -1,15 +1,6 @@
 <template>
   <div>
-    <FilesPreview
-      v-if="fileView == 1"
-      :files="files"
-      @contextmenu="onRightClick"
-      @dblclick="onDblClick"
-      @ctrlclick="onCtrlCLick"
-      @fileclick="onFileClick"
-    />
-    <FileTable
-      v-else
+    <StatusTable
       :files="files"
       :serverFilesLength="serverFilesLength"
       :sortable="sortable"
@@ -40,18 +31,16 @@ import { convertMessageType } from "@/utils/convertMessage";
 import { isFolder } from "@/utils/isFolder";
 import * as filesApi from "@/api/files";
 
-import FileTable from "@/components/files/list/FileTable";
+import StatusTable from "@/components/status/list/StatusTable";
 import AlertPopup from "@/components/popups/BaseAlertPopup";
 import BottomMenu from "@/components/popups/menus/BottomMenu";
-import FilesPreview from "@/components/files/preview/FilesPreview";
 import FileContextMenu from "@/components/popups/menus/FileContextMenu";
 import Preview from "@/components/popups/Preview";
 
 export default {
-  name: "FileView",
+  name: "StatusView",
   components: {
-    FileTable,
-    FilesPreview,
+    StatusTable,
     Preview,
     FileContextMenu,
     BottomMenu,
@@ -70,9 +59,6 @@ export default {
     });
   },
   methods: {
-    canEditOnline(file) {
-      return fileTypes.office.includes(file.type);
-    },
     isOldOfficeType(file) {
       return fileTypes.oldOffice.includes(file.type);
     },
@@ -96,8 +82,6 @@ export default {
       event.preventDefault();
       if (isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
-      } else if (this.canEditOnline(file)) {
-        this.openEditOnline(file);
       } else if (this.isOldOfficeType(file)) {
         this.$refs.convert.open(file);
       } else {

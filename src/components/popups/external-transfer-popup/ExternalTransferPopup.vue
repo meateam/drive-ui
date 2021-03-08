@@ -191,7 +191,8 @@ export default {
         info: this.info,
         classification: this.classification,
         approvers: this.approvers,
-        destination: this.externalNetworkDest, // TODO: CHANGE TO APP ID
+        destination: this.externalNetworkDest,
+        ownerID: this.file.ownerId,
       });
       this.dialog = false;
     },

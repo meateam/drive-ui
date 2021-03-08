@@ -54,7 +54,12 @@
     "Create": "צור קובץ",
     "ConvertDOC": "קובץ זה הוא מסוג DOC בשביל לערוך אותו נצטרך להמירו ל-DOCX האם ברצונך להמשיך?",
     "ConvertXLS": "קובץ זה הוא מסוג XLS בשביל לערוך אותו נצטרך להמירו ל-XLSX האם ברצונך להמשיך?",
-    "ConvertPPT": "קובץ זה הוא מסוג PPT בשביל לערוך אותו נצטרך להמירו ל-PPTX האם ברצונך להמשיך?"
+    "ConvertPPT": "קובץ זה הוא מסוג PPT בשביל לערוך אותו נצטרך להמירו ל-PPTX האם ברצונך להמשיך?",
+    "TransferCreatedAt": "תאריך העברה",
+    "TransferClassification": "סיווג",
+    "TransferStatus": "סטטוס",
+    "TransferDestination": "רשת מקבלת",
+    "TransferDestUsers": "נמנענים"
   },
   "buttons": {
     "UploadFile": "העלה קובץ",
@@ -131,7 +136,11 @@
     "UpdatedAt": "שונה",
     "Shared": "שותפים",
     "ExternalShare": "שיתופים חיצוניים",
-    "ExternalShareFailed": "שיתופים חיצוניים שלא התקבלו"
+    "ExternalShareFailed": "שיתופים חיצוניים שלא הושלמו",
+    "TransferCreatedAt": "תאריך העברה",
+    "TransferClassification": "סיווג",
+    "TransferStatus": "סטטוס",
+    "TransferDestination": "רשת מקבלת"
   },
   "share": {
     "ShareFile": "שיתוף קובץ",

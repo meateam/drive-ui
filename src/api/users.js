@@ -1,7 +1,7 @@
-import Axios from 'axios';
-import store from '@/store';
-import { formatUser } from '@/utils/formatUser';
-import { baseURL } from '@/config';
+import Axios from "axios";
+import store from "@/store";
+import { formatUser } from "@/utils/formatUser";
+import { baseURL } from "@/config";
 
 /**
  * getUserByID returns the user with the received id
@@ -11,11 +11,11 @@ export async function getUserByID(userID) {
   try {
     const res = await Axios.get(`${baseURL}/api/users/${userID}`);
     const user = formatUser(res.data.user);
-    store.commit('addUserToictionary', user);
+    store.commit("addUserToictionary", user);
 
     return user;
   } catch (err) {
-    store.dispatch('onError', err);
+    store.dispatch("onError", err);
   }
 }
 
@@ -47,7 +47,7 @@ export async function searchUsersByName(name) {
       : [];
     return Promise.all(users.map((user) => formatUser(user)));
   } catch (err) {
-    store.dispatch('onError', err);
+    store.dispatch("onError", err);
   }
 }
 
@@ -64,7 +64,7 @@ export async function getExternalUserByID(userID, destination) {
     const user = formatUser(res.data.user);
     return user;
   } catch (err) {
-    store.dispatch('onError', err);
+    store.dispatch("onError", err);
   }
 }
 
@@ -95,7 +95,7 @@ export async function searchExternalUsersByName(name, destination) {
     const users = res.data.users || [];
     return Promise.all(users.map((user) => formatUser(user)));
   } catch (err) {
-    store.dispatch('onError', err);
+    store.dispatch("onError", err);
   }
 }
 
@@ -106,7 +106,7 @@ export async function getApproverInfo(userID, destination) {
 
   const approverInfo = res.data;
 
-  if (approverInfo.unitName === 'noUnit' && !approverInfo.isAdmin) approverInfo.noUnit = true;
+  if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
 
   return approverInfo;
 }
@@ -117,6 +117,13 @@ export async function canBeApproved(userID, approverID, destination) {
   });
 
   return res.data;
+}
+
+export function openApprovalPage(destination) {
+  const networkDest = store.state.configuration.externalNetworkDests.filter(
+    (networkDest) => networkDest.value == destination
+  )[0];
+  window.open(`${networkDest.approvalUIUrl}`);
 }
 
 export function openAboutMePage(destination) {

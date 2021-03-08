@@ -1,11 +1,11 @@
-import * as filesApi from '@/api/files';
-import * as lastUpdatedFileHandler from '@/utils/lastUpdatedFileHandler';
-import { sortFiles } from '@/utils/sortFiles';
-import { fileTypes } from '@/config';
-import { isOwner } from '@/utils/isOwner';
-import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from '@/utils/formatFile';
-import { isFileNameExists } from '@/utils/isFileNameExists';
-import router from '@/router';
+import * as filesApi from "@/api/files";
+import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
+import { sortFiles } from "@/utils/sortFiles";
+import { fileTypes } from "@/config";
+import { isOwner } from "@/utils/isOwner";
+import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
+import { isFileNameExists } from "@/utils/isFileNameExists";
+import router from "@/router";
 
 const state = {
   files: [],
@@ -32,16 +32,16 @@ const actions = {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
 
-      commit('setFiles', files);
+      commit("setFiles", files);
 
       files.forEach(async (file) => {
         const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        formattedFile.owner = isOwner ? 'אני' : await getFileOwnerName(file.ownerId);
-        commit('updateFile', formattedFile);
+        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+        commit("updateFile", formattedFile);
       });
     } catch (err) {
-      dispatch('onError', err);
+      dispatch("onError", err);
     }
   },
   /**
@@ -52,17 +52,17 @@ const actions = {
       const permissions = await filesApi.fetchSharedFiles(pageNum || 0);
       const files = permissions.files;
 
-      commit('updatePageNum', pageNum + 1);
-      commit('setFiles', files);
-      commit('setServerFilesLength', permissions.itemCount);
+      commit("updatePageNum", pageNum + 1);
+      commit("setFiles", files);
+      commit("setServerFilesLength", permissions.itemCount);
 
       for (const file of files) {
         const formattedFile = file;
         formattedFile.owner = await getFileOwnerName(file.ownerId);
-        commit('updateFile', formattedFile);
+        commit("updateFile", formattedFile);
       }
     } catch (err) {
-      dispatch('onError', err);
+      dispatch("onError", err);
     }
   },
   async fetchExternalTransferdFiles({ commit, dispatch, rootState }, pageNum, appId) {
@@ -72,16 +72,47 @@ const actions = {
       const networkDest = rootState.configuration.externalNetworkDests.filter(
         (networkDest) => networkDest.appId == appId
       )[0];
-      commit('setFiles', files);
-      commit('setServerFilesLength', permissions.itemCount);
+      commit("setFiles", files);
+      commit("setServerFilesLength", permissions.itemCount);
 
       for (const file of files) {
         const formattedFile = file;
         formattedFile.owner = await getExternalFileOwnerName(file.ownerId, networkDest.value);
-        commit('updateFile', formattedFile);
+        commit("updateFile", formattedFile);
       }
     } catch (err) {
-      dispatch('onError', err);
+      dispatch("onError", err);
+    }
+  },
+  async fetchTransferdStatus({ commit, dispatch }) {
+    try {
+      const transfers = await filesApi.fetchStatusTransferdFiles();
+      let outcomingTransfersFiles = [];
+
+      if (transfers) {
+        await Promise.all(
+          transfers.map(async (transferInfo) => {
+            let file;
+            try {
+              file = await filesApi.getFileByID(transferInfo.fileID);
+              transferInfo.file = file;
+              transferInfo.file.isReadOnly = true;
+            } catch (error) {
+              // TODO: what?
+              transferInfo.file = {};
+              transferInfo.file.isDeleted = true;
+            }
+
+            transferInfo.fileOwner = await getFileOwnerName(transferInfo.fileOwnerID);
+
+            outcomingTransfersFiles.push(transferInfo);
+          })
+        );
+      }
+      commit("setFiles", outcomingTransfersFiles);
+      commit("setServerFilesLength", outcomingTransfersFiles.itemCount);
+    } catch (err) {
+      dispatch("onError", err);
     }
   },
   /**
@@ -91,17 +122,17 @@ const actions = {
     try {
       const files = await lastUpdatedFileHandler.getUpdatedFiles();
 
-      commit('setFiles', files);
+      commit("setFiles", files);
 
       files.forEach(async (file) => {
         const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
 
-        formattedFile.owner = isOwner ? 'אני' : await getFileOwnerName(file.ownerId);
-        commit('updateFile', formattedFile);
+        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+        commit("updateFile", formattedFile);
       });
     } catch (err) {
-      dispatch('onError', err);
+      dispatch("onError", err);
     }
   },
   /**
@@ -110,35 +141,35 @@ const actions = {
    */
   async deleteFile({ commit, dispatch }, fileID) {
     await filesApi.deleteFile(fileID);
-    commit('deleteFile', fileID);
-    dispatch('getQuota');
+    commit("deleteFile", fileID);
+    dispatch("getQuota");
   },
   /**
    * deleteFiles uses the method delete file to delete all the files in the chosen array
    */
   deleteFiles({ dispatch, commit }, files) {
-    Promise.all(files.map((file) => dispatch('deleteFile', file.id)))
+    Promise.all(files.map((file) => dispatch("deleteFile", file.id)))
       .then(() => {
-        commit('onSuccess', files.length === 1 ? 'success.DeleteItem' : 'success.DeleteItems');
+        commit("onSuccess", files.length === 1 ? "success.DeleteItem" : "success.DeleteItems");
       })
       .catch((err) => {
-        dispatch('onError', err);
+        dispatch("onError", err);
       });
   },
   removePermissions({ dispatch, commit }, files) {
     Promise.all(
       files.map(async (file) => {
         await filesApi.deleteFile(file.id);
-        commit('deleteFile', file.id);
+        commit("deleteFile", file.id);
       })
     )
       .then(() => {
-        commit('updatePageNum', 1);
-        dispatch('getQuota');
-        commit('onSuccess', files.length === 1 ? 'success.DeleteItem' : 'success.DeleteItems');
+        commit("updatePageNum", 1);
+        dispatch("getQuota");
+        commit("onSuccess", files.length === 1 ? "success.DeleteItem" : "success.DeleteItems");
       })
       .catch((err) => {
-        dispatch('onError', err);
+        dispatch("onError", err);
       });
   },
   /**
@@ -153,7 +184,7 @@ const actions = {
         loadingFiles: rootState.loading.loadingFiles,
       })
     )
-      throw new Error('שם הקובץ קים בתיקייה');
+      throw new Error("שם הקובץ קים בתיקייה");
 
     let metadata = undefined;
 
@@ -169,13 +200,13 @@ const actions = {
       });
     }
 
-    metadata.owner = 'אני';
+    metadata.owner = "אני";
     lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
 
-    commit('removeLoadingFile', metadata.name);
-    commit('addFile', metadata);
+    commit("removeLoadingFile", metadata.name);
+    commit("addFile", metadata);
 
-    commit('addQuota', metadata.size);
+    commit("addQuota", metadata.size);
   },
   /**
    * uploadFiles uploads all the files async
@@ -184,21 +215,21 @@ const actions = {
   async uploadFiles({ dispatch, commit }, files) {
     return Promise.all(
       Object.values(files).map((file) => {
-        return dispatch('uploadFile', file);
+        return dispatch("uploadFile", file);
       })
     )
-      .then(() => commit('onSuccess', files.length === 1 ? 'success.File' : 'success.Files'))
+      .then(() => commit("onSuccess", files.length === 1 ? "success.File" : "success.Files"))
       .catch((err) => {
-        dispatch('onError', err);
+        dispatch("onError", err);
       });
   },
   async cancelUpload({ commit, dispatch }, file) {
     try {
       await filesApi.cancelUpload(file.source);
-      commit('removeLoadingFile', file.name);
-      commit('onSuccess', 'success.Cancel');
+      commit("removeLoadingFile", file.name);
+      commit("onSuccess", "success.Cancel");
     } catch (err) {
-      dispatch('onError', err);
+      dispatch("onError", err);
     }
   },
   /**
@@ -214,17 +245,17 @@ const actions = {
           loadingFiles: rootState.loading.loadingFiles,
         })
       )
-        throw new Error('שם התיקייה כבר קיים בתיקייה הנוכחית');
+        throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
       const folder = await filesApi.uploadFolder({
         name,
         parent: state.currentFolder,
       });
-      folder.owner = 'אני';
+      folder.owner = "אני";
 
-      commit('onSuccess', 'success.Folder');
-      commit('addFile', folder);
+      commit("onSuccess", "success.Folder");
+      commit("addFile", folder);
     } catch (err) {
-      dispatch('onError', err);
+      dispatch("onError", err);
     }
   },
   /**
@@ -234,29 +265,29 @@ const actions = {
   async onFolderChange({ dispatch, commit }, folderID) {
     try {
       if (!folderID) {
-        commit('setCurrentFolder', undefined);
-        commit('setHierarchy', []);
+        commit("setCurrentFolder", undefined);
+        commit("setHierarchy", []);
       } else {
         const folder = await filesApi.getFileByID(folderID);
-        commit('setCurrentFolder', folder);
-        dispatch('getAncestors', folder.id);
+        commit("setCurrentFolder", folder);
+        dispatch("getAncestors", folder.id);
       }
     } catch (err) {
-      router.push('/404');
+      router.push("/404");
     }
   },
   async getAncestors({ commit }, folderID) {
     const breadcrumbs = await filesApi.getFolderHierarchy(folderID);
-    commit('setHierarchy', breadcrumbs);
+    commit("setHierarchy", breadcrumbs);
   },
   async editFile({ commit, dispatch }, { file, name }) {
     try {
       const res = await filesApi.editFile({ file, name });
 
-      commit('onFileRename', res);
-      commit('onSuccess', 'success.Edit');
+      commit("onFileRename", res);
+      commit("onSuccess", "success.Edit");
     } catch (err) {
-      dispatch('onError', err);
+      dispatch("onError", err);
     }
   },
   async moveFiles({ commit, dispatch }, { folderID, fileIDs }) {
@@ -272,12 +303,12 @@ const actions = {
       const movedFiles = fileIDs.filter((fileID) => !failedFiles.includes(fileID));
 
       movedFiles.forEach((fileID) => {
-        commit('deleteFile', fileID);
+        commit("deleteFile", fileID);
       });
 
-      if (failedFiles.length) throw new Error('חלק מהקבצים שניסית להעביר נכשלו');
+      if (failedFiles.length) throw new Error("חלק מהקבצים שניסית להעביר נכשלו");
     } catch (err) {
-      dispatch('onError', err);
+      dispatch("onError", err);
     }
   },
 };
