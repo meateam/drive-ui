@@ -5,9 +5,9 @@
   "sidenav": {
     "MyDrive": "הדרייב שלי",
     "ExternalTransferIncoming": "התקבל מרשת חיצונית",
-    "ExternalTransferIncomingName": "התקבלו מרשת {networkName}",
+    "ExternalTransferIncomingName": " התקבל מרשת {networkName}",
     "ExternalTransferOutgoing": "נשלח לרשת חיצונית",
-    "ExternalTransferOutgoingName": "העברתי לרשת {networkName}",
+    "ExternalTransferOutgoingName": "אישורים מ{networkName}",
     "ExternalTransferOutgoingStatus": "סטאטוס קבצים שהועברו",
     "ExternalFiles": "שיתופים חיצוניים",
     "SharedWithMe": "שותפו איתי",
@@ -108,7 +108,8 @@
     "Cancel": "העלאת הקובץ בוטלה!"
   },
   "preview": {
-    "Unavailable": "התצוגה המקדימה אינה זמינה"
+    "Unavailable": "התצוגה המקדימה אינה זמינה",
+    "Deleted": "הקובץ נמחק מהדרייב, לא ניתן לראות תצוגה מקדימה!"
   },
   "folder": {
     "Upload": "יצירת תיקייה חדשה",
@@ -140,7 +141,8 @@
     "TransferCreatedAt": "תאריך העברה",
     "TransferClassification": "סיווג",
     "TransferStatus": "סטטוס",
-    "TransferDestination": "רשת מקבלת"
+    "TransferDestination": "רשת מקבלת",
+    "Deleted": "הקובץ נמחק מהדרייב, לא ניתן לראות פרטים על הקובץ!"
   },
   "share": {
     "ShareFile": "שיתוף קובץ",
@@ -164,7 +166,6 @@
   "externalTransfer": {
     "Header": "העברה לרשת {dest}",
     "HeaderDestDefault": "חיצונית",
-    "HeaderDestTomcal": "תומכל",
     "NetworkDest": "רשת יעד",
     "NetworkDestChoose": "בחר רשת יעד",
     "Destination": "נמענים",

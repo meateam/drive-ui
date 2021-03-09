@@ -5,34 +5,40 @@
       :headers="headers"
       :sort-by="sortBy"
       :sort-desc="sortDesc"
-      :items="files"
+      :items="items"
       :page.sync="page"
       :items-per-page="itemsPerPage"
       :single-select="!isSelectMany"
       :show-select="isSelectMany"
-      :server-items-length="serverFilesLength"
+      :server-items-length="itemsLength"
       hide-default-footer
       @page-count="pageCount = $event"
     >
       <template v-slot:item="{ item }">
         <tr
           @click.exact.stop="$emit('fileclick', item.file)"
-          @click.ctrl.stop="$emit('ctrlclick', item.file)"
-          @contextmenu.prevent="!item.file.isDeleted && onRightClick($event, item.file)"
-          @dblclick.prevent="!item.file.isDeleted && onDblClick($event, item.file)"
+          @contextmenu.prevent="onRightClick($event, item.file)"
+          @dblclick.prevent="onDblClick($event, item.file)"
         >
           <td id="file-icon"><FileTypeIcon :file="item.file" :size="30" /></td>
-          <td class="file-name">{{ item.fileName }}</td>
+          <td class="file-name"><BaseTooltip :value="item.fileName" /></td>
           <td>{{ item.classification || "-" }}</td>
-          <td>{{ item.fileOwner || "???" }}</td>
-          <td><UserAvatar v-for="user in item.to" :key="user.id" :user="user" /></td>
+          <td>{{ item.file.owner || "???" }}</td>
+          <td>
+            <v-sheet id="sheet" class="mx-auto">
+              <v-slide-group show-arrows id="slide">
+                <v-slide-item v-for="(user, index) in item.to" v-bind:key="index">
+                  <UserAvatar :key="user.id" :user="user"/></v-slide-item
+              ></v-slide-group>
+            </v-sheet>
+          </td>
 
           <td class="ltr-td">{{ formatFileDate(item.createdAt) }}</td>
           <td class="ltr-td">
             <BaseStepper v-if="item.status.length > 0" :items="item.status" />
             <h2 v-else>-</h2>
           </td>
-          <td class="ltr-td">{{ item.destination }}</td>
+          <td class="ltr-td">{{ getNetworkLabel(item.destination) }}</td>
         </tr>
       </template>
 
@@ -57,12 +63,14 @@ import { formatDate } from "@/utils/formatDate";
 import { pageSizeSmaller } from "@/config";
 import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
 import BaseStepper from "@/components/stepper/BaseStepper.vue";
+import BaseTooltip from "@/components/inputs/BaseTooltip.vue";
 import UserAvatar from "@/components/popups/info-popup/UserAvatar.vue";
+import { getNetworkItemByDest } from "@/utils/networkDest";
 
 export default {
   name: "StatusTable",
-  props: ["files", "serverFilesLength", "sortable"],
-  components: { FileTypeIcon, BaseStepper, UserAvatar },
+  props: ["items", "itemsLength", "sortable"],
+  components: { FileTypeIcon, BaseStepper, BaseTooltip, UserAvatar },
   computed: {
     ...mapGetters(["chosenFiles", "pageNum"]),
     page: {
@@ -76,7 +84,7 @@ export default {
   },
   data() {
     return {
-      sortBy: "transferCreatedAt",
+      sortBy: "createdAt",
       sortDesc: true,
       isSelectMany: false,
       selected: this.chosenFiles,
@@ -84,10 +92,15 @@ export default {
       pageCount: 1,
       headers: [
         { value: "type", align: "center", sortable: false },
-        { text: this.$t("file.Name"), value: "fileName", sortable: this.sortable },
+        { text: this.$t("file.Name"), value: "fileName", sortable: this.sortable, width: "300px", fixed: true },
         { text: this.$t("file.TransferClassification"), value: "classification", sortable: this.sortable },
-        { text: this.$t("file.Owner"), value: "fileOwner", sortable: this.sortable },
-        { text: this.$t("file.TransferDestUsers"), value: "to", sortable: this.sortable },
+        { text: this.$t("file.Owner"), value: "file.owner", sortable: this.sortable },
+        {
+          text: this.$t("file.TransferDestUsers"),
+          value: "to",
+          sortable: this.sortable,
+          align: "center",
+        },
         { text: this.$t("file.TransferCreatedAt"), value: "createdAt", sortable: this.sortable },
         { text: this.$t("file.TransferStatus"), value: "status", sortable: this.sortable },
         { text: this.$t("file.TransferDestination"), value: "destination", sortable: this.sortable },
@@ -95,6 +108,9 @@ export default {
     };
   },
   methods: {
+    getNetworkLabel(dest) {
+      return getNetworkItemByDest(dest).label;
+    },
     formatFileDate(date) {
       return formatDate(date);
     },
@@ -128,7 +144,13 @@ export default {
 
 <style scoped>
 @import "../../../styles/data-table.css";
-
+#slide {
+  height: 60px;
+}
+#sheet {
+  max-width: 250px;
+  background-color: transparent;
+}
 #folder {
   text-align: center;
 }

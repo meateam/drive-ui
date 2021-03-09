@@ -1,14 +1,11 @@
 <template>
   <v-dialog v-model="dialog" max-width="450" class="popup">
     <v-card>
-      <img
-        class="popup-image auto-margin"
-        :src="require(`@/assets/images/${img}`)"
-      />
+      <img class="popup-image auto-margin" :src="require(`@/assets/images/${img}`)" />
       <p id="title">{{ text }}</p>
       <v-card-actions id="actions">
         <TextButton @click="onCancel" :label="$t('buttons.Cancel')" />
-        <SubmitButton @click="onConfirm" :label="button" />
+        <SubmitButton v-if="button" @click="onConfirm" :label="button" />
       </v-card-actions>
     </v-card>
   </v-dialog>

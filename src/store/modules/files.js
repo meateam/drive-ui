@@ -1,11 +1,12 @@
 import * as filesApi from "@/api/files";
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
+import router from "@/router";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
-import router from "@/router";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const state = {
   files: [],
@@ -65,13 +66,12 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async fetchExternalTransferdFiles({ commit, dispatch, rootState }, pageNum, appId) {
+  async fetchExternalTransferdFiles({ commit, dispatch }, pageNum, appId) {
     try {
       const permissions = await filesApi.fetchExternalTransferdFiles(pageNum || 0, appId);
       const files = permissions.files;
-      const networkDest = rootState.configuration.externalNetworkDests.filter(
-        (networkDest) => networkDest.appId == appId
-      )[0];
+      const networkDest = getNetworkItemByAppId(appId);
+
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
@@ -80,37 +80,6 @@ const actions = {
         formattedFile.owner = await getExternalFileOwnerName(file.ownerId, networkDest.value);
         commit("updateFile", formattedFile);
       }
-    } catch (err) {
-      dispatch("onError", err);
-    }
-  },
-  async fetchTransferdStatus({ commit, dispatch }) {
-    try {
-      const transfers = await filesApi.fetchStatusTransferdFiles();
-      let outcomingTransfersFiles = [];
-
-      if (transfers) {
-        await Promise.all(
-          transfers.map(async (transferInfo) => {
-            let file;
-            try {
-              file = await filesApi.getFileByID(transferInfo.fileID);
-              transferInfo.file = file;
-              transferInfo.file.isReadOnly = true;
-            } catch (error) {
-              // TODO: what?
-              transferInfo.file = {};
-              transferInfo.file.isDeleted = true;
-            }
-
-            transferInfo.fileOwner = await getFileOwnerName(transferInfo.fileOwnerID);
-
-            outcomingTransfersFiles.push(transferInfo);
-          })
-        );
-      }
-      commit("setFiles", outcomingTransfersFiles);
-      commit("setServerFilesLength", outcomingTransfersFiles.itemCount);
     } catch (err) {
       dispatch("onError", err);
     }

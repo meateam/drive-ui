@@ -6,9 +6,11 @@ export function isFileOwner(ownerID) {
 }
 
 export async function getFileOwnerName(ownerID) {
-  const user = store.state.directonary.usersDictionary[ownerID] || await usersApi.getUserByID(ownerID).catch(() => {
-    return;
-  });
+  const user =
+    store.state.directonary.usersDictionary[ownerID] ||
+    (await usersApi.getUserByID(ownerID).catch(() => {
+      return;
+    }));
 
   return user.fullName;
 }

@@ -1,8 +1,8 @@
 <template>
   <div>
     <StatusTable
-      :files="files"
-      :serverFilesLength="serverFilesLength"
+      :items="items"
+      :itemsLength="itemsLength"
       :sortable="sortable"
       @page="$emit('page', $event)"
       @contextmenu="onRightClick"
@@ -21,6 +21,7 @@
       :text="convertMessage(chosenFiles[0])"
       :button="$t('buttons.ConvertNow')"
     />
+    <AlertPopup ref="deletedPopup" img="deleted.svg" :text="$t('preview.Deleted')" />
   </div>
 </template>
 
@@ -46,7 +47,7 @@ export default {
     BottomMenu,
     AlertPopup,
   },
-  props: ["files", "serverFilesLength", "sortable"],
+  props: ["items", "itemsLength", "sortable"],
   computed: {
     ...mapGetters(["fileView", "chosenFiles"]),
   },
@@ -54,13 +55,16 @@ export default {
     window.addEventListener("keydown", (event) => {
       if (event.key === "a" && event.ctrlKey) {
         event.preventDefault();
-        this.$store.commit("setChosenFiles", this.files);
+        this.$store.commit("setChosenFiles", this.items);
       }
     });
   },
   methods: {
     isOldOfficeType(file) {
       return fileTypes.oldOffice.includes(file.type);
+    },
+    isFileDeleted(file) {
+      return file?.isDeleted != undefined && file.isDeleted;
     },
     convertMessage(file) {
       return file ? this.$t(`file.${convertMessageType(file.type)}`) : "";
@@ -71,6 +75,9 @@ export default {
     openPreview(file) {
       this.$refs.preview.open(file);
     },
+    openFailed() {
+      this.$refs.deletedPopup.open();
+    },
     onRightClick({ event, file }) {
       event.preventDefault();
       if (!this.chosenFiles.includes(file)) {
@@ -80,7 +87,10 @@ export default {
     },
     onDblClick({ event, file }) {
       event.preventDefault();
-      if (isFolder(file.type)) {
+
+      if (this.isFileDeleted(file)) {
+        this.openFailed(file);
+      } else if (isFolder(file.type)) {
         this.$router.push({ path: "/folders", query: { id: file.id } });
       } else if (this.isOldOfficeType(file)) {
         this.$refs.convert.open(file);
@@ -101,5 +111,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

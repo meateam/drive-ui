@@ -1,7 +1,7 @@
 <template>
   <PageTemplateStatus
-    :files="files"
-    :serverFilesLength="serverFilesLength"
+    :items="items"
+    :itemsLength="itemsLength"
     :sortable="true"
     :header="$t('pageHeaders.StatusTransferd')"
   />
@@ -18,7 +18,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["files", "serverFilesLength"]),
+    ...mapGetters(["items", "itemsLength"]),
   },
   created() {
     this.$store.dispatch("fetchTransferdStatus");

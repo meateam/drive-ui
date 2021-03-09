@@ -1,29 +1,28 @@
-import { search } from '@/api/search';
-import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from '@/utils/formatFile';
+import { search } from "@/api/search";
+import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const actions = {
-  async fetchSearchFiles({ dispatch, commit, rootState }, query) {
+  async fetchSearchFiles({ dispatch, commit }, query) {
     try {
       const results = await search(query);
-      commit('setFiles', results);
+      commit("setFiles", results);
 
       results.forEach(async (file) => {
         if (file.isExternal) {
-          const networkDest = rootState.configuration.externalNetworkDests.filter(
-            (networkDest) => networkDest.appId == file.appId
-          )[0];
+          const networkDest = getNetworkItemByAppId(file.appId);
           const formattedFile = file;
           formattedFile.owner = await getExternalFileOwnerName(file.ownerId, networkDest.value);
-          commit('updateFile', formattedFile);
+          commit("updateFile", formattedFile);
         } else {
           const formattedFile = file;
           const isOwner = isFileOwner(file.ownerId);
-          formattedFile.owner = isOwner ? 'אני' : await getFileOwnerName(file.ownerId);
-          commit('updateFile', formattedFile);
+          formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+          commit("updateFile", formattedFile);
         }
       });
     } catch (err) {
-      dispatch('onError', err);
+      dispatch("onError", err);
     }
   },
 };

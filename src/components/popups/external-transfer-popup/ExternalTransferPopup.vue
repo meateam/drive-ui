@@ -97,6 +97,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { fileTypes } from "@/config";
+import { getNetworkItemByDest } from "@/utils/networkDest";
 
 import AddInfo from "./steps/AddInfo";
 import Destination from "./steps/Destination";
@@ -159,9 +160,7 @@ export default {
       this.currentStep++;
     },
     onExternalNetworkChange(externalNetworkDest) {
-      var selectedNetwork = this.externalNetworkDests.filter(
-        (networkDest) => networkDest.value == externalNetworkDest
-      )[0];
+      var selectedNetwork = getNetworkItemByDest(externalNetworkDest);
 
       this.isColorChange = selectedNetwork.isDefault;
       this.destHeader = selectedNetwork.label;

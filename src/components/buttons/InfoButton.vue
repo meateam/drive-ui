@@ -2,7 +2,7 @@
   <v-tooltip top v-if="chosenFiles.length === 1" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
-        @click="$refs.popup.open()"
+        @click="isFileDeleted() ? $refs.deletedPopup.open() : $refs.popup.open()"
         v-on="on"
         :icon="icon"
         :class="{ right: !icon }"
@@ -15,6 +15,7 @@
       </v-btn>
     </template>
     <InfoPopup ref="popup" :file="chosenFiles[0]" />
+    <AlertPopup ref="deletedPopup" img="deleted.svg" :text="$t('fileInfo.Deleted')" />
     <span>{{ isFolder() ? $t("buttons.FolderInfo") : $t("buttons.FileInfo") }}</span>
   </v-tooltip>
 </template>
@@ -23,6 +24,7 @@
 import { mapGetters } from "vuex";
 import { fileTypes } from "@/config";
 import InfoPopup from "@/components/popups/info-popup/BaseInfoPopup";
+import AlertPopup from "@/components/popups/BaseAlertPopup";
 
 export default {
   name: "InfoButton",
@@ -34,7 +36,10 @@ export default {
     isFolder() {
       return this.chosenFiles[0].type === fileTypes.folder;
     },
+    isFileDeleted() {
+      return this.chosenFiles[0]?.isDeleted != undefined && this.chosenFiles[0].isDeleted;
+    },
   },
-  components: { InfoPopup },
+  components: { InfoPopup, AlertPopup },
 };
 </script>

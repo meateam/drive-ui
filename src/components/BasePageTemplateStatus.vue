@@ -8,9 +8,9 @@
     </div>
 
     <StatusView
-      v-if="files"
-      :files="files"
-      :serverFilesLength="serverFilesLength"
+      v-if="items"
+      :items="items"
+      :itemsLength="itemsLength"
       :sortable="sortable"
       @page="$emit('page', $event)"
     />
@@ -24,7 +24,7 @@ import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
 export default {
   name: "PageTemplateStatus",
   components: { StatusView, Breadcrumbs },
-  props: ["files", "header", "breadcrumbs", "serverFilesLength", "sortable"],
+  props: ["items", "header", "breadcrumbs", "itemsLength", "sortable"],
 };
 </script>
 

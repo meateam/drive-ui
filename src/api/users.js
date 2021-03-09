@@ -2,6 +2,7 @@ import Axios from "axios";
 import store from "@/store";
 import { formatUser } from "@/utils/formatUser";
 import { baseURL } from "@/config";
+import { getNetworkItemByDest } from "@/utils/networkDest";
 
 /**
  * getUserByID returns the user with the received id
@@ -120,15 +121,11 @@ export async function canBeApproved(userID, approverID, destination) {
 }
 
 export function openApprovalPage(destination) {
-  const networkDest = store.state.configuration.externalNetworkDests.filter(
-    (networkDest) => networkDest.value == destination
-  )[0];
+  const networkDest = getNetworkItemByDest(destination);
   window.open(`${networkDest.approvalUIUrl}`);
 }
 
 export function openAboutMePage(destination) {
-  const networkDest = store.state.configuration.externalNetworkDests.filter(
-    (networkDest) => networkDest.value == destination
-  )[0];
+  const networkDest = getNetworkItemByDest(destination);
   window.open(`${networkDest.approvalUIUrl}/myAccount`);
 }

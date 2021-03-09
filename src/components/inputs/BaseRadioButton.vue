@@ -1,18 +1,12 @@
 <template>
-  <v-radio-group row :background-color="background" v-model="selected" class="v-label">
-    <v-layout row wrap>
-      <v-flex v-for="(item, index) in items" :key="index" class="d-flex justify-space-between mb-3">
-        <v-radio
-          :label="item.label"
-          :value="item.value"
-          :color="item.color"
-          @click="$emit('change', selected)"
-        ></v-radio>
-        <v-chip v-if="info != undefined" small color="#466567" outlined id="label-chip">
-          {{ infoGenerator[index] }}
-        </v-chip>
-      </v-flex>
-    </v-layout>
+  <v-radio-group style="min-width: 200px" row :background-color="background" v-model="selected">
+    <v-flex v-for="(item, index) in items" :key="index" class="mb-3">
+      <v-radio :value="item.value" :color="item.color" @click="$emit('change', selected)">
+        <template v-slot:label>
+          <div>{{ labelGenerator[index] }}</div>
+        </template>
+      </v-radio>
+    </v-flex>
   </v-radio-group>
 </template>
 
@@ -39,15 +33,17 @@ export default {
     },
   },
   computed: {
-    infoGenerator: function() {
+    labelGenerator: function() {
       return this.$props.items.map((item) => {
+        let infos = [];
+
         if (this.$props.info != undefined) {
-          let infos = [];
-          this.$props.info.map((attr) => {
-            infos.push(item[attr]);
-          });
+          infos.push(item.label);
+          this.$props.info.map((attr) => infos.push(item[attr]));
 
           return infos.join("-");
+        } else {
+          return item.label;
         }
       });
     },
@@ -59,13 +55,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-label {
-  width: 100% !important;
-}
-#label-chip {
-  width: 6em;
-  justify-content: center !important;
-}
-</style>

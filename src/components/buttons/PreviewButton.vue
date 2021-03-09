@@ -1,11 +1,11 @@
 <template>
-  <v-tooltip top v-if="chosenFiles.length===1 && isPreviewAvailable()" :disabled="!icon">
+  <v-tooltip top v-if="chosenFiles.length === 1 && isPreviewAvailable()" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
-        @click="$refs.popup.open(chosenFiles[0])"
+        @click="isFileDeleted() ? $refs.deletedPopup.open() : $refs.popup.open(chosenFiles[0])"
         v-on="on"
         :icon="icon"
-        :class="{right: !icon}"
+        :class="{ right: !icon }"
         class="auto-margin"
         id="preview-button"
         text
@@ -15,6 +15,8 @@
       </v-btn>
     </template>
     <Preview ref="popup" />
+    <AlertPopup ref="deletedPopup" img="deleted.svg" :text="$t('preview.Deleted')" />
+
     <span>{{ $t("buttons.Preview") }}</span>
   </v-tooltip>
 </template>
@@ -23,18 +25,22 @@
 import { mapGetters } from "vuex";
 import { canPreview } from "@/utils/canPreview";
 import Preview from "@/components/popups/Preview";
+import AlertPopup from "@/components/popups/BaseAlertPopup";
 
 export default {
   name: "PreviewButton",
   props: ["icon"],
   computed: {
-    ...mapGetters(["chosenFiles"])
+    ...mapGetters(["chosenFiles"]),
   },
   methods: {
     isPreviewAvailable() {
-      return canPreview(this.chosenFiles[0].type);
-    }
+      return this.isFileDeleted() || canPreview(this.chosenFiles[0].type);
+    },
+    isFileDeleted() {
+      return this.chosenFiles[0]?.isDeleted != undefined && this.chosenFiles[0].isDeleted;
+    },
   },
-  components: { Preview }
+  components: { Preview, AlertPopup },
 };
 </script>
