@@ -2,7 +2,7 @@ import Axios from "axios";
 import store from "@/store";
 import { formatUser, formatExternalUser } from "@/utils/formatUser";
 import { baseURL } from "@/config";
-import { AdvancedSearchFlags } from "@/utils/advancedSearchFlags";
+import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
 import i18n from "@/i18n";
 
 /**
@@ -32,26 +32,6 @@ export function getUsersByIDs(userIDs) {
       return getUserByID(id);
     })
   );
-}
-
-/**
- * searchUsersByName gets all the users with the received name
- * @param name is the name of the users
- */
-export async function searchUsersByName(name) {
-  try {
-    const res = await Axios.get(`${baseURL}/api/users`, {
-      params: { partial: name },
-    });
-    const users = res.data.users
-      ? res.data.users.filter((user) => {
-        return user.id !== store.state.auth.user.id;
-      })
-      : [];
-    return Promise.all(users.map((user) => formatUser(user)));
-  } catch (err) {
-    store.dispatch("onError", err);
-  }
 }
 
 /**
@@ -103,23 +83,23 @@ export async function getApproverInfo(userID) {
   return res.data;
 }
 
-export async function getUsers(content, flag) {
+/**
+ * getUsers returns (Find or search) array of users from the users api.
+ * @param {string} content 
+ * @param {AdvancedSearchEnum} searchBy 
+ */
+export async function getUsers(content, searchBy) {
   try {
     const res = await Axios.get(`${baseURL}/api/users`, {
-      params: { partial: content, searchBy: flag },
+      params: { content, searchBy },
       timeout: 5000,
     });
-    let users = [];
-    if (res.data.users) {
-      users = res.data.users.filter((user) => {
+    let users = res.data.users.filter((user) => {
         return user.id !== store.state.auth.user.id;
-      });
-    } else if (res.data.user) {
-      users = [res.data.user];
-    }
-    return Promise.all(users.map((user) => formatUser(user)));
+    });
+    return Promise.all(users.map(formatUser));
   } catch (err) {
-    if (flag !== AdvancedSearchFlags.SearchByNameFlag) {
+    if (searchBy !== AdvancedSearchEnum.SearchByName) {
       const advancedSearchError = new Error(i18n.t("share.AdvancedSearchError"));
       store.dispatch("onError", advancedSearchError);
     } else {

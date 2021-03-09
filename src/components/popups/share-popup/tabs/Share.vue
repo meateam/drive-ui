@@ -9,6 +9,7 @@
         :items="users"
         :isLoading="isLoading"
         :minLength="2"
+        :noResult="'NoResultAdvancedSearch'"
         @select="onUserSelect"
         @type="getUsersByContent"
       />
@@ -84,8 +85,8 @@ import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import Select from "@/components/inputs/BaseSelect";
 import TextButton from "@/components/buttons/BaseTextButton";
 import RadioButtons from "@/components/buttons/AdvancedSearchRadioButtons";
-import { AdvancedSearchToFlag } from "@/utils/convertAdvancedSearchToFlag";
-import { AdvancedSearchFlags } from "@/utils/advancedSearchFlags";
+import { AdvancedSearchToEnum } from "@/utils/convertAdvancedSearchToEnum";
+import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
 
 export default {
   name: "SharePopup",
@@ -129,11 +130,11 @@ export default {
     getUsersByContent(content) {
       if (this.isLoading) return;
       this.isLoading = true;
-      const flag = !this.advancedSearchSelection
-        ? AdvancedSearchFlags.SearchByNameFlag
-        : AdvancedSearchToFlag(this.advancedSearchSelection);
+      const searchBy = !this.advancedSearchSelection
+        ? AdvancedSearchEnum.SearchByName
+        : AdvancedSearchToEnum(this.advancedSearchSelection);
       usersApi
-        .getUsers(content, flag)
+        .getUsers(content, searchBy)
         .then((users) => {
           this.users = users;
         })

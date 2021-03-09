@@ -21,6 +21,7 @@
   },
   "autocomplete": {
     "NoResult": "לא נמצאו תוצאות",
+    "NoResultAdvancedSearch": "לא נמצאו תוצאות. נסו חיפוש מתקדם.",
     "Drive": "חיפוש בדרייב...",
     "Users": "הוסיפו אנשים..."
   },

@@ -38,6 +38,7 @@ export default {
 <style>
 .v-radio.radio > .v-label {
   font-size: smaller;
+  color: rgba(0,0,0,.8);
 }
 .radio .v-icon {
   font-size: 22px;

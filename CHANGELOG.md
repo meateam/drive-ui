@@ -7,9 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [v2.4.0] - 2021-2-17
+## [v3.3.0] - 2021-2-17
 ### Added
-- add advance search
+- FEAT([66](https://github.com/meateam/api-gateway/pull/66)): add advance search by mail/T.
 
 ## [v2.3.0] - 2020-12-24
 ### Added
