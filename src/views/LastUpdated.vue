@@ -1,5 +1,9 @@
 <template>
-  <PageTemplate :files="files" :header="$t('pageHeaders.LastUpdated')" />
+  <PageTemplate
+    :files="files"
+    :sortable="true"
+    :header="$t('pageHeaders.LastUpdated')"
+  />
 </template>
 
 <script>
@@ -10,11 +14,11 @@ export default {
   name: "LastUpdated",
   components: { PageTemplate },
   computed: {
-    ...mapGetters(["files"])
+    ...mapGetters(["files"]),
   },
   created() {
     this.$store.dispatch("fetchLastUpdatedFiles");
-  }
+  },
 };
 </script>
 

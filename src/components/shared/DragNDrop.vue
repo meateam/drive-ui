@@ -71,7 +71,6 @@ export default {
 
           if (this.isFileDrag(event)) {
             this.onDrag = false;
-
             this.getFilesFromDroppedItems(event.dataTransfer, this.currentFolder);
           }
         },

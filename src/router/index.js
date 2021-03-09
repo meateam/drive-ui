@@ -7,7 +7,6 @@ import Unavailable from "@/views/errors/503";
 import DeletedFiles from "@/views/DeletedFiles";
 import Favorites from "@/views/Favorites";
 import QuestionAnswer from "@/views/Q&A";
-import { ssrCompile } from "vue-template-compiler";
 
 Vue.use(Router);
 
@@ -112,7 +111,7 @@ const router = new Router({
 });
 
 router.beforeEach(async (to, from, next) => {
-  await store.dispatch("onRouteChange");
+  await store.dispatch("onRouteChange", from);
   await store.dispatch("onFolderChange", to.query.id);
   next();
 });

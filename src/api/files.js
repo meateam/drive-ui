@@ -63,7 +63,7 @@ export async function isFileExists(fileID) {
 }
 
 export async function getFileByID(fileID) {
-  const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
+  const res = await Axios.get(`${baseURL}/api/files/${fileID}`, {doNotInterfere: true});
   return res.data;
 }
 
@@ -83,7 +83,7 @@ export async function deleteFile(fileID) {
  * multipartUpload create an upload with small size
  * @param file is the file that was chose by the user in the type blob
  */
-export async function multipartUpload({ file, parent }) {
+export async function multipartUpload({ file, parent }, progress) {
   const source = Axios.CancelToken.source();
   const formData = new FormData();
 
@@ -94,13 +94,10 @@ export async function multipartUpload({ file, parent }) {
     formData,
     {
       onUploadProgress: (event) => {
-        store.commit("addLoadingFile", {
-          name: file.name,
-          progress: Math.round((100 * event.loaded) / event.total),
-          source,
-        });
+        progress(file, event, source);
       },
       cancelToken: source.token,
+      doNotInterfere: true,
     }
   );
   const metadata = await getFileByID(res.data);
@@ -111,7 +108,7 @@ export async function multipartUpload({ file, parent }) {
  * resumableUpload is an upload for bigger files
  * @param file is the file to upload
  */
-export async function resumableUpload({ file, parent }) {
+export async function resumableUpload({ file, parent }, progress) {
   const uploadID = await createResumableUpload({ file, parent });
 
   const source = Axios.CancelToken.source();
@@ -124,13 +121,10 @@ export async function resumableUpload({ file, parent }) {
     {
       headers: { "Content-Range": `bytes 0-${file.size - 1}/${file.size}` },
       onUploadProgress: (event) => {
-        store.commit("addLoadingFile", {
-          name: file.name,
-          progress: Math.round((100 * event.loaded) / event.total),
-          source,
-        });
+        progress(file, event, source);
       },
       cancelToken: source.token,
+      doNotInterfere: true,
     }
   );
 
@@ -224,9 +218,9 @@ export function getFileLink(file) {
   if (fileTypes.office.includes(file.type)) {
     return `${store.state.configuration.docsUrl}/api/files/${file.id}`;
   } else if (isFolder(file.type)) {
-    return `${window.location.hostname}/folders?id=${file.id}`;
+    return `https://${window.location.hostname}/folders?id=${file.id}`;
   } else {
-    return `${window.location.hostname}/api/files/${file.id}?alt=media`;
+    return `https://${window.location.hostname}/api/files/${file.id}?alt=media`;
   }
 }
 

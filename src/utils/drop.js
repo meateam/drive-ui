@@ -1,15 +1,9 @@
 import store from '@/store'
+import { Action } from "@/store/modules/upload"
 
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
-    console.log(dataTransfer.items.length)
-    const queue = [];
-    for (const item of dataTransfer.items) {
-        if (item.kind !== 'file') {
-            continue;
-        }
-        queue.push(getEntries(item, parent, true))
-    }
-    await Promise.all(queue)
+    const items = [...dataTransfer.items];
+    await Promise.all(items.filter((item) => item.kind === 'file').map((item) => getEntries(item, parent, true)))
     store.commit("removeLoadingFiles");
     store.dispatch("fetchFiles");
 }
@@ -26,25 +20,24 @@ async function getEntries(entry, parent, isFirstFolder) {
     }
     // return if item is from a browser that does not support webkitGetAsEntry
     if (entry.getAsFile) {
-        console.log("entry.getAsFile")
         return;
     }
 
     if (entry.isFile) {
-        await store.dispatch("uploadFileToFolder", {
+        await store.dispatch(Action.uploadFileToFolder, {
             folder: parent,
             file: await getFile(entry),
         });
-        return console.log("finish upload")
+        return;
     }
 
     if (entry.isDirectory) {
         let res = null;
         if (isFirstFolder) {
-            res = await store.dispatch("createFolder", entry.name)
+            res = await store.dispatch(Action.createFolder, entry.name)
             isFirstFolder = !isFirstFolder;
         } else {
-            res = await store.dispatch("createFolderInFolder", {
+            res = await store.dispatch(Action.createFolderInFolder, {
                 parent: parent,
                 name: entry.name,
             })
@@ -55,11 +48,11 @@ async function getEntries(entry, parent, isFirstFolder) {
         let first = true;
         for (const e of entries) {
             if (!e && first) {
-                return console.log("empty folder");
+                return;
             }
             first = false;
             if (!e) {
-                return console.log("finish read all files");
+                return;
             }
             await getEntries(e, res, isFirstFolder)
         }

@@ -1,6 +1,5 @@
 import * as filesApi from "@/api/files";
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
-import { getFileType } from "@/utils/getFileType";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { isOwner } from "@/utils/isOwner";
@@ -169,12 +168,26 @@ const actions = {
       metadata = await filesApi.multipartUpload({
         file: file,
         parent: state.currentFolder,
-      });
+      },
+        (file, event, source) => {
+          commit("addLoadingFile", {
+            name: file.name,
+            progress: Math.round((100 * event.loaded) / event.total),
+            source,
+          });
+        });
     } else {
       metadata = await filesApi.resumableUpload({
         file: file,
         parent: state.currentFolder,
-      });
+      },
+        (file, event, source) => {
+          commit("addLoadingFile", {
+            name: file.name,
+            progress: Math.round((100 * event.loaded) / event.total),
+            source,
+          });
+        });
     }
 
     metadata.owner = "אני";
@@ -353,9 +366,7 @@ const actions = {
   },
   async editFile({ commit, dispatch }, { file, name }) {
     try {
-      const fileType = getFileType(file.name);
-      const newName = `${name}.${fileType}`;
-      const res = await filesApi.editFile({ file, name: newName });
+      const res = await filesApi.editFile({ file, name });
 
       commit("onFileRename", res);
       commit("onSuccess", "success.Edit");
@@ -432,8 +443,7 @@ const mutations = {
       state.files.includes(file)
     )
       return;
-
-    state.files.push(file);
+      state.files.push(file);
   },
   setChosenFiles: (state, files) => {
     state.chosenFiles = files;

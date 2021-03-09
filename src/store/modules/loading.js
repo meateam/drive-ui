@@ -1,25 +1,32 @@
 const state = {
   onGoingRequests: 0,
   isLoading: false,
+  isUploadFolder: false,
   loadingFiles: [],
   pendingGetRequests: [],
 };
 
 const getters = {
   isLoading: (state) => state.isLoading,
+  isUploadFolder: (state) => state.isUploadFolder,
   loadingFiles: (state) => state.loadingFiles,
   pendingGetRequests: (state) => state.pendingGetRequests,
 };
 
 const actions = {
-  onRouteChange() {
-    state.pendingGetRequests.forEach(source => {
-      source.cancel();
-    })
+  onRouteChange(_, from) {
+    if (from.path !== "/") {
+      state.pendingGetRequests.forEach(source => {
+        source.cancel();
+      });
+    }
   }
 }
 
 const mutations = {
+  setUploadFolder: (state, status) => {
+    state.isUploadFolder = status;
+  },
   addLoadingReq: (state) => {
     if (state.loadingFiles.length) return;
 

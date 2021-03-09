@@ -1,43 +1,107 @@
 <template>
   <div>
-    <div v-if="user.approvalInfo.canApprove">
-      <p class="popup-text align-center">
-        {{ $t("externalTransfer.CanApprove") }}
-      </p>
+    <div v-if="user.approverInfo.isAdmin">
+      <v-row class="ma-1" no-gutters justify="center">
+        <p class="pa-0 popup-text align-center">
+          {{ $t("externalTransfer.CanApprove") }}
+        </p>
+        <v-btn text small @click="onAboutMeClick">
+          <p>{{ $t("buttons.AboutMe") }}</p>
+        </v-btn>
+      </v-row>
     </div>
+
+    <div v-else-if="user.approverInfo.noUnit && !user.approverInfo.isApprover">
+      <v-row class="ma-1" no-gutters justify="center">
+        <p class="pa-0 popup-text align-center">
+          {{ $t("externalTransfer.NoUnit") }}
+        </p>
+
+        <v-btn text small @click="onAboutMeClick">
+          <p>{{ $t("buttons.AboutMe") }}</p>
+        </v-btn>
+      </v-row>
+    </div>
+
+    <div v-else-if="user.approverInfo.isBlocked">
+      <v-row class="ma-1" no-gutters justify="center">
+        <p class="pa-0 popup-text align-center">
+          {{ $t("externalTransfer.IsBlocked") }}
+        </p>
+        <v-btn text small @click="onAboutMeClick">
+          <p>{{ $t("buttons.AboutMe") }}</p>
+        </v-btn>
+      </v-row>
+    </div>
+
+    <div v-else-if="user.approverInfo.isApprover">
+      <v-row class="ma-1" no-gutters justify="center">
+        <p class="pa-0 popup-text align-center">
+          {{ $t("externalTransfer.CanApprove") }}
+        </p>
+        <v-btn text small @click="onAboutMeClick">
+          <p>{{ $t("buttons.AboutMe") }}</p>
+        </v-btn>
+      </v-row>
+    </div>
+
     <div v-else>
       <div>
-        <div id="approval-header" class="space-between">
-          <p class="popup-text">{{ $t("externalTransfer.ApprovalChoose") }}</p>
-          <v-tooltip top color="#2c3448">
-            <template v-slot:activator="{ on }">
-              <v-icon color="#2c3448" v-on="on">info</v-icon>
-            </template>
+        <div id="approval-header">
+          <v-row
+            class="ma-1 popup-text"
+            no-gutters
+            justify="center"
+            align="center"
+          >
+            <p>
+              {{ $t("externalTransfer.ApprovalChoose") }}
+            </p>
+            <v-spacer />
+            <v-btn
+              class="mx-1"
+              rounded
+              color="#2c3448"
+              dark
+              x-small
+              @click="onAboutMeClick"
+            >
+              <v-icon small>person</v-icon>
+              <p>{{ $t("buttons.AboutMe") }}</p>
+            </v-btn>
 
-            <div class="align-center">
-              <p>{{ $t("externalTransfer.ApprovalInstructions") }}</p>
-              <div v-if="!user.approvalInfo.requestFaild">
-                <p v-if="user.approvalInfo.unit">
-                  {{ $t("externexternalTransferalShare.ApproverUnit") }}
-                  <span class="bold">{{ user.approvalInfo.unit }}</span>
-                </p>
-                <p v-if="user.approvalInfo.ranks">
-                  , {{ $t("externalTransfer.ApproverRanks") }}
-                  <span class="bold">{{ getRanks() }}</span>
-                </p>
-                <p class="bold">{{ whiteListText }}</p>
+            <v-tooltip top color="#2c3448">
+              <template v-slot:activator="{ on }">
+                <v-icon color="#2c3448" v-on="on">info</v-icon>
+              </template>
+
+              <div class="align-center">
+                <p>{{ $t("externalTransfer.ApprovalInstructions") }}</p>
+                <div v-if="!user.approverInfo.requestFaild">
+                  <p v-if="user.approverInfo.unit">
+                    {{ $t("externalTransfer.ApproverUnit") }}
+                    <span class="bold">{{ user.approverInfo.unit.name }}</span>
+                  </p>
+                  <p v-if="user.approverInfo.unit.approvers">
+                    {{ $t("externalTransfer.ApproverRanks") }}
+                    <span class="bold">{{
+                      getRanks(user.approverInfo.unit.approvers)
+                    }}</span>
+                  </p>
+                  <p class="bold">{{ whiteListText }}</p>
+                </div>
               </div>
-            </div>
-          </v-tooltip>
+            </v-tooltip>
+          </v-row>
         </div>
 
         <v-checkbox
-          v-if="user.approvalInfo.requestFaild"
+          v-if="user.approverInfo.requestFaild"
           class="space-right"
           :disabled="selectedApprovals.length !== 0"
           :label="$t('externalTransfer.IAmApprover')"
           color="#035c64"
-          v-model="canApprove"
+          v-model="iAmApprover"
         ></v-checkbox>
 
         <Autocomplete
@@ -51,6 +115,25 @@
           @type="getUsersByName"
         />
       </div>
+
+      <div v-if="blockedApprover">
+        <p id="cant-approve">
+          {{
+            $t("externalTransfer.BlockedApprover", {
+              name: blockedApprover.name,
+            })
+          }}
+        </p>
+        <v-btn
+          text
+          small
+          @click="$refs.support.open(blockedApprover)"
+          id="more-info-button"
+        >
+          <p>{{ $t("buttons.MoreInfo") }}</p>
+        </v-btn>
+      </div>
+
       <v-chip-group show-arrows>
         <Chips
           v-for="user in selectedApprovals"
@@ -69,12 +152,16 @@
       />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>
+
+    <DropboxSupportPopup ref="support" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import * as usersApi from "@/api/users";
+
+import DropboxSupportPopup from "@/components/popups/external-transfer-popup/DropboxSupportPopup";
 import Chips from "@/components/shared/BaseChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
@@ -82,29 +169,52 @@ import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "Approval",
-  components: { Chips, SubmitButton, Autocomplete, TextButton },
+  components: {
+    Chips,
+    SubmitButton,
+    Autocomplete,
+    TextButton,
+    DropboxSupportPopup,
+  },
   data() {
     return {
       users: [],
-      isLoading: false,
       selectedApprovals: [],
+      blockedApprover: undefined,
+      isLoading: false,
       disabled: true,
-      canApprove: false,
+      iAmApprover: false,
     };
+  },
+  props: {
+    reset: Boolean,
   },
   computed: {
     ...mapGetters(["user", "whiteListText"]),
   },
   watch: {
-    selectedApprovals: function (users) {
-      users.length ? (this.disabled = false) : (this.disabled = true);
+    reset() {
+      this.users = [];
+      this.selectedApprovals = [];
+      this.blockedApprover = undefined;
+      this.isLoading = false;
+      this.iAmApprover = false;
+
+      this.disabled = !(
+        this.user.approverInfo.isAdmin ||
+        (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
+      );
     },
-    canApprove: function (canApprove) {
-      canApprove ? (this.disabled = false) : (this.disabled = true);
+    iAmApprover: function (value) {
+      value ? (this.disabled = false) : (this.disabled = true);
     },
   },
   created() {
-    this.disabled = !this.user.approvalInfo.canApprove;
+    this.disabled =
+      this.user.approverInfo.isAdmin ||
+      (this.user.approverInfo.isApprover && !this.user.approverInfo.isBlocked)
+        ? false
+        : true;
   },
   methods: {
     getUsersByName(name) {
@@ -123,23 +233,48 @@ export default {
         this.selectedApprovals.map((user) => user.id)
       );
     },
-    getRanks() {
-      return this.user.approvalInfo.ranks.toString().split(",").join(", ");
+    getRanks(ranks) {
+      return ranks.toString().split(",").join(", ");
     },
-    onSelect(user) {
+    async onSelect(approver) {
+      this.blockedApprover = undefined;
       this.users = [];
-      if (!user) return;
-      else if (this.isUserExists(this.selectedApprovals, user.id))
-        this.remove(user);
-      else this.selectedApprovals.push(user);
+      if (!approver || this.isUserExists(this.selectedApprovals, approver.id)) {
+        this.disabled = true;
+        return;
+      } else {
+        const canApprove = await usersApi.canBeApproved(
+          this.user.id,
+          approver.id
+        );
+
+        if (canApprove.canApproveToUser) {
+          this.selectedApprovals.push(approver);
+          this.disabled = false;
+        } else if (canApprove.cantApproveReasons) {
+          this.blockedApprover = {
+            name: approver.fullName,
+            reasons: canApprove.cantApproveReasons,
+          };
+          if (this.selectedApprovals.length == 0) {
+            this.disabled = true;
+          }
+        }
+      }
     },
     onRemove(item) {
       this.selectedApprovals = this.selectedApprovals.filter((user) => {
         return user.id !== item.id;
       });
+      if (this.selectedApprovals.length == 0) {
+        this.disabled = true;
+      }
     },
     isUserExists(users, id) {
       return users.some((user) => user.id === id);
+    },
+    onAboutMeClick() {
+      usersApi.openAboutMePage();
     },
   },
 };
@@ -148,5 +283,13 @@ export default {
 <style scoped>
 #approval-header {
   padding: 3px;
+}
+#cant-approve {
+  color: red;
+  text-align: center;
+}
+#more-info-button {
+  margin: auto;
+  display: block;
 }
 </style>
