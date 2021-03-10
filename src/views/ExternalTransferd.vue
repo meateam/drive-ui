@@ -39,7 +39,7 @@ export default {
     },
   },
   created() {
-    this.currentNetworkDest = this.externalNetworkDests.filter((networkDest) => networkDest.appID == this.appID)[0];
+    this.currentNetworkDest = getNetworkItemByAppId(this.appID);
     this.headerNetwork = this.currentNetworkDest.label;
 
     this.$store.dispatch("fetchExternalTransferdFiles", {

@@ -41,7 +41,7 @@ export async function fetchSharedFiles(pageNum) {
  * @param pageNum - for pagination, the page number
  * @param appId - appId, external sources app
  */
-export async function fetchExternalTransferdFiles({ pageNum, appId }) {
+export async function fetchExternalTransferdFiles( pageNum, appId ) {
   const res = await Axios.get(`${baseURL}/api/files?shares&appId=${appId}&pageSize=${pageSize}&pageNum=${pageNum}`);
   const permissions = res.data;
   return permissions;

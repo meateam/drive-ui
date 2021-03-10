@@ -6,7 +6,6 @@ import { fileTypes } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
-import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const state = {
   files: [],
@@ -66,18 +65,17 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async fetchExternalTransferdFiles({ commit, dispatch }, pageNum, appId) {
+  async fetchExternalTransferdFiles({ commit, dispatch }, { pageNum, appId, dest }) {
     try {
       const permissions = await filesApi.fetchExternalTransferdFiles(pageNum || 0, appId);
       const files = permissions.files;
-      const networkDest = getNetworkItemByAppId(appId);
 
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
       for (const file of files) {
         const formattedFile = file;
-        formattedFile.owner = await getExternalFileOwnerName(file.ownerId, networkDest.value);
+        formattedFile.owner = await getExternalFileOwnerName(file.ownerId, dest);
         commit("updateFile", formattedFile);
       }
     } catch (err) {

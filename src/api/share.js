@@ -38,7 +38,8 @@ export async function getExternalPermissions(fileID) {
       res.data.map((transferInfo) => {
         let isFailed = true;
 
-        if (store.getters.statusSuccessType === transferInfo.status.type) isFailed = false;
+        if (store.getters.statusSuccessType === transferInfo.status[transferInfo.status.length - 1].type)
+          isFailed = false;
 
         transferInfo.to.map((destUser) => {
           destUser.isFailed = isFailed;

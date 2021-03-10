@@ -99,6 +99,7 @@ export default {
           text: this.$t("file.TransferDestUsers"),
           value: "to",
           sortable: this.sortable,
+          width: "100px",
           align: "center",
         },
         { text: this.$t("file.TransferCreatedAt"), value: "createdAt", sortable: this.sortable },
