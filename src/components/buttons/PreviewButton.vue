@@ -15,7 +15,7 @@
       </v-btn>
     </template>
     <Preview ref="popup" />
-    <AlertPopup ref="deletedPopup" img="deleted.svg" :text="$t('preview.Deleted')" />
+    <AlertPopup ref="deletedPopup" cancelButton="true" img="deleted.svg" :text="$t('preview.Deleted')" />
 
     <span>{{ $t("buttons.Preview") }}</span>
   </v-tooltip>

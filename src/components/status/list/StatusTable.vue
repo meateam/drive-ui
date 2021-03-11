@@ -25,17 +25,18 @@
           <td>{{ item.classification || "-" }}</td>
           <td>{{ item.file.owner || "???" }}</td>
           <td>
-            <v-sheet id="sheet" class="mx-auto">
+            <v-sheet id="sheet" class="mx-auto" v-if="item.to && item.to.length > 0">
               <v-slide-group show-arrows id="slide">
-                <v-slide-item v-for="(user, index) in item.to" v-bind:key="index">
+                <v-slide-item id="slide-item" v-for="(user, index) in item.to" v-bind:key="index">
                   <UserAvatar :key="user.id" :user="user"/></v-slide-item
               ></v-slide-group>
             </v-sheet>
+            <h2 v-else>-</h2>
           </td>
 
           <td class="ltr-td">{{ formatFileDate(item.createdAt) }}</td>
           <td class="ltr-td">
-            <BaseStepper v-if="item.status.length > 0" :items="item.status" />
+            <BaseStepper v-if="item.status && item.status.length > 0" :items="item.status" />
             <h2 v-else>-</h2>
           </td>
           <td class="ltr-td">{{ getNetworkLabel(item.destination) }}</td>

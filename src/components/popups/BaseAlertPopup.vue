@@ -4,7 +4,7 @@
       <img class="popup-image auto-margin" :src="require(`@/assets/images/${img}`)" />
       <p id="title">{{ text }}</p>
       <v-card-actions id="actions">
-        <TextButton @click="onCancel" :label="$t('buttons.Cancel')" />
+        <TextButton v-if="cancelButton == undefined || !cancelButton" @click="onCancel" :label="$t('buttons.Cancel')" />
         <SubmitButton v-if="button" @click="onConfirm" :label="button" />
       </v-card-actions>
     </v-card>
@@ -24,7 +24,7 @@ export default {
       data: undefined,
     };
   },
-  props: ["img", "text", "button"],
+  props: ["img", "text", "button", "cancelButton"],
   methods: {
     open(data) {
       this.data = data;

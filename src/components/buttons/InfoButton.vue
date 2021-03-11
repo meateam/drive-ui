@@ -15,7 +15,7 @@
       </v-btn>
     </template>
     <InfoPopup ref="popup" :file="chosenFiles[0]" />
-    <AlertPopup ref="deletedPopup" img="deleted.svg" :text="$t('fileInfo.Deleted')" />
+    <AlertPopup ref="deletedPopup" cancelButton="true" img="deleted.svg" :text="$t('fileInfo.Deleted')" />
     <span>{{ isFolder() ? $t("buttons.FolderInfo") : $t("buttons.FileInfo") }}</span>
   </v-tooltip>
 </template>

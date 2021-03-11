@@ -21,7 +21,7 @@
       :text="convertMessage(chosenFiles[0])"
       :button="$t('buttons.ConvertNow')"
     />
-    <AlertPopup ref="deletedPopup" img="deleted.svg" :text="$t('preview.Deleted')" />
+    <AlertPopup ref="deletedPopup" cancelButton="true" img="deleted.svg" :text="$t('preview.Deleted')" />
   </div>
 </template>
 
