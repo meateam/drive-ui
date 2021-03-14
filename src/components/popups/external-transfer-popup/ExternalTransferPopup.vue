@@ -48,15 +48,26 @@
 
             <v-stepper-items>
               <v-stepper-content step="1">
-                <Destination @continue="onDestinationComplete" />
+                <Destination
+                  :reset="resetPopup"
+                  @continue="onDestinationComplete"
+                />
               </v-stepper-content>
 
               <v-stepper-content step="2">
-                <Approval @continue="onApprovalComplete" @back="goBack" />
+                <Approval
+                  :reset="resetPopup"
+                  @continue="onApprovalComplete"
+                  @back="goBack"
+                />
               </v-stepper-content>
 
               <v-stepper-content step="3">
-                <AddInfo @continue="onInfoComplete" @back="goBack" />
+                <AddInfo
+                  :reset="resetPopup"
+                  @continue="onInfoComplete"
+                  @back="goBack"
+                />
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
@@ -90,9 +101,16 @@ export default {
       approvers: [],
       classification: undefined,
       info: undefined,
+      resetPopup: false,
     };
   },
   props: ["file"],
+  watch: {
+    dialog() {
+      this.resetPopup = !this.resetPopup;
+      this.currentStep = 1;
+    },
+  },
   methods: {
     open() {
       this.dialog = true;
@@ -121,10 +139,9 @@ export default {
     goBack() {
       this.currentStep--;
     },
-    onComplete() {
+    async onComplete() {
       this.currentStep = 1;
-      this.dialog = false;
-      this.$emit("onShare", {
+      await this.$emit("onShare", {
         users: this.destination,
         fileID: this.file.id,
         fileName: this.file.name,
@@ -132,6 +149,7 @@ export default {
         classification: this.classification,
         approvers: this.approvers,
       });
+      this.dialog = false;
     },
   },
 };

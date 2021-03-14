@@ -12,10 +12,12 @@ const getters = {
 };
 
 const actions = {
-  onRouteChange() {
-    state.pendingGetRequests.forEach(source => {
-      source.cancel();
-    })
+  onRouteChange(_, from) {
+    if (from.path !== "/") {
+      state.pendingGetRequests.forEach(source => {
+        source.cancel();
+      });
+    }
   }
 }
 

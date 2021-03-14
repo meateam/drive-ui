@@ -17,10 +17,7 @@
       v-if="files"
       :files="files"
       :serverFilesLength="serverFilesLength"
-<<<<<<< HEAD
       :sortable="sortable"
-=======
->>>>>>> 5292f17bfcf2c1c4f9344cfad4b118ce62389116
       @page="$emit('page', $event)"
     />
 
@@ -39,11 +36,7 @@ import DragNDrop from "@/components/shared/DragNDrop";
 export default {
   name: "PageTemplate",
   components: { FileView, FileViewButton, FabButton, DragNDrop, Breadcrumbs },
-<<<<<<< HEAD
   props: ["files", "header", "upload", "breadcrumbs", "serverFilesLength", "sortable"],
-=======
-  props: ["files", "header", "upload", "breadcrumbs", "serverFilesLength"],
->>>>>>> 5292f17bfcf2c1c4f9344cfad4b118ce62389116
 };
 </script>
 
