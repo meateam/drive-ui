@@ -73,3 +73,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.adapt-color-white {
+  filter: invert(99%) sepia(1%) saturate(0%) hue-rotate(154deg) brightness(103%) contrast(102%);
+}
+</style>

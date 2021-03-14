@@ -222,7 +222,7 @@ export async function editOnline(fileID) {
 
 export async function editLocally(fileID) {
   pushUpdatedFile(fileID);
-  window.open(`${store.state.configuration.localOfficeUrl}/api/files/${fileID}`);
+  window.open(`${store.state.configuration.localOfficeUrl}/api/localoffice/${fileID}`);
 }
 
 export function getFileLink(file) {
