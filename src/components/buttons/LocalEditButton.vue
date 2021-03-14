@@ -14,7 +14,7 @@
         text
         :class="{ right: !icon }"
       >
-        <img class="fab-icon" src="@/assets/icons/new3.svg" />
+        <img class="fab-icon adapt-color-white" src="@/assets/icons/screen.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.EditLocally") }}</p>
       </v-btn>
     </template>
