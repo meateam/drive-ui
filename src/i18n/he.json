@@ -63,7 +63,8 @@
     "CopyLink": "העתקת הקישור",
     "FileInfo": "פרטי הקובץ",
     "FolderInfo": "פרטי התיקייה",
-    "EditOnline": "ערוך בזמן אמת",
+    "EditOnline": "עריכת online",
+    "EditLocally": "עריכה מקומית",
     "CreateFile": "צור קובץ חדש",
     "Edit": "שינוי שם",
     "DeleteNow": "מחק",
@@ -139,6 +140,7 @@
     "link": {
       "FolderLink": "קישור לתיקייה",
       "EditOnlineLink": "קישור לעריכה במקביל",
+      "EditLocallyLink": "קישור לעריכה לוקאלית",
       "DownloadLink": "קישור להורדה",
       "Copy": "העתקת הקישור",
       "OnlyShare": "שים לב! הקישור יעבוד אך ורק לאנשים בעלי הרשאות על קובץ זה"
