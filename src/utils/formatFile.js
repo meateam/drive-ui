@@ -16,8 +16,11 @@ export async function getFileOwnerName(ownerID) {
 }
 
 export async function getExternalFileOwnerName(ownerID, destination) {
-  const user = await usersApi.getExternalUserByID(ownerID, destination).catch(() => {
-    return;
-  });
+  const user =
+    store.state.directonary.usersDictionary[ownerID] ||
+    (await usersApi.getExternalUserByID(ownerID, destination).catch(() => {
+      return;
+    }));
+
   return user.fullName;
 }

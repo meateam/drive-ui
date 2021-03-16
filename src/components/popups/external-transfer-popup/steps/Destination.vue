@@ -26,7 +26,7 @@
       <v-chip-group show-arrows>
         <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
       </v-chip-group>
-      <v-card-actions class="popup-confirm d-flex justify-space-between mb-6">
+      <v-card-actions class="popup-confirm">
         <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
         <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
       </v-card-actions>

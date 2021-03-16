@@ -4,11 +4,11 @@
   "Error": "שגיאה",
   "sidenav": {
     "MyDrive": "הדרייב שלי",
-    "ExternalTransferIncoming": "התקבל מרשת חיצונית",
-    "ExternalTransferIncomingName": " התקבל מרשת {networkName}",
-    "ExternalTransferOutgoing": "נשלח לרשת חיצונית",
-    "ExternalTransferOutgoingName": "אישורים מ{networkName}",
-    "ExternalTransferOutgoingStatus": "סטאטוס קבצים שהועברו",
+    "ExternalTransferIncoming": "התקבל ממרחב חיצוני",
+    "ExternalTransferIncomingName": "התקבל מ{networkName}",
+    "ExternalTransferOutgoing": "נשלח למרחב חיצוני",
+    "ExternalTransferOutgoingName": "אישורים ל{networkName}",
+    "ExternalTransferOutgoingStatus": "סטטוס קבצים שהועברו",
     "ExternalFiles": "שיתופים חיצוניים",
     "SharedWithMe": "שותפו איתי",
     "Deleted": "קבצים שנמחקו",
@@ -32,8 +32,8 @@
   "pageHeaders": {
     "SharedWithMe": "שותפו איתי",
     "LastUpdated": "שונו לאחרונה",
-    "ExternalTransferDefault": "חיצונית",
-    "ExternalTransferd": "קבצים שהתקבלו מרשת {networkName}",
+    "ExternalTransferDefault": "ממרחב חיצוני",
+    "ExternalTransferd": "קבצים שהתקבלו מ{networkName}",
     "StatusTransferd": "סטטוס קבצים שהועברו",
     "MyDrive": "הדרייב שלי",
     "Search": "תוצאות החיפוש"
@@ -58,14 +58,14 @@
     "TransferCreatedAt": "תאריך העברה",
     "TransferClassification": "סיווג",
     "TransferStatus": "סטטוס",
-    "TransferDestination": "רשת מקבלת",
-    "TransferDestUsers": "נמנענים"
+    "TransferDestination": "מרחב יעד",
+    "TransferDestUsers": "נמענים"
   },
   "buttons": {
     "UploadFile": "העלה קובץ",
     "NewFolder": "צור תיקייה",
     "Move": "העבר אל",
-    "ExternalTransfer": "העברה לרשת חיצונית",
+    "ExternalTransfer": "העברה למרחב חיצוני",
     "Delete": "מחיקה",
     "Share": "שיתוף",
     "AddShare": "שיתוף אנשים",
@@ -111,6 +111,9 @@
     "Unavailable": "התצוגה המקדימה אינה זמינה",
     "Deleted": "הקובץ נמחק מהדרייב, לא ניתן לראות תצוגה מקדימה!"
   },
+  "status": {
+    "Status": "סטטוס העברה"
+  },
   "folder": {
     "Upload": "יצירת תיקייה חדשה",
     "Name": "שם התיקייה",
@@ -141,7 +144,7 @@
     "TransferCreatedAt": "תאריך העברה",
     "TransferClassification": "סיווג",
     "TransferStatus": "סטטוס",
-    "TransferDestination": "רשת מקבלת",
+    "TransferDestination": "מרחב מקבל",
     "Deleted": "הקובץ נמחק מהדרייב, לא ניתן לראות פרטים על הקובץ!"
   },
   "share": {
@@ -164,10 +167,10 @@
     }
   },
   "externalTransfer": {
-    "Header": "העברה לרשת {dest}",
-    "HeaderDestDefault": "חיצונית",
-    "NetworkDest": "רשת יעד",
-    "NetworkDestChoose": "בחר רשת יעד",
+    "Header": "העברה ל{dest}",
+    "HeaderDestDefault": "מרחב חיצוני",
+    "NetworkDest": "מרחב יעד",
+    "NetworkDestChoose": "בחר מרחב יעד",
     "Destination": "נמענים",
     "Approval": "מאשרים",
     "AddInfo": "מידע נוסף",
@@ -230,7 +233,7 @@
   "support": {
     "Header": "צור קשר",
     "DriveSupport": "לתמיכה במערכת הדרייב",
-    "DropboxSupport": "לתמיכה בקבלת/העברת קבצים לרשת חיצונית"
+    "DropboxSupport": "לתמיכה בקבלת/העברת קבצים למרחב חיצוני"
   },
   "errors": {
     "GoBack": "חזור הביתה",
@@ -254,7 +257,7 @@
       "1": "לוגו ועיצוב חדשני",
       "2": "עריכת מסמכים אונליין לקבצי docx, pptx, xlsx",
       "3": "גישה למסמכים ששונו לאחרונה",
-      "4": "לשונית לצפייה במסמכים שהתקבלו מרשת חיצונית"
+      "4": "לשונית לצפייה במסמכים שהתקבלו ממרחב חיצוני"
     }
   }
 }

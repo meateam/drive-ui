@@ -21,7 +21,7 @@
       </p>
     </div>
 
-    <v-card-actions class="popup-confirm d-flex justify-space-between mb-6">
+    <v-card-actions class="popup-confirm">
       <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
     </v-card-actions>

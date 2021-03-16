@@ -18,24 +18,27 @@ const actions = {
       let outcomingTransfersFiles = [];
 
       if (transfers) {
-        await Promise.all(
-          transfers.map(async (transferInfo) => {
-            let file;
-            try {
-              file = await filesApi.getFileByID(transferInfo.fileID);
-              transferInfo.file = file;
-            } catch (error) {
-              transferInfo.file = {};
-              transferInfo.file.name = transferInfo.fileName;
-              transferInfo.file.isDeleted = true;
-            }
+        for (const transferInfo of transfers) {
+          let file;
+          try {
+            // TODO : change fetch commit before
+            file = await filesApi.getFileByID(transferInfo.fileID);
+            transferInfo.file = file;
+          } catch (error) {
+            transferInfo.file = {};
+            transferInfo.file.name = transferInfo.fileName;
+            transferInfo.file.isDeleted = true;
+          }
 
-            transferInfo.file.isReadOnly = true;
-            transferInfo.file.owner = await getFileOwnerName(transferInfo.fileOwnerID);
-            outcomingTransfersFiles.push(transferInfo);
-          })
-        );
+          transferInfo.file.status = transferInfo.status;
+          transferInfo.file.transferId = transferInfo.id;
+
+          transferInfo.file.isReadOnly = true;
+          transferInfo.file.owner = await getFileOwnerName(transferInfo.fileOwnerID);
+          outcomingTransfersFiles.push(transferInfo);
+        }
       }
+
       commit("setItems", outcomingTransfersFiles);
       commit("setItemsLength", outcomingTransfersFiles.itemCount);
     } catch (err) {

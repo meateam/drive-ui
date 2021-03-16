@@ -63,6 +63,8 @@ export async function getExternalUserByID(userID, destination) {
       headers: { destination: destination },
     });
     const user = formatUser(res.data.user);
+    store.commit("addUserToictionary", user);
+
     return user;
   } catch (err) {
     store.dispatch("onError", err);

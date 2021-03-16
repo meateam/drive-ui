@@ -16,12 +16,14 @@
     >
       <template v-slot:item="{ item }">
         <tr
-          @click.exact.stop="$emit('fileclick', item.file)"
+          :class="{ 'selected-list-item': selectedTransfer === item.id }"
           @contextmenu.prevent="onRightClick($event, item.file)"
-          @dblclick.prevent="onDblClick($event, item.file)"
+          @click.exact.stop="$emit('fileclick', item.file)"
         >
           <td id="file-icon"><FileTypeIcon :file="item.file" :size="30" /></td>
-          <td class="file-name"><BaseTooltip :value="item.fileName" /></td>
+          <td class="file-name" @dblclick.prevent="onDblClick($event, item.file)">
+            <BaseTooltip :value="item.fileName" />
+          </td>
           <td>{{ item.classification || "-" }}</td>
           <td>{{ item.file.owner || "???" }}</td>
           <td>
@@ -35,8 +37,13 @@
           </td>
 
           <td class="ltr-td">{{ formatFileDate(item.createdAt) }}</td>
-          <td class="ltr-td">
-            <BaseStepper v-if="item.status && item.status.length > 0" :items="item.status" />
+          <td class="ltr-td" @dblclick.prevent="item.status.length > 0 && onStatusDblClick($event, item.status)">
+            <BaseStepper
+              v-if="item.status && item.status.length > 0"
+              :items="item.status"
+              :isShowLabels="false"
+              :isVertical="false"
+            />
             <h2 v-else>-</h2>
           </td>
           <td class="ltr-td">{{ getNetworkLabel(item.destination) }}</td>
@@ -71,7 +78,7 @@ import { getNetworkItemByDest } from "@/utils/networkDest";
 export default {
   name: "StatusTable",
   props: ["items", "itemsLength", "sortable"],
-  components: { FileTypeIcon, BaseStepper, BaseTooltip, UserAvatar },
+  components: { FileTypeIcon, BaseTooltip, UserAvatar, BaseStepper },
   computed: {
     ...mapGetters(["chosenFiles", "pageNum"]),
     page: {
@@ -107,6 +114,7 @@ export default {
         { text: this.$t("file.TransferStatus"), value: "status", sortable: this.sortable },
         { text: this.$t("file.TransferDestination"), value: "destination", sortable: this.sortable },
       ],
+      selectedTransfer: null,
     };
   },
   methods: {
@@ -126,6 +134,9 @@ export default {
       if (!this.selected.includes(file)) this.selected.push(file);
       else this.selected = this.selected.filter((item) => item !== file);
     },
+    onStatusDblClick(event, status) {
+      this.$emit("statusclick", status);
+    },
     onFileClick(file) {
       this.selected = [file];
     },
@@ -133,6 +144,7 @@ export default {
   watch: {
     selected: function(files) {
       this.$store.commit("setChosenFiles", files);
+      this.selectedTransfer = files[0].transferId;
     },
     chosenFiles: function(files) {
       this.selected = files;

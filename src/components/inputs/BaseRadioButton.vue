@@ -1,5 +1,5 @@
 <template>
-  <v-radio-group style="min-width: 200px" row :background-color="background" v-model="selected">
+  <v-radio-group style="min-width: 300px" row :background-color="background" v-model="selected">
     <v-flex v-for="(item, index) in items" :key="index" class="mb-3">
       <v-radio :value="item.value" :color="item.color" @click="$emit('change', selected)">
         <template v-slot:label>

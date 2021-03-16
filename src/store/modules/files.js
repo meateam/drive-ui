@@ -73,11 +73,11 @@ const actions = {
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
-      files.forEach(async (file) => {
+      for (const file of files) {
         const formattedFile = file;
         formattedFile.owner = await getExternalFileOwnerName(file.ownerId, dest);
         commit("updateFile", formattedFile);
-      });
+      }
     } catch (err) {
       dispatch("onError", err);
     }

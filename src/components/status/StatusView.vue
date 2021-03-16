@@ -9,6 +9,7 @@
       @dblclick="onDblClick"
       @ctrlclick="onCtrlCLick"
       @fileclick="onFileClick"
+      @statusclick="onStatusClick"
     />
     <FileContextMenu ref="contextmenu" :files="chosenFiles" />
     <BottomMenu :chosenFiles="chosenFiles" />
@@ -22,6 +23,7 @@
       :button="$t('buttons.ConvertNow')"
     />
     <AlertPopup ref="deletedPopup" cancelButton="true" img="deleted.svg" :text="$t('preview.Deleted')" />
+    <StatusInfoPopup ref="statusPopup" />
   </div>
 </template>
 
@@ -34,6 +36,7 @@ import * as filesApi from "@/api/files";
 
 import StatusTable from "@/components/status/list/StatusTable";
 import AlertPopup from "@/components/popups/BaseAlertPopup";
+import StatusInfoPopup from "@/components/popups/status-popup/StatusInfoPopup";
 import BottomMenu from "@/components/popups/menus/BottomMenu";
 import FileContextMenu from "@/components/popups/menus/FileContextMenu";
 import Preview from "@/components/popups/Preview";
@@ -46,6 +49,7 @@ export default {
     FileContextMenu,
     BottomMenu,
     AlertPopup,
+    StatusInfoPopup,
   },
   props: ["items", "itemsLength", "sortable"],
   computed: {
@@ -74,6 +78,9 @@ export default {
     },
     openPreview(file) {
       this.$refs.preview.open(file);
+    },
+    onStatusClick(status) {
+      this.$refs.statusPopup.open(status);
     },
     openFailed() {
       this.$refs.deletedPopup.open();

@@ -16,6 +16,7 @@ const state = {
   bamSupportNumber: "03555555",
   statusSuccessType: "success",
   statusFailedType: "failed",
+  statusInProgressType: "in progress",
   externalNetworkDests: [
     {
       appID: "appId1",
@@ -54,6 +55,7 @@ const getters = {
   version: (state) => state.version,
   statusSuccessType: (state) => state.statusSuccessType,
   statusFailedType: (state) => state.statusFailedType,
+  statusInProgressType: (state) => state.statusInProgressType,
   externalNetworkDests: (state) => state.externalNetworkDests,
 };
 
