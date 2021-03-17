@@ -8,7 +8,7 @@
     "ExternalTransferIncomingName": "התקבל מ{networkName}",
     "ExternalTransferOutgoing": "נשלח למרחב חיצוני",
     "ExternalTransferOutgoingName": "אישורים ל{networkName}",
-    "ExternalTransferOutgoingStatus": "סטטוס קבצים שהועברו",
+    "ExternalTransferOutgoingStatus": "סטטוס קבצים שנשלחו",
     "ExternalFiles": "שיתופים חיצוניים",
     "SharedWithMe": "שותפו איתי",
     "Deleted": "קבצים שנמחקו",
@@ -34,7 +34,7 @@
     "LastUpdated": "שונו לאחרונה",
     "ExternalTransferDefault": "ממרחב חיצוני",
     "ExternalTransferd": "קבצים שהתקבלו מ{networkName}",
-    "StatusTransferd": "סטטוס קבצים שהועברו",
+    "StatusTransferd": "סטטוס קבצים שנשלחו",
     "MyDrive": "הדרייב שלי",
     "Search": "תוצאות החיפוש"
   },
@@ -59,7 +59,8 @@
     "TransferClassification": "סיווג",
     "TransferStatus": "סטטוס",
     "TransferDestination": "מרחב יעד",
-    "TransferDestUsers": "נמענים"
+    "TransferDestUsers": "נמענים",
+    "UnknownStatus": "אין סטטוס זמין, נא לפנות לתמיכה"
   },
   "buttons": {
     "UploadFile": "העלה קובץ",

@@ -21,7 +21,7 @@ const actions = {
         for (const transferInfo of transfers) {
           let file;
           try {
-            // TODO : change fetch commit before
+            // TODO : change fetch commit b
             file = await filesApi.getFileByID(transferInfo.fileID);
             transferInfo.file = file;
           } catch (error) {

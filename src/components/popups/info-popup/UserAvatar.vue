@@ -1,7 +1,7 @@
 <template>
   <v-tooltip top>
     <template v-slot:activator="{ on }">
-      <v-btn small fab v-on="on" id="avatar" :color="color">{{ getUserName() }}</v-btn>
+      <v-btn small  elevation="0" fab v-on="on" id="avatar" :color="color">{{ getUserName() }}</v-btn>
     </template>
     <span v-if="user.role">{{ `${user.fullName} - ${$t(`share.role.${user.role}`)}` }}</span>
     <span v-else>{{ user.fullName }}</span>

@@ -25,26 +25,26 @@
             <BaseTooltip :value="item.fileName" />
           </td>
           <td>{{ item.classification || "-" }}</td>
-          <td>{{ item.file.owner || "???" }}</td>
+          <td >{{ item.file.owner || "???" }}</td>
           <td>
-            <v-sheet id="sheet" class="mx-auto" v-if="item.to && item.to.length > 0">
-              <v-slide-group show-arrows id="slide">
+            <v-sheet id="sheet" v-if="item.to && item.to.length > 0">
+              <v-slide-group show-arrows >
                 <v-slide-item id="slide-item" v-for="(user, index) in item.to" v-bind:key="index">
                   <UserAvatar :key="user.id" :user="user"/></v-slide-item
               ></v-slide-group>
             </v-sheet>
-            <h2 v-else>-</h2>
+            <h2 v-else id="stepper-item">-</h2>
           </td>
 
           <td class="ltr-td">{{ formatFileDate(item.createdAt) }}</td>
-          <td class="ltr-td" @dblclick.prevent="item.status.length > 0 && onStatusDblClick($event, item.status)">
+          <td class="ltr-td " @dblclick.prevent="item.status.length > 0 && onStatusDblClick($event, item.status)">
             <BaseStepper
               v-if="item.status && item.status.length > 0"
               :items="item.status"
               :isShowLabels="false"
               :isVertical="false"
             />
-            <h2 v-else>-</h2>
+            <h2 v-else id="stepper-item">{{$t("file.UnknownStatus")}}</h2>
           </td>
           <td class="ltr-td">{{ getNetworkLabel(item.destination) }}</td>
         </tr>
@@ -107,11 +107,11 @@ export default {
           text: this.$t("file.TransferDestUsers"),
           value: "to",
           sortable: this.sortable,
-          width: "100px",
+          width: "50px",
           align: "center",
         },
         { text: this.$t("file.TransferCreatedAt"), value: "createdAt", sortable: this.sortable },
-        { text: this.$t("file.TransferStatus"), value: "status", sortable: this.sortable },
+        { text: this.$t("file.TransferStatus"), value: "status", sortable: this.sortable,  },
         { text: this.$t("file.TransferDestination"), value: "destination", sortable: this.sortable },
       ],
       selectedTransfer: null,
@@ -158,11 +158,8 @@ export default {
 
 <style scoped>
 @import "../../../styles/data-table.css";
-#slide {
-  height: 60px;
-}
 #sheet {
-  max-width: 250px;
+  max-width: 255px;
   background-color: transparent;
 }
 #folder {
@@ -173,5 +170,9 @@ export default {
 }
 #pagination {
   padding-top: 20px;
+}
+#stepper-item {
+  text-align: center;
+  font-size: smaller;
 }
 </style>

@@ -3,12 +3,13 @@
     <v-stepper-header v-if="!(isVertical == undefined || isVertical)">
       <template v-for="(item, indexStep) in items">
         <v-stepper-step
-          :color="isSuccessStep[indexStep] ? 'green' : 'grey'"
-          :rules="[() => item.type != statusFailedType]"
+          :color="colorStep(indexStep)"
+          :rules="[() => !isFailedStep(indexStep)]"
           :key="'step-' + indexStep"
-          :complete="isSuccessStep[indexStep]"
+          :complete="isSuccessStep(indexStep)"
           :step="indexStep + 1"
         >
+
           <h2 v-if="isShowLabels == undefined || isShowLabels">{{ item.displayName }}</h2>
         </v-stepper-step>
 
@@ -17,10 +18,10 @@
     </v-stepper-header>
     <template v-else v-for="(item, indexStep) in items">
       <v-stepper-step
-        :color="isSuccessStep[indexStep] ? 'green' : 'grey'"
-        :rules="[() => item.type != statusFailedType]"
+        :color="colorStep(indexStep)"
+        :rules="[() => !isFailedStep(indexStep)]"
         :key="'step-' + indexStep"
-        :complete="isSuccessStep[indexStep]"
+        :complete="isSuccessStep(indexStep)"
          :step="indexStep + 1"
       >
         <h2 v-if="isShowLabels == undefined || !isShowLabels">{{ item.displayName }}</h2>
@@ -35,18 +36,41 @@ import { mapGetters } from "vuex";
 export default {
   name: "BaseStepper",
   computed: {
-    ...mapGetters(["statusSuccessType", "statusFailedType", "statusInProgressType"]),
-     isSuccessStep() {
-      return this.items.map(step =>
-        step.type == this.statusSuccessType ||
-        (step.type == this.statusInProgressType && this.items[this.items.length - 1].type == this.statusSuccessType)
-      )
-    },
+    ...mapGetters(["statusSuccessType", "statusFailedType", "statusInProgressType", "statusWaitingForReview"])
   },
   data: () => ({
     position: 1,
   }),
   props: ["items", "isVertical", "isShowLabels"],
+  methods: {
+    colorStep: function(indexStep) {
+      if(this.isSuccessStep(indexStep)) {
+        return 'green';
+      } else if (this.isWaitingForReviewStep(indexStep)) {
+        return 'orange';
+      } else {
+        return 'grey';
+      }
+    }, 
+    iconStep: function(indexStep) {
+      if (this.isSuccessStep(indexStep)) {
+        return '';
+      } else {
+        return 'hourglass_top'
+      }
+    }, 
+    isSuccessStep: function(indexStep) {
+      const step = this.$props.items[indexStep];
+      return (step.type == this.statusSuccessType ||
+      (step.type == this.statusInProgressType && this.$props.items[this.$props.items.length - 1].type == this.statusSuccessType)
+    )},
+    isWaitingForReviewStep: function(indexStep) {
+      return this.$props.items[indexStep].name === this.statusWaitingForReview;
+    },
+    isFailedStep: function(indexStep) {
+      return this.$props.items[indexStep].type === this.statusFailedType;
+    }
+  }
 };
 </script>
 
@@ -55,6 +79,5 @@ export default {
   font-size: x-small;
   background: none;
   box-shadow: none;
-  /* direction: rtl; */
 }
 </style>

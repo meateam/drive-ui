@@ -72,7 +72,7 @@
             class="sidenav-subitem "
           >
             <v-list-item-title class="sidenav-title mr-8"
-              >{{ $t("sidenav.ExternalTransferOutgoingName", { networkName: externalNetworkDest.label }) }}
+              >{{ $t("sidenav.ExternalTransferOutgoingName", { networkName: externalNetworkDest.label.startsWith("ה")? externalNetworkDest.label.substring(1) : externalNetworkDest.label}) }}
             </v-list-item-title>
           </v-list-item>
         </div>

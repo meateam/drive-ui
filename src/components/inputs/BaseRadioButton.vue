@@ -39,7 +39,7 @@ export default {
 
         if (this.$props.info != undefined) {
           infos.push(item.label);
-          this.$props.info.map((attr) => infos.push(item[attr]));
+          this.$props.info.map((attr) => infos.push(item[attr].charAt(0).toUpperCase() + item[attr].slice(1)));
 
           return infos.join("-");
         } else {

@@ -17,6 +17,7 @@ const state = {
   statusSuccessType: "success",
   statusFailedType: "failed",
   statusInProgressType: "in progress",
+  statusWaitingForReview: "STEP_REQUEST_IS_PENDING_APPROVAL",
   externalNetworkDests: [
     {
       appID: "appId1",
@@ -57,6 +58,7 @@ const getters = {
   statusFailedType: (state) => state.statusFailedType,
   statusInProgressType: (state) => state.statusInProgressType,
   externalNetworkDests: (state) => state.externalNetworkDests,
+  statusWaitingForReview: (state) => state.statusWaitingForReview
 };
 
 const actions = {
@@ -84,8 +86,11 @@ const mutations = {
     state.myExternalSharesName = config.myExternalSharesName;
     state.whiteListText = config.whiteListText || state.whiteListText;
     state.enableExternalShare = config.enableExternalShare;
-    state.statusSuccessType = config.statusSuccessType;
     state.externalNetworkDests = config.externalNetworkDests;
+    state.statusInProgressType = config.statusInProgressType;
+    state.statusFailedType = config.statusFailedType;
+    state.statusSuccessType = config.statusSuccessType;
+    // state.statusWaitingForReview = config.statusWaitingForReview; TODO: ADD IN API-GTW
   },
 };
 

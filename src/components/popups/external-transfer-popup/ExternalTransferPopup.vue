@@ -9,7 +9,7 @@
         <p class="d-title">
           {{
             $t("externalTransfer.Header", {
-              dest: destHeader,
+              dest: destHeader.startsWith("ה")? destHeader.substring(1) : destHeader
             })
           }}
         </p>
@@ -209,6 +209,7 @@ export default {
 .v-stepper__header {
   box-shadow: none;
 }
+
 
 .popup-body-color {
   background-color: #f9fcfa;
