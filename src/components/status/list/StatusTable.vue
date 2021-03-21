@@ -25,14 +25,28 @@
             <BaseTooltip :value="item.fileName" />
           </td>
           <td>{{ item.classification || "-" }}</td>
-          <td >{{ item.file.owner || "???" }}</td>
+          <td>{{ item.file.owner || "???" }}</td>
           <td>
-            <v-sheet id="sheet" v-if="item.to && item.to.length > 0">
-              <v-slide-group show-arrows >
-                <v-slide-item id="slide-item" v-for="(user, index) in item.to" v-bind:key="index">
-                  <UserAvatar :key="user.id" :user="user"/></v-slide-item
-              ></v-slide-group>
-            </v-sheet>
+            <v-item-group v-if="item.to && item.to.length > 0">
+              <v-container>
+                <v-row class="row-icons" no-gutters>
+                  <v-col v-for="(user, index) in item.to" v-bind:key="index">
+                    <v-item>
+                      <UserAvatar id="change-user" v-if="index < 2" v-bind:key="user.id" :user="user" margin="-3" />
+                      <UserAvatarMore
+                        @click="onDestsUsersClick($event, item.to)"
+                        id="change-user"
+                        v-else-if="index == 3"
+                        v-bind:key="'1' + user.id"
+                        :user="user"
+                        margin="-3"
+                      />
+                    </v-item>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-item-group>
+
             <h2 v-else id="stepper-item">-</h2>
           </td>
 
@@ -44,7 +58,7 @@
               :isShowLabels="false"
               :isVertical="false"
             />
-            <h2 v-else id="stepper-item">{{$t("file.UnknownStatus")}}</h2>
+            <h2 v-else id="stepper-item">{{ $t("file.UnknownStatus") }}</h2>
           </td>
           <td class="ltr-td">{{ getNetworkLabel(item.destination) }}</td>
         </tr>
@@ -72,13 +86,14 @@ import { pageSizeSmaller } from "@/config";
 import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
 import BaseStepper from "@/components/stepper/BaseStepper.vue";
 import BaseTooltip from "@/components/inputs/BaseTooltip.vue";
-import UserAvatar from "@/components/popups/info-popup/UserAvatar.vue";
+import UserAvatar from "@/components/popups/users-popup/UserAvatar";
+import UserAvatarMore from "@/components/popups/users-popup/UserAvatarMore";
 import { getNetworkItemByDest } from "@/utils/networkDest";
 
 export default {
   name: "StatusTable",
   props: ["items", "itemsLength", "sortable"],
-  components: { FileTypeIcon, BaseTooltip, UserAvatar, BaseStepper },
+  components: { FileTypeIcon, BaseTooltip, UserAvatar, BaseStepper, UserAvatarMore },
   computed: {
     ...mapGetters(["chosenFiles", "pageNum"]),
     page: {
@@ -107,11 +122,10 @@ export default {
           text: this.$t("file.TransferDestUsers"),
           value: "to",
           sortable: this.sortable,
-          width: "50px",
           align: "center",
         },
         { text: this.$t("file.TransferCreatedAt"), value: "createdAt", sortable: this.sortable },
-        { text: this.$t("file.TransferStatus"), value: "status", sortable: this.sortable,  },
+        { text: this.$t("file.TransferStatus"), value: "status", sortable: this.sortable },
         { text: this.$t("file.TransferDestination"), value: "destination", sortable: this.sortable },
       ],
       selectedTransfer: null,
@@ -137,6 +151,9 @@ export default {
     onStatusDblClick(event, status) {
       this.$emit("statusclick", status);
     },
+    onDestsUsersClick(event, status) {
+      this.$emit("destUsersClick", status);
+    },
     onFileClick(file) {
       this.selected = [file];
     },
@@ -158,9 +175,9 @@ export default {
 
 <style scoped>
 @import "../../../styles/data-table.css";
-#sheet {
-  max-width: 255px;
-  background-color: transparent;
+.row-icons {
+  flex-wrap: nowrap;
+  width: 70px;
 }
 #folder {
   text-align: center;

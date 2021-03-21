@@ -1,7 +1,9 @@
 <template>
   <v-tooltip top>
     <template v-slot:activator="{ on }">
-      <v-btn small  elevation="0" fab v-on="on" id="avatar" :color="color">{{ getUserName() }}</v-btn>
+      <v-btn small elevation="0" fab v-on="on" v-bind:style="{ margin: marginSize + 'px' }" :color="color">{{
+        getUserName()
+      }}</v-btn>
     </template>
     <span v-if="user.role">{{ `${user.fullName} - ${$t(`share.role.${user.role}`)}` }}</span>
     <span v-else>{{ user.fullName }}</span>
@@ -13,11 +15,16 @@ import { getColor } from "@/utils/getColor";
 
 export default {
   name: "UserAvatar",
-  props: ["user"],
+  props: ["user", "margin"],
   data() {
     return {
       color: this.getColor(),
     };
+  },
+  computed: {
+    marginSize: function() {
+      return this.margin ? this.margin : 5;
+    },
   },
   methods: {
     /**
@@ -35,9 +42,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#avatar {
-  margin: 5px;
-}
-</style>

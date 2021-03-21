@@ -2,31 +2,31 @@
   <v-dialog v-model="dialog" max-width="450" class="popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-image auto-margin" :src="require(`@/assets/images/status-info.svg`)" />
-        <p class="d-title">{{ $t("status.Status") }}</p>
+        <img class="popup-image auto-margin" :src="require(`@/assets/images/users.svg`)" />
+        <p class="d-title">{{ $t("destusers.Title") }}</p>
       </div>
       <div class="popup-body">
-        <BaseStepper v-if="status && status.length > 0" :items="status" />
+        <UserAvatar v-for="(user, index) in users" v-bind:key="index" :user="user" />
       </div>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import BaseStepper from "@/components/stepper/BaseStepper.vue";
+import UserAvatar from "./UserAvatar";
 
 export default {
-  name: "StatusInfoPopup",
-  components: { BaseStepper },
+  name: "UsersPopup",
+  components: { UserAvatar },
   data() {
     return {
       dialog: false,
-      status: [],
+      users: [],
     };
   },
   methods: {
-    open(status) {
-      this.status = status;
+    open(users) {
+      this.users = users;
       this.dialog = true;
     },
     onClose() {

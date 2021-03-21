@@ -44,7 +44,7 @@
 </template>
 <script>
 import KeyValue from "./BaseKeyValue";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "@/components/popups/users-popup/UserAvatar";
 import { getPermissions, getExternalPermissions } from "@/api/share";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";

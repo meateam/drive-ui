@@ -109,6 +109,12 @@
     "Unavailable": "preview is unavailble",
     "Deleted": "the file was deleted from drive, preview is unavailable"
   },
+  "status": {
+    "Status": "Status Transfer"
+  },
+  "destusers": {
+    "Title": "Destination Users"
+  },
   "folder": {
     "Upload": "create new folder",
     "Name": "folder name",

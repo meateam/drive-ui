@@ -10,6 +10,7 @@
       @ctrlclick="onCtrlCLick"
       @fileclick="onFileClick"
       @statusclick="onStatusClick"
+      @destUsersClick="onDestUsersClick"
     />
     <FileContextMenu ref="contextmenu" :files="chosenFiles" />
     <BottomMenu :chosenFiles="chosenFiles" />
@@ -24,6 +25,7 @@
     />
     <AlertPopup ref="deletedPopup" cancelButton="true" img="deleted.svg" :text="$t('preview.Deleted')" />
     <StatusInfoPopup ref="statusPopup" />
+    <UsersPopup ref="destUsersPopup" />
   </div>
 </template>
 
@@ -37,6 +39,7 @@ import * as filesApi from "@/api/files";
 import StatusTable from "@/components/status/list/StatusTable";
 import AlertPopup from "@/components/popups/BaseAlertPopup";
 import StatusInfoPopup from "@/components/popups/status-popup/StatusInfoPopup";
+import UsersPopup from "@/components/popups/users-popup/UsersPopup";
 import BottomMenu from "@/components/popups/menus/BottomMenu";
 import FileContextMenu from "@/components/popups/menus/FileContextMenu";
 import Preview from "@/components/popups/Preview";
@@ -50,6 +53,7 @@ export default {
     BottomMenu,
     AlertPopup,
     StatusInfoPopup,
+    UsersPopup,
   },
   props: ["items", "itemsLength", "sortable"],
   computed: {
@@ -81,6 +85,9 @@ export default {
     },
     onStatusClick(status) {
       this.$refs.statusPopup.open(status);
+    },
+    onDestUsersClick(users) {
+      this.$refs.destUsersPopup.open(users);
     },
     openFailed() {
       this.$refs.deletedPopup.open();
