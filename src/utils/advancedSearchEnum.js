@@ -1,6 +1,6 @@
 export const AdvancedSearchEnum = {
-    SearchByName: 0,
-    FindByMail: 1,
-    FindByT: 2,
+    SearchByName: 'SearchByName',
+    FindByMail: 'FindByMail',
+    FindByT: 'FindByT',
 }
 Object.freeze(AdvancedSearchEnum);

@@ -92,7 +92,6 @@ export async function getUsers(content, searchBy) {
   try {
     const res = await Axios.get(`${baseURL}/api/users`, {
       params: { content, searchBy },
-      timeout: 5000,
     });
     let users = res.data.users.filter((user) => {
         return user.id !== store.state.auth.user.id;
