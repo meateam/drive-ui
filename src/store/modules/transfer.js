@@ -18,8 +18,8 @@ const actions = {
       const transfers = await transferApi.fetchStatusTransferredFiles(pageNum || 0);
       let outcomingTransfersFiles = [];
 
-      if (transfers) {
-        for (const transferInfo of transfers) {
+      if (transfers.transfersInfo) {
+        for (const transferInfo of transfers.transfersInfo) {
           let file;
 
           try {
@@ -40,10 +40,10 @@ const actions = {
       }
 
       commit("setTransfers", outcomingTransfersFiles);
-      commit("setTransfersLength", outcomingTransfersFiles.itemCount);
+      commit("setTransfersLength", transfers.itemCount);
 
-      if (transfers) {
-        for (const transferInfo of transfers) {
+      if (transfers.transfersInfo) {
+        for (const transferInfo of transfers.transfersInfo) {
           transferInfo.file.owner = await getFileOwnerName(transferInfo.fileOwnerID);
           commit("updateItem", transferInfo);
         }
