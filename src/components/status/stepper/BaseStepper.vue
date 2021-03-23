@@ -40,7 +40,13 @@ import { mapGetters } from "vuex";
 export default {
   name: "BaseStepper",
   computed: {
-    ...mapGetters(["statusSuccessType", "statusFailedType", "statusInProgressType", "statusWaitingForReview"]),
+    ...mapGetters([
+      "statusSuccessType",
+      "statusFailedType",
+      "statusInProgressType",
+      "statusWaitingForReview",
+      "statusSuccessNames",
+    ]),
   },
   data: () => ({
     position: 1,
@@ -70,7 +76,7 @@ export default {
       return (
         step.type === this.statusSuccessType ||
         (step.type === this.statusInProgressType &&
-          this.$props.items[this.$props.items.length - 1].type === this.statusSuccessType)
+          this.statusSuccessNames.includes(this.$props.items[this.$props.items.length - 1].name))
       );
     },
     isWaitingForReviewStep: function(indexStep) {

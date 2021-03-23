@@ -18,6 +18,7 @@ const state = {
   statusFailedType: "failed",
   statusInProgressType: "in progress",
   statusWaitingForReview: "STEP_REQUEST_IS_PENDING_APPROVAL",
+  statusSuccessNames: ["STEP_UPLOAD_CLEANUP_SUCCESSFULL", "STEP_TERMINAL_SEND_FINISHED"],
   externalNetworkDests: [
     {
       appID: "appId1",
@@ -59,6 +60,7 @@ const getters = {
   statusInProgressType: (state) => state.statusInProgressType,
   externalNetworkDests: (state) => state.externalNetworkDests,
   statusWaitingForReview: (state) => state.statusWaitingForReview,
+  statusSuccessNames: (state) => state.statusSuccessNames,
 };
 
 const actions = {
