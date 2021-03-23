@@ -58,7 +58,7 @@ const getters = {
   statusFailedType: (state) => state.statusFailedType,
   statusInProgressType: (state) => state.statusInProgressType,
   externalNetworkDests: (state) => state.externalNetworkDests,
-  statusWaitingForReview: (state) => state.statusWaitingForReview
+  statusWaitingForReview: (state) => state.statusWaitingForReview,
 };
 
 const actions = {
@@ -90,7 +90,6 @@ const mutations = {
     state.statusInProgressType = config.statusInProgressType;
     state.statusFailedType = config.statusFailedType;
     state.statusSuccessType = config.statusSuccessType;
-    // state.statusWaitingForReview = config.statusWaitingForReview; TODO: ADD IN API-GTW
   },
 };
 

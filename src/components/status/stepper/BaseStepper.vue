@@ -2,15 +2,20 @@
   <v-stepper id="stepper" :vertical="isVertical == undefined || isVertical">
     <v-stepper-header v-if="!(isVertical == undefined || isVertical)">
       <template v-for="(item, indexStep) in items">
-        <v-stepper-step
-          :color="colorStep(indexStep)"
-          :rules="[() => !isFailedStep(indexStep)]"
-          :key="'step-' + indexStep"
-          :complete="isSuccessStep(indexStep)"
-          :step="indexStep + 1"
-        >
-          <h2 v-if="isShowLabels == undefined || isShowLabels">{{ item.displayName }}</h2>
-        </v-stepper-step>
+        <v-tooltip top :key="indexStep">
+          <template v-slot:activator="{ on }">
+            <span v-on="on"
+              ><v-stepper-step
+                :color="colorStep(indexStep)"
+                :rules="[() => !isFailedStep(indexStep)]"
+                :key="'step-' + indexStep"
+                :complete="isSuccessStep(indexStep)"
+                :step="indexStep + 1"
+              />
+            </span>
+          </template>
+          <span>{{ item.displayName }}</span>
+        </v-tooltip>
 
         <v-divider v-if="indexStep != items.length - 1" :key="'divider-' + indexStep"></v-divider>
       </template>
@@ -47,6 +52,8 @@ export default {
         return "green";
       } else if (this.isWaitingForReviewStep(indexStep)) {
         return "orange";
+      } else if (!this.isCompletedSuccessfully()) {
+        return "red";
       } else {
         return "grey";
       }
@@ -61,13 +68,16 @@ export default {
     isSuccessStep: function(indexStep) {
       const step = this.$props.items[indexStep];
       return (
-        step.type == this.statusSuccessType ||
-        (step.type == this.statusInProgressType &&
-          this.$props.items[this.$props.items.length - 1].type == this.statusSuccessType)
+        step.type === this.statusSuccessType ||
+        (step.type === this.statusInProgressType &&
+          this.$props.items[this.$props.items.length - 1].type === this.statusSuccessType)
       );
     },
     isWaitingForReviewStep: function(indexStep) {
       return this.$props.items[indexStep].name === this.statusWaitingForReview;
+    },
+    isCompletedSuccessfully: function() {
+      return this.$props.items[this.$props.items.length - 1].type === this.statusSuccessType;
     },
     isFailedStep: function(indexStep) {
       return this.$props.items[indexStep].type === this.statusFailedType;

@@ -4,19 +4,23 @@
       <div class="popup-header">
         <img
           class="popup-icon auto-margin"
-          :src="require(`@/assets/icons/${isColorChange ? 'blue' : 'green'}-transfer.svg`)"
+          :src="
+            require(`@/assets/icons/${
+              externalNetworkDest ? (isColorChange ? 'green' : 'purple') : 'blue'
+            }-transfer.svg`)
+          "
         />
         <p class="d-title">
           {{
             $t("externalTransfer.Header", {
-              dest: destHeader.startsWith("ה")? destHeader.substring(1) : destHeader
+              dest: destHeader.startsWith("ה") ? destHeader.substring(1) : destHeader,
             })
           }}
         </p>
         <p class="align-center">{{ file.name }}</p>
       </div>
 
-      <div :class="isColorChange ? 'popup-body-color' : 'popup-body'">
+      <div :class="externalNetworkDest ? (isColorChange ? 'popup-body-color' : 'popup-body-purple') : 'popup-body'">
         <div class="align-center" v-if="!isFileAllowed()">
           <p class="popup-text">{{ $t("externalTransfer.errors.FileType") }}</p>
           <p>{{ getAllowedTypes() }}</p>
@@ -110,8 +114,7 @@ export default {
   computed: {
     ...mapGetters(["enableExternalShare", "externalNetworkDests"]),
     colorStepper: function() {
-      // #005616 TODO: CHANGE ALSO OTHER BUTTONS (AUTO-COMPLETE)
-      return this.isColorChange ? "#035c64" : "#035c64";
+      return "#035c64";
     },
   },
   components: { AddInfo, Destination, Approval, ExternalNetwork, NotePopup },
@@ -161,7 +164,7 @@ export default {
     },
     onExternalNetworkChange(externalNetworkDest) {
       var selectedNetwork = getNetworkItemByDest(externalNetworkDest);
-
+      this.externalNetworkDest = externalNetworkDest;
       this.isColorChange = selectedNetwork.isDefault;
       this.destHeader = selectedNetwork.label;
     },
@@ -210,9 +213,14 @@ export default {
   box-shadow: none;
 }
 
-
 .popup-body-color {
   background-color: #f9fcfa;
+  width: 100%;
+  padding: 30px 60px;
+}
+
+.popup-body-purple {
+  background-color: #f4f1f8;
   width: 100%;
   padding: 30px 60px;
 }

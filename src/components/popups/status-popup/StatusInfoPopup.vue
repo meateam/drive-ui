@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import BaseStepper from "@/components/stepper/BaseStepper.vue";
+import BaseStepper from "@/components/status/stepper/BaseStepper";
 
 export default {
   name: "StatusInfoPopup",

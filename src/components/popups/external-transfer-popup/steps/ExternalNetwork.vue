@@ -2,14 +2,14 @@
   <div>
     <p class="popup-text">{{ $t("externalTransfer.NetworkDestChoose") }}</p>
 
-    <div class="select-container">
-      <RadioButton
+    <div class="select-container select-btn">
+      <SelectBtn
         :items="externalNetworkDests"
         background="transparent"
+        withToolTip="true"
         :info="['appID']"
         @change="onExternalNetworkDestChange"
         :reset="reset"
-        :placeholder="$t('externalTransfer.NetworkDestChoose')"
       />
     </div>
 
@@ -22,12 +22,12 @@
 <script>
 import { mapGetters } from "vuex";
 
-import RadioButton from "@/components/inputs/BaseRadioButton";
+import SelectBtn from "@/components/inputs/BaseBtnSelect";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 
 export default {
   name: "ExternalNetwork",
-  components: { SubmitButton, RadioButton },
+  components: { SubmitButton, SelectBtn },
   props: { reset: Boolean },
   computed: {
     ...mapGetters(["externalNetworkDests"]),
@@ -62,6 +62,10 @@ export default {
 </script>
 
 <style scoped>
+.select-btn {
+  width: 200px;
+  margin: 15px;
+}
 .top-secret {
   padding-top: 10px;
   color: red;

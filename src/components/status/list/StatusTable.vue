@@ -3,8 +3,6 @@
     <v-data-table
       v-model="selected"
       :headers="headers"
-      :sort-by="sortBy"
-      :sort-desc="sortDesc"
       :items="items"
       :page.sync="page"
       :items-per-page="itemsPerPage"
@@ -81,13 +79,13 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { formatDate } from "@/utils/formatDate";
-import { pageSizeSmaller } from "@/config";
 import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
-import BaseStepper from "@/components/stepper/BaseStepper.vue";
-import BaseTooltip from "@/components/inputs/BaseTooltip.vue";
+import BaseTooltip from "@/components/inputs/BaseTooltip";
 import UserAvatar from "@/components/popups/users-popup/UserAvatar";
 import UserAvatarMore from "@/components/popups/users-popup/UserAvatarMore";
+import BaseStepper from "@/components/status/stepper/BaseStepper";
+import { formatDate } from "@/utils/formatDate";
+import { pageSizeSmaller } from "@/config";
 import { getNetworkItemByDest } from "@/utils/networkDest";
 
 export default {
@@ -114,7 +112,7 @@ export default {
       itemsPerPage: pageSizeSmaller,
       pageCount: 1,
       headers: [
-        { value: "type", align: "center", sortable: false },
+        { value: "type", align: "center", sortable: this.sortable },
         { text: this.$t("file.Name"), value: "fileName", sortable: this.sortable, width: "300px", fixed: true },
         { text: this.$t("file.TransferClassification"), value: "classification", sortable: this.sortable },
         { text: this.$t("file.Owner"), value: "file.owner", sortable: this.sortable },

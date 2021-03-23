@@ -1,9 +1,10 @@
 <template>
   <PageTemplateStatus
-    :items="items"
-    :itemsLength="itemsLength"
-    :sortable="true"
+    :items="transfers"
+    :itemsLength="transfersLength"
+    :sortable="false"
     :header="$t('pageHeaders.StatusTransferd')"
+    @page="onPageChange"
   />
 </template>
 
@@ -14,14 +15,16 @@ import PageTemplateStatus from "@/components/BasePageTemplateStatus";
 export default {
   name: "StatusTransferd",
   components: { PageTemplateStatus },
-  data() {
-    return {};
-  },
   computed: {
-    ...mapGetters(["items", "itemsLength"]),
+    ...mapGetters(["transfers", "transfersLength"]),
   },
   created() {
-    this.$store.dispatch("fetchTransferdStatus");
+    this.$store.dispatch("fetchTransferdStatus", { pageNum: 0 });
+  },
+  methods: {
+    onPageChange(page) {
+      this.$store.dispatch("fetchTransferdStatus", { pageNum: page - 1 });
+    },
   },
 };
 </script>
