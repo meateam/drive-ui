@@ -33,8 +33,8 @@
     "SharedWithMe": "שותפו איתי",
     "LastUpdated": "שונו לאחרונה",
     "ExternalTransferDefault": "ממרחב חיצוני",
-    "ExternalTransferd": "קבצים שהתקבלו מ{networkName}",
-    "StatusTransferd": "סטטוס קבצים שנשלחו",
+    "ExternalTransferred": "קבצים שהתקבלו מ{networkName}",
+    "StatusTransferred": "סטטוס קבצים שנשלחו",
     "MyDrive": "הדרייב שלי",
     "Search": "תוצאות החיפוש"
   },

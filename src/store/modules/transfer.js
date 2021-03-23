@@ -13,9 +13,9 @@ const getters = {
 };
 
 const actions = {
-  async fetchTransferdStatus({ commit, dispatch }, { pageNum }) {
+  async fetchTransferredStatus({ commit, dispatch }, { pageNum }) {
     try {
-      const transfers = await transferApi.fetchStatusTransferdFiles(pageNum || 0);
+      const transfers = await transferApi.fetchStatusTransferredFiles(pageNum || 0);
       let outcomingTransfersFiles = [];
 
       for (const transferInfo of transfers) {

@@ -3,7 +3,7 @@
     :items="transfers"
     :itemsLength="transfersLength"
     :sortable="false"
-    :header="$t('pageHeaders.StatusTransferd')"
+    :header="$t('pageHeaders.StatusTransferred')"
     @page="onPageChange"
   />
 </template>
@@ -13,17 +13,17 @@ import { mapGetters } from "vuex";
 import PageTemplateStatus from "@/components/BasePageTemplateStatus";
 
 export default {
-  name: "StatusTransferd",
+  name: "StatusTransferred",
   components: { PageTemplateStatus },
   computed: {
     ...mapGetters(["transfers", "transfersLength"]),
   },
   created() {
-    this.$store.dispatch("fetchTransferdStatus", { pageNum: 0 });
+    this.$store.dispatch("fetchTransferredStatus", { pageNum: 0 });
   },
   methods: {
     onPageChange(page) {
-      this.$store.dispatch("fetchTransferdStatus", { pageNum: page - 1 });
+      this.$store.dispatch("fetchTransferredStatus", { pageNum: page - 1 });
     },
   },
 };

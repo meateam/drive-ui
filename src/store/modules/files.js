@@ -65,9 +65,9 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async fetchExternalTransferdFiles({ commit, dispatch }, { pageNum, appId, dest }) {
+  async fetchExternalTransferredFiles({ commit, dispatch }, { pageNum, appId, dest }) {
     try {
-      const permissions = await filesApi.fetchExternalTransferdFiles(pageNum || 0, appId);
+      const permissions = await filesApi.fetchExternalTransferredFiles(pageNum || 0, appId);
       const files = permissions.files;
 
       commit("setFiles", files);

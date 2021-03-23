@@ -32,7 +32,7 @@
 
         <div v-if="externalNetworkDests">
           <router-link
-            :to="`/external-transferd-${externalNetworkDest.appID}`"
+            :to="`/external-transferred-${externalNetworkDest.appID}`"
             v-for="externalNetworkDest in externalNetworkDests"
             v-bind:key="externalNetworkDest.value"
             exact-active-class="route-active"
@@ -55,7 +55,7 @@
           <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalTransferOutgoing") }}</v-list-item-title>
         </template>
 
-        <router-link to="/statusTransferd" exact-active-class="route-active" class="sidenav-subitem">
+        <router-link to="/statusTransferred" exact-active-class="route-active" class="sidenav-subitem">
           <v-list-item link>
             <v-list-item-title class="sidenav-title mr-8">{{
               $t("sidenav.ExternalTransferOutgoingStatus")
@@ -72,7 +72,13 @@
             class="sidenav-subitem "
           >
             <v-list-item-title class="sidenav-title mr-8"
-              >{{ $t("sidenav.ExternalTransferOutgoingName", { networkName: externalNetworkDest.label.startsWith("ה")? externalNetworkDest.label.substring(1) : externalNetworkDest.label}) }}
+              >{{
+                $t("sidenav.ExternalTransferOutgoingName", {
+                  networkName: externalNetworkDest.label.startsWith("ה")
+                    ? externalNetworkDest.label.substring(1)
+                    : externalNetworkDest.label,
+                })
+              }}
             </v-list-item-title>
           </v-list-item>
         </div>

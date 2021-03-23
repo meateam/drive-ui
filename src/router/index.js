@@ -50,30 +50,30 @@ const router = new Router({
       name: "Folders",
     },
     {
-      path: "/external-transferd-dropbox",
-      component: () => import("@/views/ExternalTransferd"),
+      path: "/external-transferred-dropbox",
+      component: () => import("@/views/ExternalTransferred"),
       meta: {
         layout: true,
       },
       props: {
         appID: "dropbox",
       },
-      name: "External Transferd Dropbox",
+      name: "External Transferred Dropbox",
     },
     {
-      path: "/external-transferd-cargo",
-      component: () => import("@/views/ExternalTransferd"),
+      path: "/external-transferred-cargo",
+      component: () => import("@/views/ExternalTransferred"),
       meta: {
         layout: true,
       },
       props: {
         appID: "cargo",
       },
-      name: "External Transferd Cargo",
+      name: "External Transferred Cargo",
     },
     {
-      path: "/statusTransferd",
-      component: () => import("@/views/StatusTransferd"),
+      path: "/statusTransferred",
+      component: () => import("@/views/StatusTransferred"),
       meta: {
         layout: true,
       },

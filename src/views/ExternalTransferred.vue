@@ -3,7 +3,7 @@
     :files="files"
     :serverFilesLength="serverFilesLength"
     :sortable="false"
-    :header="$t('pageHeaders.ExternalTransferd', { networkName: headerNetwork })"
+    :header="$t('pageHeaders.ExternalTransferred', { networkName: headerNetwork })"
     @page="onPageChange"
   />
 </template>
@@ -14,7 +14,7 @@ import PageTemplate from "@/components/BasePageTemplate";
 import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 export default {
-  name: "ExternalTransferd",
+  name: "ExternalTransferred",
   components: { PageTemplate },
   data() {
     return {
@@ -31,7 +31,7 @@ export default {
       this.currentNetworkDest = getNetworkItemByAppId(newAppId);
       this.headerNetwork = this.currentNetworkDest.label;
 
-      this.$store.dispatch("fetchExternalTransferdFiles", {
+      this.$store.dispatch("fetchExternalTransferredFiles", {
         pageNum: 0,
         appId: newAppId,
         dest: this.currentNetworkDest.value,
@@ -42,7 +42,7 @@ export default {
     this.currentNetworkDest = getNetworkItemByAppId(this.appID);
     this.headerNetwork = this.currentNetworkDest.label;
 
-    this.$store.dispatch("fetchExternalTransferdFiles", {
+    this.$store.dispatch("fetchExternalTransferredFiles", {
       pageNum: 0,
       appId: this.appID,
       dest: this.currentNetworkDest.value,
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     onPageChange(page) {
-      this.$store.dispatch("fetchExternalTransferdFiles", {
+      this.$store.dispatch("fetchExternalTransferredFiles", {
         pageNum: page - 1,
         appId: this.appID,
         dest: this.currentNetworkDest.value,
