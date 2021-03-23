@@ -21,6 +21,7 @@
   },
   "autocomplete": {
     "NoResult": "no results...",
+    "NoResultAdvancedSearch": "no results. try advanced search.",
     "Drive": "search in drive...",
     "Users": "add users..."
   },
@@ -143,7 +144,7 @@
       "SearchByT": "by T",
       "SearchByMail": "by mail"
     },
-    "AdvancedSearchError": "The requested user was not found. Please ensure that the items are valid."
+    "AdvancedSearchError": "The requested user was not found. Please ensure that the search query is valid."
   },
   "externalTransfer": {
     "Header": "External Transfer",
