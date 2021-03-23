@@ -34,8 +34,8 @@ export async function getExternalPermissions(fileID) {
       headers: { fileID },
     });
 
-    if (res.data) {
-      res.data.map((transferInfo) => {
+    if (res.data.transfersInfo) {
+      res.data.transfersInfo.map((transferInfo) => {
         let isFailed = true;
 
         if (store.getters.statusSuccessType === transferInfo.status[transferInfo.status.length - 1].type) {
@@ -51,24 +51,6 @@ export async function getExternalPermissions(fileID) {
     }
 
     return users;
-  } catch (err) {
-    store.dispatch("onError", err);
-  }
-}
-
-/**
- * getExternalTransfers returns all the transfer that the user has made
- */
-export async function getExternalTransfers() {
-  try {
-    let transfers = [];
-    const res = await Axios.get(`${baseURL}/api/transfersInfo`);
-
-    if (res.data) {
-      transfers = res.data;
-    }
-
-    return transfers;
   } catch (err) {
     store.dispatch("onError", err);
   }

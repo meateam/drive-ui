@@ -52,7 +52,7 @@ export default {
         return "green";
       } else if (this.isWaitingForReviewStep(indexStep)) {
         return "orange";
-      } else if (!this.isCompletedSuccessfully()) {
+      } else if (this.isFailedAtTheEnd()) {
         return "red";
       } else {
         return "grey";
@@ -76,8 +76,8 @@ export default {
     isWaitingForReviewStep: function(indexStep) {
       return this.$props.items[indexStep].name === this.statusWaitingForReview;
     },
-    isCompletedSuccessfully: function() {
-      return this.$props.items[this.$props.items.length - 1].type === this.statusSuccessType;
+    isFailedAtTheEnd: function() {
+      return this.$props.items[this.$props.items.length - 1].type === this.statusFailedType;
     },
     isFailedStep: function(indexStep) {
       return this.$props.items[indexStep].type === this.statusFailedType;
