@@ -159,7 +159,7 @@ export default {
   watch: {
     selected: function(files) {
       this.$store.commit("setChosenFiles", files);
-      this.selectedTransfer = files[0].transferId;
+      if (files.length > 0) this.selectedTransfer = files[0].transferId;
     },
     chosenFiles: function(files) {
       this.selected = files;

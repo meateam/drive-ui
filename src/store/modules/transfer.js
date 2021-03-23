@@ -18,31 +18,35 @@ const actions = {
       const transfers = await transferApi.fetchStatusTransferredFiles(pageNum || 0);
       let outcomingTransfersFiles = [];
 
-      for (const transferInfo of transfers) {
-        let file;
+      if (transfers) {
+        for (const transferInfo of transfers) {
+          let file;
 
-        try {
-          file = await fileApi.getFileByID(transferInfo.fileID);
-          transferInfo.file = file;
-        } catch (error) {
-          transferInfo.file = {};
-          transferInfo.file.name = transferInfo.fileName;
-          transferInfo.file.isDeleted = true;
+          try {
+            file = await fileApi.getFileByID(transferInfo.fileID);
+            transferInfo.file = file;
+          } catch (error) {
+            transferInfo.file = {};
+            transferInfo.file.name = transferInfo.fileName;
+            transferInfo.file.isDeleted = true;
+          }
+
+          transferInfo.file.status = transferInfo.status;
+          transferInfo.file.transferId = transferInfo.id;
+          transferInfo.file.isReadOnly = true;
+
+          outcomingTransfersFiles.push(transferInfo);
         }
-
-        transferInfo.file.status = transferInfo.status;
-        transferInfo.file.transferId = transferInfo.id;
-        transferInfo.file.isReadOnly = true;
-
-        outcomingTransfersFiles.push(transferInfo);
       }
 
       commit("setTransfers", outcomingTransfersFiles);
       commit("setTransfersLength", outcomingTransfersFiles.itemCount);
 
-      for (const transferInfo of transfers) {
-        transferInfo.file.owner = await getFileOwnerName(transferInfo.fileOwnerID);
-        commit("updateItem", transferInfo);
+      if (transfers) {
+        for (const transferInfo of transfers) {
+          transferInfo.file.owner = await getFileOwnerName(transferInfo.fileOwnerID);
+          commit("updateItem", transferInfo);
+        }
       }
     } catch (err) {
       dispatch("onError", err);
