@@ -74,9 +74,8 @@ export default {
     isSuccessStep: function(indexStep) {
       const step = this.$props.items[indexStep];
       return (
-        step.type === this.statusSuccessType ||
-        (step.type === this.statusInProgressType &&
-          this.statusSuccessNames.includes(this.$props.items[this.$props.items.length - 1].name))
+        (step.type === this.statusSuccessType || step.type === this.statusInProgressType) &&
+        this.statusSuccessNames.includes(this.$props.items[this.$props.items.length - 1].name)
       );
     },
     isWaitingForReviewStep: function(indexStep) {

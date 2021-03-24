@@ -30,7 +30,14 @@
                 <v-row class="row-icons" no-gutters>
                   <v-col v-for="(user, index) in item.to" v-bind:key="index">
                     <v-item>
-                      <UserAvatar id="change-user" v-if="index < 2" v-bind:key="user.id" :user="user" margin="-3" />
+                      <UserAvatar
+                        id="change-user"
+                        v-if="index < 2 || item.to.length == 3"
+                        v-bind:key="user.id"
+                        :user="user"
+                        margin="-3"
+                      />
+
                       <UserAvatarMore
                         @click="onDestsUsersClick($event, item.to)"
                         id="change-user"

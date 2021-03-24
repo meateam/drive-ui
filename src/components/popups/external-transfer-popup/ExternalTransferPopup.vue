@@ -91,7 +91,7 @@
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
-          <NotePopup @complete="onComplete" ref="note" />
+          <NotePopup @complete="onComplete" :networkDest="externalNetworkDest" ref="note" />
         </div>
       </div>
     </v-card>
