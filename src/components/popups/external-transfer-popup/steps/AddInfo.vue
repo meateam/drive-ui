@@ -3,7 +3,7 @@
     <p class="popup-text">{{ $t("externalTransfer.MoreInfo") }}</p>
     <Textarea :reset="resetInfo" @input="onInfoChange" :placeholder="$t('externalTransfer.Describe')" />
     <div class="space-between">
-      <div class="select-container">
+      <div :class="[classification && classification.length < 10 ? 'select-classfier' : 'select-classfier-max']">
         <Select
           :reset="resetSelect"
           :items="classifications"
@@ -101,6 +101,12 @@ export default {
 </script>
 
 <style scoped>
+.select-classfier {
+  max-width: 150px;
+}
+.select-classfier-max {
+  max-width: 250px;
+}
 .disable-classification {
   padding-top: 10px;
   color: red;

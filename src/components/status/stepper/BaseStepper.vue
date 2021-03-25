@@ -7,9 +7,9 @@
             <span v-on="on"
               ><v-stepper-step
                 :color="colorStep(indexStep)"
-                :rules="[() => !isFailedStep(indexStep)]"
+                :rules="[() => !(isFailedAtTheEnd(indexStep) && items.length - 1 == indexStep)]"
                 :key="'step-' + indexStep"
-                :complete="isSuccessStep(indexStep)"
+                :complete="true"
                 :step="indexStep + 1"
               />
             </span>
@@ -23,9 +23,9 @@
     <template v-else v-for="(item, indexStep) in items">
       <v-stepper-step
         :color="colorStep(indexStep)"
-        :rules="[() => !isFailedStep(indexStep)]"
+        :rules="[() => !(isFailedAtTheEnd(indexStep) && items.length - 1 == indexStep)]"
         :key="'step-' + indexStep"
-        :complete="isSuccessStep(indexStep)"
+        :complete="true"
         :step="indexStep + 1"
       >
         <h2 v-if="isShowLabels == undefined || !isShowLabels">{{ item.displayName }}</h2>
@@ -62,13 +62,6 @@ export default {
         return "red";
       } else {
         return "grey";
-      }
-    },
-    iconStep: function(indexStep) {
-      if (this.isSuccessStep(indexStep)) {
-        return "";
-      } else {
-        return "hourglass_top";
       }
     },
     isSuccessStep: function(indexStep) {
