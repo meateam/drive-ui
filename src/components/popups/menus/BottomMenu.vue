@@ -6,6 +6,7 @@
     <DeleteButton :icon="true" />
     <MoveToButton :icon="true" />
     <OnlineEditButton :icon="true" />
+    <LocalEditButton :icon="true" />
     <EditButton :icon="true" />
     <ShareButton :icon="true" />
     <ExternalTransferButton :icon="true" />
@@ -18,6 +19,7 @@ import DeleteButton from "@/components/buttons/DeleteButton";
 import MoveToButton from "@/components/buttons/MoveToButton";
 import EditButton from "@/components/buttons/EditButton";
 import OnlineEditButton from "@/components/buttons/OnlineEditButton";
+import LocalEditButton from "@/components/buttons/LocalEditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
@@ -29,6 +31,7 @@ export default {
   components: {
     DownloadButton,
     OnlineEditButton,
+    LocalEditButton,
     ShareButton,
     MoveToButton,
     DeleteButton,

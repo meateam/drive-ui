@@ -113,7 +113,6 @@
           @type="getUsersByName"
         />
       </div>
-
       <div v-if="blockedApprover">
         <p id="cant-approve">
           {{
@@ -135,6 +134,11 @@
     <v-card-actions class="popup-confirm">
       <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
+
+      <v-btn text small @click="onAboutMeClick">
+        <v-icon color="black">person</v-icon>
+        <p>{{ $t("buttons.AboutMe") }}</p>
+      </v-btn>
     </v-card-actions>
 
     <DropboxSupportPopup ref="support" />

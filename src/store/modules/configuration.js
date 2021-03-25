@@ -11,6 +11,7 @@ const state = {
   myExternalSharesName: "השיתופים החיצוניים שלי",
   enableExternalShare: false,
   docsUrl: "http://13.79.160.153:3000",
+  localOfficeUrl: "http://13.79.160.153:3000",
   whiteListText: "או להיות מאושר באופן מיוחד",
   bereshitSupportLink: "",
   bamSupportNumber: "03555555",
@@ -54,6 +55,7 @@ const getters = {
   bereshitSupportLink: (state) => state.bereshitSupportLink,
   bamSupportNumber: (state) => state.bamSupportNumber,
   docsUrl: (state) => state.docsUrl,
+  localOfficeUrl: (state) => state.localOfficeUrl,
   version: (state) => state.version,
   statusSuccessType: (state) => state.statusSuccessType,
   statusFailedType: (state) => state.statusFailedType,
@@ -83,6 +85,7 @@ const mutations = {
     state.dropboxSupportLink = config.dropboxSupportLink;
     state.externalShareName = config.externalShareName;
     state.docsUrl = config.docsUrl;
+    state.localOfficeUrl = config.localOfficeUrl;
     state.bamSupportNumber = config.bamSupportNumber;
     state.bereshitSupportLink = config.bereshitSupportLink;
     state.myExternalSharesName = config.myExternalSharesName;

@@ -217,6 +217,11 @@ export async function editOnline(fileID) {
   window.open(`${store.state.configuration.docsUrl}/api/files/${fileID}`);
 }
 
+export async function editLocally(fileID) {
+  pushUpdatedFile(fileID);
+  window.open(`${store.state.configuration.localOfficeUrl}/api/localoffice/${fileID}`);
+}
+
 export function getFileLink(file) {
   if (fileTypes.office.includes(file.type)) {
     return `${store.state.configuration.docsUrl}/api/files/${file.id}`;
