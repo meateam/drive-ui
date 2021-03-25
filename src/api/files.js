@@ -1,19 +1,15 @@
 import Axios from "axios";
-import {
-  pushUpdatedFile,
-  removeUpdatedFile,
-} from "@/utils/lastUpdatedFileHandler";
+import { pushUpdatedFile, removeUpdatedFile } from "@/utils/lastUpdatedFileHandler";
 import { baseURL, fileTypes, pageSize } from "@/config";
 import { isFolder } from "@/utils/isFolder";
 import store from "@/store";
 
 /**
  * fetchFiles fetch all the files in the current folder
+ * @param parent - the parent folder id
  */
 export async function fetchFiles(parent) {
-  const res = await Axios.get(
-    `${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id}` : ""}`
-  );
+  const res = await Axios.get(`${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id}` : ""}`);
   const files = res.data;
   return files;
 }
@@ -24,10 +20,7 @@ export async function fetchFiles(parent) {
  */
 export async function getFoldersByFolder(parent) {
   try {
-    const res = await Axios.get(
-      `${baseURL}/api/files?type=${fileTypes.folder}${parent ? `&parent=${parent}` : ""
-      }`
-    );
+    const res = await Axios.get(`${baseURL}/api/files?type=${fileTypes.folder}${parent ? `&parent=${parent}` : ""}`);
     return res.data;
   } catch (err) {
     store.dispatch("onError", err);
@@ -43,8 +36,13 @@ export async function fetchSharedFiles(pageNum) {
   return permissions;
 }
 
-export async function fetchExternalTransferdFiles(pageNum) {
-  const res = await Axios.get(`${baseURL}/api/files?shares&appId=dropbox&pageSize=${pageSize}&pageNum=${pageNum}`);
+/**
+ * fetchExternalTransferredFiles fetch all the external transfer files from cargo or dropbox
+ * @param pageNum - for pagination, the page number
+ * @param appId - appId, external sources app
+ */
+export async function fetchExternalTransferredFiles(pageNum, appId) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=${appId}&pageSize=${pageSize}&pageNum=${pageNum}`);
   const permissions = res.data;
   return permissions;
 }
@@ -62,6 +60,10 @@ export async function isFileExists(fileID) {
   }
 }
 
+/**
+ * getFileByID get the file by it's id
+ * @param fileID is the id of the file
+ */
 export async function getFileByID(fileID) {
   const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
   return res.data;
@@ -89,8 +91,7 @@ export async function multipartUpload({ file, parent }) {
 
   formData.append("file", file, file.name);
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""
-    }`,
+    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""}`,
     formData,
     {
       onUploadProgress: (event) => {
@@ -118,8 +119,7 @@ export async function resumableUpload({ file, parent }) {
   const formData = new FormData();
   formData.append("file", file, file.name);
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${parent ? `&parent=${parent.id}` : ""
-    }`,
+    `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${parent ? `&parent=${parent.id}` : ""}`,
     formData,
     {
       headers: { "Content-Range": `bytes 0-${file.size - 1}/${file.size}` },
@@ -177,8 +177,7 @@ export function downloadFile(fileID) {
  */
 export async function uploadFolder({ name, parent }) {
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""
-    }`,
+    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""}`,
     {},
     {
       headers: {
@@ -194,9 +193,7 @@ export async function uploadFolder({ name, parent }) {
 
 export async function getFolderHierarchy(folderID) {
   try {
-    const ancestors = await Axios.get(
-      `${baseURL}/api/files/${folderID}/ancestors`
-    );
+    const ancestors = await Axios.get(`${baseURL}/api/files/${folderID}/ancestors`);
     const breadcrumbs = ancestors ? ancestors.data : [];
     return breadcrumbs;
   } catch (err) {
@@ -237,8 +234,7 @@ export function getFileLink(file) {
 
 export function createNewFile({ name, type, parent }) {
   window.open(
-    `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}${parent ? `&parent=${parent.id}` : ""
-    }`
+    `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}${parent ? `&parent=${parent.id}` : ""}`
   );
   location.reload();
 }

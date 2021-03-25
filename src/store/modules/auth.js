@@ -26,9 +26,17 @@ const actions = {
     cookies.remove("kd-token");
     commit("setToken", undefined);
   },
-  async addApproverInfo({ commit }, user) {
-    const approverInfo = await usersApi.getApproverInfo(user.id);
-    commit("setApproverInfo", approverInfo);
+  async addApproverInfos({ rootState, commit }, user) {
+    var approverInfos = {};
+
+    await Promise.all(
+      rootState.configuration.externalNetworkDests.map(async (externalNetworkDest) => {
+        const res = await usersApi.getApproverInfo(user.id, externalNetworkDest.value);
+        approverInfos[externalNetworkDest.value] = res;
+      })
+    );
+
+    commit("setApproverInfos", approverInfos);
   },
   async parseToken({ commit, dispatch }) {
     try {
@@ -49,15 +57,12 @@ const actions = {
 
       user = {
         ...user,
-        approverInfo: {
-          canApprove: false,
-          requestFaild: true,
-        },
+        approverInfos: {},
       };
 
       commit("setUser", user);
 
-      await dispatch("addApproverInfo", user);
+      await dispatch("addApproverInfos", user);
     } catch (err) {
       dispatch("onError", err);
     }
@@ -66,8 +71,12 @@ const actions = {
 
 const mutations = {
   setToken: (state) => (state.token = cookies.get("kd-token")),
-  setUser: (state, user) => { state.user = user },
-  setApproverInfo: (state, approverInfo) => { state.user.approverInfo = approverInfo },
+  setUser: (state, user) => {
+    state.user = user;
+  },
+  setApproverInfos: (state, approverInfos) => {
+    state.user.approverInfos = approverInfos;
+  },
 };
 
 export default {
