@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v3.3.0] - 2021-03-14
 
 ### Added
-
+- minor([67](https://github.com/meateam/drive-ui/pull/67)): added cts 
 - minor([68](https://github.com/meateam/drive-ui/pull/68)): added button for local office.
 ## [v3.2.0] - 2021-02-28
 

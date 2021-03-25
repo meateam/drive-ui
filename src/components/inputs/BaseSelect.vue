@@ -10,7 +10,8 @@
     item-value="value"
     v-model="selected"
     @change="$emit('change', selected)"
-  ></v-select>
+  >
+  </v-select>
 </template>
 
 <script>
@@ -27,8 +28,8 @@ export default {
   },
   watch: {
     reset(value) {
-      this.selected = value
-    }
+      this.selected = value;
+    },
   },
 };
 </script>
@@ -37,5 +38,4 @@ export default {
 .v-select__slot {
   width: 100px;
 }
-
 </style>

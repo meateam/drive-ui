@@ -1,9 +1,5 @@
 <template>
-  <v-tooltip
-    top
-    v-if="chosenFiles.length === 1 && canEditOnline(chosenFiles[0])"
-    :disabled="!icon"
-  >
+  <v-tooltip top v-if="chosenFiles.length === 1 && canEditOnline(chosenFiles[0])" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
         @click="onClick"
@@ -55,9 +51,11 @@ export default {
     },
     canEditOnline(file) {
       return (
-        fileTypes.office.includes(file.type) ||
-        fileTypes.oldOffice.includes(file.type)
+        (fileTypes.office.includes(file.type) || fileTypes.oldOffice.includes(file.type)) && !this.isFileReadOnly()
       );
+    },
+    isFileReadOnly() {
+      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
     },
     isOldOfficeType(file) {
       return fileTypes.oldOffice.includes(file.type);

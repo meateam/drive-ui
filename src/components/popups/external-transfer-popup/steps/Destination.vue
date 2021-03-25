@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="user.approverInfo.isBlocked">
+    <div v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].isBlocked">
       <p class="popup-text align-center">
         {{ $t("externalTransfer.IsBlocked") }}
       </p>
@@ -24,19 +24,11 @@
         @type="getExternalUsersByName"
       />
       <v-chip-group show-arrows>
-        <Chips
-          v-for="user in selectedUsers"
-          :key="user.id"
-          :user="user"
-          @remove="onRemove"
-        />
+        <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
       </v-chip-group>
       <v-card-actions class="popup-confirm">
-        <SubmitButton
-          @click="onConfirm"
-          :label="$t('buttons.Continue')"
-          :disabled="disabled"
-        />
+        <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
+        <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
       </v-card-actions>
     </div>
   </div>
@@ -47,11 +39,13 @@ import * as usersApi from "@/api/users";
 import Chips from "@/components/shared/BaseChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
+import TextButton from "@/components/buttons/BaseTextButton";
 import { mapGetters } from "vuex";
 
 export default {
   name: "Destination",
-  components: { Chips, SubmitButton, Autocomplete },
+  components: { Chips, SubmitButton, Autocomplete, TextButton },
+  props: { networkDest: String, reset: Boolean },
   data() {
     return {
       selectedUsers: [],
@@ -63,12 +57,12 @@ export default {
   computed: {
     ...mapGetters(["user"]),
   },
-  props: {
-    reset: Boolean,
-  },
   watch: {
-    selectedUsers: function (users) {
+    selectedUsers: function(users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
+    },
+    networkDest: function(newDest, oldDest) {
+      if (newDest != oldDest) this.selectedUsers = [];
     },
     reset() {
       this.selectedUsers = [];
@@ -78,16 +72,20 @@ export default {
     },
   },
   methods: {
+    onBack() {
+      this.users = [];
+      this.$emit("back");
+    },
     getExternalUsersByName(name) {
       if (this.isLoading) return;
       this.isLoading = true;
       usersApi
-        .searchExternalUsersByName(name)
+        .searchExternalUsersByName(name, this.networkDest)
         .then((users) => (this.users = users))
         .finally(() => (this.isLoading = false));
     },
     onAboutMeClick() {
-      usersApi.openAboutMePage();
+      usersApi.openAboutMePage(this.networkDest);
     },
     onSelect(user) {
       this.users = [];
@@ -109,7 +107,7 @@ export default {
       this.$emit(
         "continue",
         this.selectedUsers.map((user) => {
-          return { id: user.id, full_name: user.full_name };
+          return { id: user.id, full_name: user.fullName };
         })
       );
     },

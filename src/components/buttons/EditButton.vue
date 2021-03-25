@@ -53,8 +53,12 @@ export default {
       return (
         this.chosenFiles.length === 1 &&
         (!this.currentFolder || writeRole(this.currentFolder.role)) &&
-        this.chosenFiles.every((file) => writeRole(file.role))
+        this.chosenFiles.every((file) => writeRole(file.role)) &&
+        !this.isFileReadOnly()
       );
+    },
+    isFileReadOnly() {
+      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
     },
   },
   mounted() {
