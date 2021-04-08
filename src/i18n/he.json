@@ -26,6 +26,7 @@
   },
   "autocomplete": {
     "NoResult": "לא נמצאו תוצאות",
+    "NoResultAdvancedSearch": "לא נמצאו תוצאות. נסו חיפוש מתקדם.",
     "Drive": "חיפוש בדרייב...",
     "Users": "הוסיפו אנשים..."
   },
@@ -155,9 +156,9 @@
   "share": {
     "ShareFile": "שיתוף קובץ",
     "ShareFiles": "שיתוף קבצים",
-    "DriveChoose": "בחר עם מי תרצה לשתף",
+    "DriveChoose": "בחרו עם מי תרצו לשתף",
     "ChoosePermission": "הרשאות",
-    "RoleChoose": "בחר את הרשאות השיתוף",
+    "RoleChoose": "בחרו את הרשאות השיתוף",
     "NoPermissions": "לא משותפים משתמשים בקובץ",
     "role": {
       "READ": "צפייה",
@@ -169,8 +170,14 @@
       "EditLocallyLink": "קישור לעריכה לוקאלית",
       "DownloadLink": "קישור להורדה",
       "Copy": "העתקת הקישור",
-      "OnlyShare": "שים לב! הקישור יעבוד אך ורק לאנשים בעלי הרשאות על קובץ זה"
-    }
+      "OnlyShare": "שימו לב! הקישור יעבוד אך ורק לאנשים בעלי הרשאות על קובץ זה"
+    },
+    "AdvancedSearch": "חיפוש מתקדם",
+    "AdvancedSearchChoices": {
+      "SearchByT": "לפי מס' T",
+      "SearchByMail": "לפי אימייל"
+    },
+    "AdvancedSearchError": "המשתמש המבוקש לא נמצא. אנא ודאו שהכנסתם פרטים נכונים."
   },
   "externalTransfer": {
     "Header": "העברה ל{dest}",

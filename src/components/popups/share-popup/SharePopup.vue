@@ -12,6 +12,7 @@
 
       <div class="popup-body">
         <Share
+          id="shareFile"
           v-if="isShareMode"
           @share="onShare"
           @back="onBack"
@@ -109,5 +110,8 @@ export default {
 }
 .popup-body {
   padding: 10px 40px;
+}
+#shareFile {
+  height: 320px;
 }
 </style>
