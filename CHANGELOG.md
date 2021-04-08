@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [unreleased]
-- major: ([66](https://github.com/meateam/api-gateway/pull/66)): add advance search by mail/T.
+- minor: ([66](https://github.com/meateam/api-gateway/pull/66)): add advance search by mail/T.
 
 ## [v3.3.0] - 2021-03-14
 
