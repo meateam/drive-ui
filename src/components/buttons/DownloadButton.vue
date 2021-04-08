@@ -31,9 +31,10 @@ export default {
       filesApi.downloadFile(this.chosenFiles[0].id);
     },
     canDownload() {
-      return (
-        this.chosenFiles.length === 1 && !isFolder(this.chosenFiles[0].type)
-      );
+      return this.chosenFiles.length === 1 && !isFolder(this.chosenFiles[0].type) && !this.isFileDeleted();
+    },
+    isFileDeleted() {
+      return this.chosenFiles.every((file) => file?.isDeleted != undefined && file.isDeleted);
     },
   },
   computed: {

@@ -27,49 +27,71 @@ const router = new Router({
     },
     {
       path: "/my-drive",
-      component: () => import('@/views/MyDrive'),
+      component: () => import("@/views/MyDrive"),
       meta: {
-        layout: true
+        layout: true,
       },
       name: "My Drive",
     },
     {
       path: "/shared-with-me",
-      component: () => import('@/views/SharedWithMe'),
+      component: () => import("@/views/SharedWithMe"),
       meta: {
-        layout: true
+        layout: true,
       },
       name: "Shared With Me",
     },
     {
       path: "/folders",
-      component: () => import('@/views/Folders'),
+      component: () => import("@/views/Folders"),
       meta: {
-        layout: true
+        layout: true,
       },
       name: "Folders",
     },
     {
-      path: "/external-transferd",
-      component: () => import('@/views/ExternalTransferd'),
+      path: "/external-transferred-dropbox",
+      component: () => import("@/views/ExternalTransferred"),
       meta: {
-        layout: true
+        layout: true,
       },
-      name: "External Transferd",
+      props: {
+        appID: "dropbox",
+      },
+      name: "External Transferred Dropbox",
+    },
+    {
+      path: "/external-transferred-cargo",
+      component: () => import("@/views/ExternalTransferred"),
+      meta: {
+        layout: true,
+      },
+      props: {
+        appID: "cargo",
+      },
+      name: "External Transferred Cargo",
+    },
+    {
+      path: "/statusTransferred",
+      component: () => import("@/views/StatusTransferred"),
+      meta: {
+        layout: true,
+      },
+      name: "Status Transfers",
     },
     {
       path: "/last-updated",
-      component: () => import('@/views/LastUpdated'),
+      component: () => import("@/views/LastUpdated"),
       meta: {
-        layout: true
+        layout: true,
       },
       name: "Last Update",
     },
     {
       path: "/search",
-      component: () => import('@/views/Search'),
+      component: () => import("@/views/Search"),
       meta: {
-        layout: true
+        layout: true,
       },
       name: "Search",
     },
@@ -77,7 +99,7 @@ const router = new Router({
       path: "/deleted-files",
       component: DeletedFiles,
       meta: {
-        layout: true
+        layout: true,
       },
       name: "Deleted Files",
     },
@@ -85,7 +107,7 @@ const router = new Router({
       path: "/favorites",
       component: Favorites,
       meta: {
-        layout: true
+        layout: true,
       },
       name: "Favorites",
     },
@@ -93,7 +115,7 @@ const router = new Router({
       path: "/q&a",
       component: QuestionAnswer,
       meta: {
-        layout: true
+        layout: true,
       },
       name: "Q&A",
     },
@@ -111,7 +133,7 @@ const router = new Router({
 });
 
 router.beforeEach(async (to, from, next) => {
-  await store.dispatch("onRouteChange");
+  await store.dispatch("onRouteChange", from);
   await store.dispatch("onFolderChange", to.query.id);
   next();
 });

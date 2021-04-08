@@ -4,7 +4,12 @@
   "Error": "שגיאה",
   "sidenav": {
     "MyDrive": "הדרייב שלי",
-    "ExternalTransferd": "התקבלו מרשת חיצונית",
+    "ExternalTransferIncoming": "התקבל ממרחב חיצוני",
+    "ExternalTransferIncomingName": "התקבל מ{networkName}",
+    "ExternalTransferOutgoing": "נשלח למרחב חיצוני",
+    "ExternalTransferOutgoingName": "אישורים ל{networkName}",
+    "ExternalTransferOutgoingStatus": "סטטוס קבצים שנשלחו",
+    "ExternalFiles": "שיתופים חיצוניים",
     "SharedWithMe": "שותפו איתי",
     "Deleted": "קבצים שנמחקו",
     "LastUpdated": "שונו לאחרונה",
@@ -28,7 +33,9 @@
   "pageHeaders": {
     "SharedWithMe": "שותפו איתי",
     "LastUpdated": "שונו לאחרונה",
-    "ExternalTransferd": "התקבלו מרשת חיצונית",
+    "ExternalTransferDefault": "ממרחב חיצוני",
+    "ExternalTransferred": "קבצים שהתקבלו מ{networkName}",
+    "StatusTransferred": "סטטוס קבצים שנשלחו",
     "MyDrive": "הדרייב שלי",
     "Search": "תוצאות החיפוש"
   },
@@ -48,13 +55,19 @@
     "Create": "צור קובץ",
     "ConvertDOC": "קובץ זה הוא מסוג DOC בשביל לערוך אותו נצטרך להמירו ל-DOCX האם ברצונך להמשיך?",
     "ConvertXLS": "קובץ זה הוא מסוג XLS בשביל לערוך אותו נצטרך להמירו ל-XLSX האם ברצונך להמשיך?",
-    "ConvertPPT": "קובץ זה הוא מסוג PPT בשביל לערוך אותו נצטרך להמירו ל-PPTX האם ברצונך להמשיך?"
+    "ConvertPPT": "קובץ זה הוא מסוג PPT בשביל לערוך אותו נצטרך להמירו ל-PPTX האם ברצונך להמשיך?",
+    "TransferCreatedAt": "תאריך העברה",
+    "TransferClassification": "סיווג",
+    "TransferStatus": "סטטוס",
+    "TransferDestination": "מרחב יעד",
+    "TransferDestUsers": "נמענים",
+    "UnknownStatus": "אין סטטוס זמין, נא לפנות לתמיכה"
   },
   "buttons": {
     "UploadFile": "העלה קובץ",
     "NewFolder": "צור תיקייה",
     "Move": "העבר אל",
-    "ExternalTransfer": "העברה לרשת חיצונית",
+    "ExternalTransfer": "העברה למרחב חיצוני",
     "Delete": "מחיקה",
     "Share": "שיתוף",
     "AddShare": "שיתוף אנשים",
@@ -64,7 +77,8 @@
     "CopyLink": "העתקת הקישור",
     "FileInfo": "פרטי הקובץ",
     "FolderInfo": "פרטי התיקייה",
-    "EditOnline": "ערוך בזמן אמת",
+    "EditOnline": "עריכת online",
+    "EditLocally": "עריכה מקומית",
     "CreateFile": "צור קובץ חדש",
     "Edit": "שינוי שם",
     "DeleteNow": "מחק",
@@ -77,7 +91,10 @@
     "Finish": "סיים",
     "Preview": "תצוגה מקדימה",
     "EditPermission": "ערוך הרשאות",
-    "ConvertNow": "המר"
+    "ConvertNow": "המר",
+    "MoreInfo": "לפרטים נוספים לחץ כאן",
+    "BackToShare": "חזרה לבחירת המאשרים",
+    "AboutMe": "לפרטים שלי"
   },
   "success": {
     "File": "הקובץ עלה בהצלחה!",
@@ -94,7 +111,14 @@
     "Cancel": "העלאת הקובץ בוטלה!"
   },
   "preview": {
-    "Unavailable": "התצוגה המקדימה אינה זמינה"
+    "Unavailable": "התצוגה המקדימה אינה זמינה",
+    "Deleted": "הקובץ נמחק מהדרייב, לא ניתן לראות תצוגה מקדימה!"
+  },
+  "status": {
+    "Status": "סטטוס העברה"
+  },
+  "destusers": {
+    "Title": "נמענים"
   },
   "folder": {
     "Upload": "יצירת תיקייה חדשה",
@@ -121,7 +145,13 @@
     "CreatedAt": "נוצר",
     "UpdatedAt": "שונה",
     "Shared": "שותפים",
-    "ExternalShare": "שיתופים חיצוניים"
+    "ExternalShare": "שיתופים חיצוניים",
+    "ExternalShareFailed": "שיתופים חיצוניים שלא הושלמו",
+    "TransferCreatedAt": "תאריך העברה",
+    "TransferClassification": "סיווג",
+    "TransferStatus": "סטטוס",
+    "TransferDestination": "מרחב מקבל",
+    "Deleted": "הקובץ נמחק מהדרייב, לא ניתן לראות פרטים על הקובץ!"
   },
   "share": {
     "ShareFile": "שיתוף קובץ",
@@ -137,6 +167,7 @@
     "link": {
       "FolderLink": "קישור לתיקייה",
       "EditOnlineLink": "קישור לעריכה במקביל",
+      "EditLocallyLink": "קישור לעריכה לוקאלית",
       "DownloadLink": "קישור להורדה",
       "Copy": "העתקת הקישור",
       "OnlyShare": "שימו לב! הקישור יעבוד אך ורק לאנשים בעלי הרשאות על קובץ זה"
@@ -149,32 +180,69 @@
     "AdvancedSearchError": "המשתמש המבוקש לא נמצא. אנא ודאו שהכנסתם פרטים נכונים."
   },
   "externalTransfer": {
-    "Header": "העברה לרשת חיצונית",
-    "Destination": "יעד",
-    "Approval": "מאשר",
+    "Header": "העברה ל{dest}",
+    "HeaderDestDefault": "מרחב חיצוני",
+    "NetworkDest": "מרחב יעד",
+    "NetworkDestChoose": "בחר מרחב יעד",
+    "Destination": "נמענים",
+    "Approval": "מאשרים",
     "AddInfo": "מידע נוסף",
     "ApprovalChoose": "בחרו מי יאשר את השיתוף",
     "MoreInfo": "כתבו מידע על הקובץ",
     "Describe": "תארו את הדברים העיקריים שמכיל המסמך...",
     "ChooseClassification": "רמת סיווג",
-    "Classifications": ["שמור", "סודי", "סודי ביותר"],
-    "TopSecret": "לא ניתן להעביר קבצים בסיווג סודי ביותר",
+    "Classifications": {
+      "TOMCAL": [{ "text": "שמור" }, { "text": "סודי" }, { "text": "סודי ביותר", "enable": false }],
+      "CTS": [
+        { "text": "שמור" },
+        { "text": "סודי" },
+        { "text": "סודי ביותר - סמ\"צ מעובד", "color": "red" },
+        { "text": "סודי ביותר - סמ\"צ גולמי", "color": "purple", "enable": false },
+        { "text": "סודי ביותר - כחול", "color": "blue", "enable": false }
+      ]
+    },
+    "DisableClassification": "לא ניתן להעביר קבצים בסיווג {classificationName}",
     "ApprovalInstructions": "המאשרים שנבחרו יצטרכו לאשר באופן ידני את ההעברה במערכת האישורים",
     "ApprovalService": "במערכת האישורים",
     "CanApprove": "מאחר והינך מוסמך לאשר, השיתוף יאושר באופן אוטומטי",
+    "IsBlocked": "הנך חסום ע\" יחבם ולכן אינך יכול להעביר קבצים",
     "ApproverUnit": "המאשר צריך להיות ביחידה",
     "ApproverRanks": "ובאחת מהדרגות הבאות:",
     "IAmApprover": "אני יכול לאשר את הבקשה",
+    "CantChooseApprove": "בחירת המאשר {name} נכשלה",
+    "Reasons": "בחירת המאשר נכשלה מהסיבות הבאות",
+    "NoUnit": "שים לב הינך חסר יחידה ולכן אינך יכול להעביר קבצים",
+    "BlockedApprover": "המשתמש {name} אינו מוסמך לאשר את הבקשה. ",
+    "cantApproveReasons": {
+      "ApproverIsBlocked": "המשתמש חסום",
+      "ApproverIsNotInTheSameUnit": "שים לב הגורם שבחרת אינו גורם מאשר ביחידתך",
+      "ApproverCantApproveInHisUnit": "המאשר שבחרת אינו מוגדר כגורם מאשר",
+      "ApproverHasNoUnit": "המאשר שבחרת יכול לאשר העברת קבצים רק לעצמו (חסר יחידה)",
+      "UserHasNoUnit": "שים לב הינך חסר יחידה"
+    },
+    "cantApproveSupport": {
+      "Bam": "לפרטים נוספים אנא פנה ליחב\"ם",
+      "Bereshit": "ניתן לפתוח תקלה בtommy למול צוות בראשית",
+      "OpenInTomy": "לפתיחת תקלה"
+    },
     "note": {
       "Notice": "שים לב!",
-      "SecretNetwork": "הנך עומדים לשתף קובץ ברשת עם סיווג נמוך",
+      "SecretNetwork": "הנך עומד לשתף קובץ ברשת עם סיווג נמוך",
       "SecretData": "באחריותך לוודא את הדגשים הבאים:",
-      "Marks": [
-        "המסמך לא היה במקור סמצ/כחול",
-        "המסמך אינו מכיל ציון שיטות ואמצעי איסוף רגישי",
-        "המסמך אינו מכיל מידע אופרטיבי מדוייק",
-        "אין במסמך ידיעות/מקורות מודיעינים"
-      ],
+      "Marks": {
+        "TOMCAL": [
+          "המסמך לא היה במקור סמצ/כחול",
+          "המסמך אינו מכיל ציון שיטות ואמצעי איסוף רגישי",
+          "המסמך אינו מכיל מידע אופרטיבי מדוייק",
+          "אין במסמך ידיעות/מקורות מודיעינים"
+        ],
+        "CTS": [
+          "המסמך לא מכיל מידע כחול משום סוג (מעובד ו/או גולמי)",
+          "המסמך אינו מתייחס לשיטות ואמצעי איסוף רגישים",
+          "המסמך אינו מציג ידיעות מודיעיניות ברמת חומר גלם (או המכילות חומר גלם)",
+          "המסמך משותף אך ורק למי שנדרש לצפות ו/או לעשות בו שימוש"
+        ]
+      },
       "IAgree": "הנני מצהיר כי קראתי את האמור לעיל וכי בקשתי עומדת בתנאים, כמו כן ידוע לי כי התוכן מנוטר ומבוקר עי יחבם"
     },
     "errors": {
@@ -186,7 +254,7 @@
   "support": {
     "Header": "צור קשר",
     "DriveSupport": "לתמיכה במערכת הדרייב",
-    "DropboxSupport": "לתמיכה בקבלת/העברת קבצים לרשת חיצונית"
+    "DropboxSupport": "לתמיכה בקבלת/העברת קבצים למרחב חיצוני"
   },
   "errors": {
     "GoBack": "חזור הביתה",
@@ -210,7 +278,7 @@
       "1": "לוגו ועיצוב חדשני",
       "2": "עריכת מסמכים אונליין לקבצי docx, pptx, xlsx",
       "3": "גישה למסמכים ששונו לאחרונה",
-      "4": "לשונית לצפייה במסמכים שהתקבלו מרשת חיצונית"
+      "4": "לשונית לצפייה במסמכים שהתקבלו ממרחב חיצוני"
     }
   }
 }

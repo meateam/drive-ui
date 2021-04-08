@@ -1,5 +1,4 @@
-const baseURL =
-  window.location.hostname === "localhost" ? "http://localhost:8080" : "";
+const baseURL = window.location.hostname === "localhost" ? "http://localhost:8080" : "";
 
 const fileTypes = {
   folder: "application/vnd.drive.folder",
@@ -21,20 +20,15 @@ const fileTypes = {
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "application/vnd.openxmlformats-officedocument.presentationml.presentation",
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "application/pdf",
   ],
-  oldOffice: [
-    "application/msword",
-    "application/vnd.ms-excel",
-    "application/vnd.ms-powerpoint",
-  ],
+  oldOffice: ["application/msword", "application/vnd.ms-excel", "application/vnd.ms-powerpoint"],
   officeConvert: {
-    "doc": "application/msword",
-    "xls": "application/vnd.ms-excel",
-    "ppt": "application/vnd.ms-powerpoint",
-    "docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    doc: "application/msword",
+    xls: "application/vnd.ms-excel",
+    ppt: "application/vnd.ms-powerpoint",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
   },
   docs: ["pptx", "docx", "xlsx", "pdf"],
   externalShare: [
@@ -56,6 +50,7 @@ const fileTypes = {
   ],
 };
 
-const pageSize  = 10;
+const pageSizeSmaller = 7;
+const pageSize = 10;
 
-export { baseURL, fileTypes, pageSize };
+export { baseURL, fileTypes, pageSize, pageSizeSmaller };

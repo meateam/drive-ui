@@ -15,6 +15,7 @@
       <DeleteButton />
       <MoveToButton />
       <OnlineEditButton />
+      <LocalEditButton />
       <EditButton />
       <ShareButton />
       <ExternalTransferButton />
@@ -28,6 +29,7 @@ import ExternalTransferButton from "@/components/buttons/ExternalTransferButton"
 import DeleteButton from "@/components/buttons/DeleteButton";
 import MoveToButton from "@/components/buttons/MoveToButton";
 import OnlineEditButton from "@/components/buttons/OnlineEditButton";
+import LocalEditButton from "@/components/buttons/LocalEditButton";
 import EditButton from "@/components/buttons/EditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
@@ -43,6 +45,7 @@ export default {
     DeleteButton,
     InfoButton,
     OnlineEditButton,
+    LocalEditButton,
     EditButton,
     PreviewButton,
   },

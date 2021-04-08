@@ -7,12 +7,37 @@ const state = {
   environment: "",
   supportLink: "",
   dropboxSupportLink: "",
-  approvalServiceUrl: "",
   externalShareName: "שיתוף חיצוני",
   myExternalSharesName: "השיתופים החיצוניים שלי",
   enableExternalShare: false,
   docsUrl: "http://13.79.160.153:3000",
+  localOfficeUrl: "http://13.79.160.153:3000",
   whiteListText: "או להיות מאושר באופן מיוחד",
+  bereshitSupportLink: "",
+  bamSupportNumber: "03555555",
+  statusSuccessType: "success",
+  statusFailedType: "failed",
+  statusInProgressType: "in progress",
+  statusWaitingForReview: "STEP_REQUEST_IS_PENDING_APPROVAL",
+  statusSuccessNames: ["STEP_UPLOAD_CLEANUP_SUCCESSFULL", "STEP_TERMINAL_SEND_FINISHED"],
+  externalNetworkDests: [
+    {
+      appID: "appId1",
+      approvalUIUrl: "http://approval.dropbox.rabaz.org",
+      approvalUrl: "http://approval.dropbox.rabaz.org",
+      label: "label1",
+      value: "value1",
+      isDefault: true,
+    },
+    {
+      appID: "appId2",
+      approvalUIUrl: "http://approval.dropbox.rabaz.org",
+      approvalUrl: "http://approval.dropbox.rabaz.org",
+      label: "label2",
+      value: "value2",
+      isDefault: false,
+    },
+  ],
 };
 
 const getters = {
@@ -22,12 +47,22 @@ const getters = {
   supportLink: (state) => state.supportLink,
   dropboxSupportLink: (state) => state.dropboxSupportLink,
   approvalServiceUrl: (state) => state.approvalServiceUrl,
+  approvalServiceUIUrl: (state) => state.approvalServiceUIUrl,
   externalShareName: (state) => state.externalShareName,
   whiteListText: (state) => state.approverWhiteListText,
   myExternalSharesName: (state) => state.myExternalSharesName,
   enableExternalShare: (state) => state.enableExternalShare,
+  bereshitSupportLink: (state) => state.bereshitSupportLink,
+  bamSupportNumber: (state) => state.bamSupportNumber,
   docsUrl: (state) => state.docsUrl,
+  localOfficeUrl: (state) => state.localOfficeUrl,
   version: (state) => state.version,
+  statusSuccessType: (state) => state.statusSuccessType,
+  statusFailedType: (state) => state.statusFailedType,
+  statusInProgressType: (state) => state.statusInProgressType,
+  externalNetworkDests: (state) => state.externalNetworkDests,
+  statusWaitingForReview: (state) => state.statusWaitingForReview,
+  statusSuccessNames: (state) => state.statusSuccessNames,
 };
 
 const actions = {
@@ -43,17 +78,23 @@ const actions = {
 
 const mutations = {
   setConfig: (state, config) => {
-    (state.apmServerUrl = config.apmServerUrl),
-      (state.authUrl = config.authUrl),
-      (state.environment = config.environment),
-      (state.supportLink = config.supportLink),
-      (state.dropboxSupportLink = config.dropboxSupportLink),
-      (state.approvalServiceUrl = config.approvalServiceUrl),
-      (state.externalShareName = config.externalShareName),
-      (state.docsUrl = config.docsUrl),
-      (state.myExternalSharesName = config.myExternalSharesName),
-      (state.whiteListText = config.whiteListText || state.whiteListText),
-      (state.enableExternalShare = config.enableExternalShare);
+    state.apmServerUrl = config.apmServerUrl;
+    state.authUrl = config.authUrl;
+    state.environment = config.environment;
+    state.supportLink = config.supportLink;
+    state.dropboxSupportLink = config.dropboxSupportLink;
+    state.externalShareName = config.externalShareName;
+    state.docsUrl = config.docsUrl;
+    state.localOfficeUrl = config.localOfficeUrl;
+    state.bamSupportNumber = config.bamSupportNumber;
+    state.bereshitSupportLink = config.bereshitSupportLink;
+    state.myExternalSharesName = config.myExternalSharesName;
+    state.whiteListText = config.whiteListText || state.whiteListText;
+    state.enableExternalShare = config.enableExternalShare;
+    state.externalNetworkDests = config.externalNetworkDests;
+    state.statusInProgressType = config.statusInProgressType;
+    state.statusFailedType = config.statusFailedType;
+    state.statusSuccessType = config.statusSuccessType;
   },
 };
 

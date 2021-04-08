@@ -39,13 +39,17 @@ export default {
         folderID,
         fileIDs: this.chosenFiles.map((file) => file.id),
       });
-      this.$emit('close')
+      this.$emit("close");
     },
     canMove() {
       return (
         (!this.currentFolder || ownerRole(this.currentFolder.role)) &&
-        this.chosenFiles.every((file) => ownerRole(file.role))
+        this.chosenFiles.every((file) => ownerRole(file.role)) &&
+        !this.isFileReadOnly()
       );
+    },
+    isFileReadOnly() {
+      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
     },
   },
 };

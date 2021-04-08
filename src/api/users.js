@@ -1,9 +1,10 @@
 import Axios from "axios";
 import store from "@/store";
-import { formatUser, formatExternalUser } from "@/utils/formatUser";
+import { formatUser } from "@/utils/formatUser";
 import { baseURL } from "@/config";
 import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
 import i18n from "@/i18n";
+import { getNetworkItemByDest } from "@/utils/networkDest";
 
 /**
  * getUserByID returns the user with the received id
@@ -13,7 +14,6 @@ export async function getUserByID(userID) {
   try {
     const res = await Axios.get(`${baseURL}/api/users/${userID}`);
     const user = formatUser(res.data.user);
-    
     store.commit("addUserToictionary", user);
 
     return user;
@@ -37,11 +37,16 @@ export function getUsersByIDs(userIDs) {
 /**
  * getExternalUserByID returns the external user with the received id
  * @param userID is the user id
+ * @param destination external destination network
  */
-export async function getExternalUserByID(userID) {
+export async function getExternalUserByID(userID, destination) {
   try {
-    const res = await Axios.get(`${baseURL}/api/delegators/${userID}`);
-    const user = formatExternalUser(res.data.user);
+    const res = await Axios.get(`${baseURL}/api/users/${userID}`, {
+      headers: { destination: destination },
+    });
+    const user = formatUser(res.data.user);
+    store.commit("addUserToictionary", user);
+
     return user;
   } catch (err) {
     store.dispatch("onError", err);
@@ -51,11 +56,12 @@ export async function getExternalUserByID(userID) {
 /**
  * getUsersByIDs returns the array of the users with the id
  * @param userIDs is the array of the ids
+ * @param destination external destination network
  */
-export function getExternalUsersByIDs(userIDs) {
+export function getExternalUsersByIDs(userIDs, destination) {
   return Promise.all(
     userIDs.map((id) => {
-      return getExternalUserByID(id);
+      return getExternalUserByID(id, destination);
     })
   );
 }
@@ -63,23 +69,38 @@ export function getExternalUsersByIDs(userIDs) {
 /**
  * searchExternalUsersByName sets the current users to the external users with the received name
  * @param name
+ * @param destination external destination network
  */
-export async function searchExternalUsersByName(name) {
+export async function searchExternalUsersByName(name, destination) {
   try {
-    const res = await Axios.get(`${baseURL}/api/delegators`, {
+    const res = await Axios.get(`${baseURL}/api/users`, {
       params: { partial: name },
+      headers: { destination: destination },
     });
     const users = res.data.users || [];
-    return Promise.all(users.map((user) => formatExternalUser(user)));
+    return Promise.all(users.map((user) => formatUser(user)));
   } catch (err) {
     store.dispatch("onError", err);
   }
 }
 
-export async function getApproverInfo(userID) {
+export async function getApproverInfo(userID, destination) {
   const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
-    timeout: 500,
+    headers: { destination: destination },
   });
+
+  const approverInfo = res.data;
+
+  if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
+
+  return approverInfo;
+}
+
+export async function canBeApproved(userID, approverID, destination) {
+  const res = await Axios.get(`${baseURL}/api/users/${userID}/canApproveToUser/${approverID}`, {
+    headers: { destination: destination },
+  });
+
   return res.data;
 }
 
@@ -105,4 +126,14 @@ export async function getUsers(content, searchBy) {
       store.dispatch("onError", err);
     }
   }
+}
+
+export function openApprovalPage(destination) {
+  const networkDest = getNetworkItemByDest(destination);
+  window.open(`${networkDest.approvalUIUrl}`);
+}
+
+export function openAboutMePage(destination) {
+  const networkDest = getNetworkItemByDest(destination);
+  window.open(`${networkDest.approvalUIUrl}/myAccount`);
 }
