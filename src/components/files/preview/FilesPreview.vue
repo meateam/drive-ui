@@ -14,7 +14,7 @@
       />
     </div>
     <p class="d-subtitle">{{ $t("file.Files") }}</p>
-    <div class="flex">
+    <div id="files-items" class="flex">
       <File
         @dblclick="onDblClick"
         @contextmenu="onRightClick"
@@ -47,10 +47,11 @@ export default {
       typeFolders: this.files.filter((file) => isFolder(file.type)),
       typeFiles: this.files.filter((file) => !isFolder(file.type)),
       selectedFile: undefined,
+      page: 1,
     };
   },
   watch: {
-    files: function (val) {
+    files: function(val) {
       this.typeFolders = val.filter((file) => isFolder(file.type));
       this.typeFiles = val.filter((file) => !isFolder(file.type));
     },
@@ -69,11 +70,24 @@ export default {
       this.$emit("fileclick", file);
     },
   },
+  mounted() {
+    const filesElm = document.querySelector("#files-items");
+    filesElm.addEventListener("scroll", () => {
+      if (filesElm.scrollTop + filesElm.clientHeight >= filesElm.scrollHeight) {
+        this.page += 1;
+        this.$emit("page", this.page);
+      }
+    });
+  },
 };
 </script>
 
 <style scoped>
 .folders-header {
   margin-top: 20px;
+}
+#files-items {
+  overflow: auto;
+  height: 40vh;
 }
 </style>

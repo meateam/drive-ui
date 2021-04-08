@@ -7,6 +7,7 @@
       @dblclick="onDblClick"
       @ctrlclick="onCtrlCLick"
       @fileclick="onFileClick"
+      @page="$emit('page', $event)"
     />
     <FileTable
       v-else

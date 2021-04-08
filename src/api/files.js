@@ -28,6 +28,16 @@ export async function getFoldersByFolder(parent) {
 }
 
 /**
+ * fetchSharedFiles fetch all the shared folders in the current parent
+ * @param folderID the id of the parent
+ */
+export async function fetchSharedFolders(parent) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive${parent ? `&parent=${parent}` : ""}`);
+  const permissions = res.data.files.filter((item) => item.type == fileTypes.folder);
+  return permissions;
+}
+
+/**
  * fetchSharedFiles fetch all the shared files in the current folder
  */
 export async function fetchSharedFiles(pageNum) {

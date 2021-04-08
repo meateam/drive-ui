@@ -45,15 +45,34 @@ const actions = {
     }
   },
   /**
+   * fetchSharedFolders fetch the shared files in the root folder
+   */
+  async fetchSharedFolders({ commit, dispatch }, parent) {
+    try {
+      const folders = await filesApi.fetchSharedFolders(parent ? parent.id : undefined);
+
+      commit("setAppendFiles", folders);
+
+      for (const folder of folders) {
+        const formattedFolder = folder;
+        formattedFolder.owner = await getFileOwnerName(folder.ownerId);
+        commit("updateFile", formattedFolder);
+      }
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+  /**
    * fetchSharedFiles fetch the shared files in the root folder
    */
-  async fetchSharedFiles({ commit, dispatch }, pageNum) {
+  async fetchSharedFiles({ commit, dispatch }, { pageNum, isAppend }) {
+    console.log(pageNum);
     try {
       const permissions = await filesApi.fetchSharedFiles(pageNum || 0);
       const files = permissions.files;
 
       commit("updatePageNum", pageNum + 1);
-      commit("setFiles", files);
+      isAppend ? commit("setAppendFiles", files) : commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
       for (const file of files) {
@@ -284,6 +303,10 @@ const mutations = {
   setFiles: (state, files) => {
     state.serverFilesLength = undefined;
     state.files = files;
+  },
+  setAppendFiles: (state, appendFiles) => {
+    const filesIds = new Set(state.files.map((file) => file.id));
+    state.files = [...state.files, ...appendFiles.filter((folder) => !filesIds.has(folder.id))];
   },
   setServerFilesLength: (state, itemCount) => {
     state.serverFilesLength = itemCount;

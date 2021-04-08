@@ -16,14 +16,25 @@ export default {
   name: "Shared",
   components: { PageTemplate },
   computed: {
-    ...mapGetters(["files", "serverFilesLength"]),
+    ...mapGetters(["files", "serverFilesLength", "fileView", "currentFolder"]),
   },
   created() {
-    this.$store.dispatch("fetchSharedFiles", 0);
+    this.$store.dispatch("fetchSharedFiles", { pageNum: 0 });
+    if (this.fileView == 1) this.$store.dispatch("fetchSharedFolders", this.currentFolder);
+  },
+  watch: {
+    fileView: function() {
+      if (this.fileView == 1) this.$store.dispatch("fetchSharedFolders", this.currentFolder);
+    },
   },
   methods: {
     onPageChange(page) {
-      this.$store.dispatch("fetchSharedFiles", page - 1);
+      if (this.fileView == 0) {
+        this.$store.dispatch("fetchSharedFiles", { pageNum: page - 1 });
+      } else {
+        this.$store.dispatch("fetchSharedFiles", { pageNum: page - 1, isAppend: true });
+        this.$store.dispatch("fetchSharedFolders", this.currentFolder);
+      }
     },
   },
 };
