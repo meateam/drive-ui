@@ -74,7 +74,7 @@ export function getExternalUsersByIDs(userIDs, destination) {
 export async function searchExternalUsersByName(name, destination) {
   try {
     const res = await Axios.get(`${baseURL}/api/users`, {
-      params: { partial: name },
+      params: { content: name, searchBy: AdvancedSearchEnum.SearchByName },
       headers: { destination: destination },
     });
     const users = res.data.users || [];
