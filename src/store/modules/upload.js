@@ -1,15 +1,15 @@
 import * as filesApi from "@/api/files";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 
-export const Set = {
+export const UploadSet = {
   isUpload: "SetUploadIsUpload"
 }
 
-export const Get = {
+export const UploadGet = {
   isUpload: "GetUploadIsUpload"
 }
 
-export const Action = {
+export const UploadAction = {
   uploadFileToFolder: "ActionUploadUploadFileToFolder",
   createFolder: "ActionUploadCreateFolder",
   createFolderInFolder: "ActionUploadCreateFolderInFolder"
@@ -20,7 +20,7 @@ const state = {
 };
 
 const getters = {
-  [Get.isUpload]: (state) => state.isUpload,
+  [UploadGet.isUpload]: (state) => state.isUpload,
 };
 
 const actions = {
@@ -29,8 +29,21 @@ const actions = {
   * uploadFileToFolder create multipart or resumable upload by the file size
   * @param file is the file to upload
   */
-  async [Action.uploadFileToFolder]({ commit, dispatch }, folderAndFile) {
+  async [UploadAction.uploadFileToFolder]({ rootState, commit }, folderAndFile) {
+
+    const fileState = rootState.files;
+    const loadingState = rootState.loading;
+
     try {
+
+      if (
+        isFileNameExists({
+          name: folderAndFile.file.name,
+          files: fileState.files,
+          loadingFiles: loadingState.loadingFiles,
+        })
+      ) throw new Error("שם הקובץ קים בתיקייה");
+
       let res = null
       if (folderAndFile.file.size <= 5 << 20) {
         res = await filesApi.multipartUpload({
@@ -61,7 +74,7 @@ const actions = {
       commit("addQuota", res.size);
       return res;
     } catch (err) {
-      dispatch("onError", err);
+      throw new Error(err.message)
     }
   },
 
@@ -69,10 +82,11 @@ const actions = {
    * createFolder in the current folder without notification
    * @param name is the name of the folder
    */
-  async [Action.createFolder]({ dispatch, rootState }, name) {
+  async [UploadAction.createFolder]({ rootState }, name) {
+
     const fileState = rootState.files;
     const loadingState = rootState.loading;
-    try {
+
       if (
         isFileNameExists({
           name,
@@ -80,22 +94,21 @@ const actions = {
           loadingFiles: loadingState.loadingFiles,
         })
       ) throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
+
       const res = filesApi.uploadFolder({
         name,
         parent: fileState.currentFolder,
       })
       res.owner = "אני";
       return res;
-    } catch (err) {
-      dispatch("onError", err);
-    }
+
   },
 
   /**
   * createFolderInFolder create folder in folder without notification
   * @param parentAndName is contains parent: is the file to create, name: is the name of the folder
   */
-  async [Action.createFolderInFolder]({ dispatch }, parentAndName) {
+  async [UploadAction.createFolderInFolder](_, parentAndName) {
     try {
       let res = filesApi.uploadFolder({
         name: parentAndName.name,
@@ -104,13 +117,13 @@ const actions = {
       res.owner = "אני";
       return res;
     } catch (err) {
-      dispatch("onError", err);
+      throw new Error(err.message)
     }
   },
 }
 
 const mutations = {
-  [Set.isUpload]: (state, payload) => { state.isUpload = payload },
+  [UploadSet.isUpload]: (state, payload) => { state.isUpload = payload },
 };
 
 export default {
