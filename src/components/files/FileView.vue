@@ -1,7 +1,8 @@
 <template>
   <div>
+    <FilesEmpty v-if="serverFilesLength == undefined" />
     <FilesPreview
-      v-if="fileView == 1"
+      v-else-if="fileView == 1"
       :files="files"
       @contextmenu="onRightClick"
       @dblclick="onDblClick"
@@ -45,6 +46,7 @@ import FileTable from "@/components/files/list/FileTable";
 import AlertPopup from "@/components/popups/BaseAlertPopup";
 import BottomMenu from "@/components/popups/menus/BottomMenu";
 import FilesPreview from "@/components/files/preview/FilesPreview";
+import FilesEmpty from "@/components/files/FilesEmpty";
 import FileContextMenu from "@/components/popups/menus/FileContextMenu";
 import Preview from "@/components/popups/Preview";
 
@@ -57,10 +59,14 @@ export default {
     FileContextMenu,
     BottomMenu,
     AlertPopup,
+    FilesEmpty,
   },
   props: ["files", "serverFilesLength", "sortable"],
   computed: {
     ...mapGetters(["fileView", "chosenFiles"]),
+  },
+  mounted() {
+    console.log(this.files.length);
   },
   created() {
     window.addEventListener("keydown", (event) => {

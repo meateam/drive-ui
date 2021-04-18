@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!isShared">
     <p class="d-subtitle folders-header">{{ $t("file.Folders") }}</p>
     <div class="flex">
       <Folder
@@ -14,13 +14,28 @@
       />
     </div>
     <p class="d-subtitle">{{ $t("file.Files") }}</p>
-    <div id="files-items" class="flex">
+
+    <div class="files-items flex" id="files-items">
       <File
         @dblclick="onDblClick"
         @contextmenu="onRightClick"
         @click="onFileClick"
         @ctrlclick="onCtrlCLick"
         v-for="file in typeFiles"
+        :isSelected="chosenFiles.includes(file)"
+        :key="file.id"
+        :file="file"
+      />
+    </div>
+  </div>
+  <div v-else>
+    <div id="files-items-pagination" class="files-items flex">
+      <File
+        @dblclick="onDblClick"
+        @contextmenu="onRightClick"
+        @click="onFileClick"
+        @ctrlclick="onCtrlCLick"
+        v-for="file in files"
         :isSelected="chosenFiles.includes(file)"
         :key="file.id"
         :file="file"
@@ -40,7 +55,7 @@ export default {
   props: ["files"],
   components: { File, Folder },
   computed: {
-    ...mapGetters(["chosenFiles"]),
+    ...mapGetters(["chosenFiles", "isShared"]),
   },
   data() {
     return {
@@ -71,8 +86,9 @@ export default {
     },
   },
   mounted() {
-    const filesElm = document.querySelector("#files-items");
-    filesElm.addEventListener("scroll", () => {
+    const filesElm = document.querySelector("#files-items-pagination");
+
+    filesElm?.addEventListener("scroll", () => {
       if (filesElm.scrollTop + filesElm.clientHeight >= filesElm.scrollHeight) {
         this.page += 1;
         this.$emit("page", this.page);
@@ -86,8 +102,18 @@ export default {
 .folders-header {
   margin-top: 20px;
 }
-#files-items {
+.files-items {
   overflow: auto;
-  height: 40vh;
+}
+#files-items {
+  height: 45vh;
+}
+#files-items-pagination {
+  margin-top: 30px;
+  height: 70vh;
+}
+#noData {
+  margin-top: 30px;
+  text-align: center;
 }
 </style>

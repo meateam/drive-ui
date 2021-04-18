@@ -2,22 +2,24 @@ import * as filesApi from "@/api/files";
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import router from "@/router";
 import { sortFiles } from "@/utils/sortFiles";
-import { fileTypes } from "@/config";
+import { fileTypes, pageSize } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 
 const state = {
   files: [],
+  sharedFiles: [],
   chosenFiles: [],
   currentFolderHierarchy: [],
   pageNum: 1,
   currentFolder: undefined,
   serverFilesLength: undefined,
+  isShared: undefined,
 };
 
 const getters = {
-  files: (state) => sortFiles(state.files),
+  files: (state) => (state.isShared ? state.files : sortFiles(state.files)),
   serverFilesLength: (state) => state.serverFilesLength,
   pageNum: (state) => state.pageNum,
   chosenFiles: (state) => state.chosenFiles,
@@ -25,6 +27,7 @@ const getters = {
   currentFolder: (state) => state.currentFolder,
   folders: (state) => state.files.filter((file) => file.type === fileTypes.folder),
   currentFolderHierarchy: (state) => state.currentFolderHierarchy,
+  isShared: (state) => state.isShared,
 };
 
 const actions = {
@@ -32,6 +35,7 @@ const actions = {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
 
+      commit("setIsShared", false);
       commit("setFiles", files);
 
       files.forEach(async (file) => {
@@ -45,32 +49,14 @@ const actions = {
     }
   },
   /**
-   * fetchSharedFolders fetch the shared files in the root folder
-   */
-  async fetchSharedFolders({ commit, dispatch }, parent) {
-    try {
-      const folders = await filesApi.fetchSharedFolders(parent ? parent.id : undefined);
-
-      commit("setAppendFiles", folders);
-
-      for (const folder of folders) {
-        const formattedFolder = folder;
-        formattedFolder.owner = await getFileOwnerName(folder.ownerId);
-        commit("updateFile", formattedFolder);
-      }
-    } catch (err) {
-      dispatch("onError", err);
-    }
-  },
-  /**
    * fetchSharedFiles fetch the shared files in the root folder
    */
-  async fetchSharedFiles({ commit, dispatch }, { pageNum, isAppend }) {
-    console.log(pageNum);
+  async fetchSharedFiles({ commit, dispatch }, { pageNum, isAppend, pageAmount }) {
     try {
-      const permissions = await filesApi.fetchSharedFiles(pageNum || 0);
+      const permissions = await filesApi.fetchSharedFiles(pageNum || 0, pageAmount || pageSize);
       const files = permissions.files;
 
+      commit("setIsShared", true);
       commit("updatePageNum", pageNum + 1);
       isAppend ? commit("setAppendFiles", files) : commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
@@ -89,6 +75,7 @@ const actions = {
       const permissions = await filesApi.fetchExternalTransferredFiles(pageNum || 0, appId);
       const files = permissions.files;
 
+      commit("setIsShared", false);
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
@@ -108,6 +95,7 @@ const actions = {
     try {
       const files = await lastUpdatedFileHandler.getUpdatedFiles();
 
+      commit("setIsShared", false);
       commit("setFiles", files);
 
       files.forEach(async (file) => {
@@ -362,6 +350,9 @@ const mutations = {
   },
   setHierarchy: (state, hieratchy) => {
     state.currentFolderHierarchy = hieratchy;
+  },
+  setIsShared: (state, isShared) => {
+    state.isShared = isShared;
   },
 };
 

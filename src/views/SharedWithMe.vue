@@ -2,7 +2,6 @@
   <PageTemplate
     :files="files"
     :serverFilesLength="serverFilesLength"
-    :sortable="false"
     :header="$t('pageHeaders.SharedWithMe')"
     @page="onPageChange"
   />
@@ -11,6 +10,7 @@
 <script>
 import { mapGetters } from "vuex";
 import PageTemplate from "@/components/BasePageTemplate";
+import { pageSize } from "@/config";
 
 export default {
   name: "Shared",
@@ -18,22 +18,38 @@ export default {
   computed: {
     ...mapGetters(["files", "serverFilesLength", "fileView", "currentFolder"]),
   },
-  created() {
-    this.$store.dispatch("fetchSharedFiles", { pageNum: 0 });
-    if (this.fileView == 1) this.$store.dispatch("fetchSharedFolders", this.currentFolder);
-  },
   watch: {
-    fileView: function() {
-      if (this.fileView == 1) this.$store.dispatch("fetchSharedFolders", this.currentFolder);
+    fileView: function(newValue, oldValue) {
+      if (oldValue != newValue) {
+        this.$store.commit("setFiles", []);
+        this.$store.commit("setServerFilesLength", 0);
+
+        this.$store.commit("updatePageNum", 0);
+        this.$store.dispatch("fetchSharedFiles", { pageNum: 0, pageAmount: this.getPageSize(newValue) });
+      }
     },
   },
+  created() {
+    this.$store.dispatch("fetchSharedFiles", { pageNum: 0, pageAmount: this.getPageSize(this.fileView) });
+  },
   methods: {
+    getPageSize(fileView) {
+      return fileView == 0 ? pageSize : pageSize * 2;
+    },
     onPageChange(page) {
       if (this.fileView == 0) {
-        this.$store.dispatch("fetchSharedFiles", { pageNum: page - 1 });
+        this.$store.dispatch("fetchSharedFiles", {
+          pageNum: page - 1,
+          pageAmount: this.getPageSize(this.fileView),
+        });
       } else {
-        this.$store.dispatch("fetchSharedFiles", { pageNum: page - 1, isAppend: true });
-        this.$store.dispatch("fetchSharedFolders", this.currentFolder);
+        if (pageSize * page - 1 < this.serverFilesLength) {
+          this.$store.dispatch("fetchSharedFiles", {
+            pageNum: page - 1,
+            isAppend: true,
+            pageAmount: this.getPageSize(this.fileView),
+          });
+        }
       }
     },
   },

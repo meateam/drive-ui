@@ -40,8 +40,8 @@ export async function fetchSharedFolders(parent) {
 /**
  * fetchSharedFiles fetch all the shared files in the current folder
  */
-export async function fetchSharedFiles(pageNum) {
-  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive&pageSize=${pageSize}&pageNum=${pageNum}`);
+export async function fetchSharedFiles(pageNum, pageAmount) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive&pageSize=${pageAmount}&pageNum=${pageNum}`);
   const permissions = res.data;
   return permissions;
 }
