@@ -29,45 +29,32 @@ const actions = {
   * uploadFileToFolder create multipart or resumable upload by the file size
   * @param file is the file to upload
   */
-  async [UploadAction.uploadFileToFolder]({ rootState, commit }, folderAndFile) {
-
-    const fileState = rootState.files;
-    const loadingState = rootState.loading;
-
+  async [UploadAction.uploadFileToFolder]({ commit }, folderAndFile) {
     try {
-
-      if (
-        isFileNameExists({
-          name: folderAndFile.file.name,
-          files: fileState.files,
-          loadingFiles: loadingState.loadingFiles,
-        })
-      ) throw new Error("שם הקובץ קים בתיקייה");
-
       let res = null
       if (folderAndFile.file.size <= 5 << 20) {
         res = await filesApi.multipartUpload({
           file: folderAndFile.file,
           parent: folderAndFile.folder,
         }, (file, event, source) => {
-            commit("addLoadingFile", {
-              name: file.name,
-              progress: Math.round((100 * event.loaded) / event.total),
-              source,
-            });
-          })
-      } else {
-        res = await filesApi.resumableUpload({
-          file: folderAndFile.file,
-          parent: folderAndFile.folder,
-        },
-        (file, event, source) => {
           commit("addLoadingFile", {
             name: file.name,
             progress: Math.round((100 * event.loaded) / event.total),
             source,
           });
-        });
+        })
+      } else {
+        res = await filesApi.resumableUpload({
+          file: folderAndFile.file,
+          parent: folderAndFile.folder,
+        },
+          (file, event, source) => {
+            commit("addLoadingFile", {
+              name: file.name,
+              progress: Math.round((100 * event.loaded) / event.total),
+              source,
+            });
+          });
       }
       res.owner = "אני";
       // lastUpdatedFileHandler.pushUpdatedFile(res.id);
@@ -87,20 +74,20 @@ const actions = {
     const fileState = rootState.files;
     const loadingState = rootState.loading;
 
-      if (
-        isFileNameExists({
-          name,
-          files: fileState.files,
-          loadingFiles: loadingState.loadingFiles,
-        })
-      ) throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
-
-      const res = filesApi.uploadFolder({
+    if (
+      isFileNameExists({
         name,
-        parent: fileState.currentFolder,
+        files: fileState.files,
+        loadingFiles: loadingState.loadingFiles,
       })
-      res.owner = "אני";
-      return res;
+    ) throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
+
+    const res = filesApi.uploadFolder({
+      name,
+      parent: fileState.currentFolder,
+    })
+    res.owner = "אני";
+    return res;
 
   },
 

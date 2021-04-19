@@ -39,9 +39,7 @@ export async function getFilesFromInput(files, parent) {
         try {
             await p
         } catch (err) {
-            if (err.message == "שם התיקייה כבר קיים בתיקייה הנוכחית") {
-                store.dispatch("onError", err);
-            }
+            store.dispatch("onError", err);
         }
     }
     store.commit("removeLoadingFiles");
