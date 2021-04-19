@@ -4,7 +4,12 @@
   "Error": "error",
   "sidenav": {
     "MyDrive": "my drive",
-    "ExternalTransferd": "external transferd",
+    "ExternalTransferIncoming": "incoming external transfer",
+    "ExternalTransferIncomingName": "incoming external transfer {networkName}",
+    "ExternalTransferOutgoing": "outgoing external transfer",
+    "ExternalTransferOutgoingName": "outgoing external transfer {networkName}",
+    "ExternalTransferOutgoingStatus": "status transferred files",
+    "ExternalFiles": "external networks",
     "SharedWithMe": "shared with me",
     "Deleted": "deleted files",
     "LastUpdated": "last updated",
@@ -21,13 +26,16 @@
   },
   "autocomplete": {
     "NoResult": "no results...",
+    "NoResultAdvancedSearch": "no results. try advanced search.",
     "Drive": "search in drive...",
     "Users": "add users..."
   },
   "pageHeaders": {
     "SharedWithMe": "Shared With Me",
     "LastUpdated": "Last Updated",
-    "ExternalTransferd": "External Transferd",
+    "ExternalTransferDefault": "",
+    "ExternalTransferred": "External Transferred {networkName}",
+    "StatusTransferred": "Status files transferred",
     "MyDrive": "My Drive",
     "Search": "Search Results"
   },
@@ -45,7 +53,12 @@
     "Delete": "Are you sure you want to delete?",
     "ConvertDOC": "This file is a DOC file. To edit it we need to convert it to DOCX Do you want to continue?",
     "ConvertXLS": "This file is a XLS file. To edit it we need to convert it to XLSX Do you want to continue?",
-    "ConvertPPT": "This file is a PPT file. To edit it we need to convert it to PPTX Do you want to continue?"
+    "ConvertPPT": "This file is a PPT file. To edit it we need to convert it to PPTX Do you want to continue?",
+    "TransferCreatedAt": "transfer date",
+    "TransferClassification": "classification",
+    "TransferStatus": "status",
+    "TransferDestination": "dest network",
+    "TransferDestUsers": "dest users"
   },
   "buttons": {
     "UploadFile": "upload file",
@@ -62,6 +75,7 @@
     "FileInfo": "file info",
     "FolderInfo": "folder info",
     "EditOnline": "edit online",
+    "EditLocally": "edit locally",
     "CreateFile": "create new file",
     "Edit": "rename",
     "DeleteNow": "delete",
@@ -75,7 +89,9 @@
     "Preview": "preiview",
     "EditPermission": "edit permission",
     "ConvertNow": "convert",
-    "AboutMe": "About me"
+    "AboutMe": "About me",
+    "MoreInfo": "for more info, press here",
+    "BackToShare": "return to select approvers"
   },
   "success": {
     "File": "Uploaded successfully",
@@ -88,10 +104,18 @@
     "DeleteItems": "Deleted successfully!",
     "EditShare": "role was changed successfully!",
     "DeleteShare": "permission deleted successfully!",
-    "Cancel": "Canceld successfully!"
+    "Cancel": "Canceld successfully!",
+    "Copied": "The link was copied successfully!"
   },
   "preview": {
-    "Unavailable": "preview is unavailble"
+    "Unavailable": "preview is unavailble",
+    "Deleted": "the file was deleted from drive, preview is unavailable"
+  },
+  "status": {
+    "Status": "Status Transfer"
+  },
+  "destusers": {
+    "Title": "Destination Users"
   },
   "folder": {
     "Upload": "create new folder",
@@ -118,7 +142,13 @@
     "CreatedAt": "Created At",
     "UpdatedAt": "UpdatedAt",
     "Shared": "Shared",
-    "ExternalShare": "External Shared"
+    "ExternalShare": "External Shared",
+    "ExternalShareFailed": "Uncompleted external transferred",
+    "TransferCreatedAt": "Transfer date",
+    "TransferClassification": "Classification",
+    "TransferStatus": "Status",
+    "TransferDestination": "Dest network",
+    "Deleted": "the file was deleted from drive, the info is unavailable"
   },
   "share": {
     "Link": "copy link",
@@ -135,22 +165,40 @@
     "link": {
       "FolderLink": "folder link",
       "EditOnlineLink": "edit online link",
+      "EditLocallyLink": "edit locally link",
       "DownloadLink": "download link",
       "Copy": "copy link",
       "OnlyShare": "please notice! only users with permissions on this file will be able to access it"
-    }
+    },
+    "AdvancedSearch": "advanced search",
+    "AdvancedSearchChoices": {
+      "SearchByT": "by T",
+      "SearchByMail": "by mail"
+    },
+    "AdvancedSearchError": "The requested user was not found. Please ensure that the search query is valid."
   },
   "externalTransfer": {
     "Header": "External Transfer",
-    "Destination": "Destination",
+    "NetworkDest": "Network Destination",
+    "NetworkDestChoose": "choose Network Destination",
+    "Destination": "User Destinations",
     "Approval": "Approval",
     "AddInfo": "Add Info",
     "ApprovalChoose": "Choose the person who will approve your external share request.\nNot every person is a valid approver, check who are the approvers in your unit\nNotice! The approver will get read permission on the file.",
     "MoreInfo": "The information will aid the approver with approving the share",
     "Describe": "describe the file data...",
     "ChooseClassification": "classification",
-    "Classifications": ["Limited", "Secret", "Top Secret"],
-    "TopSecret": "top secret transfer is not allowed",
+    "Classifications": {
+      "TOMCAL": [{ "text": "Limited" }, { "text": "Secret" }, { "text": "Top secret", "enable": false }],
+      "CTS": [
+        { "text": "Limited" },
+        { "text": "Secret" },
+        { "text": "Top Secret - red", "color": "red" },
+        { "text": "Top Secret - purple", "color": "purple", "enable": false },
+        { "text": "Top Secret - blue", "color": "blue", "enable": false }
+      ]
+    },
+    "DisableClassification": "transfer is not allowed {classificationName}",
     "ApprovalInstructions": "The users are taken from the other domain",
     "ApprovalService": "approval service",
     "CanApprove": "this file will be approved automatically",
@@ -169,13 +217,25 @@
       "Notice": "Alert!",
       "SecretNetwork": "You are attempting to pass a document that might be classified.",
       "SecretData": "It is under your responsibility to make sure the following:",
-      "Marks": [
-        "The document was not originally Samatz/Blue.",
-        "The document does not contain exact operative information",
-        "The document does not contain intelligence-based quotes",
-        "The document does not contain sensitive information collection methods"
-      ],
-      "IAgree": "By pressing 'Agree' I declare that I have read the above and that my request meets the requirements"
+      "Marks": {
+        "TOMCAL": [
+          "The document was not originally Samatz/Blue.",
+          "The document does not contain exact operative information",
+          "The document does not contain intelligence-based quotes",
+          "The document does not contain sensitive information collection methods"
+        ],
+        "CTS": [
+          "The document does not contain Blue information from any kind (proceesed or raw)",
+          "The document does not contain sensitive information collection methods",
+          "The document does not contain intelligence-based raw information (or raw information)",
+          "The document is shared only to those who are required to view or use it"
+        ]
+      },
+      "IAgree": "By pressing 'Agree' I declare that I have read the above and that my request meets the requirements",
+      "CantChooseApprove": "approver selection failed {name}",
+      "Reasons": "the approver selection was failed from this reasons",
+      "NoUnit": "you are a no unit user, so you cant transfer files",
+      "BlockedApprover": "the user  {name} cant approve this request "
     },
     "errors": {
       "FileType": "This file type cannot be shared exterrnally",

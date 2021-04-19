@@ -8,6 +8,9 @@
 </template>
 
 <script>
+// import store from "@/store";
+// import { UploadSet, UploadGet } from "@/store/modules/upload";
+import { UploadGet } from "@/store/modules/upload";
 import { mapGetters } from "vuex";
 import { getFilesFromDroppedItems } from "./../../utils/drop";
 
@@ -20,7 +23,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["currentFolder"]),
+    ...mapGetters({
+      currentFolder: "currentFolder",
+      isUpload: UploadGet.isUpload,
+    }),
   },
   methods: {
     getFilesFromDroppedItems,
@@ -68,10 +74,13 @@ export default {
         "drop",
         async (event) => {
           event.preventDefault();
-
+          this.onDrag = false;
+          event.stopImmediatePropagation();
           if (this.isFileDrag(event)) {
-            this.onDrag = false;
-            this.getFilesFromDroppedItems(event.dataTransfer, this.currentFolder);
+            this.getFilesFromDroppedItems(
+              event.dataTransfer,
+              this.currentFolder
+            );
           }
         },
         false

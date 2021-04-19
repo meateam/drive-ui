@@ -1,7 +1,10 @@
 import Axios from "axios";
 import store from "@/store";
-import { formatUser, formatExternalUser } from "@/utils/formatUser";
+import { formatUser } from "@/utils/formatUser";
 import { baseURL } from "@/config";
+import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
+import i18n from "@/i18n";
+import { getNetworkItemByDest } from "@/utils/networkDest";
 
 /**
  * getUserByID returns the user with the received id
@@ -32,33 +35,18 @@ export function getUsersByIDs(userIDs) {
 }
 
 /**
- * searchUsersByName gets all the users with the received name
- * @param name is the name of the users
- */
-export async function searchUsersByName(name) {
-  try {
-    const res = await Axios.get(`${baseURL}/api/users`, {
-      params: { partial: name },
-    });
-    const users = res.data.users
-      ? res.data.users.filter((user) => {
-        return user.id !== store.state.auth.user.id;
-      })
-      : [];
-    return Promise.all(users.map((user) => formatUser(user)));
-  } catch (err) {
-    store.dispatch("onError", err);
-  }
-}
-
-/**
  * getExternalUserByID returns the external user with the received id
  * @param userID is the user id
+ * @param destination external destination network
  */
-export async function getExternalUserByID(userID) {
+export async function getExternalUserByID(userID, destination) {
   try {
-    const res = await Axios.get(`${baseURL}/api/delegators/${userID}`);
-    const user = formatExternalUser(res.data.user);
+    const res = await Axios.get(`${baseURL}/api/users/${userID}`, {
+      headers: { destination: destination },
+    });
+    const user = formatUser(res.data.user);
+    store.commit("addUserToictionary", user);
+
     return user;
   } catch (err) {
     store.dispatch("onError", err);
@@ -68,11 +56,12 @@ export async function getExternalUserByID(userID) {
 /**
  * getUsersByIDs returns the array of the users with the id
  * @param userIDs is the array of the ids
+ * @param destination external destination network
  */
-export function getExternalUsersByIDs(userIDs) {
+export function getExternalUsersByIDs(userIDs, destination) {
   return Promise.all(
     userIDs.map((id) => {
-      return getExternalUserByID(id);
+      return getExternalUserByID(id, destination);
     })
   );
 }
@@ -80,35 +69,71 @@ export function getExternalUsersByIDs(userIDs) {
 /**
  * searchExternalUsersByName sets the current users to the external users with the received name
  * @param name
+ * @param destination external destination network
  */
-export async function searchExternalUsersByName(name) {
+export async function searchExternalUsersByName(name, destination) {
   try {
-    const res = await Axios.get(`${baseURL}/api/delegators`, {
+    const res = await Axios.get(`${baseURL}/api/users`, {
       params: { partial: name },
+      headers: { destination: destination },
     });
     const users = res.data.users || [];
-    return Promise.all(users.map((user) => formatExternalUser(user)));
+    return Promise.all(users.map((user) => formatUser(user)));
   } catch (err) {
     store.dispatch("onError", err);
   }
 }
 
-export async function getApproverInfo(userID) {
-  const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`);
+export async function getApproverInfo(userID, destination) {
+  const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
+    headers: { destination: destination },
+  });
 
-  const approverInfo = res.data.approverInfo;
+  const approverInfo = res.data;
 
   if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
 
-  return res.data.approverInfo;
+  return approverInfo;
 }
 
-export async function canBeApproved(userID, approverID) {
-  const res = await Axios.get(`${baseURL}/api/users/${userID}/canApproveToUser/${approverID}`);
+export async function canBeApproved(userID, approverID, destination) {
+  const res = await Axios.get(`${baseURL}/api/users/${userID}/canApproveToUser/${approverID}`, {
+    headers: { destination: destination },
+  });
 
   return res.data;
 }
 
-export function openAboutMePage() {
-  window.open(`${store.state.configuration.approvalServiceUIUrl}/myAccount`);
+/**
+ * getUsers returns (Find or search) array of users from the users api.
+ * @param {string} content 
+ * @param {AdvancedSearchEnum} searchBy 
+ */
+export async function getUsers(content, searchBy) {
+  try {
+    const res = await Axios.get(`${baseURL}/api/users`, {
+      params: { content, searchBy },
+    });
+    let users = res.data.users.filter((user) => {
+        return user.id !== store.state.auth.user.id;
+    });
+    return Promise.all(users.map(formatUser));
+  } catch (err) {
+    if (searchBy !== AdvancedSearchEnum.SearchByName) {
+      const advancedSearchError = new Error(i18n.t("share.AdvancedSearchError"));
+      store.dispatch("onError", advancedSearchError);
+    } else {
+      store.dispatch("onError", err);
+    }
+  }
+}
+
+export function openApprovalPage(destination) {
+  const networkDest = getNetworkItemByDest(destination);
+  window.open(`${networkDest.approvalUIUrl}`);
+}
+
+export function openAboutMePage(destination) {
+  const networkDest = getNetworkItemByDest(destination);
+  window.open(`${networkDest.approvalUIUrl}/myAccount`);
 }

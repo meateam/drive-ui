@@ -18,7 +18,7 @@
     :placeholder="placeholder"
   >
     <template v-slot:no-data>
-      <p id="no-resault">{{ $t('autocomplete.NoResult')}}</p>
+      <p id="no-resault">{{ $t(`autocomplete.${noResult || 'NoResult'}`)}}</p>
     </template>
   </v-autocomplete>
 </template>
@@ -37,7 +37,8 @@ export default {
     "background",
     "icon",
     "isLoading",
-    "minLength"
+    "minLength",
+    "noResult"
   ],
   methods: {
     onSelect() {

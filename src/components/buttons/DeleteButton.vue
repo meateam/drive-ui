@@ -7,14 +7,11 @@
         v-on="on"
         :icon="icon"
         class="auto-margin"
-        :class="{right: !icon}"
+        :class="{ right: !icon }"
         text
       >
         <img class="fab-icon" src="@/assets/icons/delete.svg" />
-        <p
-          class="button-text"
-          v-if="!icon"
-        >{{ isUserOwner()? $t("buttons.Delete"): $t('buttons.RemoveShare') }}</p>
+        <p class="button-text" v-if="!icon">{{ isUserOwner() ? $t("buttons.Delete") : $t("buttons.RemoveShare") }}</p>
       </v-btn>
     </template>
     <AlertPopup
@@ -24,7 +21,7 @@
       :text="$t('file.Delete')"
       :button="$t('buttons.DeleteNow')"
     />
-    <span>{{ isUserOwner()? $t("buttons.Delete"): $t('buttons.RemoveShare') }}</span>
+    <span>{{ isUserOwner() ? $t("buttons.Delete") : $t("buttons.RemoveShare") }}</span>
   </v-tooltip>
 </template>
 
@@ -39,14 +36,19 @@ export default {
   components: { AlertPopup },
   methods: {
     onDelete() {
-      this.isUserOwner() ? this.$store.dispatch("deleteFiles", this.chosenFiles): this.$store.dispatch("removePermissions", this.chosenFiles);
-      this.$emit('close')
+      this.isUserOwner()
+        ? this.$store.dispatch("deleteFiles", this.chosenFiles)
+        : this.$store.dispatch("removePermissions", this.chosenFiles);
+      this.$emit("close");
     },
     canDelete() {
-      return !this.currentFolder || writeRole(this.currentFolder.role);
+      return (!this.currentFolder || writeRole(this.currentFolder.role)) && !this.isFileReadOnly();
     },
     isUserOwner() {
       return this.chosenFiles.every((file) => ownerRole(file.role));
+    },
+    isFileReadOnly() {
+      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
     },
   },
   computed: {

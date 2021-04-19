@@ -4,8 +4,6 @@ import { UploadSet, UploadAction } from "@/store/modules/upload"
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
     const items = [...dataTransfer.items]
     console.log(items)
-    store.commit(UploadSet.isUpload, true)
-
     const promises = [];
 
     for (const file of items) {

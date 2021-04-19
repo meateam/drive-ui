@@ -6,76 +6,83 @@
           <v-list-item-title>
             <img id="logo" class="auto-margin" src="@/assets/images/logo.svg" />
           </v-list-item-title>
-          <v-list-item-title class="sidenav-title" id="version">{{version}}</v-list-item-title>
+          <v-list-item-title class="sidenav-title" id="version">{{ version }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
-      <router-link to="/my-drive" exact-active-class="route-active">
-        <v-list-item link id="my-drive-link">
-          <v-list-item-icon>
-            <img class="icons white-icon" src="@/assets/icons/home.svg" />
-            <img class="icons green-icon" src="@/assets/icons/green-home.svg" />
+      <div v-for="item in menuItems" v-bind:key="item.path">
+        <router-link :to="item.path" exact-active-class="route-active">
+          <v-list-item link :id="item.id">
+            <v-list-item-icon>
+              <img class="icons white-icon" :src="require(`@/assets/icons/${item.icons.white}.svg`)" />
+              <img class="icons green-icon" :src="require(`@/assets/icons/${item.icons.green}.svg`)" />
+            </v-list-item-icon>
+            <v-list-item-title class="sidenav-title">{{ $t(item.title) }}</v-list-item-title>
+          </v-list-item>
+        </router-link>
+      </div>
+
+      <v-list-group class="sidenav-submenu-title ">
+        <template v-slot:activator>
+          <v-list-item-icon class="mr-3 py-6">
+            <img class="icons" src="@/assets/icons/transfer-inside.svg" />
           </v-list-item-icon>
-          <v-list-item-title class="sidenav-title">{{ $t("sidenav.MyDrive") }}</v-list-item-title>
-        </v-list-item>
-      </router-link>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalTransferIncoming") }}</v-list-item-title>
+        </template>
 
-      <router-link to="/shared-with-me" exact-active-class="route-active">
-        <v-list-item link>
-          <v-list-item-icon>
-            <img class="white-icon" src="@/assets/icons/share.svg" />
-            <img class="green-icon" src="@/assets/icons/green-share.svg" />
+        <div v-if="externalNetworkDests">
+          <router-link
+            :to="`/external-transferred-${externalNetworkDest.appID}`"
+            v-for="externalNetworkDest in externalNetworkDests"
+            v-bind:key="externalNetworkDest.value"
+            exact-active-class="route-active"
+            class="sidenav-subitem"
+          >
+            <v-list-item link>
+              <v-list-item-title class="sidenav-title mr-8"
+                >{{ $t("sidenav.ExternalTransferIncomingName", { networkName: externalNetworkDest.label }) }}
+              </v-list-item-title>
+            </v-list-item>
+          </router-link>
+        </div>
+      </v-list-group>
+
+      <v-list-group class="sidenav-submenu-title" no-action>
+        <template v-slot:activator>
+          <v-list-item-icon class="mr-3 py-6">
+            <img class="icons" :src="require(`@/assets/icons/transfer.svg`)" />
           </v-list-item-icon>
-          <v-list-item-title class="sidenav-title">{{ $t("sidenav.SharedWithMe") }}</v-list-item-title>
-        </v-list-item>
-      </router-link>
+          <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalTransferOutgoing") }}</v-list-item-title>
+        </template>
 
-      <router-link to="/last-updated" exact-active-class="route-active">
-        <v-list-item link>
-          <v-list-item-icon>
-            <img class="icons white-icon" src="@/assets/icons/last-update.svg" />
-            <img class="icons green-icon" src="@/assets/icons/green-last-update.svg" />
-          </v-list-item-icon>
-          <v-list-item-title class="sidenav-title">{{ $t("sidenav.LastUpdated") }}</v-list-item-title>
-        </v-list-item>
-      </router-link>
+        <router-link to="/statusTransferred" exact-active-class="route-active" class="sidenav-subitem">
+          <v-list-item link>
+            <v-list-item-title class="sidenav-title mr-8">{{
+              $t("sidenav.ExternalTransferOutgoingStatus")
+            }}</v-list-item-title>
+          </v-list-item>
+        </router-link>
 
-      <router-link to="/external-transferd" exact-active-class="route-active">
-        <v-list-item link>
-          <v-list-item-icon>
-            <img class="icons white-icon" src="@/assets/icons/transfer.svg" />
-            <img class="icons green-icon" src="@/assets/icons/green-transfer.svg" />
-          </v-list-item-icon>
-          <v-list-item-title class="sidenav-title">{{ $t("sidenav.ExternalTransferd") }}</v-list-item-title>
-        </v-list-item>
-      </router-link>
-
-      <v-list-item link @click="openApprovalService">
-        <v-list-item-icon>
-          <img class="icons" src="@/assets/icons/pending.svg" />
-        </v-list-item-icon>
-        <v-list-item-title class="sidenav-title">{{ myExternalSharesName }}</v-list-item-title>
-      </v-list-item>
-
-      <!-- <router-link to="/favorites" exact-active-class="route-active">
-        <v-list-item link>
-          <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/favorites.svg" />
-          </v-list-item-icon>
-          <v-list-item-title class="sidenav-title">{{ $t("sidenav.Favorites") }}</v-list-item-title>
-        </v-list-item>
-      </router-link>
-
-      
-
-      <router-link to="/deleted-files" exact-active-class="route-active">
-        <v-list-item link>
-          <v-list-item-icon>
-            <img class="icons" src="@/assets/icons/delete.svg" />
-          </v-list-item-icon>
-          <v-list-item-title class="sidenav-title">{{ $t("sidenav.Deleted") }}</v-list-item-title>
-        </v-list-item>
-      </router-link>-->
+        <div v-if="externalNetworkDests">
+          <v-list-item
+            v-for="externalNetworkDest in externalNetworkDests"
+            v-bind:key="externalNetworkDest.value"
+            link
+            @click="openApprovalService(externalNetworkDest.value)"
+            class="sidenav-subitem "
+          >
+            <v-list-item-title class="sidenav-title mr-8"
+              >{{
+                $t("sidenav.ExternalTransferOutgoingName", {
+                  networkName: externalNetworkDest.label.startsWith("ה")
+                    ? externalNetworkDest.label.substring(1)
+                    : externalNetworkDest.label,
+                })
+              }}
+            </v-list-item-title>
+          </v-list-item>
+        </div>
+      </v-list-group>
 
       <div>
         <v-list-item>
@@ -94,22 +101,67 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Quota from "./quota/Quota";
+import * as usersApi from "@/api/users";
 
 export default {
   name: "Sidenav",
   components: { Quota },
+  data: () => ({
+    menuItems: [
+      {
+        path: "/my-drive",
+        id: "my-drive-link",
+        icons: {
+          white: "home",
+          green: "green-home",
+        },
+        title: "sidenav.MyDrive",
+      },
+      {
+        path: "/shared-with-me",
+        icons: {
+          white: "share",
+          green: "green-share",
+        },
+        title: "sidenav.SharedWithMe",
+      },
+      {
+        path: "/last-updated",
+        icons: {
+          white: "last-update",
+          green: "green-last-update",
+        },
+        title: "sidenav.LastUpdated",
+      },
+
+      // {
+      //   path: '/favorites',
+      //   icons: {
+      //     white: 'favorites',
+      //     green: 'green-favorites',
+      //   },
+      //   title: 'sidenav.Favorites',
+      // },
+      //  {
+      //   path: '/deleted-files',
+      //   icons: {
+      //     white: 'delete',
+      //     green: 'green-delete',
+      //   },
+      //   title: 'sidenav.Deleted',
+      // },
+    ],
+  }),
   computed: {
-    ...mapGetters([
-      "version",
-      "quota",
-      "approvalServiceUIUrl",
-      "myExternalSharesName",
-    ]),
+    ...mapGetters(["version", "quota", "externalNetworkDests"]),
   },
   methods: {
     ...mapActions(["getQuota"]),
-    openApprovalService() {
-      window.open(this.approvalServiceUIUrl);
+    openApprovalService(destination) {
+      usersApi.openApprovalPage(destination);
+    },
+    handle_function_call(function_name, args) {
+      this[function_name](args);
     },
   },
   created() {
@@ -118,10 +170,21 @@ export default {
 };
 </script>
 
+<style>
+.sidenav-submenu-title .v-icon {
+  color: #fff9e5 !important;
+}
+</style>
+
 <style scoped>
 #sidenav {
   background-image: linear-gradient(to bottom, #347a99, #2f7e71);
   display: block;
+}
+.sidenav-subitem {
+  background-image: linear-gradient(to left, #347a99, #2f7e71);
+  background-color: #072333;
+  background-blend-mode: screen;
 }
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
   padding: 0 20px;
@@ -160,6 +223,9 @@ export default {
 .sidenav-title {
   color: #fff9e5;
 }
+.sidenav-submenu-title {
+  color: #fff9e5;
+}
 .white-icon {
   display: block;
 }
@@ -167,7 +233,7 @@ export default {
   display: none;
 }
 .route-active {
-  background-color: #f0f3f8;
+  background-color: #f0f3f8 !important;
 }
 .route-active .white-icon {
   display: none;
@@ -176,6 +242,6 @@ export default {
   display: block;
 }
 .route-active .sidenav-title {
-  color: #035c64;
+  color: #035c64 !important;
 }
 </style>

@@ -29,10 +29,27 @@ export async function getPermissions(fileID) {
  */
 export async function getExternalPermissions(fileID) {
   try {
-    const res = await Axios.get(`${baseURL}/api/files/${fileID}/permits`);
-    const users = await usersApi.getExternalUsersByIDs(
-      res.data ? res.data.map((permit) => permit.userId) : []
-    );
+    const users = [];
+    const res = await Axios.get(`${baseURL}/api/transfersInfo?all=true`, {
+      headers: { fileID },
+    });
+
+    if (res.data.transfersInfo) {
+      res.data.transfersInfo.map((transferInfo) => {
+        let isFailed = true;
+
+        if (store.getters.statusSuccessType === transferInfo.status[transferInfo.status.length - 1].type) {
+          isFailed = false;
+        }
+
+        transferInfo.to.map((destUser) => {
+          destUser.isFailed = isFailed;
+          destUser.createdAt = transferInfo.createdAt;
+          users.push(destUser);
+        });
+      });
+    }
+
     return users;
   } catch (err) {
     store.dispatch("onError", err);
@@ -64,9 +81,7 @@ export async function editPermission({ fileID, userID, role }) {
 }
 
 export async function removePermission({ userID, fileID }) {
-  await Axios.delete(
-    `${baseURL}/api/files/${fileID}/permissions?userId=${userID}`
-  )
+  await Axios.delete(`${baseURL}/api/files/${fileID}/permissions?userId=${userID}`)
     .then(() => {
       store.commit("onSuccess", "success.DeleteShare");
     })
@@ -97,6 +112,17 @@ export function shareUsers({ files, users, role }) {
     });
 }
 
+/**
+ * shareExternalUsers share external users
+ * @param fileID is the file to share
+ * @param users is the list of the users to share
+ * @param classification file level
+ * @param info information that the user enter about the file
+ * @param approvers the users that approve the external share
+ * @param fileName the fileName to share
+ * @param destination the external network to share
+ * @param ownerID
+ */
 export async function shareExternalUsers({
   fileID,
   users,
@@ -104,13 +130,15 @@ export async function shareExternalUsers({
   info,
   approvers,
   fileName,
+  destination,
+  ownerID,
 }) {
   try {
-    const body = { users, classification, info, approvers, fileName };
+    const body = { users, classification, info, approvers, fileName, destination, ownerID };
     approvers.forEach(async (userID) => {
       await shareUser({ fileID, userID, role: "READ" });
     });
-    const res = await Axios.put(`${baseURL}/api/files/${fileID}/permits`, body);
+    const res = await Axios.put(`${baseURL}/api/files/${fileID}/transfer`, body);
     store.commit("onSuccess", "success.ExternalShare");
 
     return res.data;
