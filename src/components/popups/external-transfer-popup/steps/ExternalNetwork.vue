@@ -2,7 +2,7 @@
   <div>
     <p class="popup-text">{{ $t("externalTransfer.NetworkDestChoose") }}</p>
 
-    <div class="select-container select-btn mx-auto">
+    <div class="select-container select-btn">
       <SelectBtn
         :items="externalNetworkDests"
         background="transparent"
@@ -63,8 +63,7 @@ export default {
 
 <style scoped>
 .select-btn {
-  /* width: 200px; */
-  padding-right: 15px;
+  width: 200px;
   margin: 15px;
 }
 .top-secret {
