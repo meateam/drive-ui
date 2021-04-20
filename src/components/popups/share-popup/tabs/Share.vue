@@ -146,7 +146,8 @@ export default {
     onUserSelect(user) {
       this.users = [];
       if (!user) return;
-      else this.selectedUsers.push(user);
+      else if (!this.isUserExists(this.selectedUsers, user.id))
+        this.selectedUsers.push(user);
     },
     onRoleSelect(role) {
       this.role = role;
@@ -167,6 +168,9 @@ export default {
     },
     hideAdvancedSearchOptions() {
       this.displayAdvancedSearchOptions = false;
+    },
+    isUserExists(users, id) {
+      return users.some((user) => user.id === id);
     },
     onConfirm() {
       const shareObject = {
