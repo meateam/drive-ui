@@ -304,6 +304,7 @@ const mutations = {
     state.chosenFiles = state.chosenFiles.filter((file) => {
       return file.id !== fileID;
     });
+    if (state.files.length == 0) state.serverFilesLength = 0;
   },
   updateFile: (state, updateFile) => {
     const updatedFiles = state.files.map((file) => {

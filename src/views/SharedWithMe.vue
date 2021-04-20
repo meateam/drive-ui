@@ -22,9 +22,8 @@ export default {
     fileView: function(newValue, oldValue) {
       if (oldValue != newValue) {
         this.$store.commit("setFiles", []);
-        this.$store.commit("setServerFilesLength", 0);
-
-        this.$store.commit("updatePageNum", 0);
+        this.$store.commit("setServerFilesLength", 1);
+        this.$store.commit("updatePageNum", 1);
         this.$store.dispatch("fetchSharedFiles", { pageNum: 0, pageAmount: this.getPageSize(newValue) });
       }
     },
@@ -34,15 +33,10 @@ export default {
   },
   methods: {
     getPageSize(fileView) {
-      return fileView == 0 ? pageSize : pageSize * 2;
+      return fileView == 0 || fileView == "undefined" || fileView == undefined ? pageSize : pageSize * 2;
     },
     onPageChange(page) {
-      if (this.fileView == 0) {
-        this.$store.dispatch("fetchSharedFiles", {
-          pageNum: page - 1,
-          pageAmount: this.getPageSize(this.fileView),
-        });
-      } else {
+      if (this.fileView == 1) {
         if (pageSize * page - 1 < this.serverFilesLength) {
           this.$store.dispatch("fetchSharedFiles", {
             pageNum: page - 1,
@@ -50,6 +44,11 @@ export default {
             pageAmount: this.getPageSize(this.fileView),
           });
         }
+      } else {
+        this.$store.dispatch("fetchSharedFiles", {
+          pageNum: page - 1,
+          pageAmount: this.getPageSize(this.fileView),
+        });
       }
     },
   },

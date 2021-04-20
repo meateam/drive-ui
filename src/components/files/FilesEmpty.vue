@@ -13,11 +13,12 @@ export default {
 
 <style scoped>
 #noData {
-  margin-top: 30px;
+  margin-top: 40px;
   text-align: center;
 }
 .data-image {
-  width: 170px;
-  padding-top: 30px;
+  width: 300px;
+  padding-top: 100px;
+  opacity: 0.6;
 }
 </style>

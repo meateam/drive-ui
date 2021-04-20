@@ -29,7 +29,7 @@
     </div>
   </div>
   <div v-else>
-    <div id="files-items-pagination" class="files-items flex">
+    <div id="files-items-pagination" class="files-items flex " v-if="serverFilesLength">
       <File
         @dblclick="onDblClick"
         @contextmenu="onRightClick"
@@ -41,6 +41,9 @@
         :file="file"
       />
     </div>
+    <div v-else class="files-items d-flex justify-center">
+      <FilesEmpty />
+    </div>
   </div>
 </template>
 
@@ -49,13 +52,14 @@ import { mapGetters } from "vuex";
 import { isFolder } from "@/utils/isFolder";
 import Folder from "./items/Folder";
 import File from "./items/File";
+import FilesEmpty from "@/components/files/FilesEmpty";
 
 export default {
   name: "FilesPreview",
   props: ["files"],
-  components: { File, Folder },
+  components: { File, Folder, FilesEmpty },
   computed: {
-    ...mapGetters(["chosenFiles", "isShared"]),
+    ...mapGetters(["chosenFiles", "isShared", "serverFilesLength"]),
   },
   data() {
     return {
@@ -84,16 +88,16 @@ export default {
     onFileClick(file) {
       this.$emit("fileclick", file);
     },
-  },
-  mounted() {
-    const filesElm = document.querySelector("#files-items-pagination");
-
-    filesElm?.addEventListener("scroll", () => {
+    scrollHandler(filesElm) {
       if (filesElm.scrollTop + filesElm.clientHeight >= filesElm.scrollHeight) {
         this.page += 1;
         this.$emit("page", this.page);
       }
-    });
+    },
+  },
+  updated() {
+    const filesElm = document.querySelector("#files-items-pagination");
+    filesElm?.addEventListener("scroll", this.scrollHandler(filesElm));
   },
 };
 </script>
