@@ -264,5 +264,8 @@
       "1": "new ui",
       "2": "edit online files docx, pptx and xlsx"
     }
+  },
+  "popup": {
+    "are_you_sure_you_want_to_leave": "Are you sure you want to leave?"
   }
 }

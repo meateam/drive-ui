@@ -7,6 +7,9 @@ import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 
+const ownerMy = "אני";
+const MB5 = 5 << 20
+
 const state = {
   files: [],
   chosenFiles: [],
@@ -37,7 +40,7 @@ const actions = {
       files.forEach(async (file) => {
         const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+        formattedFile.owner = isOwner ? ownerMy : await getFileOwnerName(file.ownerId);
         commit("updateFile", formattedFile);
       });
     } catch (err) {
@@ -95,7 +98,7 @@ const actions = {
         const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
 
-        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+        formattedFile.owner = isOwner ? ownerMy : await getFileOwnerName(file.ownerId);
         commit("updateFile", formattedFile);
       });
     } catch (err) {
@@ -155,7 +158,7 @@ const actions = {
 
     let metadata = undefined;
 
-    if (file.size <= 5 << 20) {
+    if (file.size <= MB5) {
       metadata = await filesApi.multipartUpload({
         file: file,
         parent: state.currentFolder,
@@ -181,7 +184,7 @@ const actions = {
         });
     }
 
-    metadata.owner = "אני";
+    metadata.owner = ownerMy;
     lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
 
     commit("removeLoadingFile", metadata.name);
@@ -225,7 +228,7 @@ const actions = {
           name,
           parent: state.currentFolder,
         }).then((folder) => {
-          folder.owner = "אני";
+          folder.owner = ownerMy;
           resolve(folder)
         }).catch((err) => {
           dispatch("onError", err);
@@ -248,7 +251,7 @@ const actions = {
         name: parentAndName.name,
         parent: parentAndName.parent,
       }).then((folder) => {
-        folder.owner = "אני";
+        folder.owner = ownerMy;
         resolve(folder)
       }).catch((err) => {
         dispatch("onError", err);
@@ -262,12 +265,12 @@ const actions = {
  */
   uploadFileToFolder({ commit, dispatch }, folderAndFile) {
     return new Promise((resolve) => {
-      if (folderAndFile.file.size <= 5 << 20) {
+      if (folderAndFile.file.size <= MB5) {
         filesApi.multipartUpload({
           file: folderAndFile.file,
           parent: folderAndFile.folder,
         }).then((metadata) => {
-          metadata.owner = "אני";
+          metadata.owner = ownerMy;
           lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
           commit("addQuota", metadata.size);
           resolve(metadata)
@@ -279,7 +282,7 @@ const actions = {
           file: folderAndFile.file,
           parent: folderAndFile.folder,
         }).then((metadata) => {
-          metadata.owner = "אני";
+          metadata.owner = ownerMy;
           lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
           commit("addQuota", metadata.size);
           resolve(metadata)
@@ -319,7 +322,7 @@ const actions = {
         name,
         parent: state.currentFolder,
       });
-      folder.owner = "אני";
+      folder.owner = ownerMy;
 
       commit("onSuccess", "success.Folder");
       commit("addFile", folder);

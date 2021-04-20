@@ -2,22 +2,9 @@ import store from '@/store'
 import { UploadSet, UploadAction } from "@/store/modules/upload"
 
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
-    const items = [...dataTransfer.items]
-    console.log(items)
-    const promises = [];
-
-    for (const file of items) {
-        if (file.kind === 'file') {
-            promises.push(getEntries(file, parent, true))
-        }
-    }
-    for (const p of promises) {
-        try {
-            await p
-        } catch (err) {
-            store.dispatch("onError", err);
-        }
-    }
+    const files = [...dataTransfer.items]
+    store.commit(UploadSet.isUpload, true)
+    await Promise.all(files.filter((file) => file.kind === 'file').map((file) => getEntries(file, parent, true).catch((err) => store.dispatch("onError", err))));
     store.commit("removeLoadingFiles");
     store.dispatch("fetchFiles");
     store.commit(UploadSet.isUpload, false);
@@ -25,21 +12,8 @@ export async function getFilesFromDroppedItems(dataTransfer, parent) {
 
 export async function getFilesFromInput(files, parent) {
     const items = [...files];
-    console.log(items, parent)
-    store.commit(Set.isUpload, true)
-
-    const promises = [];
-
-    for (const file of items) {
-        promises.push(getEntries(file, parent, true))
-    }
-    for (const p of promises) {
-        try {
-            await p
-        } catch (err) {
-            store.dispatch("onError", err);
-        }
-    }
+    store.commit(UploadSet.isUpload, true)
+    await Promise.all(items.map((file) => getEntries(file, parent, true).catch((err) => store.dispatch("onError", err))));
     store.commit("removeLoadingFiles");
     store.dispatch("fetchFiles");
     store.commit(UploadSet.isUpload, false)

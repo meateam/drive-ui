@@ -20,15 +20,14 @@ export default {
     }),
   },
   created() {
-    // ceach close and reload tab
+    // catch close and reload tab
     window.addEventListener("beforeunload", this.close);
   },
   methods: {
     close(e) {
-      console.log(this.isUpload);
       if (this.isUpload) {
         e.preventDefault();
-        e.returnValue = `Are you sure you want to leave?`;
+        e.returnValue = this.$t("popup.are_you_sure_you_want_to_leave");
         return e.returnValue;
       }
     },

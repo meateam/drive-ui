@@ -6,7 +6,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getFilesFromInput } from "./../../utils/drop"; 
+import { getFilesFromInput } from "@/utils/drop"; 
 
 export default {
   name: "Upload",
@@ -17,12 +17,6 @@ export default {
     getFilesFromInput,
     uploadInput(event) {
       this.getFilesFromInput(event.currentTarget.files, this.currentFolder)
-
-
-      // console.log(event.currentTarget.files)
-      // const files = event.currentTarget.files;
-      // this.$store.dispatch("uploadFiles", files);
-      // event.currentTarget.value = ""; // resets file choice
     },
     open() {
       document.getElementById("upload-input").click();

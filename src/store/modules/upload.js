@@ -1,6 +1,9 @@
 import * as filesApi from "@/api/files";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 
+const ownerMy = "אני";
+const MB5 = 5 << 20
+
 export const UploadSet = {
   isUpload: "SetUploadIsUpload"
 }
@@ -32,7 +35,7 @@ const actions = {
   async [UploadAction.uploadFileToFolder]({ commit }, folderAndFile) {
     try {
       let res = null
-      if (folderAndFile.file.size <= 5 << 20) {
+      if (folderAndFile.file.size <= MB5) {
         res = await filesApi.multipartUpload({
           file: folderAndFile.file,
           parent: folderAndFile.folder,
@@ -56,7 +59,7 @@ const actions = {
             });
           });
       }
-      res.owner = "אני";
+      res.owner = ownerMy;
       // lastUpdatedFileHandler.pushUpdatedFile(res.id);
       commit("addQuota", res.size);
       return res;
@@ -86,7 +89,7 @@ const actions = {
       name,
       parent: fileState.currentFolder,
     })
-    res.owner = "אני";
+    res.owner = ownerMy;
     return res;
 
   },
@@ -101,7 +104,7 @@ const actions = {
         name: parentAndName.name,
         parent: parentAndName.parent,
       })
-      res.owner = "אני";
+      res.owner = ownerMy;
       return res;
     } catch (err) {
       throw new Error(err.message)
