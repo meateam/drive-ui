@@ -38,7 +38,6 @@ const fileTypes = {
     "jpg",
     "pptx",
     "txt",
-    "jpeg",
     "mp4",
     "mpg",
     "mpeg",

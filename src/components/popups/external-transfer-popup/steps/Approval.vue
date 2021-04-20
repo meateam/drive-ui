@@ -154,6 +154,7 @@ import Chips from "@/components/shared/BaseChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import TextButton from "@/components/buttons/BaseTextButton";
+import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
 
 export default {
   name: "Approval",
@@ -226,7 +227,7 @@ export default {
       if (this.isLoading) return;
       this.isLoading = true;
       usersApi
-        .searchUsersByName(name)
+        .getUsers(name, AdvancedSearchEnum.SearchByName)
         .then((users) => {
           this.users = users;
         })
