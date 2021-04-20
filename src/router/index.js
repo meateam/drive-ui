@@ -60,17 +60,17 @@ const router = new Router({
       },
       name: "External Transferred Dropbox",
     },
-    {
-      path: "/external-transferred-cargo",
-      component: () => import("@/views/ExternalTransferred"),
-      meta: {
-        layout: true,
-      },
-      props: {
-        appID: "cargo",
-      },
-      name: "External Transferred Cargo",
-    },
+    // {
+    //   path: "/external-transferred-cargo",
+    //   component: () => import("@/views/ExternalTransferred"),
+    //   meta: {
+    //     layout: true,
+    //   },
+    //   props: {
+    //     appID: "cargo",
+    //   },
+    //   name: "External Transferred Cargo",
+    // },
     {
       path: "/statusTransferred",
       component: () => import("@/views/StatusTransferred"),
