@@ -146,9 +146,8 @@ export default {
     onUserSelect(user) {
       this.users = [];
       if (!user) return;
-      else if (this.isUserExists(this.selectedUsers, user.id))
-        this.remove(user);
-      else this.selectedUsers.push(user);
+      else if (!this.isUserExists(this.selectedUsers, user.id))
+        this.selectedUsers.push(user);
     },
     onRoleSelect(role) {
       this.role = role;
