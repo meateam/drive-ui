@@ -88,16 +88,15 @@ export default {
     onFileClick(file) {
       this.$emit("fileclick", file);
     },
-    scrollHandler(filesElm) {
+  },
+  updated() {
+    const filesElm = document.querySelector("#files-items-pagination");
+    filesElm?.addEventListener("scroll", () => {
       if (filesElm.scrollTop + filesElm.clientHeight >= filesElm.scrollHeight) {
         this.page += 1;
         this.$emit("page", this.page);
       }
-    },
-  },
-  updated() {
-    const filesElm = document.querySelector("#files-items-pagination");
-    filesElm?.addEventListener("scroll", this.scrollHandler(filesElm));
+    });
   },
 };
 </script>
