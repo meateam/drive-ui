@@ -28,14 +28,7 @@ const state = {
       label: "label1",
       value: "value1",
       isDefault: true,
-    },
-    {
-      appID: "appId2",
-      approvalUIUrl: "http://approval.dropbox.rabaz.org",
-      approvalUrl: "http://approval.dropbox.rabaz.org",
-      label: "label2",
-      value: "value2",
-      isDefault: false,
+      isEnabled: true,
     },
   ],
 };

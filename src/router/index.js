@@ -7,6 +7,7 @@ import Unavailable from "@/views/errors/503";
 import DeletedFiles from "@/views/DeletedFiles";
 import Favorites from "@/views/Favorites";
 import QuestionAnswer from "@/views/Q&A";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 Vue.use(Router);
 
@@ -60,17 +61,17 @@ const router = new Router({
       },
       name: "External Transferred Dropbox",
     },
-    // {
-    //   path: "/external-transferred-cargo",
-    //   component: () => import("@/views/ExternalTransferred"),
-    //   meta: {
-    //     layout: true,
-    //   },
-    //   props: {
-    //     appID: "cargo",
-    //   },
-    //   name: "External Transferred Cargo",
-    // },
+    {
+      path: "/external-transferred-cargo",
+      component: () => import("@/views/ExternalTransferred"),
+      meta: {
+        layout: true,
+      },
+      props: {
+        appID: "cargo",
+      },
+      name: "External Transferred Cargo",
+    },
     {
       path: "/statusTransferred",
       component: () => import("@/views/StatusTransferred"),
@@ -133,8 +134,16 @@ const router = new Router({
 });
 
 router.beforeEach(async (to, from, next) => {
+  if (
+    to.path.startsWith("/external-transferred") &&
+    !getNetworkItemByAppId(to.path.split("-").slice(-1)[0]).isEnabled
+  ) {
+    next("/404");
+  }
+
   await store.dispatch("onRouteChange", from);
   await store.dispatch("onFolderChange", to.query.id);
+
   next();
 });
 

@@ -33,7 +33,7 @@
         <div v-if="externalNetworkDests">
           <router-link
             :to="`/external-transferred-${externalNetworkDest.appID}`"
-            v-for="externalNetworkDest in externalNetworkDests"
+            v-for="externalNetworkDest in externalNetworkDests.filter((networkDest) => networkDest.isEnabled)"
             v-bind:key="externalNetworkDest.value"
             exact-active-class="route-active"
             class="sidenav-subitem"
@@ -65,7 +65,7 @@
 
         <div v-if="externalNetworkDests">
           <v-list-item
-            v-for="externalNetworkDest in externalNetworkDests"
+            v-for="externalNetworkDest in externalNetworkDests.filter((networkDest) => networkDest.isEnabled)"
             v-bind:key="externalNetworkDest.value"
             link
             @click="openApprovalService(externalNetworkDest.value)"
