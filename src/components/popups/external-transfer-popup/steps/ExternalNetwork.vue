@@ -21,6 +21,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getEnabledNetworks } from "@/utils/networkDest";
 
 import SelectBtn from "@/components/inputs/BaseBtnSelect";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
@@ -32,7 +33,7 @@ export default {
   computed: {
     ...mapGetters(["externalNetworkDests"]),
     enableNetworks: function() {
-      return this.externalNetworkDests.filter((networkDest) => networkDest.isEnabled);
+      return getEnabledNetworks();
     },
   },
   data() {
