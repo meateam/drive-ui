@@ -2,9 +2,9 @@
   <div>
     <p class="popup-text">{{ $t("externalTransfer.NetworkDestChoose") }}</p>
 
-    <div class="select-container select-btn mx-auto">
+    <div v-bind:class="[enableNetworks.length == 1 ? 'mx-auto select-btn-one' : 'select-btn', 'select-container']">
       <SelectBtn
-        :items="externalNetworkDests"
+        :items="enableNetworks"
         background="transparent"
         withToolTip="true"
         :info="['appID']"
@@ -21,6 +21,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getEnabledNetworks } from "@/utils/networkDest";
 
 import SelectBtn from "@/components/inputs/BaseBtnSelect";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
@@ -31,6 +32,9 @@ export default {
   props: { reset: Boolean },
   computed: {
     ...mapGetters(["externalNetworkDests"]),
+    enableNetworks: function() {
+      return getEnabledNetworks();
+    },
   },
   data() {
     return {
@@ -63,7 +67,10 @@ export default {
 
 <style scoped>
 .select-btn {
-  /* width: 200px; */
+  width: 200px;
+  margin: 15px;
+}
+.select-btn-one {
   padding-right: 15px;
   margin: 15px;
 }

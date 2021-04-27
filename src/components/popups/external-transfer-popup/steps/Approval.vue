@@ -84,7 +84,12 @@
                   <!-- the approver must be in unit msg -->
                   <p v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].unit.approvers">
                     {{ $t("externalTransfer.ApproverRanks") }}
-                    <span class="bold">{{ getRanks(user.approverInfos[networkDest].unit.approvers) }}</span>
+                    <span
+                      v-for="(rank, index) in getRanks(user.approverInfos[networkDest].unit.approvers)"
+                      v-bind:key="index"
+                      class="bold"
+                      >{{ rank }}</span
+                    >
                   </p>
                   <p class="bold">{{ whiteListText }}</p>
                 </div>
@@ -134,11 +139,6 @@
     <v-card-actions class="popup-confirm">
       <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
-
-      <v-btn text small @click="onAboutMeClick">
-        <v-icon color="black">person</v-icon>
-        <p>{{ $t("buttons.AboutMe") }}</p>
-      </v-btn>
     </v-card-actions>
 
     <DropboxSupportPopup ref="support" />
