@@ -1,8 +1,9 @@
 import * as filesApi from "@/api/files";
 import { isFileNameExists } from "@/utils/isFileNameExists";
+import i18n from "@/i18n";
 
-const ownerMy = "אני";
-const MB5 = 5 << 20
+const MB = 1024 * 1024;
+const MB5 = MB * 5;
 
 export const UploadSet = {
   isUpload: "SetUploadIsUpload"
@@ -32,35 +33,30 @@ const actions = {
   * uploadFileToFolder create multipart or resumable upload by the file size
   * @param file is the file to upload
   */
-  async [UploadAction.uploadFileToFolder]({ commit }, folderAndFile) {
+  async [UploadAction.uploadFileToFolder]({ commit }, { folder, file }) {
     try {
       let res = null
-      if (folderAndFile.file.size <= MB5) {
+      
+      const loadingFileCallBack = (file, event, source) => {
+        commit("addLoadingFile", {
+          name: file.name,
+          progress: Math.round((100 * event.loaded) / event.total),
+          source,
+        });
+      }
+
+      if (file.size <= MB5) {
         res = await filesApi.multipartUpload({
-          file: folderAndFile.file,
-          parent: folderAndFile.folder,
-        }, (file, event, source) => {
-          commit("addLoadingFile", {
-            name: file.name,
-            progress: Math.round((100 * event.loaded) / event.total),
-            source,
-          });
-        })
+          file: file,
+          parent: folder,
+        }, loadingFileCallBack)
       } else {
         res = await filesApi.resumableUpload({
-          file: folderAndFile.file,
-          parent: folderAndFile.folder,
-        },
-          (file, event, source) => {
-            commit("addLoadingFile", {
-              name: file.name,
-              progress: Math.round((100 * event.loaded) / event.total),
-              source,
-            });
-          });
+          file: file,
+          parent: folder,
+        }, loadingFileCallBack);
       }
-      res.owner = ownerMy;
-      // lastUpdatedFileHandler.pushUpdatedFile(res.id);
+      res.owner = i18n.t("me");
       commit("addQuota", res.size);
       return res;
     } catch (err) {
@@ -83,13 +79,13 @@ const actions = {
         files: fileState.files,
         loadingFiles: loadingState.loadingFiles,
       })
-    ) throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
+    ) { throw new Error(i18n.t("errors.folderExistInFolder")); }
 
     const res = filesApi.uploadFolder({
       name,
       parent: fileState.currentFolder,
     })
-    res.owner = ownerMy;
+    res.owner = i18n.t("me");
     return res;
 
   },
@@ -98,13 +94,13 @@ const actions = {
   * createFolderInFolder create folder in folder without notification
   * @param parentAndName is contains parent: is the file to create, name: is the name of the folder
   */
-  async [UploadAction.createFolderInFolder](_, parentAndName) {
+  async [UploadAction.createFolderInFolder](_, { name, parent }) {
     try {
       let res = filesApi.uploadFolder({
-        name: parentAndName.name,
-        parent: parentAndName.parent,
+        name: name,
+        parent: parent,
       })
-      res.owner = ownerMy;
+      res.owner = i18n.t("me");
       return res;
     } catch (err) {
       throw new Error(err.message)

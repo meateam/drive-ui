@@ -74,9 +74,10 @@ export default {
         "drop",
         async (event) => {
           event.preventDefault();
-          this.onDrag = false;
           event.stopImmediatePropagation();
+          this.onDrag = false;
           if (this.isFileDrag(event)) {
+            this.onDrag = false;
             this.getFilesFromDroppedItems(
               event.dataTransfer,
               this.currentFolder

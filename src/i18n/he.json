@@ -2,6 +2,7 @@
   "comingSoon": "Coming Soon",
   "NoData": "אין מידע זמין",
   "Error": "שגיאה",
+  "me": "אני",
   "sidenav": {
     "MyDrive": "הדרייב שלי",
     "ExternalTransferIncoming": "התקבל ממרחב חיצוני",
@@ -192,13 +193,39 @@
     "Describe": "תארו את הדברים העיקריים שמכיל המסמך...",
     "ChooseClassification": "רמת סיווג",
     "Classifications": {
-      "TOMCAL": [{ "text": "שמור" }, { "text": "סודי" }, { "text": "סודי ביותר", "enable": false }],
+      "TOMCAL": [
+        {
+          "text": "שמור"
+        },
+        {
+          "text": "סודי"
+        },
+        {
+          "text": "סודי ביותר",
+          "enable": false
+        }
+      ],
       "CTS": [
-        { "text": "שמור" },
-        { "text": "סודי" },
-        { "text": "סודי ביותר - סמ\"צ מעובד", "color": "red" },
-        { "text": "סודי ביותר - סמ\"צ גולמי", "color": "purple", "enable": false },
-        { "text": "סודי ביותר - כחול", "color": "blue", "enable": false }
+        {
+          "text": "שמור"
+        },
+        {
+          "text": "סודי"
+        },
+        {
+          "text": "סודי ביותר - סמ\"צ מעובד",
+          "color": "red"
+        },
+        {
+          "text": "סודי ביותר - סמ\"צ גולמי",
+          "color": "purple",
+          "enable": false
+        },
+        {
+          "text": "סודי ביותר - כחול",
+          "color": "blue",
+          "enable": false
+        }
       ]
     },
     "DisableClassification": "לא ניתן להעביר קבצים בסיווג {classificationName}",
@@ -257,6 +284,10 @@
     "DropboxSupport": "לתמיכה בקבלת/העברת קבצים למרחב חיצוני"
   },
   "errors": {
+    "folderExistInFolder": "שם התיקייה כבר קיים בתיקייה הנוכחית",
+    "fileExistInFolder": "שם הקובץ כבר קים בתיקייה",
+    "waitForUpload": "המתן שהעלאה ההקיימת תסתיים",
+    "failedToPassFiles": "חלק מהקבצים שניסית להעביר נכשלו",
     "GoBack": "חזור הביתה",
     "Unavailable": "המערכת אינה זמינה",
     "BackSoon": "נשוב בקרוב",

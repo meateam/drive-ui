@@ -1,8 +1,7 @@
 import { search } from "@/api/search";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { getNetworkItemByAppId } from "@/utils/networkDest";
-
-const ownerMy = "אני";
+import i18n from "@/i18n";
 
 const actions = {
   async fetchSearchFiles({ dispatch, commit }, query) {
@@ -19,7 +18,7 @@ const actions = {
         } else {
           const formattedFile = file;
           const isOwner = isFileOwner(file.ownerId);
-          formattedFile.owner = isOwner ? ownerMy : await getFileOwnerName(file.ownerId);
+          formattedFile.owner = isOwner ? i18n.t("me") : await getFileOwnerName(file.ownerId);
           commit("updateFile", formattedFile);
         }
       });

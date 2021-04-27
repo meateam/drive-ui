@@ -6,9 +6,10 @@ import { fileTypes } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
+import i18n from "@/i18n";
 
-const ownerMy = "אני";
-const MB5 = 5 << 20
+const MB = 1024 * 1024;
+const MB5 = MB * 5;
 
 const state = {
   files: [],
@@ -40,7 +41,7 @@ const actions = {
       files.forEach(async (file) => {
         const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        formattedFile.owner = isOwner ? ownerMy : await getFileOwnerName(file.ownerId);
+        formattedFile.owner = isOwner ? i18n.t("me") : await getFileOwnerName(file.ownerId);
         commit("updateFile", formattedFile);
       });
     } catch (err) {
@@ -98,7 +99,7 @@ const actions = {
         const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
 
-        formattedFile.owner = isOwner ? ownerMy : await getFileOwnerName(file.ownerId);
+        formattedFile.owner = isOwner ? i18n.t("me") : await getFileOwnerName(file.ownerId);
         commit("updateFile", formattedFile);
       });
     } catch (err) {
@@ -153,38 +154,30 @@ const actions = {
         files: state.files,
         loadingFiles: rootState.loading.loadingFiles,
       })
-    )
-      throw new Error("שם הקובץ קים בתיקייה");
+    ) { throw new Error(i18n.t("errors.fileExistInFolder")); }
 
     let metadata = undefined;
+    const loadingFileCallBack = (file, event, source) => {
+      commit("addLoadingFile", {
+        name: file.name,
+        progress: Math.round((100 * event.loaded) / event.total),
+        source,
+      });
+    }
 
     if (file.size <= MB5) {
       metadata = await filesApi.multipartUpload({
         file: file,
         parent: state.currentFolder,
-      },
-        (file, event, source) => {
-          commit("addLoadingFile", {
-            name: file.name,
-            progress: Math.round((100 * event.loaded) / event.total),
-            source,
-          });
-        });
+      }, loadingFileCallBack);
     } else {
       metadata = await filesApi.resumableUpload({
         file: file,
         parent: state.currentFolder,
-      },
-        (file, event, source) => {
-          commit("addLoadingFile", {
-            name: file.name,
-            progress: Math.round((100 * event.loaded) / event.total),
-            source,
-          });
-        });
+      }, loadingFileCallBack);
     }
 
-    metadata.owner = ownerMy;
+    metadata.owner = i18n.t("me");
     lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
 
     commit("removeLoadingFile", metadata.name);
@@ -207,92 +200,7 @@ const actions = {
         dispatch("onError", err);
       });
   },
-
-  /**
-   * createFolder in the current folder without notification
-   * @param name is the name of the folder
-   */
-  async createFolder({ dispatch, rootState }, name) {
-    return new Promise((resolve) => {
-
-      try {
-        if (
-          isFileNameExists({
-            name,
-            files: state.files,
-            loadingFiles: rootState.loading.loadingFiles,
-          })
-        ) throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
-
-        filesApi.uploadFolder({
-          name,
-          parent: state.currentFolder,
-        }).then((folder) => {
-          folder.owner = ownerMy;
-          resolve(folder)
-        }).catch((err) => {
-          dispatch("onError", err);
-        });
-      } catch (err) {
-        dispatch("onError", err);
-      }
-
-
-    })
-  },
-
-  /**
- * createFolderInFolder create folder in folder without notification
- * @param parentAndName is contains parent: is the file to create, name: is the name of the folder
- */
-  async createFolderInFolder({ dispatch }, parentAndName) {
-    return new Promise((resolve) => {
-      filesApi.uploadFolder({
-        name: parentAndName.name,
-        parent: parentAndName.parent,
-      }).then((folder) => {
-        folder.owner = ownerMy;
-        resolve(folder)
-      }).catch((err) => {
-        dispatch("onError", err);
-      });
-    });
-  },
-
-  /**
- * uploadFileToFolder create multipart or resumable upload by the file size
- * @param file is the file to upload
- */
-  uploadFileToFolder({ commit, dispatch }, folderAndFile) {
-    return new Promise((resolve) => {
-      if (folderAndFile.file.size <= MB5) {
-        filesApi.multipartUpload({
-          file: folderAndFile.file,
-          parent: folderAndFile.folder,
-        }).then((metadata) => {
-          metadata.owner = ownerMy;
-          lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
-          commit("addQuota", metadata.size);
-          resolve(metadata)
-        }).catch((err) => {
-          dispatch("onError", err);
-        });
-      } else {
-        filesApi.resumableUpload({
-          file: folderAndFile.file,
-          parent: folderAndFile.folder,
-        }).then((metadata) => {
-          metadata.owner = ownerMy;
-          lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
-          commit("addQuota", metadata.size);
-          resolve(metadata)
-        }).catch((err) => {
-          dispatch("onError", err);
-        });
-      }
-    })
-  },
-
+  
   async cancelUpload({ commit, dispatch }, file) {
     try {
       await filesApi.cancelUpload(file.source);
@@ -315,14 +223,13 @@ const actions = {
           files: state.files,
           loadingFiles: rootState.loading.loadingFiles,
         })
-      )
-        throw new Error("שם התיקייה כבר קיים בתיקייה הנוכחית");
+      ) {throw new Error(i18n.t("errors.folderExistInFolder"));}
 
       const folder = await filesApi.uploadFolder({
         name,
         parent: state.currentFolder,
       });
-      folder.owner = ownerMy;
+      folder.owner = i18n.t("me");
 
       commit("onSuccess", "success.Folder");
       commit("addFile", folder);
@@ -369,8 +276,8 @@ const actions = {
 
       const failedFiles = data
         ? data.map((error) => {
-            if (error.error) return error.id;
-          })
+          if (error.error) return error.id;
+        })
         : [];
 
       const movedFiles = fileIDs.filter((fileID) => !failedFiles.includes(fileID));
@@ -379,7 +286,7 @@ const actions = {
         commit("deleteFile", fileID);
       });
 
-      if (failedFiles.length) throw new Error("חלק מהקבצים שניסית להעביר נכשלו");
+      if (failedFiles.length) throw new Error(i18n.t("errors.failedToPassFiles"));
     } catch (err) {
       dispatch("onError", err);
     }

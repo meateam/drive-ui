@@ -1,7 +1,11 @@
 import store from '@/store'
-import { UploadSet, UploadAction } from "@/store/modules/upload"
+import i18n from "@/i18n"
+import { UploadSet, UploadGet, UploadAction } from "@/store/modules/upload"
 
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
+    if(store.getters[UploadGet.isUpload]) {
+        return store.dispatch("onError", new Error(i18n.t("errors.waitForUpload")))
+    }
     const files = [...dataTransfer.items]
     store.commit(UploadSet.isUpload, true)
     await Promise.all(files.filter((file) => file.kind === 'file').map((file) => getEntries(file, parent, true).catch((err) => store.dispatch("onError", err))));
@@ -11,6 +15,9 @@ export async function getFilesFromDroppedItems(dataTransfer, parent) {
 }
 
 export async function getFilesFromInput(files, parent) {
+    if(store.getters[UploadGet.isUpload]) {
+        return store.dispatch("onError", new Error(i18n.t("errors.waitForUpload")))
+    }
     const items = [...files];
     store.commit(UploadSet.isUpload, true)
     await Promise.all(items.map((file) => getEntries(file, parent, true).catch((err) => store.dispatch("onError", err))));
@@ -61,23 +68,35 @@ async function getEntries(entry, parent, isFirstFolder) {
 
             const entryReader = entry.createReader();
             const entries = await new Promise((resolve) => { entryReader.readEntries((entries) => { resolve(entries) }) })
+            
             let first = true;
-            for (const e of entries) {
-                if (!e && first) {
-                    return;
+            await Promise.all(entries.map((entry) => {
+                if (!entry && first) {
+                    return new Promise((resolve) => resolve());
                 }
                 first = false;
-                if (!e) {
-                    return;
+                if (!entry) {
+                    return new Promise((resolve) => resolve());
                 }
-                await getEntries(e, res, isFirstFolder)
-            }
+                return getEntries(entry, res, isFirstFolder)
+            }))
+
+            // for (const e of entries) {
+            //     if (!e && first) {
+            //         return;
+            //     }
+            //     first = false;
+            //     if (!e) {
+            //         return;
+            //     }
+            //     await getEntries(e, res, isFirstFolder)
+            // }
         } catch (err) {
             throw new Error(err.message)
         }
     }
 }
 
-async function getFile(fileEntry) {
-    return await new Promise((resolve, reject) => fileEntry.file(resolve, reject));
+function getFile(fileEntry) {
+    return new Promise((resolve, reject) => fileEntry.file(resolve, reject));
 }

@@ -2,6 +2,7 @@
   "comingSoon": "Coming Soon",
   "NoData": "No availble data",
   "Error": "error",
+  "me": "אני",
   "sidenav": {
     "MyDrive": "my drive",
     "ExternalTransferIncoming": "incoming external transfer",
@@ -249,6 +250,10 @@
     "DropboxSupport": "for the external share support"
   },
   "errors": {
+    "folderExistInFolder": "The folder name already exists in the folder",
+    "fileExistInFolder": "The file name already exists in the folder",
+    "waitForUpload": "Wait for the existing upload to end",
+    "failedToPassFiles": "Some of the files you tried to transfer failed",
     "GoBack": "GO HOME",
     "Unavailable": "Unavailable System",
     "BackSoon": "we will be back soon",
