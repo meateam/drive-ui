@@ -15,8 +15,13 @@ export function getNetworkItemByAppId(appId) {
 }
 
 export function getEnabledNetworks() {
-  // Check if network enabled
-  let networkDests = store.state.configuration.externalNetworkDests.filter((networkDest) => networkDest.isEnabled);
+  let networkDests;
+  try {
+    // Check if network enabled
+    networkDests = store.state.configuration.externalNetworkDests.filter((networkDest) => networkDest.isEnabled);
+  } catch (_err) {
+    networkDests = [];
+  }
 
   // Check if network has limit to approvers only
   networkDests = networkDests.filter(
