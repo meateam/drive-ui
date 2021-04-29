@@ -31,8 +31,13 @@ const actions = {
 
     await Promise.all(
       rootState.configuration.externalNetworkDests.map(async (externalNetworkDest) => {
-        const res = await usersApi.getApproverInfo(user.id, externalNetworkDest.value);
-        approverInfos[externalNetworkDest.value] = res;
+        try {
+          const res = await usersApi.getApproverInfo(user.id, externalNetworkDest.value);
+          approverInfos[externalNetworkDest.value] = res;
+        } catch (_err) {
+          // Retry after 5 seconds
+          setTimeout(() => addApproverInfos({ rootState, commit }, user), 5000);
+        }
       })
       );
 
