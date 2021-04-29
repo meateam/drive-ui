@@ -34,7 +34,7 @@ const actions = {
         const res = await usersApi.getApproverInfo(user.id, externalNetworkDest.value);
         approverInfos[externalNetworkDest.value] = res;
       })
-    );
+      );
 
     commit("setApproverInfos", approverInfos);
   },

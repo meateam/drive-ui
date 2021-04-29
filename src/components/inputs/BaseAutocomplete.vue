@@ -16,6 +16,7 @@
     color="#035c64"
     :background-color="background"
     :placeholder="placeholder"
+    :class="{ 'disableInput' : disabled }"
   >
     <template v-slot:no-data>
       <p id="no-resault">{{ $t(`autocomplete.${noResult || 'NoResult'}`)}}</p>
@@ -38,7 +39,8 @@ export default {
     "icon",
     "isLoading",
     "minLength",
-    "noResult"
+    "noResult",
+    "disabled",
   ],
   methods: {
     onSelect() {
@@ -63,5 +65,8 @@ export default {
 <style scoped>
 #no-resault {
   padding-right: 20px;
+}
+.disableInput {
+  pointer-events: none;
 }
 </style>

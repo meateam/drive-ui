@@ -12,6 +12,12 @@
         :reset="reset"
       />
     </div>
+    <div v-if="isNetworkUnavialble()" style="display: flex; justify-content: center; flex-direction: column;">
+      <p style="color: red; text-align: center;">{{$t("externalTransfer.DestinationUnavailable")}}</p>
+      <v-btn text small @click="onMoreInfoClick" class="center">
+        <p>{{ $t("buttons.MoreInfo") }}</p>
+      </v-btn>
+    </div>
 
     <v-card-actions class="popup-confirm">
       <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
@@ -31,7 +37,7 @@ export default {
   components: { SubmitButton, SelectBtn },
   props: { reset: Boolean },
   computed: {
-    ...mapGetters(["externalNetworkDests"]),
+    ...mapGetters(["user", "externalNetworkDests", "dropboxSupportLink"]),
     enableNetworks: function() {
       return getEnabledNetworks();
     },
@@ -49,6 +55,12 @@ export default {
     },
   },
   methods: {
+    isNetworkUnavialble() {
+      return !!this.externalNetworkDest && !this.user.approverInfos[this.externalNetworkDest];
+    },
+    onMoreInfoClick() {
+      window.open(this.dropboxSupportLink);
+    },
     onConfirm() {
       this.$emit("continue", this.externalNetworkDest);
     },
@@ -60,6 +72,9 @@ export default {
     },
     toggleDisabled() {
       this.externalNetworkDest ? (this.disabled = false) : (this.disabled = true);
+      if (this.isNetworkUnavialble()) {
+        this.disabled = true;
+      }
     },
   },
 };

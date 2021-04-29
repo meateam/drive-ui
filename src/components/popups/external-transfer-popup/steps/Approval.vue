@@ -193,34 +193,17 @@ export default {
       this.isLoading = false;
       this.iAmApprover = false;
 
-      this.disabled =
-        this.networkDest == undefined ||
-        !(
-          this.user.approverInfos[this.networkDest].isAdmin ||
-          (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
-        );
+      this.disabled = this.isDisabled();
     },
     networkDest: function() {
-      this.disabled =
-        this.networkDest == undefined ||
-        !(
-          this.user.approverInfos[this.networkDest].isAdmin ||
-          (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
-        );
+      this.disabled = this.isDisabled();
     },
     iAmApprover: function(value) {
       value ? (this.disabled = false) : (this.disabled = true);
     },
   },
   created() {
-    this.disabled =
-      this.networkDest == undefined ||
-      !(
-        this.user.approverInfos[this.networkDest].isAdmin ||
-        (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
-      )
-        ? true
-        : false;
+    this.disabled = this.isDisabled();
   },
   methods: {
     getUsersByName(name) {
@@ -232,6 +215,17 @@ export default {
           this.users = users;
         })
         .finally(() => (this.isLoading = false));
+    },
+    isDisabled() {
+      try {
+        return this.networkDest == undefined ||
+        !(
+          this.user.approverInfos[this.networkDest].isAdmin ||
+          (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
+        );
+      } catch (_err) {
+        return true;
+      }
     },
     onConfirm() {
       this.$emit(
