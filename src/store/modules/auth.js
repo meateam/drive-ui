@@ -26,21 +26,20 @@ const actions = {
     cookies.remove("kd-token");
     commit("setToken", undefined);
   },
-  async addApproverInfos({ rootState, commit }, user) {
+  async addApproverInfos({ rootState, commit, dispatch }, user) {
     var approverInfos = {};
 
-    await Promise.all(
+    await Promise.allSettled(
       rootState.configuration.externalNetworkDests.map(async (externalNetworkDest) => {
-        try {
-          const res = await usersApi.getApproverInfo(user.id, externalNetworkDest.value);
-          approverInfos[externalNetworkDest.value] = res;
-        } catch (_err) {
+        const res = await usersApi.getApproverInfo(user.id, externalNetworkDest.value);
+        approverInfos[externalNetworkDest.value] = res;
+      })).then((results) => 
+      {
+        if (results.some((result) => result.status === "rejected")) {
           // Retry after 1 minute
-          const thisActions = this;
-          setTimeout(() => thisActions.addApproverInfos({ rootState, commit }, user), 60000);
+          setTimeout(() => dispatch("addApproverInfos", user), 60000);
         }
-      })
-      );
+      });
 
     commit("setApproverInfos", approverInfos);
   },
