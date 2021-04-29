@@ -12,8 +12,8 @@
         :reset="reset"
       />
     </div>
-    <div v-if="isNetworkUnavialble()" style="display: flex; justify-content: center; flex-direction: column;">
-      <p style="color: red; text-align: center;">{{$t("externalTransfer.DestinationUnavailable")}}</p>
+    <div v-if="isNetworkUnavailable()" id="network-unavailable-container">
+      <p id="network-unavailable-text">{{$t("externalTransfer.DestinationUnavailable")}}</p>
       <v-btn text small @click="onMoreInfoClick" class="center">
         <p>{{ $t("buttons.MoreInfo") }}</p>
       </v-btn>
@@ -55,7 +55,7 @@ export default {
     },
   },
   methods: {
-    isNetworkUnavialble() {
+    isNetworkUnavailable() {
       return !!this.externalNetworkDest && !this.user.approverInfos[this.externalNetworkDest];
     },
     onMoreInfoClick() {
@@ -72,7 +72,7 @@ export default {
     },
     toggleDisabled() {
       this.externalNetworkDest ? (this.disabled = false) : (this.disabled = true);
-      if (this.isNetworkUnavialble()) {
+      if (this.isNetworkUnavailable()) {
         this.disabled = true;
       }
     },
@@ -92,5 +92,14 @@ export default {
 .top-secret {
   padding-top: 10px;
   color: red;
+}
+#network-unavailable-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+#network-unavailable-text {
+  color: red;
+  text-align: center;
 }
 </style>

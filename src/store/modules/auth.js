@@ -36,7 +36,8 @@ const actions = {
           approverInfos[externalNetworkDest.value] = res;
         } catch (_err) {
           // Retry after 1 minute
-          setTimeout(() => addApproverInfos({ rootState, commit }, user), 60000);
+          const thisActions = this;
+          setTimeout(() => thisActions.addApproverInfos({ rootState, commit }, user), 60000);
         }
       })
       );
