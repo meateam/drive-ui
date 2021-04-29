@@ -35,8 +35,8 @@ const actions = {
           const res = await usersApi.getApproverInfo(user.id, externalNetworkDest.value);
           approverInfos[externalNetworkDest.value] = res;
         } catch (_err) {
-          // Retry after 5 seconds
-          setTimeout(() => addApproverInfos({ rootState, commit }, user), 5000);
+          // Retry after 1 minute
+          setTimeout(() => addApproverInfos({ rootState, commit }, user), 60000);
         }
       })
       );
