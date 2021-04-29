@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     isNetworkUnavailable() {
-      return !!this.externalNetworkDest && !this.user.approverInfos[this.externalNetworkDest];
+      return this.externalNetworkDest && !this.user.approverInfos[this.externalNetworkDest];
     },
     onMoreInfoClick() {
       window.open(this.dropboxSupportLink);
