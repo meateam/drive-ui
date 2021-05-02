@@ -85,15 +85,16 @@ export async function searchExternalUsersByName(name, destination) {
 }
 
 export async function getApproverInfo(userID, destination) {
-  const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
-    headers: { destination: destination },
-  });
-
-  const approverInfo = res.data;
-
-  if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
-
-  return approverInfo;
+    const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
+      headers: { destination },
+      timeout: 5000,
+    })
+  
+    const approverInfo = res.data;
+  
+    if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
+  
+    return approverInfo;
 }
 
 export async function canBeApproved(userID, approverID, destination) {

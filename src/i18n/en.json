@@ -188,6 +188,7 @@
     "MoreInfo": "The information will aid the approver with approving the share",
     "Describe": "describe the file data...",
     "ChooseClassification": "classification",
+    "DestinationUnavailable": "This destination is temporary unavailable",
     "Classifications": {
       "TOMCAL": [{ "text": "Limited" }, { "text": "Secret" }, { "text": "Top secret", "enable": false }],
       "CTS": [
