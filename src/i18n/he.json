@@ -192,6 +192,7 @@
     "MoreInfo": "כתבו מידע על הקובץ",
     "Describe": "תארו את הדברים העיקריים שמכיל המסמך...",
     "ChooseClassification": "רמת סיווג",
+    "DestinationUnavailable": "השירות אינו זמין כעת",
     "Classifications": {
       "TOMCAL": [
         {
