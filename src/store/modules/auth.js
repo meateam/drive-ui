@@ -37,7 +37,7 @@ const actions = {
       {
         if (results.some((result) => result.status === "rejected")) {
           // Retry after 1 minute
-          setTimeout(() => dispatch("addApproverInfos", user), 60000);
+          setTimeout(() => dispatch("addApproverInfos", user), 10000);
         }
       });
 
