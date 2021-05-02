@@ -26,10 +26,15 @@ export function getEnabledNetworks() {
   // Check if network has limit to approvers only
   networkDests = networkDests.filter(
     (networkDest) =>
-      !networkDest.isOnlyApprover ||
-      (networkDest.isOnlyApprover &&
-        (store.state.auth.user.approverInfos[networkDest.value].isApprover ||
-          store.state.auth.user.approverInfos[networkDest.value].isAdmin))
-  );
+    {
+      try {
+        return !networkDest.isOnlyApprover ||
+        (networkDest.isOnlyApprover &&
+          (store.state.auth.user.approverInfos[networkDest.value].isApprover ||
+            store.state.auth.user.approverInfos[networkDest.value].isAdmin))
+      } catch (_err) {
+        return false;
+      }
+    });
   return networkDests;
 }
