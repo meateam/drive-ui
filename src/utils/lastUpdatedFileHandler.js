@@ -6,7 +6,7 @@ export async function getUpdatedFiles() {
 
   let files = await Promise.all(
     fileIDs.map(async (fileID) => {
-      const file = await filesApi.getFileByID(fileID, false).catch(() => undefined);
+      const file = await filesApi.getFileByID(fileID).catch(() => undefined);
       return file ? file : undefined;
     })
   );
