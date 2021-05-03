@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v3.5.3] - 2021-05-02
+- hotfix: ([81](https://github.com/meateam/drive-ui/pull/81)): decrease approverInfo request timeout.
+- hotfix: ([80](https://github.com/meateam/drive-ui/pull/80)): fix networkDest.js read property of undefined when approverInfo request fails.
+
+
+## [v3.5.2] - 2021-04-29
+- hotfix: ([79](https://github.com/meateam/drive-ui/pull/79)): add timeout to approverInfo request that stops the Drive on failure.
+
 ## [v3.5.1] - 2021-04-27
 - hotfix: ([78](https://github.com/meateam/drive-ui/pull/78)): add changes in cts (more env variables)
 
