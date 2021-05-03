@@ -2,6 +2,8 @@ import Axios from "axios";
 import store from "@/store";
 import { formatUser } from "@/utils/formatUser";
 import { baseURL } from "@/config";
+import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
+import i18n from "@/i18n";
 import { getNetworkItemByDest } from "@/utils/networkDest";
 
 /**
@@ -30,26 +32,6 @@ export function getUsersByIDs(userIDs) {
       return getUserByID(id);
     })
   );
-}
-
-/**
- * searchUsersByName gets all the users with the received name
- * @param name is the name of the users
- */
-export async function searchUsersByName(name) {
-  try {
-    const res = await Axios.get(`${baseURL}/api/users`, {
-      params: { partial: name },
-    });
-    const users = res.data.users
-      ? res.data.users.filter((user) => {
-          return user.id !== store.state.auth.user.id;
-        })
-      : [];
-    return Promise.all(users.map((user) => formatUser(user)));
-  } catch (err) {
-    store.dispatch("onError", err);
-  }
 }
 
 /**
@@ -92,7 +74,7 @@ export function getExternalUsersByIDs(userIDs, destination) {
 export async function searchExternalUsersByName(name, destination) {
   try {
     const res = await Axios.get(`${baseURL}/api/users`, {
-      params: { partial: name },
+      params: { content: name, searchBy: AdvancedSearchEnum.SearchByName },
       headers: { destination: destination },
     });
     const users = res.data.users || [];
@@ -103,15 +85,16 @@ export async function searchExternalUsersByName(name, destination) {
 }
 
 export async function getApproverInfo(userID, destination) {
-  const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
-    headers: { destination: destination },
-  });
-
-  const approverInfo = res.data;
-
-  if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
-
-  return approverInfo;
+    const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
+      headers: { destination },
+      timeout: 1000,
+    })
+  
+    const approverInfo = res.data;
+  
+    if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
+  
+    return approverInfo;
 }
 
 export async function canBeApproved(userID, approverID, destination) {
@@ -120,6 +103,30 @@ export async function canBeApproved(userID, approverID, destination) {
   });
 
   return res.data;
+}
+
+/**
+ * getUsers returns (Find or search) array of users from the users api.
+ * @param {string} content 
+ * @param {AdvancedSearchEnum} searchBy 
+ */
+export async function getUsers(content, searchBy) {
+  try {
+    const res = await Axios.get(`${baseURL}/api/users`, {
+      params: { content, searchBy },
+    });
+    let users = res.data.users.filter((user) => {
+        return user.id !== store.state.auth.user.id;
+    });
+    return Promise.all(users.map(formatUser));
+  } catch (err) {
+    if (searchBy !== AdvancedSearchEnum.SearchByName) {
+      const advancedSearchError = new Error(i18n.t("share.AdvancedSearchError"));
+      store.dispatch("onError", advancedSearchError);
+    } else {
+      store.dispatch("onError", err);
+    }
+  }
 }
 
 export function openApprovalPage(destination) {

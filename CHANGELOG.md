@@ -5,11 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [unreleased]
+
+## [v3.5.3] - 2021-05-02
+- hotfix: ([81](https://github.com/meateam/drive-ui/pull/81)): decrease approverInfo request timeout.
+- hotfix: ([80](https://github.com/meateam/drive-ui/pull/80)): fix networkDest.js read property of undefined when approverInfo request fails.
+
+
+## [v3.5.2] - 2021-04-29
+- hotfix: ([79](https://github.com/meateam/drive-ui/pull/79)): add timeout to approverInfo request that stops the Drive on failure.
+
+## [v3.5.1] - 2021-04-27
+- hotfix: ([78](https://github.com/meateam/drive-ui/pull/78)): add changes in cts (more env variables)
+
+## [v3.4.0] - 2021-04-11
+- minor: ([66](https://github.com/meateam/api-gateway/pull/66)): add advance search by mail/T.
+
 ## [v3.3.0] - 2021-03-14
 
 ### Added
 - minor([67](https://github.com/meateam/drive-ui/pull/67)): added cts 
 - minor([68](https://github.com/meateam/drive-ui/pull/68)): added button for local office.
+
 ## [v3.2.0] - 2021-02-28
 
 ### Fixed
@@ -83,6 +101,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
 
 [unreleased]: https://github.com/meateam/api-gateway/compare/master...develop
+[v3.5.3]: https://github.com/meateam/api-gateway/compare/v3.5.2...v3.5.3
+[v3.5.2]: https://github.com/meateam/api-gateway/compare/v3.5.1...v3.5.2
+[v3.5.1]: https://github.com/meateam/api-gateway/compare/v3.4.0...v3.5.1
+[v3.4.0]: https://github.com/meateam/api-gateway/compare/v3.3.0...v3.4.0
 [v3.3.0]: https://github.com/meateam/api-gateway/compare/v3.2.0...v3.3.0
 [v3.2.0]: https://github.com/meateam/api-gateway/compare/v3.1.1...v3.2.0
 [v3.1.1]: https://github.com/meateam/api-gateway/compare/v2.3.0...v3.1.1

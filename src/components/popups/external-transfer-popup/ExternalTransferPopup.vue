@@ -165,8 +165,8 @@ export default {
     onExternalNetworkChange(externalNetworkDest) {
       var selectedNetwork = getNetworkItemByDest(externalNetworkDest);
       this.externalNetworkDest = externalNetworkDest;
-      this.isColorChange = selectedNetwork.isDefault;
-      this.destHeader = selectedNetwork.label;
+      this.isColorChange = selectedNetwork ? selectedNetwork.isDefault : false;
+      this.destHeader = selectedNetwork ? selectedNetwork.label : this.$t("externalTransfer.HeaderDestDefault");
     },
     onDestinationComplete(users) {
       this.destination = users;

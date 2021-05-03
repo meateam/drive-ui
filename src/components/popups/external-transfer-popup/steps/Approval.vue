@@ -84,7 +84,12 @@
                   <!-- the approver must be in unit msg -->
                   <p v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].unit.approvers">
                     {{ $t("externalTransfer.ApproverRanks") }}
-                    <span class="bold">{{ getRanks(user.approverInfos[networkDest].unit.approvers) }}</span>
+                    <span
+                      v-for="(rank, index) in getRanks(user.approverInfos[networkDest].unit.approvers)"
+                      v-bind:key="index"
+                      class="bold"
+                      >{{ rank }}</span
+                    >
                   </p>
                   <p class="bold">{{ whiteListText }}</p>
                 </div>
@@ -134,11 +139,6 @@
     <v-card-actions class="popup-confirm">
       <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
       <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
-
-      <v-btn text small @click="onAboutMeClick">
-        <v-icon color="black">person</v-icon>
-        <p>{{ $t("buttons.AboutMe") }}</p>
-      </v-btn>
     </v-card-actions>
 
     <DropboxSupportPopup ref="support" />
@@ -154,6 +154,7 @@ import Chips from "@/components/shared/BaseChips";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import TextButton from "@/components/buttons/BaseTextButton";
+import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
 
 export default {
   name: "Approval",
@@ -192,45 +193,39 @@ export default {
       this.isLoading = false;
       this.iAmApprover = false;
 
-      this.disabled =
-        this.networkDest == undefined ||
-        !(
-          this.user.approverInfos[this.networkDest].isAdmin ||
-          (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
-        );
+      this.disabled = this.isDisabled();
     },
     networkDest: function() {
-      this.disabled =
-        this.networkDest == undefined ||
-        !(
-          this.user.approverInfos[this.networkDest].isAdmin ||
-          (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
-        );
+      this.disabled = this.isDisabled();
     },
     iAmApprover: function(value) {
       value ? (this.disabled = false) : (this.disabled = true);
     },
   },
   created() {
-    this.disabled =
-      this.networkDest == undefined ||
-      !(
-        this.user.approverInfos[this.networkDest].isAdmin ||
-        (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
-      )
-        ? true
-        : false;
+    this.disabled = this.isDisabled();
   },
   methods: {
     getUsersByName(name) {
       if (this.isLoading) return;
       this.isLoading = true;
       usersApi
-        .searchUsersByName(name)
+        .getUsers(name, AdvancedSearchEnum.SearchByName)
         .then((users) => {
           this.users = users;
         })
         .finally(() => (this.isLoading = false));
+    },
+    isDisabled() {
+      try {
+        return this.networkDest == undefined ||
+        !(
+          this.user.approverInfos[this.networkDest].isAdmin ||
+          (this.user.approverInfos[this.networkDest].isApprover && !this.user.approverInfos[this.networkDest].isBlocked)
+        );
+      } catch (_err) {
+        return true;
+      }
     },
     onConfirm() {
       this.$emit(

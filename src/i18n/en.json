@@ -26,6 +26,7 @@
   },
   "autocomplete": {
     "NoResult": "no results...",
+    "NoResultAdvancedSearch": "no results. try advanced search.",
     "Drive": "search in drive...",
     "Users": "add users..."
   },
@@ -168,7 +169,13 @@
       "DownloadLink": "download link",
       "Copy": "copy link",
       "OnlyShare": "please notice! only users with permissions on this file will be able to access it"
-    }
+    },
+    "AdvancedSearch": "advanced search",
+    "AdvancedSearchChoices": {
+      "SearchByT": "by T",
+      "SearchByMail": "by mail"
+    },
+    "AdvancedSearchError": "The requested user was not found. Please ensure that the search query is valid."
   },
   "externalTransfer": {
     "Header": "External Transfer",
@@ -181,6 +188,7 @@
     "MoreInfo": "The information will aid the approver with approving the share",
     "Describe": "describe the file data...",
     "ChooseClassification": "classification",
+    "DestinationUnavailable": "This destination is temporary unavailable",
     "Classifications": {
       "TOMCAL": [{ "text": "Limited" }, { "text": "Secret" }, { "text": "Top secret", "enable": false }],
       "CTS": [
