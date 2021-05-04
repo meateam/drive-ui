@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## Fixed
+- hotfix: ([81](https://github.com/meateam/drive-ui/pull/81)): make approverInfo request async.
+
 ## [v3.5.3] - 2021-05-02
 - hotfix: ([81](https://github.com/meateam/drive-ui/pull/81)): decrease approverInfo request timeout.
 - hotfix: ([80](https://github.com/meateam/drive-ui/pull/80)): fix networkDest.js read property of undefined when approverInfo request fails.
