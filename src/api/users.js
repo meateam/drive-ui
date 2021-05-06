@@ -87,7 +87,7 @@ export async function searchExternalUsersByName(name, destination) {
 export async function getApproverInfo(userID, destination) {
     const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
       headers: { destination },
-      timeout: 1000,
+      timeout: 5000,
     });
   
     const approverInfo = res.data;
