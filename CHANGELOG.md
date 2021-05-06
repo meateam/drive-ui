@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 
 ## Fixed
-- hotfix: ([81](https://github.com/meateam/drive-ui/pull/81)): add validation to search by mail or t.
-- hotfix: ([81](https://github.com/meateam/drive-ui/pull/81)): show all external transffers in the sidenav.
+- hotfix: ([85](https://github.com/meateam/drive-ui/pull/85)): add validation to search by mail or t.
+- hotfix: ([85](https://github.com/meateam/drive-ui/pull/85)): show all external transffers in the sidenav.
 
 
 ## [v3.5.3] - 2021-05-02
