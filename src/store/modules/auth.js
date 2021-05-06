@@ -67,7 +67,7 @@ const actions = {
 
       commit("setUser", user);
 
-      await dispatch("addApproverInfos", user);
+      dispatch("addApproverInfos", user);
     } catch (err) {
       dispatch("onError", err);
     }
