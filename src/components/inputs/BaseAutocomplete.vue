@@ -19,7 +19,7 @@
     :class="{ 'disableInput' : disabled }"
   >
     <template v-slot:no-data>
-      <p id="no-resault">{{ $t(`autocomplete.${noResult || 'NoResult'}`)}}</p>
+      <p id="no-result">{{ $t(`autocomplete.${ validationFailedMsg ? validationFailedMsg : noResult || 'NoResult'}`)}}</p>
     </template>
   </v-autocomplete>
 </template>
@@ -30,7 +30,8 @@ import debounce from "lodash/debounce";
 export default {
   data: () => ({
     item: null,
-    value: ""
+    value: "",
+    validationFailedMsg: null,
   }),
   props: [
     "placeholder",
@@ -41,6 +42,7 @@ export default {
     "minLength",
     "noResult",
     "disabled",
+    "validation",
   ],
   methods: {
     onSelect() {
@@ -52,7 +54,13 @@ export default {
     },
     onInput(value) {
       this.value = value;
-      this.onSearch(value);
+      const validationMsg = this.validation && value && value.length > 1 ? this.validation(value) : null;
+      if (!validationMsg) {
+        this.validationFailedMsg = false;
+        this.onSearch(value);
+      } else {
+        this.validationFailedMsg = validationMsg;
+      }
     },
     onSearch: debounce(function(value) {
       if (typeof value === "string" && value.length >= this.minLength)
@@ -63,7 +71,7 @@ export default {
 </script>
 
 <style scoped>
-#no-resault {
+#no-result {
   padding-right: 20px;
 }
 .disableInput {

@@ -10,6 +10,7 @@
         :isLoading="isLoading"
         :minLength="2"
         :noResult="'NoResultAdvancedSearch'"
+        :validation="advancedSearchValidation()"
         @select="onUserSelect"
         @type="getUsersByContent"
       />
@@ -87,6 +88,7 @@ import TextButton from "@/components/buttons/BaseTextButton";
 import RadioButtons from "@/components/buttons/AdvancedSearchRadioButtons";
 import { AdvancedSearchToEnum } from "@/utils/convertAdvancedSearchToEnum";
 import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
+import { validationAdvancedSearchFactory } from "@/utils/advancedSearchValidation";
 
 export default {
   name: "SharePopup",
@@ -182,6 +184,9 @@ export default {
       this.selectedUsers = [];
       this.$emit("share", shareObject);
     },
+    advancedSearchValidation() {
+      return validationAdvancedSearchFactory(AdvancedSearchToEnum(this.advancedSearchSelection));
+    }
   },
 };
 </script>
