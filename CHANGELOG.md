@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 
 ## Fixed
+- hotfix: ([85](https://github.com/meateam/drive-ui/pull/85)): add validation to search by mail or t.
+- hotfix: ([85](https://github.com/meateam/drive-ui/pull/85)): show all external transffers in the sidenav.
 - hotfix: ([81](https://github.com/meateam/drive-ui/pull/81)): make approverInfo request async.
 
 ## [v3.5.3] - 2021-05-02
