@@ -28,7 +28,8 @@
     "NoResult": "no results...",
     "NoResultAdvancedSearch": "no results. try advanced search.",
     "Drive": "search in drive...",
-    "Users": "add users..."
+    "Users": "add users...",
+    "FindByT": "no results. search by t. for example t01234567."
   },
   "pageHeaders": {
     "SharedWithMe": "Shared With Me",

@@ -19,7 +19,7 @@
     :class="{ 'disableInput' : disabled }"
   >
     <template v-slot:no-data>
-      <p id="no-resault">{{ $t(`autocomplete.${ validationFailedMsg ? validationFailedMsg : noResult || 'NoResult'}`)}}</p>
+      <p id="no-result">{{ $t(`autocomplete.${ validationFailedMsg ? validationFailedMsg : noResult || 'NoResult'}`)}}</p>
     </template>
   </v-autocomplete>
 </template>
@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style scoped>
-#no-resault {
+#no-result {
   padding-right: 20px;
 }
 .disableInput {
