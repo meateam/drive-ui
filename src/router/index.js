@@ -51,6 +51,14 @@ const router = new Router({
       name: "Folders",
     },
     {
+      path: "/file",
+      component: () => import("@/views/File"),
+      meta: {
+        layout: true,
+      },
+      name: "File",
+    },
+    {
       path: "/external-transferred-dropbox",
       component: () => import("@/views/ExternalTransferred"),
       meta: {

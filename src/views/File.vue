@@ -10,12 +10,12 @@
 
 <script>
 import * as filesApi from "@/api/files";
+import PageTemplate from "@/components/BasePageTemplate";
 import { mapGetters } from "vuex";
 import { ownerRole } from "@/utils/roles";
-import PageTemplate from "@/components/BasePageTemplate";
 
 export default {
-  name: "Folder",
+  name: "File",
   components: { PageTemplate },
   data() {
     return {
@@ -36,7 +36,7 @@ export default {
   methods: {
     async onFolderChange(folder) {
       await this.getBreadcrumbs(folder);
-      this.$store.dispatch("fetchFiles");
+      this.$store.dispatch("fetchFile");
     },
     async getBreadcrumbs(folder) {
       if (!folder) return;
@@ -45,27 +45,29 @@ export default {
 
       breadcrumbs.push({
         value: undefined,
-        text: this.isFolderOwner()
+        text: this.isFolderOwner() || !folder.id // In case it is in the root the folder will exist but won't have an id
           ? this.$t("pageHeaders.MyDrive")
           : this.$t("pageHeaders.SharedWithMe"),
         disabled: false,
       });
 
-      const hierarchy = await filesApi.getFolderHierarchy(folder.id);
+      if (folder && folder.id) {
+        const hierarchy = await filesApi.getFolderHierarchy(folder.id);
 
-      hierarchy.forEach((folder) => {
+        hierarchy.forEach((folder) => {
+          breadcrumbs.push({
+            value: folder,
+            text: folder.name,
+            disabled: false,
+          });
+        });
+
         breadcrumbs.push({
           value: folder,
           text: folder.name,
           disabled: false,
         });
-      });
-
-      breadcrumbs.push({
-        value: folder,
-        text: folder.name,
-        disabled: false,
-      });
+      }
 
       this.breadcrumbs = breadcrumbs;
     },
