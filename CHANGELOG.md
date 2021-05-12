@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 
 ## Added
-- minor: ([](https://github.com/meateam/drive-ui/pull/)): add smart link to file.
+- minor: ([89](https://github.com/meateam/drive-ui/pull/89)): add smart link to file.
 
 ## [v3.5.4] - 2021-05-09
 - hotfix: ([85](https://github.com/meateam/drive-ui/pull/85)): add validation to search by mail or t.
