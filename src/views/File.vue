@@ -10,12 +10,13 @@
 
 <script>
 import * as filesApi from "@/api/files";
+import PageTemplate from "@/components/BasePageTemplate";
 import { mapGetters } from "vuex";
 import { ownerRole } from "@/utils/roles";
-import PageTemplate from "@/components/BasePageTemplate";
+import { isOwner } from "@/utils/isOwner";
 
 export default {
-  name: "Folder",
+  name: "File",
   components: { PageTemplate },
   data() {
     return {
@@ -31,12 +32,12 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["files", "currentFolder"]),
+    ...mapGetters(["files", "currentFolder", "currentFile"]),
   },
   methods: {
     async onFolderChange(folder) {
       await this.getBreadcrumbs(folder);
-      this.$store.dispatch("fetchFiles");
+      this.$store.dispatch("fetchFile");
     },
     async getBreadcrumbs(folder) {
       if (!folder) return;
@@ -45,27 +46,29 @@ export default {
 
       breadcrumbs.push({
         value: undefined,
-        text: this.isFolderOwner()
+        text: this.isFileOwner()
           ? this.$t("pageHeaders.MyDrive")
           : this.$t("pageHeaders.SharedWithMe"),
         disabled: false,
       });
 
-      const hierarchy = await filesApi.getFolderHierarchy(folder.id);
+      if (folder && folder.id) {
+        const hierarchy = await filesApi.getFolderHierarchy(folder.id);
 
-      hierarchy.forEach((folder) => {
+        hierarchy.forEach((folder) => {
+          breadcrumbs.push({
+            value: folder,
+            text: folder.name,
+            disabled: false,
+          });
+        });
+
         breadcrumbs.push({
           value: folder,
           text: folder.name,
           disabled: false,
         });
-      });
-
-      breadcrumbs.push({
-        value: folder,
-        text: folder.name,
-        disabled: false,
-      });
+      }
 
       this.breadcrumbs = breadcrumbs;
     },
@@ -79,7 +82,10 @@ export default {
       }
     },
     isFolderOwner() {
-      return ownerRole(this.currentFolder.role);
+      return ownerRole(this.currentFile.ownerId);
+    },
+    isFileOwner() {
+      return isOwner(this.currentFile.ownerId);
     },
   },
 };
