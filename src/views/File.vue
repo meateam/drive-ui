@@ -13,6 +13,7 @@ import * as filesApi from "@/api/files";
 import PageTemplate from "@/components/BasePageTemplate";
 import { mapGetters } from "vuex";
 import { ownerRole } from "@/utils/roles";
+import { isOwner } from "@/utils/isOwner";
 
 export default {
   name: "File",
@@ -31,7 +32,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["files", "currentFolder"]),
+    ...mapGetters(["files", "currentFolder", "currentFile"]),
   },
   methods: {
     async onFolderChange(folder) {
@@ -45,7 +46,7 @@ export default {
 
       breadcrumbs.push({
         value: undefined,
-        text: this.isFolderOwner() || !folder.id // In case it is in the root the folder will exist but won't have an id
+        text: this.isFileOwner()
           ? this.$t("pageHeaders.MyDrive")
           : this.$t("pageHeaders.SharedWithMe"),
         disabled: false,
@@ -81,7 +82,10 @@ export default {
       }
     },
     isFolderOwner() {
-      return ownerRole(this.currentFolder.role);
+      return ownerRole(this.currentFile.ownerId);
+    },
+    isFileOwner() {
+      return isOwner(this.currentFile.ownerId);
     },
   },
 };
