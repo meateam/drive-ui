@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v3.6.0] - 2021-05-13
+- minor: ([89](https://github.com/meateam/drive-ui/pull/89)): add smart link to file.
+
 ## [v3.5.4] - 2021-05-09
 - hotfix: ([85](https://github.com/meateam/drive-ui/pull/85)): add validation to search by mail or t.
 - hotfix: ([85](https://github.com/meateam/drive-ui/pull/85)): show all external transffers in the sidenav.
@@ -106,6 +109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
 
 [unreleased]: https://github.com/meateam/api-gateway/compare/master...develop
+[v3.6.0]: https://github.com/meateam/api-gateway/compare/v3.5.4...v3.6.0
 [v3.5.4]: https://github.com/meateam/api-gateway/compare/v3.5.3...v3.5.4
 [v3.5.3]: https://github.com/meateam/api-gateway/compare/v3.5.2...v3.5.3
 [v3.5.2]: https://github.com/meateam/api-gateway/compare/v3.5.1...v3.5.2
