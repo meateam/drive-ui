@@ -114,7 +114,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user", "currentMailOrT"]),
   },
   watch: {
     selectedUsers: function (users) {
@@ -178,6 +178,10 @@ export default {
       if (!user || this.isUserExists(this.selectedUsers, user.id)) {
         return;
       } else {
+        if(this.advancedSearchSelection && this.networkDest == 'CTS') {
+          console.log('in advance search: user.id = ' + this.currentMailOrT + ' !');
+          user.id = this.currentMailOrT;
+        }
         this.selectedUsers.push(user);
       }
     },
@@ -196,6 +200,8 @@ export default {
           return { id: user.id, full_name: user.fullName };
         })
       );
+      this.advancedSearchSelection = null;
+      this.displayAdvancedSearchOptions = false
     },
   },
 };
