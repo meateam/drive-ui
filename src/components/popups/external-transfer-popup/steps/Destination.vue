@@ -168,7 +168,7 @@ export default {
       if (!user || this.isUserExists(this.selectedUsers, user.id)) {
         return;
       } else {
-        if (this.searchSelection && this.networkDest == "CTS") {
+        if (this.searchSelection == this.$t("share.searchOptions.id") && this.networkDest == "CTS") {
           user.id = this.currentMailOrT;
         }
         this.selectedUsers.push(user);
