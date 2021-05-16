@@ -200,6 +200,7 @@
         { "text": "Top Secret - blue", "color": "blue", "enable": false }
       ]
     },
+    "SearchBy": "Search by",
     "DisableClassification": "transfer is not allowed {classificationName}",
     "ApprovalInstructions": "The users are taken from the other domain",
     "ApprovalService": "approval service",
