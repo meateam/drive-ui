@@ -44,39 +44,12 @@
                 :minLength="2"
                 @select="onSelect"
                 @type="getExternalUsers"
-                :validation="advancedSearchValidation()"
               />
             </v-col>
           </v-row>
         </v-col>
       </v-row>
       <div @click="hideAdvancedSearchOptions"></div>
-      <!-- <div id="advancedSearchContainer" v-if="networkDest === 'CTS'">
-        <div id="advancedSearchTitlesContainer">
-          <a id="advancedSearch" @click="onAdvancedSearch">{{
-            $t("share.AdvancedSearch")
-          }}</a>
-          <div>
-            <AdvancedSearchChips
-              v-if="advancedSearchSelection"
-              :searchBy="
-                $t(`share.AdvancedSearchChoices.${advancedSearchSelection}`)
-              "
-              @remove="onRemoveAdvancedSearch"
-            />
-          </div>
-        </div>
-        <div
-          :class="[displayAdvancedSearchOptions ? 'd-block' : 'd-none']"
-          id="advancedSearchButtons"
-        >
-          <RadioButtons
-            :value="advancedSearchSelection"
-            :radioGroup="['advancedSearchOptions']"
-            @change="changeAdvancedSearchSelection"
-          />
-        </div>
-      </div> -->
       <v-chip-group show-arrows>
         <Chips
           v-for="user in selectedUsers"
