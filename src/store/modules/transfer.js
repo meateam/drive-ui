@@ -3,11 +3,13 @@ import * as fileApi from "@/api/files";
 import { getFileOwnerName } from "@/utils/formatFile";
 
 const state = {
+  currentMailOrT: '',
   transfers: [],
   transfersLength: undefined,
 };
 
 const getters = {
+  currentMailOrT: (state) => state.currentMailOrT,
   transfers: (state) => state.transfers,
   transfersLength: (state) => state.transfersLength,
 };
@@ -55,6 +57,9 @@ const actions = {
 };
 
 const mutations = {
+  setCurrentMailOrT: (state, currentMailOrT) => {
+    state.currentMailOrT = currentMailOrT;
+  },
   setTransfers: (state, transfers) => {
     state.transfersLength = undefined;
     state.transfers = transfers;
