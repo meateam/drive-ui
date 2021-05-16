@@ -168,7 +168,7 @@ export default {
       if (!user || this.isUserExists(this.selectedUsers, user.id)) {
         return;
       } else {
-        if (this.advancedSearchSelection && this.networkDest == "CTS") {
+        if (this.searchSelection && this.networkDest == "CTS") {
           user.id = this.currentMailOrT;
         }
         this.selectedUsers.push(user);
@@ -189,7 +189,7 @@ export default {
           return { id: user.id, full_name: user.fullName };
         })
       );
-      this.advancedSearchSelection = null;
+      this.searchSelection = null;
       this.displayAdvancedSearchOptions = false;
     },
   },
