@@ -176,6 +176,11 @@
       "SearchByT": "by T",
       "SearchByMail": "by mail"
     },
+    "searchOptions": {
+      "name": "name",
+      "email": "email",
+      "id": "id"
+    },
     "AdvancedSearchError": "The requested user was not found. Please ensure that the search query is valid."
   },
   "externalTransfer": {

@@ -124,15 +124,6 @@ export default {
     },
   },
   methods: {
-    // changeAdvancedSearchSelection(radioGroupSelection) {
-    //   this.advancedSearchSelection = radioGroupSelection;
-    // },
-    // onRemoveAdvancedSearch() {
-    //   this.advancedSearchSelection = null;
-    // },
-    // onAdvancedSearch() {
-    //   this.displayAdvancedSearchOptions = !this.displayAdvancedSearchOptions;
-    // },
     advancedSearchValidation() {
       return validationAdvancedSearchFactory(
         SearchToEnum(this.searchSelection)
@@ -178,9 +169,6 @@ export default {
         return;
       } else {
         if (this.advancedSearchSelection && this.networkDest == "CTS") {
-          console.log(
-            "in advance search: user.id = " + this.currentMailOrT + " !"
-          );
           user.id = this.currentMailOrT;
         }
         this.selectedUsers.push(user);

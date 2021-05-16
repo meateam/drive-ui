@@ -8,7 +8,7 @@ services:
     depends_on:
       - api-gateway
   api-gateway:
-    image: "drivehub.azurecr.io/meateam/api-gateway:cargo-fix-yosef"
+    image: "drivehub.azurecr.io/meateam/api-gateway:develop"
     env_file:
       - ../kdrive.env
     ports:
