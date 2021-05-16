@@ -104,7 +104,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user", "currentMailOrT"]),
+    ...mapGetters(["user", "currentMailOrT", "CTSSuffix"]),
   },
   created() {
     this.searchSelection = this.searchOptions[0];
@@ -121,6 +121,7 @@ export default {
       this.users = [];
       this.isLoading = false;
       this.disabled = true;
+      this.searchSelection = this.searchOptions[0];
     },
   },
   methods: {
@@ -168,8 +169,11 @@ export default {
       if (!user || this.isUserExists(this.selectedUsers, user.id)) {
         return;
       } else {
-        if (this.advancedSearchSelection && this.networkDest == "CTS") {
+        if (this.searchSelection == this.$t("share.searchOptions.id") && this.networkDest == "CTS") {
           user.id = this.currentMailOrT;
+          if (!user.id.includes("@")) {
+            user.id += this.CTSSuffix;
+          }
         }
         this.selectedUsers.push(user);
       }
@@ -189,7 +193,7 @@ export default {
           return { id: user.id, full_name: user.fullName };
         })
       );
-      this.advancedSearchSelection = null;
+      this.searchSelection = null;
       this.displayAdvancedSearchOptions = false;
     },
   },
