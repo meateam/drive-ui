@@ -121,6 +121,7 @@ export default {
       this.users = [];
       this.isLoading = false;
       this.disabled = true;
+      this.searchSelection = this.searchOptions[0];
     },
   },
   methods: {
