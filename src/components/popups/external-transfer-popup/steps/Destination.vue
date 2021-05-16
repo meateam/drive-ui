@@ -104,7 +104,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user", "currentMailOrT"]),
+    ...mapGetters(["user", "currentMailOrT", "CTSSuffix"]),
   },
   created() {
     this.searchSelection = this.searchOptions[0];
@@ -171,6 +171,9 @@ export default {
       } else {
         if (this.searchSelection == this.$t("share.searchOptions.id") && this.networkDest == "CTS") {
           user.id = this.currentMailOrT;
+          if (!user.id.includes("@")) {
+            user.id += this.CTSSuffix;
+          }
         }
         this.selectedUsers.push(user);
       }
