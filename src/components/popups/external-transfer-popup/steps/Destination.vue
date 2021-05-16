@@ -17,46 +17,39 @@
       </v-row>
     </div>
     <div v-else>
-      <div @click="hideAdvancedSearchOptions">
-        <p class="popup-text">{{ $t("share.DriveChoose") }}</p>
-        <Autocomplete
-          icon
-          background="white"
-          :placeholder="$t('autocomplete.Users')"
-          :items="users"
-          :isLoading="isLoading"
-          :minLength="2"
-          @select="onSelect"
-          @type="getExternalUsers"
-          :validation="advancedSearchValidation()"
-        />
-      </div>
-      <div id="advancedSearchContainer" v-if="networkDest === 'CTS'">
-        <div id="advancedSearchTitlesContainer">
-          <a id="advancedSearch" @click="onAdvancedSearch">{{
-            $t("share.AdvancedSearch")
-          }}</a>
-          <div>
-            <AdvancedSearchChips
-              v-if="advancedSearchSelection"
-              :searchBy="
-                $t(`share.AdvancedSearchChoices.${advancedSearchSelection}`)
-              "
-              @remove="onRemoveAdvancedSearch"
-            />
-          </div>
-        </div>
-        <div
-          :class="[displayAdvancedSearchOptions ? 'd-block' : 'd-none']"
-          id="advancedSearchButtons"
-        >
-          <RadioButtons
-            :value="advancedSearchSelection"
-            :radioGroup="advancedSearchOptions"
-            @change="changeAdvancedSearchSelection"
-          />
-        </div>
-      </div>
+      <v-row no-gutters>
+        <v-col cols="12" md="12">
+          <p class="popup-text">{{ $t("share.DriveChoose") }}</p>
+        </v-col>
+        <v-col cols="12" md="12">
+          <v-row no-gutters>
+            <v-col cols="12" md="12" v-if="networkDest === 'CTS'">
+              <v-select
+                background-color="white"
+                rounded
+                :label="$t('externalTransfer.SearchBy')"
+                outlined
+                dense
+                v-model="searchSelection"
+                :items="searchOptions"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="12">
+              <Autocomplete
+                icon
+                background="white"
+                :placeholder="$t('autocomplete.Users')"
+                :items="users"
+                :isLoading="isLoading"
+                :minLength="2"
+                @select="onSelect"
+                @type="getExternalUsers"
+              />
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+      <div @click="hideAdvancedSearchOptions"></div>
       <v-chip-group show-arrows>
         <Chips
           v-for="user in selectedUsers"
@@ -80,13 +73,11 @@
 <script>
 import * as usersApi from "@/api/users";
 import Chips from "@/components/shared/BaseChips";
-import AdvancedSearchChips from "@/components/shared/AdvancedSearchChips";
-import RadioButtons from "@/components/buttons/AdvancedSearchRadioButtons";
 import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import TextButton from "@/components/buttons/BaseTextButton";
 import { mapGetters } from "vuex";
-import { AdvancedSearchToEnum } from "@/utils/convertAdvancedSearchToEnum";
+import { SearchToEnum } from "@/utils/convertAdvancedSearchToEnum";
 import { validationAdvancedSearchFactory } from "@/utils/advancedSearchValidation";
 
 export default {
@@ -96,8 +87,6 @@ export default {
     SubmitButton,
     Autocomplete,
     TextButton,
-    AdvancedSearchChips,
-    RadioButtons,
   },
   props: { networkDest: String, reset: Boolean },
   data() {
@@ -106,15 +95,19 @@ export default {
       users: [],
       isLoading: false,
       disabled: true,
-      advancedSearchOptions: Object.keys(
-        this.$t("share.AdvancedSearchChoices")
-      ),
-      advancedSearchSelection: null,
+      searchOptions: [
+        this.$t("share.searchOptions.name"),
+        this.$t("share.searchOptions.id"),
+      ],
+      searchSelection: null,
       displayAdvancedSearchOptions: false,
     };
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user", "currentMailOrT"]),
+  },
+  created() {
+    this.searchSelection = this.searchOptions[0];
   },
   watch: {
     selectedUsers: function (users) {
@@ -131,18 +124,9 @@ export default {
     },
   },
   methods: {
-    changeAdvancedSearchSelection(radioGroupSelection) {
-      this.advancedSearchSelection = radioGroupSelection;
-    },
-    onRemoveAdvancedSearch() {
-      this.advancedSearchSelection = null;
-    },
-    onAdvancedSearch() {
-      this.displayAdvancedSearchOptions = !this.displayAdvancedSearchOptions;
-    },
     advancedSearchValidation() {
       return validationAdvancedSearchFactory(
-        AdvancedSearchToEnum(this.advancedSearchSelection)
+        SearchToEnum(this.searchSelection)
       );
     },
     hideAdvancedSearchOptions() {
@@ -155,19 +139,25 @@ export default {
     getExternalUsers(content) {
       if (this.isLoading) return;
       this.isLoading = true;
-      if (this.advancedSearchSelection) {
-        const searchBy = AdvancedSearchToEnum(this.advancedSearchSelection);
-        usersApi
-          .getUsers(content, searchBy)
-          .then((users) => {
-            this.users = users;
-          })
-          .finally(() => (this.isLoading = false));
-      } else {
-        usersApi
-          .searchExternalUsersByName(content, this.networkDest)
-          .then((users) => (this.users = users))
-          .finally(() => (this.isLoading = false));
+
+      switch (this.searchSelection) {
+        case this.$t("share.searchOptions.name"): {
+          usersApi
+            .searchExternalUsersByName(content, this.networkDest)
+            .then((users) => (this.users = users))
+            .finally(() => (this.isLoading = false));
+          break;
+        }
+        case this.$t("share.searchOptions.id"): {
+          const searchBy = SearchToEnum(this.searchSelection);
+          usersApi
+            .getUsers(content, searchBy)
+            .then((users) => {
+              this.users = users;
+            })
+            .finally(() => (this.isLoading = false));
+          break;
+        }
       }
     },
     onAboutMeClick() {
@@ -178,6 +168,9 @@ export default {
       if (!user || this.isUserExists(this.selectedUsers, user.id)) {
         return;
       } else {
+        if (this.advancedSearchSelection && this.networkDest == "CTS") {
+          user.id = this.currentMailOrT;
+        }
         this.selectedUsers.push(user);
       }
     },
@@ -196,6 +189,8 @@ export default {
           return { id: user.id, full_name: user.fullName };
         })
       );
+      this.advancedSearchSelection = null;
+      this.displayAdvancedSearchOptions = false;
     },
   },
 };
