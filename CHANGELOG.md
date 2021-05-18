@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added:
+
+- hotfix: ([95](https://github.com/meateam/drive-ui/pull/95)): fix drag and drop multiple times
+
 ## [v3.7.1] - 2021-05-16
 
 ### Added:
