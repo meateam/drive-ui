@@ -10,55 +10,46 @@
     rounded
     filled
     dense
+    hide-details
     item-text="display"
     return-object
     :append-icon="icon"
     color="#035c64"
     :background-color="background"
     :placeholder="placeholder"
-    :class="{ 'disableInput' : disabled }"
+    :class="{ disableInput: disabled }"
   >
     <template v-slot:no-data>
-      <p id="no-resault">{{ $t(`autocomplete.${noResult || 'NoResult'}`)}}</p>
+      <p id="no-resault">{{ $t(`autocomplete.${noResult || 'NoResult'}`) }}</p>
     </template>
   </v-autocomplete>
 </template>
 
 <script>
-import debounce from "lodash/debounce";
+import debounce from 'lodash/debounce';
 
 export default {
   data: () => ({
     item: null,
-    value: ""
+    value: '',
   }),
-  props: [
-    "placeholder",
-    "items",
-    "background",
-    "icon",
-    "isLoading",
-    "minLength",
-    "noResult",
-    "disabled",
-  ],
+  props: ['placeholder', 'items', 'background', 'icon', 'isLoading', 'minLength', 'noResult', 'disabled'],
   methods: {
     onSelect() {
-      this.$emit("select", this.item);
+      this.$emit('select', this.item);
     },
     onEnter() {
-      this.item = "";
-      this.$emit("enter", this.value);
+      this.item = '';
+      this.$emit('enter', this.value);
     },
     onInput(value) {
       this.value = value;
       this.onSearch(value);
     },
     onSearch: debounce(function(value) {
-      if (typeof value === "string" && value.length >= this.minLength)
-        this.$emit("type", value);
-    }, 500)
-  }
+      if (typeof value === 'string' && value.length >= this.minLength) this.$emit('type', value);
+    }, 500),
+  },
 };
 </script>
 

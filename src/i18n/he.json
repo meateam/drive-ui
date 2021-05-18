@@ -22,7 +22,15 @@
   },
   "header": {
     "connect": "צור קשר",
-    "notification": "עדכונים"
+    "notification": "עדכונים",
+    "AdvancedSearchOptions": "אפשרויות חיפוש",
+    "AdvancedSearch": "חיפוש מתקדם",
+    "AdvancedSearchChoices": {
+      "filename": "שם קובץ",
+      "content": "תוכן",
+      "date": "תאריך",
+      "owner": "שם משתמש"
+    }
   },
   "autocomplete": {
     "NoResult": "לא נמצאו תוצאות",

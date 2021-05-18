@@ -1,17 +1,7 @@
 <template>
   <v-app-bar app id="header" color="white" height="86px">
     <div id="search-input">
-      <Autocomplete
-        background="#f0f4f7"
-        :placeholder="$t('autocomplete.Drive')"
-        icon="search"
-        :minLength="0"
-        :items="results"
-        :isLoading="isSearchLoading"
-        @select="onSelect"
-        @enter="onEnter"
-        @type="getSearchResults"
-      />
+      <SearchInput @onSelectItem="onSelect" />
     </div>
     <v-spacer></v-spacer>
     <div id="left">
@@ -37,56 +27,36 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { search } from "@/api/search";
-import { isFolder } from "@/utils/isFolder";
-import Progress from "@/components/shared/BaseProgress";
-import ChatButton from "@/components/buttons/ChatButton";
-import LoadingFiles from "@/components/shared/BaseLoadingFiles";
-import Autocomplete from "@/components/inputs/BaseAutocomplete";
-import Preview from "@/components/popups/Preview";
+import SearchInput from '@/components/layout/toolbar/search/SearchInput';
+import Progress from '@/components/shared/BaseProgress';
+import ChatButton from '@/components/buttons/ChatButton';
+import LoadingFiles from '@/components/shared/BaseLoadingFiles';
+import Preview from '@/components/popups/Preview';
+import { mapGetters } from 'vuex';
+import { isFolder } from '@/utils/isFolder';
 
 export default {
-  name: "AppBar",
-  components: { ChatButton, Autocomplete, LoadingFiles, Preview, Progress },
-  data() {
-    return {
-      results: [],
-      isSearchLoading: false,
-    };
-  },
+  name: 'AppBar',
+  components: { ChatButton, LoadingFiles, Preview, Progress, SearchInput },
   methods: {
     getUserName() {
       if (this.user) {
-        const firstName = this.user.name.firstName || "";
-        const lastName = this.user.name.lastName || "";
+        const firstName = this.user.name.firstName || '';
+        const lastName = this.user.name.lastName || '';
         return `${firstName} ${lastName}`;
       }
-      return "";
-    },
-    getSearchResults(query) {
-      if (this.isSearchLoading) return;
-      this.isSearchLoading = true;
-      search(query)
-        .then((results) => {
-          results.forEach((res) => (res.display = `${res.name}`));
-          this.results = results;
-        })
-        .finally(() => (this.isSearchLoading = false));
-    },
-    onEnter(query) {
-      this.$router.push({ path: "/search", query: { q: query } });
+      return '';
     },
     onSelect(result) {
       if (isFolder(result.type)) {
-        this.$router.push({ path: "/folders", query: { id: result.id } });
+        this.$router.push({ path: '/folders', query: { id: result.id } });
       } else {
         this.$refs.preview.open(result);
       }
     },
   },
   computed: {
-    ...mapGetters(["user", "loadingFiles", "isLoading"]),
+    ...mapGetters(['user', 'loadingFiles', 'isLoading']),
   },
 };
 </script>

@@ -22,7 +22,8 @@
   },
   "header": {
     "connect": "contact us",
-    "notification": "notification"
+    "notification": "notification",
+    "AdvancedSearch": "advanced search"
   },
   "autocomplete": {
     "NoResult": "no results...",
