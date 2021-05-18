@@ -1,11 +1,6 @@
 <template>
   <div>
-    <div
-      v-if="
-        user.approverInfos[networkDest] &&
-        user.approverInfos[networkDest].isBlocked
-      "
-    >
+    <div v-if="user.approverInfos[networkDest] && user.approverInfos[networkDest].isBlocked">
       <p class="popup-text align-center">
         {{ $t("externalTransfer.IsBlocked") }}
       </p>
@@ -51,19 +46,10 @@
       </v-row>
       <div @click="hideAdvancedSearchOptions"></div>
       <v-chip-group show-arrows>
-        <Chips
-          v-for="user in selectedUsers"
-          :key="user.id"
-          :user="user"
-          @remove="onRemove"
-        />
+        <Chips v-for="user in selectedUsers" :key="user.id" :user="user" @remove="onRemove" />
       </v-chip-group>
       <v-card-actions class="popup-confirm">
-        <SubmitButton
-          @click="onConfirm"
-          :label="$t('buttons.Continue')"
-          :disabled="disabled"
-        />
+        <SubmitButton @click="onConfirm" :label="$t('buttons.Continue')" :disabled="disabled" />
         <TextButton @click="$emit('back')" :label="$t('buttons.Back')" />
       </v-card-actions>
     </div>
@@ -95,25 +81,22 @@ export default {
       users: [],
       isLoading: false,
       disabled: true,
-      searchOptions: [
-        this.$t("share.searchOptions.name"),
-        this.$t("share.searchOptions.id"),
-      ],
+      searchOptions: [this.$t("share.searchOptions.name"), this.$t("share.searchOptions.id")],
       searchSelection: null,
       displayAdvancedSearchOptions: false,
     };
   },
   computed: {
-    ...mapGetters(["user", "currentMailOrT", "CTSSuffix"]),
+    ...mapGetters(["user"]),
   },
   created() {
     this.searchSelection = this.searchOptions[0];
   },
   watch: {
-    selectedUsers: function (users) {
+    selectedUsers: function(users) {
       users.length ? (this.disabled = false) : (this.disabled = true);
     },
-    networkDest: function (newDest, oldDest) {
+    networkDest: function(newDest, oldDest) {
       if (newDest != oldDest) this.selectedUsers = [];
     },
     reset() {
@@ -126,9 +109,7 @@ export default {
   },
   methods: {
     advancedSearchValidation() {
-      return validationAdvancedSearchFactory(
-        SearchToEnum(this.searchSelection)
-      );
+      return validationAdvancedSearchFactory(SearchToEnum(this.searchSelection));
     },
     hideAdvancedSearchOptions() {
       this.displayAdvancedSearchOptions = false;
@@ -152,7 +133,7 @@ export default {
         case this.$t("share.searchOptions.id"): {
           const searchBy = SearchToEnum(this.searchSelection);
           usersApi
-            .getUsers(content, searchBy)
+            .getUsers(content, searchBy, this.networkDest)
             .then((users) => {
               this.users = users;
             })
@@ -169,12 +150,6 @@ export default {
       if (!user || this.isUserExists(this.selectedUsers, user.id)) {
         return;
       } else {
-        if (this.searchSelection == this.$t("share.searchOptions.id") && this.networkDest == "CTS") {
-          user.id = this.currentMailOrT;
-          if (!user.id.includes("@")) {
-            user.id += this.CTSSuffix;
-          }
-        }
         this.selectedUsers.push(user);
       }
     },
