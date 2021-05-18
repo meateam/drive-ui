@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added:
 
+- minor: ([96](https://github.com/meateam/drive-ui/pull/96)): addded transfer to cts with upn -fix
 - hotfix: ([95](https://github.com/meateam/drive-ui/pull/95)): fix drag and drop multiple times
 
 ## [v3.7.1] - 2021-05-16

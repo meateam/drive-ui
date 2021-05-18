@@ -4,7 +4,6 @@ const state = {
   version: "2.0",
   apmServerUrl: "",
   authUrl: "",
-  CTSSuffix: "",
   environment: "",
   supportLink: "",
   dropboxSupportLink: "",
@@ -37,7 +36,6 @@ const state = {
 const getters = {
   apmServerUrl: (state) => state.approvalServiceUrl,
   authUrl: (state) => state.authUrl,
-  CTSSuffix: (state) => state.CTSSuffix,
   environment: (state) => state.environment,
   supportLink: (state) => state.supportLink,
   dropboxSupportLink: (state) => state.dropboxSupportLink,
@@ -75,7 +73,6 @@ const mutations = {
   setConfig: (state, config) => {
     state.apmServerUrl = config.apmServerUrl;
     state.authUrl = config.authUrl;
-    state.CTSSuffix = config.CTSSuffix;
     state.environment = config.environment;
     state.supportLink = config.supportLink;
     state.dropboxSupportLink = config.dropboxSupportLink;
