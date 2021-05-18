@@ -1,18 +1,18 @@
-version: "2.1"
+version: '3.3'
 services:
   drive-ui:
     image: drive-ui
-    build: .
+    build: ./drive-project/drive-ui/
     ports:
-      - "80:80"
+      - '3005:80'
     depends_on:
       - api-gateway
   api-gateway:
-    image: "drivehub.azurecr.io/meateam/api-gateway:develop"
+    image: 'drivehub.azurecr.io/meateam/api-gateway:develop'
     env_file:
       - ../kdrive.env
     ports:
-      - "8080:8080"
+      - '8080:8080'
     depends_on:
       - upload-service
       - download-service
@@ -24,129 +24,225 @@ services:
   minio:
     image: minio/minio
     volumes:
-      - "./data:/data"
+      - './data:/data'
     ports:
-      - "9000:9000"
+      - '9000:9000'
     env_file:
       - ../kdrive.env
     command: server /data
   upload-service:
-    image: "drivehub.azurecr.io/meateam/upload-service:develop"
+    image: 'drivehub.azurecr.io/meateam/upload-service:develop'
     env_file:
       - ../kdrive.env
     depends_on:
       - minio
     ports:
-      - "8081:8080"
+      - '8081:8080'
   download-service:
-    image: "drivehub.azurecr.io/meateam/download-service:develop"
+    image: 'drivehub.azurecr.io/meateam/download-service:develop'
     env_file:
       - ../kdrive.env
     ports:
-      - "8082:8080"
+      - '8082:8080'
     depends_on:
       - minio
   file-service:
-    image: "drivehub.azurecr.io/meateam/file-service:develop"
+    image: 'drivehub.azurecr.io/meateam/file-service:develop'
     env_file:
       - ../kdrive.env
     ports:
-      - "8083:8080"
+      - '8083:8080'
     depends_on:
-      - mongo
-  mongo:
-    image: "mongo:4.0.9"
-    ports:
-      - "27017:27017"
+      - mongo1
+      - mongo2
+      - mongo3
+  mongo1:
+    image: mongo:4.2
+    container_name: mongo1
+    command: ['--replSet', 'my-replica-set', '--bind_ip_all', '--port', '27017']
     volumes:
-      - "./data/db:/data/db"
+      - ./data/mongo-1:/data/db
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: test $$(echo "rs.initiate({_id:'my-replica-set',members:[{_id:0,host:\"mongo1:27017\"},{_id:1,host:\"mongo2:27018\"},{_id:2,host:\"mongo3:27019\"}]}).ok || rs.status().ok" | mongo --port 27017 --quiet) -eq 1
+      interval: 10s
+      timeout: 30s
+    depends_on:
+      - minio
+  mongo2:
+    image: mongo:4.2
+    container_name: mongo2
+    command: ['--replSet', 'my-replica-set', '--bind_ip_all', '--port', '27018']
+    volumes:
+      - ./data/mongo-2:/data/db
+    ports:
+      - 27018:27018
+    depends_on:
+      - minio
+  mongo3:
+    image: mongo:4.2
+    container_name: mongo3
+    command: ['--replSet', 'my-replica-set', '--bind_ip_all', '--port', '27019']
+    volumes:
+      - ./data/mongo-3:/data/db
+    ports:
+      - 27019:27019
     depends_on:
       - minio
   authentication-service:
-    image: "drivehub.azurecr.io/meateam/authentication-service:develop"
+    image: 'drivehub.azurecr.io/meateam/authentication-service:develop'
     ports:
-      - "8084:8080"
+      - '8084:8080'
     env_file:
       - ../kdrive.env
     depends_on:
       - saml-idp
       - user-service
   saml-idp:
-    image: "drivehub.azurecr.io/meateam/test-saml-idp:latest"
+    image: 'drivehub.azurecr.io/meateam/test-saml-idp:latest'
     ports:
-      - "8085:8080"
+      - '8085:8080'
     env_file:
       - ../kdrive.env
   user-service:
-    image: "drivehub.azurecr.io/meateam/user-service:develop"
+    image: 'drivehub.azurecr.io/meateam/user-service:develop'
     ports:
-      - "8086:8080"
+      - '8086:8080'
     env_file:
       - ../kdrive.env
     depends_on:
-      - mongo
+      - mongo1
+      - mongo2
+      - mongo3
       - redis
   redis:
-    image: "redis:alpine"
+    image: 'drivehub.azurecr.io/meateam/redis:alpine'
     ports:
-      - "6379:6379"
+      - '6379:6379'
   permission-service:
-    image: "drivehub.azurecr.io/meateam/permission-service:develop"
+    image: 'drivehub.azurecr.io/meateam/permission-service:develop'
     ports:
-      - "8087:8080"
+      - '8087:8080'
     env_file:
       - ../kdrive.env
     depends_on:
-      - mongo
+      - mongo1
+      - mongo2
+      - mongo3
   search-service:
-    image: "drivehub.azurecr.io/meateam/search-service:develop"
+    image: 'drivehub.azurecr.io/meateam/search-service:develop'
     env_file:
       - ../kdrive.env
     ports:
-      - "8088:8080"
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
+      - '8088:8080'
+    # depends_on:
+    #   elasticsearch:
+    #     condition: service_healthy
   gotenberg-service:
-    image: "drivehub.azurecr.io/meateam/gotenberg:6"
+    image: 'drivehub.azurecr.io/meateam/gotenberg:6'
     env_file:
       - ../kdrive.env
     tmpfs:
       - /tmp
       - /gotenberg/tmp
     ports:
-      - "8089:8080"
+      - '8089:8080'
   elasticsearch:
-    image: "docker.elastic.co/elasticsearch/elasticsearch:7.5.0"
+    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.5.0'
     environment:
       - discovery.type=single-node
     container_name: elasticsearch
     ports:
-      - "9200:9200"
+      - '9200:9200'
     healthcheck:
       test:
         - CMD
         - curl
-        - "-f"
-        - "http://localhost:9200"
+        - '-f'
+        - 'http://localhost:9200'
       interval: 5s
       timeout: 10s
       retries: 5
   spike-service:
-    image: "drivehub.azurecr.io/meateam/spike-service:develop"
+    image: 'drivehub.azurecr.io/meateam/spike-service:develop'
     env_file:
       - ../kdrive.env
     depends_on:
       - redis
     ports:
-      - "8090:8080"
+      - '8090:8080'
   dropbox-service:
-    image: "drivehub.azurecr.io/meateam/dropbox-service:develop"
+    image: 'drivehub.azurecr.io/meateam/dropbox-service:develop'
+    ports:
+      - '8091:8080'
+    env_file:
+      - ../kdrive.env
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+      - spike-service
+  listener-service:
+    image: 'drivehub.azurecr.io/meateam/listener-service:develop'
     env_file:
       - ../kdrive.env
     ports:
-      - 8091:8080
+      - '8093:8080'
     depends_on:
-      - mongo
-      - spike-service
-      - user-service
+      - mongo1
+      - mongo2
+      - mongo3
+      - rabbitmq
+  rabbitmq:
+    image: 'drivehub.azurecr.io/meateam/rabbitmq:latest'
+    env_file:
+      - ../kdrive.env
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+
+  # barak's services
+  indexing-manager-service:
+    image: 'drivehub.azurecr.io/meateam/indexing-manager-service:develop'
+    env_file:
+      - ../kdrive.env
+    depends_on:
+      - rabbitmq
+  indexing-drive-service:
+    image: 'drivehub.azurecr.io/meateam/indexing-drive-service:develop'
+    env_file:
+      - ../kdrive.env
+    depends_on:
+      - rabbitmq
+  indexing-delete-service:
+    image: 'drivehub.azurecr.io/meateam/indexing-delete-service:develop'
+    env_file:
+      - ../kdrive.env
+    depends_on:
+      - rabbitmq
+  indexing-elastic-service:
+    image: 'drivehub.azurecr.io/meateam/indexing-elastic-service:develop'
+    env_file:
+      - ../kdrive.env
+    depends_on:
+      - rabbitmq
+  indexing-parsing-service:
+    image: 'drivehub.azurecr.io/meateam/indexing-parsing-service:develop'
+    env_file:
+      - ../kdrive.env
+    depends_on:
+      - rabbitmq
+  indexing-search-service:
+    image: 'drivehub.azurecr.io/meateam/indexing-search-service:develop'
+    env_file:
+      - ../kdrive.env
+    ports:
+      - 8005:8005
+    restart: on-failure
+  indexing-error-service:
+    image: 'drivehub.azurecr.io/meateam/indexing-error-service:develop'
+    env_file:
+      - ../kdrive.env
+    depends_on:
+      - rabbitmq
