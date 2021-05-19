@@ -151,6 +151,9 @@
     "TransferDestination": "Dest network",
     "Deleted": "the file was deleted from drive, the info is unavailable"
   },
+  "delete": {
+    "ErrorNoPermissions": "You don't have permissions to delete this file!"
+  },
   "share": {
     "Link": "copy link",
     "ShareFile": "Share File",

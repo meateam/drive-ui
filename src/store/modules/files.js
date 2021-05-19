@@ -1,6 +1,7 @@
 import * as filesApi from "@/api/files";
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import router from "@/router";
+import i18n from "@/i18n";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { isOwner } from "@/utils/isOwner";
@@ -155,7 +156,12 @@ const actions = {
         commit("onSuccess", files.length === 1 ? "success.DeleteItem" : "success.DeleteItems");
       })
       .catch((err) => {
-        dispatch("onError", err);
+        if (err && err.response && err.response.status && err.response.status == 403) {
+          const removePermissionsError = new Error(i18n.t("delete.ErrorNoPermissions"));
+          dispatch("onError", removePermissionsError);
+        } else {
+          dispatch("onError", err);
+        }
       });
   },
   /**

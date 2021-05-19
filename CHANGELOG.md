@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 
 ### Fixed
+- hotfix: ([100](https://github.com/meateam/drive-ui/pull/100)): add error message to the user when he cant delete file
 - hotfix: ([99](https://github.com/meateam/drive-ui/pull/99)): fix pagination reset on folder change.
 
 ## [v3.8.2] - 2021-05-18

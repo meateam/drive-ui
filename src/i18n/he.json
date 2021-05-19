@@ -154,6 +154,9 @@
     "TransferDestination": "מרחב מקבל",
     "Deleted": "הקובץ נמחק מהדרייב, לא ניתן לראות פרטים על הקובץ!"
   },
+  "delete": {
+    "ErrorNoPermissions": "אין לך הרשאות למחוק את הקובץ!"
+  },
   "share": {
     "ShareFile": "שיתוף קובץ",
     "ShareFiles": "שיתוף קבצים",
