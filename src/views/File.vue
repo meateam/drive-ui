@@ -58,14 +58,15 @@ export default {
         });
       };
       const getDriveFirstBreadcrumb = (ownerId) =>
-        isOwner(ownerId)
+        this.isFileOwner(ownerId)
           ? this.$t("pageHeaders.MyDrive")
           : this.$t("pageHeaders.SharedWithMe");
 
       const breadcrumbs = [];
 
       // In case there is an hierarchy, it checks the first folder. Otherwise, it checks about the current file.
-      const firstFileOrFolder = hierarchy && hierarchy.length > 0 ? hierarchy[0] : this.currentFile;
+      const firstFileOrFolder =
+        hierarchy && hierarchy.length > 0 ? hierarchy[0] : this.currentFile;
       const firstBreadcrumbText = firstFileOrFolder.isExternal
         ? getExternalNetworkFirstBreadcrumb(firstFileOrFolder.appID)
         : getDriveFirstBreadcrumb(firstFileOrFolder.ownerId);
@@ -94,8 +95,8 @@ export default {
     },
     onBreadcrumbClick(folder) {
       if (!folder) {
-        if (this.currentFile.appID === "drive") {
-          this.isFileOwner()
+        if (!this.currentFile.isExternal) {
+          this.isFileOwner(this.currentFile.ownerId)
             ? this.$router.push("/my-drive")
             : this.$router.push("/shared-with-me");
         } else {
@@ -104,6 +105,9 @@ export default {
       } else {
         this.$router.push({ path: "/folders", query: { id: folder.id } });
       }
+    },
+    isFileOwner(ownerId) {
+      return isOwner(ownerId);
     },
   },
 };
