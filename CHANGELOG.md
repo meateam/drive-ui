@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixed
+- hotfix: ([99](https://github.com/meateam/drive-ui/pull/99)): fix pagination reset on folder change.
+
 ## [v3.8.2] - 2021-05-18
 
 ### Added:

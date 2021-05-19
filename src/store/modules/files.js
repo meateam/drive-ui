@@ -256,6 +256,7 @@ const actions = {
       } else {
         const fileOrFolder = await filesApi.getFileByID(fileOrFolderID);
         if (isFolder(fileOrFolder.type)) {
+          commit("updatePageNum", 1);
           commit("setCurrentFolder", fileOrFolder);
           dispatch("getAncestors", fileOrFolder.id);
         } else {
