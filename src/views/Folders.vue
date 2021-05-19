@@ -13,6 +13,7 @@ import * as filesApi from "@/api/files";
 import { mapGetters } from "vuex";
 import { ownerRole } from "@/utils/roles";
 import PageTemplate from "@/components/BasePageTemplate";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 export default {
   name: "Folder",
@@ -44,9 +45,7 @@ export default {
       const hierarchy = await filesApi.getFolderHierarchy(folder.id);
 
       const getExternalNetworkFirstBreadcrumb = (appID) => {
-        const externalNetworkDest = this.externalNetworkDests.find(
-          (externalNetworkDest) => appID === externalNetworkDest.appID
-        );
+        const externalNetworkDest = getNetworkItemByAppId(appID);
         return this.$t("pageHeaders.ExternalTransferred", {
           networkName: externalNetworkDest.label,
         });
@@ -58,7 +57,8 @@ export default {
 
       const breadcrumbs = [];
 
-      const firstFolder = hierarchy && hierarchy.length > 0 ? hierarchy[0] : this.currentFolder;
+      const firstFolder =
+        hierarchy && hierarchy.length > 0 ? hierarchy[0] : this.currentFolder;
       const firstBreadcrumbText = firstFolder.isExternal
         ? getExternalNetworkFirstBreadcrumb(firstFolder.appID)
         : getDriveFirstBreadcrumb(firstFolder.role);

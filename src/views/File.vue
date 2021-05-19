@@ -13,6 +13,7 @@ import * as filesApi from "@/api/files";
 import PageTemplate from "@/components/BasePageTemplate";
 import { mapGetters } from "vuex";
 import { isOwner } from "@/utils/isOwner";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 export default {
   name: "File",
@@ -50,9 +51,7 @@ export default {
         ? await filesApi.getFolderHierarchy(folder.id)
         : [];
       const getExternalNetworkFirstBreadcrumb = (appID) => {
-        const externalNetworkDest = this.externalNetworkDests.find(
-          (externalNetworkDest) => appID === externalNetworkDest.appID
-        );
+        const externalNetworkDest = getNetworkItemByAppId(appID);
         return this.$t("pageHeaders.ExternalTransferred", {
           networkName: externalNetworkDest.label,
         });
@@ -85,11 +84,13 @@ export default {
         });
       });
 
-      breadcrumbs.push({
-        value: folder,
-        text: folder.name,
-        disabled: false,
-      });
+      if (folder && folder.name) {
+        breadcrumbs.push({
+          value: folder,
+          text: folder.name,
+          disabled: false,
+        });
+      }
 
       this.breadcrumbs = breadcrumbs;
     },
