@@ -12,7 +12,6 @@
 import * as filesApi from "@/api/files";
 import PageTemplate from "@/components/BasePageTemplate";
 import { mapGetters } from "vuex";
-import { ownerRole } from "@/utils/roles";
 import { isOwner } from "@/utils/isOwner";
 
 export default {
@@ -32,7 +31,12 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["files", "currentFolder", "currentFile"]),
+    ...mapGetters([
+      "files",
+      "currentFolder",
+      "currentFile",
+      "externalNetworkDests",
+    ]),
   },
   methods: {
     async onFolderChange(folder) {
@@ -44,11 +48,24 @@ export default {
 
       const breadcrumbs = [];
 
+      let firstBreadcrumbText;
+      if (this.currentFile.appID === "drive") {
+        firstBreadcrumbText = this.isFileOwner()
+          ? this.$t("pageHeaders.MyDrive")
+          : this.$t("pageHeaders.SharedWithMe");
+      } else {
+        const externalNetworkDest = this.externalNetworkDests.find(
+          (externalNetworkDest) =>
+            this.currentFile.appID === externalNetworkDest.appID
+        );
+        firstBreadcrumbText = this.$t("pageHeaders.ExternalTransferred", {
+          networkName: externalNetworkDest.label,
+        });
+      }
+
       breadcrumbs.push({
         value: undefined,
-        text: this.isFileOwner()
-          ? this.$t("pageHeaders.MyDrive")
-          : this.$t("pageHeaders.SharedWithMe"),
+        text: firstBreadcrumbText,
         disabled: false,
       });
 
@@ -74,15 +91,16 @@ export default {
     },
     onBreadcrumbClick(folder) {
       if (!folder) {
-        this.isFolderOwner()
-          ? this.$router.push("/my-drive")
-          : this.$router.push("/shared-with-me");
+        if (this.currentFile.appID === "drive") {
+          this.isFileOwner()
+            ? this.$router.push("/my-drive")
+            : this.$router.push("/shared-with-me");
+        } else {
+          this.$router.push(`/external-transferred-${this.currentFile.appID}`);
+        }
       } else {
         this.$router.push({ path: "/folders", query: { id: folder.id } });
       }
-    },
-    isFolderOwner() {
-      return ownerRole(this.currentFile.ownerId);
     },
     isFileOwner() {
       return isOwner(this.currentFile.ownerId);

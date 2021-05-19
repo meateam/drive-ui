@@ -7,6 +7,7 @@ import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 import { isFolder } from "@/utils/isFolder";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const state = {
   files: [],
@@ -56,7 +57,13 @@ const actions = {
       files.forEach(async (file) => {
         const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+        if (isOwner) {
+          formattedFile.owner = "אני";
+        } else if (file.appID === 'drive') {
+          formattedFile.owner = await getFileOwnerName(file.ownerId);
+        } else {
+          formattedFile.owner = await getExternalFileOwnerName(file.ownerId, getNetworkItemByAppId(file.appID).value);
+        }
         commit("updateFile", formattedFile);
       });
     } catch (err) {
