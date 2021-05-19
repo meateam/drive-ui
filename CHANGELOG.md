@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
-# Fixed
+### Fixed
+- hotfix: ([100](https://github.com/meateam/drive-ui/pull/100)): add error message to the user when he cant delete file
+- hotfix: ([99](https://github.com/meateam/drive-ui/pull/99)): fix pagination reset on folder change.
 - hotfix: ([98](https://github.com/meateam/drive-ui/pull/98)): fix breadcrumbs for file and folders.
 - hotfix: ([98](https://github.com/meateam/drive-ui/pull/98)): fix owner name for external files.
 
