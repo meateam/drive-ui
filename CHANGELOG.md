@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+# Fixed
+- hotfix: ([98](https://github.com/meateam/drive-ui/pull/98)): fix owner name for external files.
+
 ## Added
 - minor: ([89](https://github.com/meateam/drive-ui/pull/89)): add smart link to file.
 
