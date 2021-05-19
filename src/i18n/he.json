@@ -178,6 +178,11 @@
       "SearchByT": "לפי מס' T",
       "SearchByMail": "לפי אימייל"
     },
+    "searchOptions": {
+      "name": "שם",
+      "email": "מייל",
+      "id": "מזהה"
+    },
     "AdvancedSearchError": "המשתמש המבוקש לא נמצא. אנא ודאו שהכנסתם פרטים נכונים."
   },
   "externalTransfer": {
@@ -203,6 +208,7 @@
         { "text": "סודי ביותר - כחול", "color": "blue", "enable": false }
       ]
     },
+    "SearchBy": "חיפוש לפי",
     "DisableClassification": "לא ניתן להעביר קבצים בסיווג {classificationName}",
     "ApprovalInstructions": "המאשרים שנבחרו יצטרכו לאשר באופן ידני את ההעברה במערכת האישורים",
     "ApprovalService": "במערכת האישורים",

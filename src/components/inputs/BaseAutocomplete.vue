@@ -26,6 +26,7 @@
 
 <script>
 import debounce from "lodash/debounce";
+import { mapGetters } from "vuex";
 
 export default {
   data: () => ({
@@ -33,6 +34,9 @@ export default {
     value: "",
     validationFailedMsg: null,
   }),
+  computed: {
+    ...mapGetters(["error"])
+  },
   props: [
     "placeholder",
     "items",
@@ -46,6 +50,7 @@ export default {
   ],
   methods: {
     onSelect() {
+      this.$store.commit("setCurrentMailOrT", this.value);
       this.$emit("select", this.item);
     },
     onEnter() {
