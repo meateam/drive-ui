@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 
 # Fixed
+- hotfix: ([98](https://github.com/meateam/drive-ui/pull/98)): fix breadcrumbs for file and folders.
 - hotfix: ([98](https://github.com/meateam/drive-ui/pull/98)): fix owner name for external files.
 
 ## [v3.8.2] - 2021-05-18

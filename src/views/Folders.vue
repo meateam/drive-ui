@@ -41,17 +41,33 @@ export default {
     async getBreadcrumbs(folder) {
       if (!folder) return;
 
+      const hierarchy = await filesApi.getFolderHierarchy(folder.id);
+
+      const getExternalNetworkFirstBreadcrumb = (appID) => {
+        const externalNetworkDest = this.externalNetworkDests.find(
+          (externalNetworkDest) => appID === externalNetworkDest.appID
+        );
+        return this.$t("pageHeaders.ExternalTransferred", {
+          networkName: externalNetworkDest.label,
+        });
+      };
+      const getDriveFirstBreadcrumb = (role) =>
+        this.isFolderOwner(role)
+          ? this.$t("pageHeaders.MyDrive")
+          : this.$t("pageHeaders.SharedWithMe");
+
       const breadcrumbs = [];
+
+      const firstFolder = hierarchy && hierarchy.length > 0 ? hierarchy[0] : this.currentFolder;
+      const firstBreadcrumbText = firstFolder.isExternal
+        ? getExternalNetworkFirstBreadcrumb(firstFolder.appID)
+        : getDriveFirstBreadcrumb(firstFolder.role);
 
       breadcrumbs.push({
         value: undefined,
-        text: this.isFolderOwner()
-          ? this.$t("pageHeaders.MyDrive")
-          : this.$t("pageHeaders.SharedWithMe"),
+        text: firstBreadcrumbText,
         disabled: false,
       });
-
-      const hierarchy = await filesApi.getFolderHierarchy(folder.id);
 
       hierarchy.forEach((folder) => {
         breadcrumbs.push({
@@ -71,15 +87,15 @@ export default {
     },
     onBreadcrumbClick(folder) {
       if (!folder) {
-        this.isFolderOwner()
+        this.isFolderOwner(this.currentFolder.role)
           ? this.$router.push("/my-drive")
           : this.$router.push("/shared-with-me");
       } else {
         this.$router.push({ path: "/folders", query: { id: folder.id } });
       }
     },
-    isFolderOwner() {
-      return ownerRole(this.currentFolder.role);
+    isFolderOwner(role) {
+      return ownerRole(role);
     },
   },
 };
