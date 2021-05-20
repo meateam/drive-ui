@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - minor: ([73](https://github.com/meateam/drive-ui/pull/73)): add pagination in shared with me
+- hotfix: ([101](https://github.com/meateam/drive-ui/pull/101)): fix bug in getUsers and change the color of the steps in status table
+- hotfix: ([102](https://github.com/meateam/drive-ui/pull/102)): fix error cannot read property length of undefined in info popup
 - hotfix: ([100](https://github.com/meateam/drive-ui/pull/100)): add error message to the user when he cant delete file
 - hotfix: ([99](https://github.com/meateam/drive-ui/pull/99)): fix pagination reset on folder change.
 - hotfix: ([98](https://github.com/meateam/drive-ui/pull/98)): fix breadcrumbs for file and folders.

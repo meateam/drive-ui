@@ -44,6 +44,7 @@ export default {
       "statusSuccessType",
       "statusFailedType",
       "statusInProgressType",
+      "statusPendingType",
       "statusWaitingForReview",
       "statusSuccessNames",
     ]),
@@ -67,12 +68,14 @@ export default {
     isSuccessStep: function(indexStep) {
       const step = this.$props.items[indexStep];
       return (
-        (step.type === this.statusSuccessType || step.type === this.statusInProgressType) &&
+        (step.type === this.statusSuccessType ||
+          step.type === this.statusInProgressType ||
+          step.type === this.statusPendingType) &&
         this.statusSuccessNames.includes(this.$props.items[this.$props.items.length - 1].name)
       );
     },
     isWaitingForReviewStep: function(indexStep) {
-      return this.$props.items[indexStep].name === this.statusWaitingForReview;
+      return this.$props.items[indexStep].name === this.statusWaitingForReview && this.$props.items.length == 1;
     },
     isFailedAtTheEnd: function() {
       return this.$props.items[this.$props.items.length - 1].type === this.statusFailedType;
