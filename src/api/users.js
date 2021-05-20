@@ -116,9 +116,11 @@ export async function getUsers(content, searchBy, destination = "") {
       params: { content, searchBy },
       headers: { destination },
     });
-    let users = res.data.users.filter((user) => {
-      return user.id !== store.state.auth.user.id;
-    });
+    let users = res.data.users
+      ? res.data.users.filter((user) => {
+          return user.id !== store.state.auth.user.id;
+        })
+      : [];
     return Promise.all(users.map(formatUser));
   } catch (err) {
     if (searchBy !== AdvancedSearchEnum.SearchByName) {
