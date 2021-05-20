@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isShared">
     <p class="d-subtitle folders-header ">{{ $t("file.Folders") }}</p>
-    <div class="flex folders-items">
+    <div class="flex">
       <Folder
         @dblclick="onDblClick"
         @contextmenu="onRightClick"
@@ -29,7 +29,7 @@
     </div>
   </div>
   <div v-else>
-    <div id="files-items-pagination" class="files-items flex " v-if="serverFilesLength">
+    <div v-if="serverFilesLength" id="files-items-pagination" class="files-items flex">
       <File
         @dblclick="onDblClick"
         @contextmenu="onRightClick"
@@ -63,6 +63,7 @@ export default {
   },
   data() {
     return {
+      isListenerAttached: false,
       typeFolders: this.files.filter((file) => isFolder(file.type)),
       typeFiles: this.files.filter((file) => !isFolder(file.type)),
       selectedFile: undefined,
@@ -89,40 +90,37 @@ export default {
       this.$emit("fileclick", file);
     },
   },
-  mounted() {
-    const filesElm = document.querySelector("#files-items-pagination");
-    filesElm?.addEventListener("scroll", () => {
-      if (filesElm.scrollTop + filesElm.clientHeight >= filesElm  .scrollHeight) {
-        console.log("hey");
+  updated() {
+    if (!this.isListenerAttached) {
+      const filesElm = document.querySelector("#files-items-pagination");
 
-        this.page += 1;
-        this.$emit("page", this.page);
+      if (filesElm) {
+        filesElm.addEventListener("scroll", () => {
+          if (filesElm.scrollTop + filesElm.clientHeight >= filesElm.scrollHeight) {
+            this.page += 1;
+            this.$emit("page", this.page);
+          }
+        });
+
+        this.isListenerAttached = true;
       }
-    });
+    }
   },
 };
 </script>
 
 <style scoped>
 .folders-header {
-  margin-top: 20px;
-}
-.folders-items {
-  height: 15vh;
-  overflow: auto;
+  margin-top: 15px;
 }
 .files-items {
   overflow: auto;
 }
 #files-items {
-  height: 45vh;
+  height: 40vh;
 }
 #files-items-pagination {
   margin-top: 30px;
   height: 70vh;
-}
-#noData {
-  margin-top: 30px;
-  text-align: center;
 }
 </style>

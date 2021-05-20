@@ -37,7 +37,7 @@ export default {
     },
     onPageChange(page) {
       if (this.fileView == 1) {
-        if (pageSize * page - 1 < this.serverFilesLength) {
+        if (this.getPageSize(this.fileView) * (page - 1) < this.serverFilesLength) {
           this.$store.dispatch("fetchSharedFiles", {
             pageNum: page - 1,
             isAppend: true,

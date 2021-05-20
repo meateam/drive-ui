@@ -63,13 +63,16 @@ export default {
   },
   methods: {
     async open() {
-      this.users = await getPermissions(this.file.id);
-      let externalPermissionsRes = await getExternalPermissions(this.file.id);
+      let externalPermissionsRes;
+      [this.users, externalPermissionsRes] = await Promise.all([
+        getPermissions(this.file.id),
+        getExternalPermissions(this.file.id).catch(() => (externalPermissionsRes = [])),
+      ]);
 
-      externalPermissionsRes = externalPermissionsRes.slice().sort((a, b) => b.createdAt - a.createdAt);
-      externalPermissionsRes = externalPermissionsRes.filter(
-        (user, index, self) => index === self.findIndex((anotherUser) => anotherUser.id === user.id)
-      );
+      externalPermissionsRes = externalPermissionsRes
+        .slice()
+        .sort((a, b) => b.createdAt - a.createdAt)
+        .filter((user, index, self) => index === self.indexOf(user.id));
 
       this.externalUsers = [];
       this.externalUsersFailed = [];

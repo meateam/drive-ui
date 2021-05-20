@@ -343,8 +343,7 @@ const mutations = {
     state.files = files;
   },
   setAppendFiles: (state, appendFiles) => {
-    const filesIds = new Set(state.files.map((file) => file.id));
-    state.files = [...state.files, ...appendFiles.filter((folder) => !filesIds.has(folder.id))];
+    state.files = [...state.files, ...appendFiles];
   },
   setServerFilesLength: (state, itemCount) => {
     state.serverFilesLength = itemCount;
