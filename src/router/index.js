@@ -7,6 +7,7 @@ import Unavailable from "@/views/errors/503";
 import DeletedFiles from "@/views/DeletedFiles";
 import Favorites from "@/views/Favorites";
 import QuestionAnswer from "@/views/Q&A";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 Vue.use(Router);
 
@@ -48,6 +49,14 @@ const router = new Router({
         layout: true,
       },
       name: "Folders",
+    },
+    {
+      path: "/file",
+      component: () => import("@/views/File"),
+      meta: {
+        layout: true,
+      },
+      name: "File",
     },
     {
       path: "/external-transferred-dropbox",
@@ -135,6 +144,7 @@ const router = new Router({
 router.beforeEach(async (to, from, next) => {
   await store.dispatch("onRouteChange", from);
   await store.dispatch("onFolderChange", to.query.id);
+
   next();
 });
 

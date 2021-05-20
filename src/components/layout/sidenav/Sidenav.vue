@@ -65,7 +65,7 @@
 
         <div v-if="externalNetworkDests">
           <v-list-item
-            v-for="externalNetworkDest in externalNetworkDests"
+            v-for="externalNetworkDest in enableNetworks"
             v-bind:key="externalNetworkDest.value"
             link
             @click="openApprovalService(externalNetworkDest.value)"
@@ -102,6 +102,7 @@
 import { mapGetters, mapActions } from "vuex";
 import Quota from "./quota/Quota";
 import * as usersApi from "@/api/users";
+import { getEnabledNetworks } from "@/utils/networkDest";
 
 export default {
   name: "Sidenav",
@@ -154,6 +155,9 @@ export default {
   }),
   computed: {
     ...mapGetters(["version", "quota", "externalNetworkDests"]),
+    enableNetworks: function() {
+      return getEnabledNetworks();
+    },
   },
   methods: {
     ...mapActions(["getQuota"]),
