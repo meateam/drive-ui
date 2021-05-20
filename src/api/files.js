@@ -33,7 +33,7 @@ export async function getFoldersByFolder(parent) {
  */
 export async function fetchSharedFolders(parent) {
   const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive${parent ? `&parent=${parent}` : ""}`);
-  const permissions = res.data.files.filter((item) => item.type == fileTypes.folder);
+  const permissions = res.data.files.filter((item) => isFolder(item.type));
   return permissions;
 }
 
