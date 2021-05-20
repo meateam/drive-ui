@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top v-if="(chosenFiles && (chosenFiles.length === 1))" :disabled="!icon">
+  <v-tooltip top v-if="chosenFiles.length === 1" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
         @click="isFileDeleted() ? $refs.deletedPopup.open() : $refs.popup.open()"
