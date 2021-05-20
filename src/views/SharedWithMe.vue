@@ -20,7 +20,7 @@ export default {
   },
   watch: {
     fileView: function(newValue, oldValue) {
-      if (oldValue != newValue) {
+      if (oldValue !== newValue) {
         this.$store.commit("setFiles", []);
         this.$store.commit("setServerFilesLength", 1);
         this.$store.commit("updatePageNum", 1);
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     getPageSize(fileView) {
-      return fileView == 0 || fileView == "undefined" || fileView == undefined ? pageSize : pageSize * 2;
+      return fileView === 0 || fileView === "undefined" || fileView === undefined ? pageSize : pageSize * 2;
     },
     onPageChange(page) {
       if (this.fileView == 1) {

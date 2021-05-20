@@ -29,7 +29,7 @@
     </div>
   </div>
   <div v-else>
-    <div v-if="serverFilesLength" id="files-items-pagination" class="files-items flex">
+    <div v-if="serverFilesLength" id="files-items-pagination" class="files-items flex" ref="filesPagination">
       <File
         @dblclick="onDblClick"
         @contextmenu="onRightClick"
@@ -92,7 +92,7 @@ export default {
   },
   updated() {
     if (!this.isListenerAttached) {
-      const filesElm = document.querySelector("#files-items-pagination");
+      const filesElm = this.$refs.filesPagination;
 
       if (filesElm) {
         filesElm.addEventListener("scroll", () => {

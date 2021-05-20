@@ -63,25 +63,27 @@ export default {
   },
   methods: {
     async open() {
-      let externalPermissionsRes;
-      [this.users, externalPermissionsRes] = await Promise.all([
-        getPermissions(this.file.id),
-        getExternalPermissions(this.file.id).catch(() => (externalPermissionsRes = [])),
-      ]);
-
-      externalPermissionsRes = externalPermissionsRes
-        .slice()
-        .sort((a, b) => b.createdAt - a.createdAt)
-        .filter((user, index, self) => index === self.indexOf(user.id));
-
+      let externalPermissionsRes = [];
       this.externalUsers = [];
       this.externalUsersFailed = [];
 
-      externalPermissionsRes.forEach((externalPermission) => {
-        externalPermission.isFailed
-          ? this.externalUsersFailed.push(externalPermission)
-          : this.externalUsers.push(externalPermission);
-      });
+      [this.users, externalPermissionsRes] = await Promise.all([
+        getPermissions(this.file.id),
+        getExternalPermissions(this.file.id),
+      ]);
+
+      if (externalPermissionsRes) {
+        externalPermissionsRes = externalPermissionsRes
+          .slice()
+          .sort((a, b) => b.createdAt - a.createdAt)
+          .filter((user, index, self) => index === self.indexOf(user.id));
+
+        externalPermissionsRes.forEach((externalPermission) => {
+          externalPermission.isFailed
+            ? this.externalUsersFailed.push(externalPermission)
+            : this.externalUsers.push(externalPermission);
+        });
+      }
 
       this.dialog = true;
     },
