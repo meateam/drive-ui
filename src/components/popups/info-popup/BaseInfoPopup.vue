@@ -18,21 +18,21 @@
         <div>
           <p>{{ $t("fileInfo.Shared") }}</p>
           <div>
-            <div v-if="users.length" class="flex shared">
+            <div v-if="(users && users.length)" class="flex shared">
               <UserAvatar v-for="user in users" :key="user.id" :user="user" />
             </div>
             <div v-else>-</div>
           </div>
           <p>{{ $t("fileInfo.ExternalShare") }}</p>
           <div>
-            <div v-if="externalUsers.length" class="flex shared">
+            <div v-if="(externalUsers && externalUsers.length)" class="flex shared">
               <UserAvatar v-for="user in externalUsers" :key="user.id" :user="user" />
             </div>
             <div v-else>-</div>
           </div>
           <p>{{ $t("fileInfo.ExternalShareFailed") }}</p>
           <div>
-            <div v-if="externalUsersFailed.length" class="flex shared">
+            <div v-if="(externalUsersFailed && externalUsersFailed.length)" class="flex shared">
               <UserAvatar v-for="user in externalUsersFailed" :key="user.id" :user="user" />
             </div>
             <div v-else>-</div>
@@ -64,15 +64,18 @@ export default {
   methods: {
     async open() {
       this.users = await getPermissions(this.file.id);
+
+      this.externalUsers = [];
+      this.externalUsersFailed = [];
+
       let externalPermissionsRes = await getExternalPermissions(this.file.id);
+
+      if(!externalPermissionsRes) return;
 
       externalPermissionsRes = externalPermissionsRes.slice().sort((a, b) => b.createdAt - a.createdAt);
       externalPermissionsRes = externalPermissionsRes.filter(
         (user, index, self) => index === self.findIndex((anotherUser) => anotherUser.id === user.id)
       );
-
-      this.externalUsers = [];
-      this.externalUsersFailed = [];
 
       externalPermissionsRes.forEach((externalPermission) => {
         externalPermission.isFailed
