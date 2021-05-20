@@ -29,7 +29,7 @@ export async function getFoldersByFolder(parent) {
 
 /**
  * fetchSharedFiles fetch all the shared folders in the current parent
- * @param folderID the id of the parent
+ * @param parent the file id of the parent
  */
 export async function fetchSharedFolders(parent) {
   const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive${parent ? `&parent=${parent}` : ""}`);
@@ -39,6 +39,8 @@ export async function fetchSharedFolders(parent) {
 
 /**
  * fetchSharedFiles fetch all the shared files in the current folder
+ * @param pageNum - for pagination, the page number
+ * @param pageAmount - for pagination, the page size
  */
 export async function fetchSharedFiles(pageNum, pageAmount) {
   const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive&pageSize=${pageAmount}&pageNum=${pageNum}`);

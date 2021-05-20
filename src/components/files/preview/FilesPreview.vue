@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isShared">
-    <p class="d-subtitle folders-header">{{ $t("file.Folders") }}</p>
-    <div class="flex">
+    <p class="d-subtitle folders-header ">{{ $t("file.Folders") }}</p>
+    <div class="flex folders-items">
       <Folder
         @dblclick="onDblClick"
         @contextmenu="onRightClick"
@@ -89,10 +89,12 @@ export default {
       this.$emit("fileclick", file);
     },
   },
-  updated() {
+  mounted() {
     const filesElm = document.querySelector("#files-items-pagination");
     filesElm?.addEventListener("scroll", () => {
-      if (filesElm.scrollTop + filesElm.clientHeight >= filesElm.scrollHeight) {
+      if (filesElm.scrollTop + filesElm.clientHeight >= filesElm  .scrollHeight) {
+        console.log("hey");
+
         this.page += 1;
         this.$emit("page", this.page);
       }
@@ -104,6 +106,10 @@ export default {
 <style scoped>
 .folders-header {
   margin-top: 20px;
+}
+.folders-items {
+  height: 15vh;
+  overflow: auto;
 }
 .files-items {
   overflow: auto;
