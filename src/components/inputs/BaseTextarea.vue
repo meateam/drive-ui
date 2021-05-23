@@ -16,11 +16,16 @@
 <script>
 export default {
   name: "TextField",
-  props: ["placeholder"],
+  props: ["placeholder", "reset"],
   data() {
     return {
       value: null,
     };
+  },
+  watch: {
+    reset(value) {
+      this.value = value
+    }
   },
 };
 </script>

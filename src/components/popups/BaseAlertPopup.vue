@@ -1,14 +1,11 @@
 <template>
   <v-dialog v-model="dialog" max-width="450" class="popup">
     <v-card>
-      <img
-        class="popup-image auto-margin"
-        :src="require(`@/assets/images/${img}`)"
-      />
+      <img class="popup-image auto-margin" :src="require(`@/assets/images/${img}`)" />
       <p id="title">{{ text }}</p>
       <v-card-actions id="actions">
-        <TextButton @click="onCancel" :label="$t('buttons.Cancel')" />
-        <SubmitButton @click="onConfirm" :label="button" />
+        <TextButton v-if="cancelButton == undefined || !cancelButton" @click="onCancel" :label="$t('buttons.Cancel')" />
+        <SubmitButton v-if="button" @click="onConfirm" :label="button" />
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -27,7 +24,7 @@ export default {
       data: undefined,
     };
   },
-  props: ["img", "text", "button"],
+  props: ["img", "text", "button", "cancelButton"],
   methods: {
     open(data) {
       this.data = data;

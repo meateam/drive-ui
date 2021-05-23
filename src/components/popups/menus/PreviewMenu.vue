@@ -5,6 +5,7 @@
     <DeleteButton :icon="true" @close="$emit('close')" />
     <MoveToButton :icon="true" @close="$emit('close')" />
     <OnlineEditButton :icon="true" />
+    <LocalEditButton :icon="true" />
     <EditButton :icon="true" @close="$emit('close')" />
     <ShareButton :icon="true" @close="$emit('close')" />
     <ExternalTransferButton :icon="true" @close="$emit('close')" />
@@ -17,6 +18,7 @@ import DeleteButton from "@/components/buttons/DeleteButton";
 import MoveToButton from "@/components/buttons/MoveToButton";
 import EditButton from "@/components/buttons/EditButton";
 import OnlineEditButton from "@/components/buttons/OnlineEditButton";
+import LocalEditButton from "@/components/buttons/LocalEditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import ShareButton from "@/components/buttons/ShareButton";
 import ExternalTransferButton from "@/components/buttons/ExternalTransferButton";
@@ -26,6 +28,7 @@ export default {
   components: {
     DownloadButton,
     OnlineEditButton,
+    LocalEditButton,
     ShareButton,
     MoveToButton,
     DeleteButton,

@@ -1,48 +1,71 @@
 import * as filesApi from "@/api/files";
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
-import { getFileType } from "@/utils/getFileType";
+import router from "@/router";
+import i18n from "@/i18n";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { isOwner } from "@/utils/isOwner";
-import {
-  isFileOwner,
-  getFileOwnerName,
-  getExternalFileOwnerName,
-} from "@/utils/formatFile";
+import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
-import router from "@/router";
+import { isFolder } from "@/utils/isFolder";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const state = {
   files: [],
   chosenFiles: [],
   currentFolderHierarchy: [],
+  pageNum: 1,
   currentFolder: undefined,
+  currentFile: undefined,
   serverFilesLength: undefined,
 };
 
 const getters = {
   files: (state) => sortFiles(state.files),
   serverFilesLength: (state) => state.serverFilesLength,
+  pageNum: (state) => state.pageNum,
   chosenFiles: (state) => state.chosenFiles,
   folderRoles: (state) => state.folderRoles,
   currentFolder: (state) => state.currentFolder,
-  folders: (state) =>
-    state.files.filter((file) => file.type === fileTypes.folder),
+  currentFile: (state) => state.currentFile,
+  folders: (state) => state.files.filter((file) => file.type === fileTypes.folder),
   currentFolderHierarchy: (state) => state.currentFolderHierarchy,
 };
 
 const actions = {
-  async fetchFiles({ commit, dispatch }) {
+  async fetchFiles({ dispatch }) {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
 
+      dispatch("updateFetchedFiles", files);
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+  async fetchFile({ dispatch }) {
+    try {
+      const files = [await filesApi.getFileByID(state.currentFile.id)];
+
+      dispatch("updateFetchedFiles", files);
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+  async updateFetchedFiles({ commit, dispatch }, files) {
+    try {
       commit("setFiles", files);
 
       files.forEach(async (file) => {
         const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
-        commit('updateFile', formattedFile);
+        if (isOwner) {
+          formattedFile.owner = "אני";
+        } else if (file.appID === "drive") {
+          formattedFile.owner = await getFileOwnerName(file.ownerId);
+        } else {
+          formattedFile.owner = await getExternalFileOwnerName(file.ownerId, getNetworkItemByAppId(file.appID).value);
+        }
+        commit("updateFile", formattedFile);
       });
     } catch (err) {
       dispatch("onError", err);
@@ -56,6 +79,7 @@ const actions = {
       const permissions = await filesApi.fetchSharedFiles(pageNum || 0);
       const files = permissions.files.successful;
 
+      commit("updatePageNum", pageNum + 1);
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
@@ -68,9 +92,9 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async fetchExternalTransferdFiles({ commit, dispatch }, pageNum) {
+  async fetchExternalTransferdFiles({ commit, dispatch }, { pageNum, appId, dest }) {
     try {
-      const permissions = await filesApi.fetchExternalTransferdFiles(pageNum || 0);
+      const permissions = await filesApi.fetchExternalTransferdFiles(pageNum || 0, appId);
       const files = permissions.files.successful;
 
       commit("setFiles", files);
@@ -78,7 +102,7 @@ const actions = {
 
       for (const file of files) {
         const formattedFile = file;
-        formattedFile.owner = await getExternalFileOwnerName(file.ownerId);
+        formattedFile.owner = await getExternalFileOwnerName(file.ownerId, dest);
         commit("updateFile", formattedFile);
       }
     } catch (err) {
@@ -120,13 +144,31 @@ const actions = {
   deleteFiles({ dispatch, commit }, files) {
     Promise.all(files.map((file) => dispatch("deleteFile", file.id)))
       .then(() => {
-        commit(
-          "onSuccess",
-          files.length === 1 ? "success.DeleteItem" : "success.DeleteItems"
-        );
+        commit("onSuccess", files.length === 1 ? "success.DeleteItem" : "success.DeleteItems");
       })
       .catch((err) => {
         dispatch("onError", err);
+      });
+  },
+  removePermissions({ dispatch, commit }, files) {
+    Promise.all(
+      files.map(async (file) => {
+        await filesApi.deleteFile(file.id);
+        commit("deleteFile", file.id);
+      })
+    )
+      .then(() => {
+        commit("updatePageNum", 1);
+        dispatch("getQuota");
+        commit("onSuccess", files.length === 1 ? "success.DeleteItem" : "success.DeleteItems");
+      })
+      .catch((err) => {
+        if (err && err.response && err.response.status && err.response.status == 403) {
+          const removePermissionsError = new Error(i18n.t("delete.ErrorNoPermissions"));
+          dispatch("onError", removePermissionsError);
+        } else {
+          dispatch("onError", err);
+        }
       });
   },
   /**
@@ -175,12 +217,7 @@ const actions = {
         return dispatch("uploadFile", file);
       })
     )
-      .then(() =>
-        commit(
-          "onSuccess",
-          files.length === 1 ? "success.File" : "success.Files"
-        )
-      )
+      .then(() => commit("onSuccess", files.length === 1 ? "success.File" : "success.Files"))
       .catch((err) => {
         dispatch("onError", err);
       });
@@ -222,17 +259,23 @@ const actions = {
   },
   /**
    * onFolderChange change the current folder by the recived id
-   * @param folderID is the id of the current folder
+   * @param fileOrFolderID is the id of the current file or folder
    */
-  async onFolderChange({ dispatch, commit }, folderID) {
+  async onFolderChange({ dispatch, commit }, fileOrFolderID) {
     try {
-      if (!folderID) {
+      if (!fileOrFolderID) {
         commit("setCurrentFolder", undefined);
         commit("setHierarchy", []);
       } else {
-        const folder = await filesApi.getFileByID(folderID);
-        commit("setCurrentFolder", folder);
-        dispatch("getAncestors", folder.id);
+        const fileOrFolder = await filesApi.getFileByID(fileOrFolderID);
+        if (isFolder(fileOrFolder.type)) {
+          commit("updatePageNum", 1);
+          commit("setCurrentFolder", fileOrFolder);
+          dispatch("getAncestors", fileOrFolder.id);
+        } else {
+          commit("setCurrentFile", fileOrFolder);
+          dispatch("getFileAncestors", fileOrFolder.id);
+        }
       }
     } catch (err) {
       router.push("/404");
@@ -242,11 +285,21 @@ const actions = {
     const breadcrumbs = await filesApi.getFolderHierarchy(folderID);
     commit("setHierarchy", breadcrumbs);
   },
+  async getFileAncestors({ commit }, fileID) {
+    const breadcrumbs = await filesApi.getFolderHierarchy(fileID);
+    // Files hierarchy contains the current folder. So it is removed from the hierarchy and inserted to the current folder
+    const lastFolder = breadcrumbs.pop() || [];
+    let currFolder = [];
+    if (lastFolder && lastFolder.id) {
+      currFolder = await filesApi.getFileByID(lastFolder.id);
+    }
+
+    commit("setCurrentFolder", currFolder);
+    commit("setHierarchy", breadcrumbs);
+  },
   async editFile({ commit, dispatch }, { file, name }) {
     try {
-      const fileType = getFileType(file.name);
-      const newName = `${name}.${fileType}`;
-      const res = await filesApi.editFile({ file, name: newName });
+      const res = await filesApi.editFile({ file, name });
 
       commit("onFileRename", res);
       commit("onSuccess", "success.Edit");
@@ -260,20 +313,17 @@ const actions = {
 
       const failedFiles = data
         ? data.map((error) => {
-          if (error.error) return error.id;
-        })
+            if (error.error) return error.id;
+          })
         : [];
 
-      const movedFiles = fileIDs.filter(
-        (fileID) => !failedFiles.includes(fileID)
-      );
+      const movedFiles = fileIDs.filter((fileID) => !failedFiles.includes(fileID));
 
       movedFiles.forEach((fileID) => {
         commit("deleteFile", fileID);
       });
 
-      if (failedFiles.length)
-        throw new Error("חלק מהקבצים שניסית להעביר נכשלו");
+      if (failedFiles.length) throw new Error("חלק מהקבצים שניסית להעביר נכשלו");
     } catch (err) {
       dispatch("onError", err);
     }
@@ -283,7 +333,7 @@ const actions = {
 const mutations = {
   setFiles: (state, files) => {
     state.serverFilesLength = undefined;
-    state.files = files
+    state.files = files;
   },
   setServerFilesLength: (state, itemCount) => {
     state.serverFilesLength = itemCount;
@@ -310,16 +360,13 @@ const mutations = {
       });
     }
   },
+  updatePageNum: (state, pageNum) => {
+    state.pageNum = pageNum;
+  },
   addFile: (state, file) => {
-    const currentFolder = state.currentFolder
-      ? state.currentFolder.id
-      : undefined;
+    const currentFolder = state.currentFolder ? state.currentFolder.id : undefined;
 
-    if (
-      (!(currentFolder === file.parent) && isOwner(file.ownerId)) ||
-      state.files.includes(file)
-    )
-      return;
+    if ((!(currentFolder === file.parent) && isOwner(file.ownerId)) || state.files.includes(file)) return;
 
     state.files.push(file);
   },
@@ -330,7 +377,7 @@ const mutations = {
     state.chosenFiles.push(file);
   },
   removeSelectedFile: (state, file) => {
-    state.chosenFiles = state.chosenFiles.filter(chosenFile => chosenFile !== file);
+    state.chosenFiles = state.chosenFiles.filter((chosenFile) => chosenFile !== file);
   },
   clearSelectedFiles: (state) => {
     state.chosenFiles = [];
@@ -339,6 +386,9 @@ const mutations = {
     state.currentFolder = folder;
     state.chosenFiles = [];
     state.files = [];
+  },
+  setCurrentFile: (state, file) => {
+    state.currentFile = file;
   },
   setHierarchy: (state, hieratchy) => {
     state.currentFolderHierarchy = hieratchy;

@@ -2,29 +2,17 @@
   <v-dialog v-if="dialog" v-model="dialog" max-width="600" class="popup">
     <v-card>
       <div class="popup-header">
-        <img
-          class="popup-icon auto-margin"
-          src="@/assets/icons/green-info.svg"
-        />
+        <img class="popup-icon auto-margin" src="@/assets/icons/green-info.svg" />
         <p class="d-title">{{ $t("fileInfo.Info") }}</p>
       </div>
       <div class="popup-body">
         <div class="file-info">
           <KeyValue :field="$t('fileInfo.Owner')" :value="file.owner || '???'" />
-          <KeyValue
-            :field="$t('fileInfo.Size')"
-            :value="formatFileSize(file.size)"
-          />
+          <KeyValue :field="$t('fileInfo.Size')" :value="formatFileSize(file.size)" />
           <KeyValue :field="$t('fileInfo.Name')" :value="file.name" />
-          <KeyValue
-            :field="$t('fileInfo.CreatedAt')"
-            :value="formatFileDate(file.createdAt)"
-          />
+          <KeyValue :field="$t('fileInfo.CreatedAt')" :value="formatFileDate(file.createdAt)" />
           <KeyValue :field="$t('fileInfo.Type')" :value="file.type" />
-          <KeyValue
-            :field="$t('fileInfo.UpdatedAt')"
-            :value="formatFileDate(file.updatedAt)"
-          />
+          <KeyValue :field="$t('fileInfo.UpdatedAt')" :value="formatFileDate(file.updatedAt)" />
         </div>
         <v-divider id="divider"></v-divider>
         <div>
@@ -38,11 +26,14 @@
           <p>{{ $t("fileInfo.ExternalShare") }}</p>
           <div>
             <div v-if="externalUsers.length" class="flex shared">
-              <UserAvatar
-                v-for="user in externalUsers"
-                :key="user.id"
-                :user="user"
-              />
+              <UserAvatar v-for="user in externalUsers" :key="user.id" :user="user" />
+            </div>
+            <div v-else>-</div>
+          </div>
+          <p>{{ $t("fileInfo.ExternalShareFailed") }}</p>
+          <div>
+            <div v-if="externalUsersFailed.length" class="flex shared">
+              <UserAvatar v-for="user in externalUsersFailed" :key="user.id" :user="user" />
             </div>
             <div v-else>-</div>
           </div>
@@ -53,7 +44,7 @@
 </template>
 <script>
 import KeyValue from "./BaseKeyValue";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "@/components/popups/users-popup/UserAvatar";
 import { getPermissions, getExternalPermissions } from "@/api/share";
 import { formatBytes } from "@/utils/formatBytes";
 import { formatDate } from "@/utils/formatDate";
@@ -67,12 +58,28 @@ export default {
       dialog: false,
       users: [],
       externalUsers: [],
+      externalUsersFailed: [],
     };
   },
   methods: {
     async open() {
       this.users = await getPermissions(this.file.id);
-      this.externalUsers = await getExternalPermissions(this.file.id);
+
+      let externalPermissionsRes = await getExternalPermissions(this.file.id);
+
+      externalPermissionsRes = externalPermissionsRes.slice().sort((a, b) => b.createdAt - a.createdAt);
+      externalPermissionsRes = externalPermissionsRes.filter(
+        (user, index, self) => index === self.findIndex((anotherUser) => anotherUser.id === user.id)
+      );
+
+      this.externalUsers = [];
+      this.externalUsersFailed = [];
+
+      externalPermissionsRes.forEach((externalPermission) => {
+        externalPermission.isFailed
+          ? this.externalUsersFailed.push(externalPermission)
+          : this.externalUsers.push(externalPermission);
+      });
 
       this.dialog = true;
     },

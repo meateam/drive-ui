@@ -10,13 +10,14 @@
     item-value="value"
     v-model="selected"
     @change="$emit('change', selected)"
-  ></v-select>
+  >
+  </v-select>
 </template>
 
 <script>
 export default {
   name: "Select",
-  props: ["items", "background", "placeholder", "value"],
+  props: ["items", "background", "placeholder", "value", "reset"],
   data() {
     return {
       selected: null,
@@ -25,6 +26,11 @@ export default {
   created() {
     this.selected = this.value || null;
   },
+  watch: {
+    reset(value) {
+      this.selected = value;
+    },
+  },
 };
 </script>
 
@@ -32,5 +38,4 @@ export default {
 .v-select__slot {
   width: 100px;
 }
-
 </style>

@@ -5,9 +5,9 @@
         <img class="popup-icon" src="@/assets/icons/note.svg" />
       </div>
 
-      <p id="notice">{{$t('externalTransfer.note.Notice')}}</p>
-      <p class="secret">{{$t('externalTransfer.note.SecretNetwork')}}</p>
-      <p class="secret">{{$t('externalTransfer.note.SecretData')}}</p>
+      <p id="notice">{{ $t("externalTransfer.note.Notice") }}</p>
+      <p class="secret">{{ $t("externalTransfer.note.SecretNetwork") }}</p>
+      <p class="secret">{{ $t("externalTransfer.note.SecretData") }}</p>
       <div id="marks" class="space-right">
         <v-checkbox
           v-for="mark in marks"
@@ -38,17 +38,23 @@ import TextButton from "@/components/buttons/BaseTextButton";
 
 export default {
   name: "Note",
+  props: {
+    networkDest: String,
+  },
   components: { SubmitButton, TextButton },
   data() {
     return {
-      marks: this.$t("externalTransfer.note.Marks"),
+      marks: [],
       selected: [],
       agreed: false,
       dialog: false,
     };
   },
   watch: {
-    selected: function (val) {
+    networkDest: function(newNetwork) {
+      this.marks = this.$t(`externalTransfer.note.Marks.${newNetwork}`);
+    },
+    selected: function(val) {
       if (val.length !== this.marks.length) {
         this.agreed = false;
       }
