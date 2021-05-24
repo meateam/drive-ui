@@ -85,16 +85,16 @@ export async function searchExternalUsersByName(name, destination) {
 }
 
 export async function getApproverInfo(userID, destination) {
-    const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
-      headers: { destination },
-      timeout: 5000,
-    });
-  
-    const approverInfo = res.data;
-  
-    if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
-  
-    return approverInfo;
+  const res = await Axios.get(`${baseURL}/api/users/${userID}/approverInfo`, {
+    headers: { destination },
+    timeout: 5000,
+  });
+
+  const approverInfo = res.data;
+
+  if (approverInfo.unit.name === "noUnit" && !approverInfo.isAdmin) approverInfo.noUnit = true;
+
+  return approverInfo;
 }
 
 export async function canBeApproved(userID, approverID, destination) {
@@ -107,17 +107,20 @@ export async function canBeApproved(userID, approverID, destination) {
 
 /**
  * getUsers returns (Find or search) array of users from the users api.
- * @param {string} content 
- * @param {AdvancedSearchEnum} searchBy 
+ * @param {string} content
+ * @param {AdvancedSearchEnum} searchBy
  */
-export async function getUsers(content, searchBy) {
+export async function getUsers(content, searchBy, destination = "") {
   try {
     const res = await Axios.get(`${baseURL}/api/users`, {
       params: { content, searchBy },
+      headers: { destination },
     });
-    let users = res.data.users.filter((user) => {
-        return user.id !== store.state.auth.user.id;
-    });
+    let users = res.data.users
+      ? res.data.users.filter((user) => {
+          return user.id !== store.state.auth.user.id;
+        })
+      : [];
     return Promise.all(users.map(formatUser));
   } catch (err) {
     if (searchBy !== AdvancedSearchEnum.SearchByName) {

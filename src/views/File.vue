@@ -10,13 +10,13 @@
 
 <script>
 import * as filesApi from "@/api/files";
-import { mapGetters } from "vuex";
-import { ownerRole } from "@/utils/roles";
 import PageTemplate from "@/components/BasePageTemplate";
+import { mapGetters } from "vuex";
+import { isOwner } from "@/utils/isOwner";
 import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 export default {
-  name: "Folder",
+  name: "File",
   components: { PageTemplate },
   data() {
     return {
@@ -32,36 +32,43 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["files", "currentFolder"]),
+    ...mapGetters([
+      "files",
+      "currentFolder",
+      "currentFile",
+      "externalNetworkDests",
+    ]),
   },
   methods: {
     async onFolderChange(folder) {
       await this.getBreadcrumbs(folder);
-      this.$store.dispatch("fetchFiles");
+      this.$store.dispatch("fetchFile");
     },
     async getBreadcrumbs(folder) {
       if (!folder) return;
 
-      const hierarchy = await filesApi.getFolderHierarchy(folder.id);
-
+      const hierarchy = folder.id
+        ? await filesApi.getFolderHierarchy(folder.id)
+        : [];
       const getExternalNetworkFirstBreadcrumb = (appID) => {
         const externalNetworkDest = getNetworkItemByAppId(appID);
         return this.$t("pageHeaders.ExternalTransferred", {
           networkName: externalNetworkDest.label,
         });
       };
-      const getDriveFirstBreadcrumb = (role) =>
-        this.isFolderOwner(role)
+      const getDriveFirstBreadcrumb = (ownerId) =>
+        this.isFileOwner(ownerId)
           ? this.$t("pageHeaders.MyDrive")
           : this.$t("pageHeaders.SharedWithMe");
 
       const breadcrumbs = [];
 
-      const firstFolder =
-        hierarchy && hierarchy.length > 0 ? hierarchy[0] : this.currentFolder;
-      const firstBreadcrumbText = firstFolder.isExternal
-        ? getExternalNetworkFirstBreadcrumb(firstFolder.appID)
-        : getDriveFirstBreadcrumb(firstFolder.role);
+      // In case there is an hierarchy, it checks the first folder. Otherwise, it checks about the current file.
+      const firstFileOrFolder =
+        hierarchy && hierarchy.length > 0 ? hierarchy[0] : this.currentFile;
+      const firstBreadcrumbText = firstFileOrFolder.isExternal
+        ? getExternalNetworkFirstBreadcrumb(firstFileOrFolder.appID)
+        : getDriveFirstBreadcrumb(firstFileOrFolder.ownerId);
 
       breadcrumbs.push({
         value: undefined,
@@ -77,25 +84,31 @@ export default {
         });
       });
 
-      breadcrumbs.push({
-        value: folder,
-        text: folder.name,
-        disabled: false,
-      });
+      if (folder && folder.name) {
+        breadcrumbs.push({
+          value: folder,
+          text: folder.name,
+          disabled: false,
+        });
+      }
 
       this.breadcrumbs = breadcrumbs;
     },
     onBreadcrumbClick(folder) {
       if (!folder) {
-        this.isFolderOwner(this.currentFolder.role)
-          ? this.$router.push("/my-drive")
-          : this.$router.push("/shared-with-me");
+        if (!this.currentFile.isExternal) {
+          this.isFileOwner(this.currentFile.ownerId)
+            ? this.$router.push("/my-drive")
+            : this.$router.push("/shared-with-me");
+        } else {
+          this.$router.push(`/external-transferred-${this.currentFile.appID}`);
+        }
       } else {
         this.$router.push({ path: "/folders", query: { id: folder.id } });
       }
     },
-    isFolderOwner(role) {
-      return ownerRole(role);
+    isFileOwner(ownerId) {
+      return isOwner(ownerId);
     },
   },
 };

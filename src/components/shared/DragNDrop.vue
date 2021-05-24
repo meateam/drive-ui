@@ -61,6 +61,7 @@ export default {
         "drop",
         (event) => {
           event.preventDefault();
+          event.stopImmediatePropagation();
           if (this.isFileDrag(event)) {
             this.onDrag = false;
             const files = Object.values(event.dataTransfer.items).map((file) =>

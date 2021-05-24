@@ -38,7 +38,7 @@ export async function getExternalPermissions(fileID) {
       res.data.transfersInfo.map((transferInfo) => {
         let isFailed = true;
 
-        if (store.getters.statusSuccessType === transferInfo.status[transferInfo.status.length - 1].type) {
+        if (transferInfo.status && (store.getters.statusSuccessType === transferInfo.status[transferInfo.status.length - 1].type)) {
           isFailed = false;
         }
 
@@ -47,6 +47,7 @@ export async function getExternalPermissions(fileID) {
           destUser.createdAt = transferInfo.createdAt;
           users.push(destUser);
         });
+        
       });
     }
 
