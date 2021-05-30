@@ -10,19 +10,16 @@
     rounded
     filled
     dense
-    hide-details
     item-text="display"
     return-object
     :append-icon="icon"
     color="#035c64"
     :background-color="background"
     :placeholder="placeholder"
-    :class="{ disableInput: disabled }"
+    :class="{ 'disableInput' : disabled }"
   >
     <template v-slot:no-data>
-      <p id="no-result">
-        {{ $t(`autocomplete.${validationFailedMsg ? validationFailedMsg : noResult || "NoResult"}`) }}
-      </p>
+      <p id="no-result">{{ $t(`autocomplete.${ validationFailedMsg ? validationFailedMsg : noResult || 'NoResult'}`)}}</p>
     </template>
   </v-autocomplete>
 </template>
@@ -38,9 +35,19 @@ export default {
     validationFailedMsg: null,
   }),
   computed: {
-    ...mapGetters(["error"]),
+    ...mapGetters(["error"])
   },
-  props: ["placeholder", "items", "background", "icon", "isLoading", "minLength", "noResult", "disabled", "validation"],
+  props: [
+    "placeholder",
+    "items",
+    "background",
+    "icon",
+    "isLoading",
+    "minLength",
+    "noResult",
+    "disabled",
+    "validation",
+  ],
   methods: {
     onSelect() {
       this.$store.commit("setCurrentMailOrT", this.value);
@@ -61,9 +68,10 @@ export default {
       }
     },
     onSearch: debounce(function(value) {
-      if (typeof value === "string" && value.length >= this.minLength) this.$emit("type", value);
-    }, 500),
-  },
+      if (typeof value === "string" && value.length >= this.minLength)
+        this.$emit("type", value);
+    }, 500)
+  }
 };
 </script>
 

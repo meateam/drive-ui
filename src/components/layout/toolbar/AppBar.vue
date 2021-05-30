@@ -27,36 +27,36 @@
 </template>
 
 <script>
-import SearchInput from '@/components/layout/toolbar/search/SearchInput';
-import Progress from '@/components/shared/BaseProgress';
-import ChatButton from '@/components/buttons/ChatButton';
-import LoadingFiles from '@/components/shared/BaseLoadingFiles';
-import Preview from '@/components/popups/Preview';
-import { mapGetters } from 'vuex';
-import { isFolder } from '@/utils/isFolder';
+import SearchInput from "@/components/layout/toolbar/search/SearchInput";
+import Progress from "@/components/shared/BaseProgress";
+import ChatButton from "@/components/buttons/ChatButton";
+import LoadingFiles from "@/components/shared/BaseLoadingFiles";
+import Preview from "@/components/popups/Preview";
+import { mapGetters } from "vuex";
+import { isFolder } from "@/utils/isFolder";
 
 export default {
-  name: 'AppBar',
+  name: "AppBar",
   components: { ChatButton, LoadingFiles, Preview, Progress, SearchInput },
   methods: {
     getUserName() {
       if (this.user) {
-        const firstName = this.user.name.firstName || '';
-        const lastName = this.user.name.lastName || '';
+        const firstName = this.user.name.firstName || "";
+        const lastName = this.user.name.lastName || "";
         return `${firstName} ${lastName}`;
       }
-      return '';
+      return "";
     },
     onSelect(result) {
       if (isFolder(result.type)) {
-        this.$router.push({ path: '/folders', query: { id: result.id } });
+        this.$router.push({ path: "/folders", query: { id: result.id } });
       } else {
         this.$refs.preview.open(result);
       }
     },
   },
   computed: {
-    ...mapGetters(['user', 'loadingFiles', 'isLoading']),
+    ...mapGetters(["user", "loadingFiles", "isLoading"]),
   },
 };
 </script>
@@ -72,7 +72,7 @@ export default {
 }
 #search-input {
   margin: auto 15px;
-  width: 470px;
+  width: 500px;
   padding-top: 20px;
 }
 #info {
@@ -94,6 +94,10 @@ export default {
   -webkit-animation: rotate-scale-up 0.65s linear both;
   animation: rotate-scale-up 0.65s linear both;
 }
+.v-menu__content {
+  max-height: 804px !important;
+}
+
 @-webkit-keyframes rotate-scale-up {
   0% {
     -webkit-transform: scale(1) rotateZ(0);

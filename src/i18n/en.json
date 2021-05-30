@@ -23,7 +23,15 @@
   "header": {
     "connect": "contact us",
     "notification": "notification",
-    "AdvancedSearch": "advanced search"
+    "AdvancedSearch": "advanced search",
+    "AdvancedSearchChoices": {
+      "filename": "File Name",
+      "content": "Content",
+      "date": "Date",
+      "owner": "Owner"
+    },
+    "AdvancedSearchClear": "Clear",
+    "AdvancedSearchFileLocation": "open file location"
   },
   "autocomplete": {
     "NoResult": "no results...",
