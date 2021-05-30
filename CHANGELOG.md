@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
+### Fixed
+- hotfix: ([](https://github.com/meateam/drive-ui/pull/)): fix breadcrumbs for file when not reloading the page.
 
 ## [v3.8.3] - 2021-05-30
 
