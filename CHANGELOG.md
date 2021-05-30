@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v3.8.3] - 2021-05-30
+
 ### Fixed
 
 - hotfix: ([101](https://github.com/meateam/drive-ui/pull/101)): fix bug in getUsers and change the color of the steps in status table
@@ -139,6 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
 
 [unreleased]: https://github.com/meateam/api-gateway/compare/master...develop
+[v3.8.3]: https://github.com/meateam/api-gateway/compare/v3.8.2...v3.8.3
 [v3.8.2]: https://github.com/meateam/api-gateway/compare/v3.7.1...v3.8.2
 [v3.7.1]: https://github.com/meateam/api-gateway/compare/v3.6.0...v3.7.1
 [v3.6.0]: https://github.com/meateam/api-gateway/compare/v3.5.4...v3.6.0
