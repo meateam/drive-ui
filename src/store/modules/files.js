@@ -1,12 +1,14 @@
 import * as filesApi from "@/api/files";
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import router from "@/router";
+import i18n from "@/i18n";
 import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 import { isFolder } from "@/utils/isFolder";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const state = {
   files: [],
@@ -56,7 +58,13 @@ const actions = {
       files.forEach(async (file) => {
         const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+        if (isOwner) {
+          formattedFile.owner = "אני";
+        } else if (file.appID === 'drive') {
+          formattedFile.owner = await getFileOwnerName(file.ownerId);
+        } else {
+          formattedFile.owner = await getExternalFileOwnerName(file.ownerId, getNetworkItemByAppId(file.appID).value);
+        }
         commit("updateFile", formattedFile);
       });
     } catch (err) {
@@ -155,7 +163,12 @@ const actions = {
         commit("onSuccess", files.length === 1 ? "success.DeleteItem" : "success.DeleteItems");
       })
       .catch((err) => {
-        dispatch("onError", err);
+        if (err && err.response && err.response.status && err.response.status == 403) {
+          const removePermissionsError = new Error(i18n.t("delete.ErrorNoPermissions"));
+          dispatch("onError", removePermissionsError);
+        } else {
+          dispatch("onError", err);
+        }
       });
   },
   /**
@@ -256,6 +269,7 @@ const actions = {
       } else {
         const fileOrFolder = await filesApi.getFileByID(fileOrFolderID);
         if (isFolder(fileOrFolder.type)) {
+          commit("updatePageNum", 1);
           commit("setCurrentFolder", fileOrFolder);
           dispatch("getAncestors", fileOrFolder.id);
         } else {

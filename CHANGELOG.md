@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v3.8.3] - 2021-05-30
+
+### Fixed
+
+- hotfix: ([101](https://github.com/meateam/drive-ui/pull/101)): fix bug in getUsers and change the color of the steps in status table
+- hotfix: ([102](https://github.com/meateam/drive-ui/pull/102)): fix error cannot read property length of undefined in info popup
+- hotfix: ([100](https://github.com/meateam/drive-ui/pull/100)): add error message to the user when he cant delete file
+- hotfix: ([99](https://github.com/meateam/drive-ui/pull/99)): fix pagination reset on folder change.
+- hotfix: ([98](https://github.com/meateam/drive-ui/pull/98)): fix breadcrumbs for file and folders.
+- hotfix: ([98](https://github.com/meateam/drive-ui/pull/98)): fix owner name for external files.
+
 ## [v3.8.2] - 2021-05-18
 
 ### Added:
@@ -130,6 +141,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
 
 [unreleased]: https://github.com/meateam/api-gateway/compare/master...develop
+[v3.8.3]: https://github.com/meateam/api-gateway/compare/v3.8.2...v3.8.3
 [v3.8.2]: https://github.com/meateam/api-gateway/compare/v3.7.1...v3.8.2
 [v3.7.1]: https://github.com/meateam/api-gateway/compare/v3.6.0...v3.7.1
 [v3.6.0]: https://github.com/meateam/api-gateway/compare/v3.5.4...v3.6.0
