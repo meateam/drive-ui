@@ -33,7 +33,7 @@
         <div v-if="externalNetworkDests">
           <router-link
             :to="`/external-transferred-${externalNetworkDest.appID}`"
-            v-for="externalNetworkDest in enableNetworks"
+            v-for="externalNetworkDest in externalNetworkDests"
             v-bind:key="externalNetworkDest.value"
             exact-active-class="route-active"
             class="sidenav-subitem"

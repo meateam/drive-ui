@@ -17,6 +17,7 @@ const state = {
   bamSupportNumber: "03555555",
   statusSuccessType: "success",
   statusFailedType: "failed",
+  statusPendingType: "pending",
   statusInProgressType: "in progress",
   statusWaitingForReview: "STEP_REQUEST_IS_PENDING_APPROVAL",
   statusSuccessNames: ["STEP_UPLOAD_CLEANUP_SUCCESSFULL", "STEP_TERMINAL_SEND_FINISHED"],
@@ -53,6 +54,7 @@ const getters = {
   statusSuccessType: (state) => state.statusSuccessType,
   statusFailedType: (state) => state.statusFailedType,
   statusInProgressType: (state) => state.statusInProgressType,
+  statusPendingType: (state) => state.statusPendingType,
   externalNetworkDests: (state) => state.externalNetworkDests,
   statusWaitingForReview: (state) => state.statusWaitingForReview,
   statusSuccessNames: (state) => state.statusSuccessNames,
@@ -88,6 +90,7 @@ const mutations = {
     state.statusInProgressType = config.statusInProgressType;
     state.statusFailedType = config.statusFailedType;
     state.statusSuccessType = config.statusSuccessType;
+    state.statusPendingType = config.statusPendingType;
   },
 };
 

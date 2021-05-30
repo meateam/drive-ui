@@ -29,7 +29,8 @@
     "NoResult": "no results...",
     "NoResultAdvancedSearch": "no results. try advanced search.",
     "Drive": "search in drive...",
-    "Users": "add users..."
+    "Users": "add users...",
+    "FindByT": "no results. search by t. for example t01234567."
   },
   "pageHeaders": {
     "SharedWithMe": "Shared With Me",
@@ -151,6 +152,9 @@
     "TransferDestination": "Dest network",
     "Deleted": "the file was deleted from drive, the info is unavailable"
   },
+  "delete": {
+    "ErrorNoPermissions": "You don't have permissions to delete this file!"
+  },
   "share": {
     "Link": "copy link",
     "ShareFile": "Share File",
@@ -176,6 +180,11 @@
       "SearchByT": "by T",
       "SearchByMail": "by mail"
     },
+    "searchOptions": {
+      "name": "name",
+      "email": "email",
+      "id": "id"
+    },
     "AdvancedSearchError": "The requested user was not found. Please ensure that the search query is valid."
   },
   "externalTransfer": {
@@ -200,6 +209,7 @@
         { "text": "Top Secret - blue", "color": "blue", "enable": false }
       ]
     },
+    "SearchBy": "Search by",
     "DisableClassification": "transfer is not allowed {classificationName}",
     "ApprovalInstructions": "The users are taken from the other domain",
     "ApprovalService": "approval service",

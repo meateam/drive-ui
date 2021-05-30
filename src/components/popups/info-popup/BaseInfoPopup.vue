@@ -64,6 +64,7 @@ export default {
   methods: {
     async open() {
       this.users = await getPermissions(this.file.id);
+
       let externalPermissionsRes = await getExternalPermissions(this.file.id);
 
       externalPermissionsRes = externalPermissionsRes.slice().sort((a, b) => b.createdAt - a.createdAt);

@@ -29,7 +29,8 @@
     "NoResult": "לא נמצאו תוצאות",
     "NoResultAdvancedSearch": "לא נמצאו תוצאות. נסו חיפוש מתקדם.",
     "Drive": "חיפוש בדרייב...",
-    "Users": "הוסיפו אנשים..."
+    "Users": "הוסיפו אנשים...",
+    "FindByT": "לא נמצאו תוצאות. יש לחפש לפי מס׳ t לדוגמה t01234567."
   },
   "pageHeaders": {
     "SharedWithMe": "שותפו איתי",
@@ -154,6 +155,9 @@
     "TransferDestination": "מרחב מקבל",
     "Deleted": "הקובץ נמחק מהדרייב, לא ניתן לראות פרטים על הקובץ!"
   },
+  "delete": {
+    "ErrorNoPermissions": "אין לך הרשאות למחוק את הקובץ!"
+  },
   "share": {
     "ShareFile": "שיתוף קובץ",
     "ShareFiles": "שיתוף קבצים",
@@ -177,6 +181,11 @@
     "AdvancedSearchChoices": {
       "SearchByT": "לפי מס' T",
       "SearchByMail": "לפי אימייל"
+    },
+    "searchOptions": {
+      "name": "שם",
+      "email": "מייל",
+      "id": "מזהה"
     },
     "AdvancedSearchError": "המשתמש המבוקש לא נמצא. אנא ודאו שהכנסתם פרטים נכונים."
   },
@@ -229,6 +238,7 @@
         }
       ]
     },
+    "SearchBy": "חיפוש לפי",
     "DisableClassification": "לא ניתן להעביר קבצים בסיווג {classificationName}",
     "ApprovalInstructions": "המאשרים שנבחרו יצטרכו לאשר באופן ידני את ההעברה במערכת האישורים",
     "ApprovalService": "במערכת האישורים",

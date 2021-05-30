@@ -70,27 +70,27 @@ async function getEntries(entry, parent, isFirstFolder) {
             const entries = await new Promise((resolve) => { entryReader.readEntries((entries) => { resolve(entries) }) })
             
             let first = true;
-            await Promise.all(entries.map((entry) => {
-                if (!entry && first) {
-                    return new Promise((resolve) => resolve());
-                }
-                first = false;
-                if (!entry) {
-                    return new Promise((resolve) => resolve());
-                }
-                return getEntries(entry, res, isFirstFolder)
-            }))
-
-            // for (const e of entries) {
-            //     if (!e && first) {
-            //         return;
+            // await Promise.all(entries.map((entry) => {
+            //     if (!entry && first) {
+            //         return new Promise((resolve) => resolve());
             //     }
             //     first = false;
-            //     if (!e) {
-            //         return;
+            //     if (!entry) {
+            //         return new Promise((resolve) => resolve());
             //     }
-            //     await getEntries(e, res, isFirstFolder)
-            // }
+            //     return getEntries(entry, res, isFirstFolder)
+            // }))
+
+            for (const e of entries) {
+                if (!e && first) {
+                    return;
+                }
+                first = false;
+                if (!e) {
+                    return;
+                }
+                await getEntries(e, res, isFirstFolder)
+            }
         } catch (err) {
             throw new Error(err.message)
         }

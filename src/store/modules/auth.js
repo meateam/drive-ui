@@ -28,16 +28,14 @@ const actions = {
   },
   async addApproverInfos({ rootState, commit, dispatch }, user) {
     var approverInfos = {};
-
     await Promise.allSettled(
       rootState.configuration.externalNetworkDests.map(async (externalNetworkDest) => {
         const res = await usersApi.getApproverInfo(user.id, externalNetworkDest.value);
         approverInfos[externalNetworkDest.value] = res;
-      })).then((results) => 
-      {
+      })).then((results) => {
         if (results.some((result) => result.status === "rejected")) {
           // Retry after 1 minute
-          setTimeout(() => dispatch("addApproverInfos", user), 60000);
+          setTimeout(() => dispatch("addApproverInfos", user), 10000);
         }
       });
 
@@ -67,7 +65,7 @@ const actions = {
 
       commit("setUser", user);
 
-      await dispatch("addApproverInfos", user);
+      dispatch("addApproverInfos", user);
     } catch (err) {
       dispatch("onError", err);
     }

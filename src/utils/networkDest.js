@@ -1,16 +1,16 @@
 import store from "@/store";
 
 export function getNetworkItemByDest(destination) {
-  const networkDest = store.state.configuration.externalNetworkDests.filter(
+  const networkDest = store.state.configuration.externalNetworkDests.find(
     (networkDest) => networkDest.value == destination
-  )[0];
+  );
   return networkDest;
 }
 
 export function getNetworkItemByAppId(appId) {
-  const networkDest = store.state.configuration.externalNetworkDests.filter(
+  const networkDest = store.state.configuration.externalNetworkDests.find(
     (networkDest) => networkDest.appID == appId
-  )[0];
+  );
   return networkDest;
 }
 
@@ -26,10 +26,15 @@ export function getEnabledNetworks() {
   // Check if network has limit to approvers only
   networkDests = networkDests.filter(
     (networkDest) =>
-      !networkDest.isOnlyApprover ||
-      (networkDest.isOnlyApprover &&
-        (store.state.auth.user.approverInfos[networkDest.value].isApprover ||
-          store.state.auth.user.approverInfos[networkDest.value].isAdmin))
-  );
+    {
+      try {
+        return !networkDest.isOnlyApprover ||
+        (networkDest.isOnlyApprover &&
+          (store.state.auth.user.approverInfos[networkDest.value].isApprover ||
+            store.state.auth.user.approverInfos[networkDest.value].isAdmin))
+      } catch (_err) {
+        return false;
+      }
+    });
   return networkDests;
 }

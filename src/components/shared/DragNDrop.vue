@@ -8,8 +8,7 @@
 </template>
 
 <script>
-// import store from "@/store";
-// import { UploadSet, UploadGet } from "@/store/modules/upload";
+
 import { UploadGet } from "@/store/modules/upload";
 import { mapGetters } from "vuex";
 import { getFilesFromDroppedItems } from "./../../utils/drop";
@@ -73,11 +72,10 @@ export default {
       window.addEventListener(
         "drop",
         async (event) => {
+          this.onDrag = false;
           event.preventDefault();
           event.stopImmediatePropagation();
-          this.onDrag = false;
           if (this.isFileDrag(event)) {
-            this.onDrag = false;
             this.getFilesFromDroppedItems(
               event.dataTransfer,
               this.currentFolder

@@ -51,6 +51,14 @@ const router = new Router({
       name: "Folders",
     },
     {
+      path: "/file",
+      component: () => import("@/views/File"),
+      meta: {
+        layout: true,
+      },
+      name: "File",
+    },
+    {
       path: "/external-transferred-dropbox",
       component: () => import("@/views/ExternalTransferred"),
       meta: {
@@ -134,13 +142,6 @@ const router = new Router({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (
-    to.path.startsWith("/external-transferred") &&
-    !getNetworkItemByAppId(to.path.split("-").slice(-1)[0]).isEnabled
-  ) {
-    next("/404");
-  }
-
   await store.dispatch("onRouteChange", from);
   await store.dispatch("onFolderChange", to.query.id);
 

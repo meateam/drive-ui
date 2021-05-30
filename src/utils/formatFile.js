@@ -6,21 +6,21 @@ export function isFileOwner(ownerID) {
 }
 
 export async function getFileOwnerName(ownerID) {
-  const user =
-    store.state.directonary.usersDictionary[ownerID] ||
-    (await usersApi.getUserByID(ownerID).catch(() => {
-      return;
-    }));
-
-  return user.fullName;
+  try {
+    const user = store.state.directonary.usersDictionary[ownerID] ||
+      await usersApi.getUserByID(ownerID)
+    return user.fullName;
+  } catch (_) {
+    return "";
+  }
 }
 
 export async function getExternalFileOwnerName(ownerID, destination) {
-  const user =
-    store.state.directonary.usersDictionary[ownerID] ||
-    (await usersApi.getExternalUserByID(ownerID, destination).catch(() => {
-      return;
-    }));
-
-  return user.fullName;
+  try {
+    const user = store.state.directonary.usersDictionary[ownerID] ||
+      await usersApi.getExternalUserByID(ownerID, destination)
+    return user.fullName;
+  } catch (_) {
+    return "";
+  }
 }
