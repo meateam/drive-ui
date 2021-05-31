@@ -6,14 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
+
 ### Fixed
+
 - hotfix: ([105](https://github.com/meateam/drive-ui/pull/105)): fix breadcrumbs for file when not reloading the page.
+- minor: ([73](https://github.com/meateam/drive-ui/pull/73)): add pagination in shared with me
 
 ## [v3.8.3] - 2021-05-30
 
 ### Fixed
 
-- minor: ([73](https://github.com/meateam/drive-ui/pull/73)): add pagination in shared with me
 - hotfix: ([101](https://github.com/meateam/drive-ui/pull/101)): fix bug in getUsers and change the color of the steps in status table
 - hotfix: ([102](https://github.com/meateam/drive-ui/pull/102)): fix error cannot read property length of undefined in info popup
 - hotfix: ([100](https://github.com/meateam/drive-ui/pull/100)): add error message to the user when he cant delete file
