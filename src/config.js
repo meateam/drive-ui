@@ -49,7 +49,8 @@ const fileTypes = {
   ],
 };
 
+const pageSizeAdvancedSearch = 5;
 const pageSizeSmaller = 7;
 const pageSize = 10;
 
-export { baseURL, fileTypes, pageSize, pageSizeSmaller };
+export { baseURL, fileTypes, pageSize, pageSizeSmaller, pageSizeAdvancedSearch };

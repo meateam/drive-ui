@@ -2,10 +2,10 @@
   <div>
     <Autocomplete
       background="#f0f4f7"
-      :placeholder="$t('autocomplete.Drive')"
       searchIcon="search"
       advancedSearchIcon="expand_more"
-      :minLength="0"
+      :placeholder="$t('autocomplete.Drive')"
+      :minLength="1"
       :items="results"
       :isLoading="isSearchLoading"
       @select="onSelect"
@@ -20,7 +20,6 @@
 <script>
 import Autocomplete from "@/components/layout/toolbar/search/SearchAutoComplete";
 import { advancedSearch } from "@/api/search";
-import { isJson } from "@/utils/isJson";
 
 export default {
   name: "SearchInput",
@@ -28,44 +27,34 @@ export default {
   data() {
     return {
       results: [],
-      advancedSearchOptions: this.$t("header.AdvancedSearchChoices"),
       isSearchLoading: false,
     };
   },
   methods: {
-    getSearchResults(query) {
-      if (this.isSearchLoading) return;
-      this.isSearchLoading = true;
-
-      let queryParsed = isJson(query);
-      if (!queryParsed) queryParsed = { fileName: query };
-
-      advancedSearch(queryParsed)
-        .then((results) => {
-          results.forEach((res) => (res.file.display = `${res.file.name}`));
-
-          this.results = results.map((result) => result);
-        })
-        .finally(() => (this.isSearchLoading = false));
-    },
-    onEnter(query) {
-      this.$router.push({ path: "/search", query: { q: query } });
-    },
     openItemLocation(result) {
       this.$emit("openItemLocation", result);
     },
     onSelect(result) {
       this.$emit("onSelectItem", result);
     },
+    getSearchResults(query) {
+      if (this.isSearchLoading) return;
+      this.isSearchLoading = true;
+
+      advancedSearch(query, 0)
+        .then((results) => {
+          results.forEach((res) => (res.file.display = `${res.file.name}`));
+          this.results = results.map((result) => result);
+        })
+        .finally(() => (this.isSearchLoading = false));
+    },
     clearResults() {
       this.results = [];
+    },
+    onEnter(query) {
+      // TODO: change
+      this.$router.push({ path: "/search", query: { q: query } });
     },
   },
 };
 </script>
-
-<style scope>
-.v-autocomplete__content {
-  max-height: none !important;
-}
-</style>

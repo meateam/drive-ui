@@ -1,7 +1,9 @@
 <template>
   <PageTemplate
     :files="files"
+    :serverFilesLength="30"
     :sortable="true"
+    @page="onPageChange"
     :header="$t('pageHeaders.Search')"
   />
 </template>
@@ -17,7 +19,18 @@ export default {
     ...mapGetters(["files"]),
   },
   created() {
-    this.$store.dispatch("fetchSearchFiles", this.$route.query.q);
+    this.$store.dispatch("fetchSearchFiles", { query: this.$route.query.q, pageNum: 0 });
+  },
+  watch: {
+    "$route.query.q"() {
+      this.$store.dispatch("fetchSearchFiles", { query: this.$route.query.q, pageNum: 0 });
+    },
+  },
+  methods: {
+    onPageChange(page) {
+      console.log(page);
+      this.$store.dispatch("fetchSearchFiles", { query: this.$route.query.q, pageNum: page - 1 });
+    },
   },
 };
 </script>

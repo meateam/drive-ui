@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     getSearchResults() {
-      this.$emit("onSearch", JSON.stringify(this.form));
+      this.$emit("moreResults");
     },
     getFieldObject(filterKey) {
       let fieldObject = {};

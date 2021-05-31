@@ -105,9 +105,6 @@ export default {
   -webkit-animation: rotate-scale-up 0.65s linear both;
   animation: rotate-scale-up 0.65s linear both;
 }
-.v-menu__content {
-  max-height: 804px !important;
-}
 
 @-webkit-keyframes rotate-scale-up {
   0% {

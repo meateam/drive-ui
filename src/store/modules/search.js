@@ -1,11 +1,13 @@
-import { search } from "@/api/search";
+import { advancedSearch } from "@/api/search";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { getNetworkItemByAppId } from "@/utils/networkDest";
+import { pageSize } from "@/config";
 
 const actions = {
-  async fetchSearchFiles({ dispatch, commit }, query) {
+  async fetchSearchFiles({ dispatch, commit }, { query, pageNum }) {
     try {
-      const results = await search(query);
+      const tempResults = await advancedSearch(query, pageNum, pageSize);
+      const results = tempResults.map((item) => item.file);
       commit("setFiles", results);
 
       results.forEach(async (file) => {
