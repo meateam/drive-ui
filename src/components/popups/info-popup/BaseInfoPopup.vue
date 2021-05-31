@@ -43,6 +43,7 @@
   </v-dialog>
 </template>
 <script>
+import _ from "lodash";
 import KeyValue from "./BaseKeyValue";
 import UserAvatar from "@/components/popups/users-popup/UserAvatar";
 import { getPermissions, getExternalPermissions } from "@/api/share";
@@ -76,13 +77,14 @@ export default {
         externalPermissionsRes = externalPermissionsRes
           .slice()
           .sort((a, b) => b.createdAt - a.createdAt)
-          .filter((user, index, self) => index === self.indexOf(user.id));
+          .filter((user, index, self) => index === self.findIndex((anotherUser) => anotherUser.id === user.id));
 
-        externalPermissionsRes.forEach((externalPermission) => {
-          externalPermission.isFailed
-            ? this.externalUsersFailed.push(externalPermission)
-            : this.externalUsers.push(externalPermission);
+        const [externalUsersFailed, externalUsers] = _.partition(externalPermissionsRes, function(externalPermission) {
+          return externalPermission.isFailed;
         });
+
+        this.externalUsersFailed = externalUsersFailed;
+        this.externalUsers = externalUsers;
       }
 
       this.dialog = true;
