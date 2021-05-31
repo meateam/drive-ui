@@ -23,9 +23,6 @@ export default {
       breadcrumbs: [],
     };
   },
-  created() {
-    this.onFolderChange(this.currentFolder);
-  },
   watch: {
     currentFolder: function (folder) {
       this.onFolderChange(folder);
