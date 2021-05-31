@@ -1,8 +1,8 @@
 <template>
   <div id="itemResult" class="mb-4 mt-4">
     <v-row>
-      <v-col sm="1"><FileTypeIcon :file="returnItem(item)" :size="25"/></v-col>
-      <v-col lg="8" id="nameAndContent" class="mt-2">
+      <v-col sm="1" @click="onSelect(item)"><FileTypeIcon :file="returnItem(item)" :size="25"/></v-col>
+      <v-col @click="onSelect(item)" lg="8" id="nameAndContent" class="mt-2">
         <v-row align="start">
           <div v-html="returnFileName(item)"></div>
         </v-row>
@@ -13,7 +13,7 @@
 
       <v-col lg="3">
         <v-row class="justify-end">
-          <div id="itemLinkDest">{{ $t("header.AdvancedSearchFileLocation") }}</div>
+          <div id="itemLinkDest" @click="openItemLocation(item)">{{ $t("header.AdvancedSearchFileLocation") }}</div>
         </v-row>
       </v-col>
     </v-row>
@@ -33,6 +33,12 @@ export default {
     },
     returnFileName: (item) => {
       return item?.name ? item.name : item.highlightedFileName ? item.highlightedFileName : item.file.name;
+    },
+    onSelect(item) {
+      this.$emit("select", this.returnItem(item));
+    },
+    openItemLocation(item) {
+      this.$emit("openItemLocation", this.returnItem(item));
     },
   },
 };

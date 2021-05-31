@@ -1,12 +1,11 @@
 <template>
   <v-autocomplete
-    :search-input="value"
+    :value="value"
     :items="items"
     :placeholder="placeholder"
     :loading="isLoading"
     :background-color="background"
     @click="closeAdvancedSearch"
-    @input="onSelect"
     @update:search-input="onInput"
     @keyup.enter.native="onEnter"
     v-model="item"
@@ -15,12 +14,12 @@
     dense
     no-filter
     return-object
-    item-text="display"
+    :item-text="getValue(item)"
     color="#035c64"
   >
     <!-- item -->
     <template v-slot:item="{ item }">
-      <AdvancedSearchItemResult :item="item" />
+      <AdvancedSearchItemResult :item="item" @openItemLocation="openItemLocation" @select="onSelect" />
     </template>
 
     <!-- basic search -->
@@ -78,17 +77,24 @@ export default {
     "items",
   ],
   methods: {
+    getValue(item) {
+      return item ? (item.file ? "file.display" : "display") : "";
+    },
     changeAdvancedSearch() {
       this.openAdvancedSearch = true;
+      this.item = "";
     },
     closeAdvancedSearch() {
       this.openAdvancedSearch = false;
     },
-    onSelect() {
-      this.$emit("select", this.item.file ? this.item.file : this.item);
+    onSelect(item) {
+      this.item = item?.file ? item.file : item;
+      this.$emit("select", this.item);
+    },
+    openItemLocation(item) {
+      this.$emit("openItemLocation", item);
     },
     onEnter() {
-      this.item = "";
       this.$emit("enter", this.value);
     },
     onInput(value) {
@@ -97,12 +103,15 @@ export default {
     },
     onSearch: debounce(function(value) {
       if (typeof value === "string" && value.length >= this.minLength) this.$emit("type", value);
+      else if (!value || value.length === 0) this.$emit("clear");
     }, 500),
     onClearForm() {
       this.form = {};
+      this.item = "";
       this.$emit("clear");
     },
     onClearValue() {
+      this.item = "";
       this.value = "";
       this.$emit("clear");
     },
@@ -115,6 +124,7 @@ export default {
           if (newForm[key] == "") delete tempForm[key];
         });
         this.form = tempForm;
+
         isDictEmpty(tempForm) ? this.$emit("clear") : this.onSearch(JSON.stringify(tempForm));
       },
       deep: true,

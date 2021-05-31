@@ -10,6 +10,7 @@
       :isLoading="isSearchLoading"
       @select="onSelect"
       @enter="onEnter"
+      @openItemLocation="openItemLocation"
       @type="getSearchResults"
       @clear="clearResults"
     />
@@ -18,7 +19,7 @@
 
 <script>
 import Autocomplete from "@/components/layout/toolbar/search/SearchAutoComplete";
-import { search, advancedSearch } from "@/api/search";
+import { advancedSearch } from "@/api/search";
 import { isJson } from "@/utils/isJson";
 
 export default {
@@ -36,34 +37,28 @@ export default {
       if (this.isSearchLoading) return;
       this.isSearchLoading = true;
 
-      const queryParsed = isJson(query);
-      if (!queryParsed) {
-        search(query)
-          .then((results) => {
-            results.forEach((res) => (res.display = `${res.name}`));
-            this.results = results;
-          })
-          .finally(() => (this.isSearchLoading = false));
-      } else {
-        advancedSearch(queryParsed)
-          .then((results) => {
-            results.forEach((res) => (res.file.display = `${res.file.name}`));
+      let queryParsed = isJson(query);
+      if (!queryParsed) queryParsed = { fileName: query };
 
-            this.results = results.map((result) => result);
-          })
-          .finally(() => (this.isSearchLoading = false));
-      }
+      advancedSearch(queryParsed)
+        .then((results) => {
+          results.forEach((res) => (res.file.display = `${res.file.name}`));
+
+          this.results = results.map((result) => result);
+        })
+        .finally(() => (this.isSearchLoading = false));
     },
     onEnter(query) {
       this.$router.push({ path: "/search", query: { q: query } });
+    },
+    openItemLocation(result) {
+      this.$emit("openItemLocation", result);
     },
     onSelect(result) {
       this.$emit("onSelectItem", result);
     },
     clearResults() {
-      setTimeout(() => {
-        this.results = [];
-      }, 500);
+      this.results = [];
     },
   },
 };

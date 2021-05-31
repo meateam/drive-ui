@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app id="header" color="white" height="86px">
     <div id="search-input">
-      <SearchInput @onSelectItem="onSelect" />
+      <SearchInput @onSelectItem="onSelect" @openItemLocation="openItemLocation" />
     </div>
     <v-spacer></v-spacer>
     <div id="left">
@@ -48,10 +48,21 @@ export default {
       return "";
     },
     onSelect(result) {
-      if (isFolder(result.type)) {
-        this.$router.push({ path: "/folders", query: { id: result.id } });
-      } else {
-        this.$refs.preview.open(result);
+      if (this.$router.history.current.query.id !== result.id) {
+        if (isFolder(result.type)) {
+          this.$router.push({ path: "/folders", query: { id: result.id } });
+        } else {
+          this.$refs.preview.open(result);
+        }
+      }
+    },
+    openItemLocation(result) {
+      if (this.$router.history.current.query.id !== result.id) {
+        if (isFolder(result.type)) {
+          this.$router.push({ path: "/folders", query: { id: result.id } });
+        } else {
+          this.$router.push({ path: "/file", query: { id: result.id } });
+        }
       }
     },
   },
