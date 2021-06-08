@@ -70,20 +70,20 @@ async function getEntries(entry, parent, isFirstFolder) {
         let first = true;
         const NUM_OF_MAX_PROMISES = 3;
 
-            await Promise.map(
-                entries,
-                (entry) => {
-                    if (!entry && first) {
-                        return new Promise((resolve) => resolve());
-                    }
-                    first = false;
-                    if (!entry) {
-                        return new Promise((resolve) => resolve());
-                    }
-                    return getEntries(entry, res, isFirstFolder);
-                },
-                { concurrency: NUM_OF_MAX_PROMISES }
-            );
+        await Promise.map(
+            entries,
+            (entry) => {
+                if (!entry && first) {
+                    return new Promise((resolve) => resolve());
+                }
+                first = false;
+                if (!entry) {
+                    return new Promise((resolve) => resolve());
+                }
+                return getEntries(entry, res, isFirstFolder);
+            },
+            { concurrency: NUM_OF_MAX_PROMISES }
+        );
     }
 }
 
