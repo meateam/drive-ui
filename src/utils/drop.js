@@ -1,8 +1,7 @@
 import store from '@/store'
 import i18n from "@/i18n"
 import { UploadSet, UploadGet, UploadAction } from "@/store/modules/upload"
-
-const ASYNC_UPLOAD_NUM = 4;
+import { Promise } from 'bluebird'
 
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
     if (store.getters[UploadGet.isUpload]) {
