@@ -69,21 +69,22 @@ async function getEntries(entry, parent, isFirstFolder) {
         let entries = await new Promise((resolve) => { entryReader.readEntries((entries) => { resolve(entries) }) });
 
         let first = true;
-        while (entries.length != 0) {
-            const temp = entries.splice(0, ASYNC_UPLOAD_NUM)
-            await Promise.all(temp.map((entry) => {
-                return new Promise((resolve, reject) => {
+        const NUM_OF_MAX_PROMISES = 3;
+
+            await Promise.map(
+                entries,
+                (entry) => {
                     if (!entry && first) {
-                        resolve()
+                        return new Promise((resolve) => resolve());
                     }
                     first = false;
                     if (!entry) {
-                        resolve()
+                        return new Promise((resolve) => resolve());
                     }
-                    getEntries(entry, res, false).then(resolve).catch(reject);
-                })
-            }))
-        }
+                    return getEntries(entry, res, isFirstFolder);
+                },
+                { concurrency: NUM_OF_MAX_PROMISES }
+            );
     }
 }
 
