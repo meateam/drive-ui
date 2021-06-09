@@ -1,6 +1,7 @@
 import store from '@/store'
 import i18n from "@/i18n"
 import { UploadSet, UploadGet, UploadAction } from "@/store/modules/upload"
+import { Promise } from 'bluebird'
 
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
     if(store.getters[UploadGet.isUpload]) {
@@ -70,27 +71,23 @@ async function getEntries(entry, parent, isFirstFolder) {
             const entries = await new Promise((resolve) => { entryReader.readEntries((entries) => { resolve(entries) }) })
             
             let first = true;
-            // await Promise.all(entries.map((entry) => {
-            //     if (!entry && first) {
-            //         return new Promise((resolve) => resolve());
-            //     }
-            //     first = false;
-            //     if (!entry) {
-            //         return new Promise((resolve) => resolve());
-            //     }
-            //     return getEntries(entry, res, isFirstFolder)
-            // }))
+            
+            const NUM_OF_MAX_PROMISES = 3;
 
-            for (const e of entries) {
-                if (!e && first) {
-                    return;
-                }
-                first = false;
-                if (!e) {
-                    return;
-                }
-                await getEntries(e, res, isFirstFolder)
-            }
+            await Promise.map(
+                entries,
+                (entry) => {
+                    if (!entry && first) {
+                        return new Promise((resolve) => resolve());
+                    }
+                    first = false;
+                    if (!entry) {
+                        return new Promise((resolve) => resolve());
+                    }
+                    return getEntries(entry, res, isFirstFolder);
+                },
+                { concurrency: NUM_OF_MAX_PROMISES }
+            );
         } catch (err) {
             throw new Error(err.message)
         }
