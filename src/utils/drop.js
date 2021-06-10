@@ -65,9 +65,23 @@ async function getEntries(entry, parent, isFirstFolder) {
             isFirstFolder = false;
         }
         const entryReader = entry.createReader();
-        let entries = await new Promise((resolve) => { entryReader.readEntries((entries) => { resolve(entries) }) });
+        let entries = [];
+        let entriesLength = true;
+
+        while (entriesLength) {
+            entries = entries.concat(await new Promise((resolve) => {
+                entryReader.readEntries((entries) => {
+                    if (!entries.length) {
+                        entriesLength = false;
+                        resolve([])
+                    }
+                    resolve(Array.prototype.slice.call(entries || [], 0))
+                })
+            }))
+        }
 
         let first = true;
+
         const NUM_OF_MAX_PROMISES = 3;
 
         await Promise.map(
