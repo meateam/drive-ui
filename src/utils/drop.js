@@ -4,7 +4,7 @@ import { UploadSet, UploadGet, UploadAction } from "@/store/modules/upload"
 import { Promise } from 'bluebird'
 
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
-    if(store.getters[UploadGet.isUpload]) {
+    if (store.getters[UploadGet.isUpload]) {
         return store.dispatch("onError", new Error(i18n.t("errors.waitForUpload")))
     }
     const files = [...dataTransfer.items]
@@ -16,7 +16,7 @@ export async function getFilesFromDroppedItems(dataTransfer, parent) {
 }
 
 export async function getFilesFromInput(files, parent) {
-    if(store.getters[UploadGet.isUpload]) {
+    if (store.getters[UploadGet.isUpload]) {
         return store.dispatch("onError", new Error(i18n.t("errors.waitForUpload")))
     }
     const items = [...files];
@@ -68,10 +68,23 @@ async function getEntries(entry, parent, isFirstFolder) {
             }
 
             const entryReader = entry.createReader();
-            const entries = await new Promise((resolve) => { entryReader.readEntries((entries) => { resolve(entries) }) })
-            
+            let entries = [];
+            let entriesLength = true;
+
+            while (entriesLength) {
+                entries = entries.concat(await new Promise((resolve) => {
+                    entryReader.readEntries((entries) => {
+                        if (!entries.length) {
+                            entriesLength = false;
+                            resolve([])
+                        }
+                        resolve(Array.prototype.slice.call(entries || [], 0))
+                    })
+                }))
+            }
+
             let first = true;
-            
+
             const NUM_OF_MAX_PROMISES = 3;
 
             await Promise.map(
