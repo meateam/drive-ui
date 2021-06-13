@@ -66,45 +66,37 @@ async function getEntries(entry, parent, isFirstFolder) {
         }
         const entryReader = entry.createReader();
         let entries = [];
+        let entriesLength = true;
 
-        const readEntries = async () => {
-            const results = await new Promise((resolve) => {
-                entryReader.readEntries((res) => {
-                    resolve(res)
-                });
-            })
+        while (entriesLength) {
+            entries = entries.concat(await new Promise((resolve) => {
+                entryReader.readEntries((entries) => {
+                    if (!entries.length) {
+                        entriesLength = false;
+                        resolve([])
+                    }
+                    resolve(Array.prototype.slice.call(entries || [], 0))
+                })
+            }))
+        }
 
-            const packet = await new Promise((resolve) => {
-                if (results.length) {
-                    resolve(Array.prototype.slice.call(results || [], 0));
-                } else {
-                    resolve([]);
+        let first = true;
+        const NUM_OF_MAX_PROMISES = 3;
+
+        await Promise.map(
+            entries,
+            (entry) => {
+                if (!entry && first) {
+                    return new Promise((resolve) => resolve());
                 }
-            })
-
-            if (packet.length != 0) {
-                entries = entries.concat(packet);
-                await readEntries();
-            } else {
-                let first = true;
-                const NUM_OF_MAX_PROMISES = 3;
-                await Promise.map(
-                    entries,
-                    (entry) => {
-                        if (!entry && first) {
-                            return new Promise((resolve) => resolve());
-                        }
-                        first = false;
-                        if (!entry) {
-                            return new Promise((resolve) => resolve());
-                        }
-                        return getEntries(entry, res, isFirstFolder);
-                    },
-                    { concurrency: NUM_OF_MAX_PROMISES }
-                );
-            }
-        };
-        await readEntries();
+                first = false;
+                if (!entry) {
+                    return new Promise((resolve) => resolve());
+                }
+                return getEntries(entry, res, isFirstFolder);
+            },
+            { concurrency: NUM_OF_MAX_PROMISES }
+        );
     }
 }
 
