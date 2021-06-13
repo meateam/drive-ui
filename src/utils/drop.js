@@ -95,21 +95,6 @@ async function getEntries(entry, parent, isFirstFolder) {
                     { concurrency: NUM_OF_MAX_PROMISES }
                 );
             }
-
-            // const packet = await new Promise((resolve) => {
-            //     if (results.length) {
-            //         resolve(Array.prototype.slice.call(results || [], 0));
-            //     } else {
-            //         resolve([]);
-            //     }
-            // })
-
-            // if (packet.length != 0) {
-            //     entries = entries.concat(packet);
-            //     await readEntries();
-            // } else {
-                
-            // }
         };
         await readEntries();
     }
