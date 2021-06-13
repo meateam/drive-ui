@@ -1,8 +1,9 @@
 import store from '@/store'
 import i18n from "@/i18n"
-import { UploadSet, UploadGet, UploadAction } from "@/store/modules/upload"
+import { UploadSet, UploadGet, UploadAction } from "@/store/modules/uploadFolder"
 import { Promise } from 'bluebird'
 
+// this call from the drop event
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
     if (store.getters[UploadGet.isUpload]) {
         return store.dispatch("onError", new Error(i18n.t("errors.waitForUpload")))
@@ -15,6 +16,7 @@ export async function getFilesFromDroppedItems(dataTransfer, parent) {
     store.commit(UploadSet.isUpload, false);
 }
 
+// this call from the plus button 
 export async function getFilesFromInput(files, parent) {
     if (store.getters[UploadGet.isUpload]) {
         return store.dispatch("onError", new Error(i18n.t("errors.waitForUpload")))
@@ -27,6 +29,10 @@ export async function getFilesFromInput(files, parent) {
     store.commit(UploadSet.isUpload, false)
 }
 
+
+// Receives a file from the array of files received by the user.
+// The action checks if it is a file it uploads it,
+// if it is a folder then it creates a folder in its name and sends it again to the same method and repeats all
 async function getEntries(entry, parent, isFirstFolder) {
 
     if (entry instanceof File) {
@@ -56,6 +62,7 @@ async function getEntries(entry, parent, isFirstFolder) {
         });
     }
 
+    // folder
     if (entry.isDirectory) {
         const res = await store.dispatch(
             isFirstFolder ? UploadAction.createFolder : UploadAction.createFolderInFolder,
