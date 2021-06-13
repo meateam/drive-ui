@@ -74,16 +74,8 @@ async function getEntries(entry, parent, isFirstFolder) {
                 });
             })
 
-            const packet = await new Promise((resolve) => {
-                if (results.length) {
-                    resolve(Array.prototype.slice.call(results || [], 0));
-                } else {
-                    resolve([]);
-                }
-            })
-
-            if (packet.length != 0) {
-                entries = entries.concat(packet);
+            if (results.length) {
+                entries = entries.concat(Array.prototype.slice.call(results || [], 0));
                 await readEntries();
             } else {
                 let first = true;
@@ -103,6 +95,21 @@ async function getEntries(entry, parent, isFirstFolder) {
                     { concurrency: NUM_OF_MAX_PROMISES }
                 );
             }
+
+            // const packet = await new Promise((resolve) => {
+            //     if (results.length) {
+            //         resolve(Array.prototype.slice.call(results || [], 0));
+            //     } else {
+            //         resolve([]);
+            //     }
+            // })
+
+            // if (packet.length != 0) {
+            //     entries = entries.concat(packet);
+            //     await readEntries();
+            // } else {
+                
+            // }
         };
         await readEntries();
     }
