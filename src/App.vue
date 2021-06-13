@@ -23,6 +23,10 @@ export default {
     // catch close and reload tab
     window.addEventListener("beforeunload", this.close);
   },
+  destroyed() {
+    // catch close and reload tab
+    window.removeEventListener("beforeunload", this.close);
+  },
   methods: {
     close(e) {
       if (this.isUpload) {
