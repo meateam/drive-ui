@@ -164,6 +164,31 @@ export async function createResumableUpload({ file, parent }) {
 }
 
 /**
+ * downloadMultipleFiles downloads the files as a zip
+ * @param fileIDs is an array of the file ids requested for download
+ */
+ export async function downloadMultipleFiles(fileIDs) {
+  const response = await Axios.post(`${baseURL}/api/files/zip`, 
+  {
+    files: fileIDs
+  }, 
+  {
+      headers: {Authorization: 'Bearer ' + store.state.jwt},
+      responseType: 'blob'
+  });
+
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  console.log(new Date().toISOString());
+  const dateString = new Date().toISOString().replace(/(:|-)/g, '-').split('.')[0]+'Z';
+  link.setAttribute('download', `drive-download-${dateString}.zip`);
+  document.body.appendChild(link);
+  link.click();
+}
+
+
+/**
  * downloadFile downloads the file with the
  * @param fileID is the id of the file to download
  */

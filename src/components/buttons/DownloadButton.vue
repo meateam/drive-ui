@@ -20,7 +20,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { isFolder } from "@/utils/isFolder";
+// import { isFolder } from "@/utils/isFolder";
 import * as filesApi from "@/api/files";
 
 export default {
@@ -28,10 +28,15 @@ export default {
   props: ["icon"],
   methods: {
     onDownload() {
-      filesApi.downloadFile(this.chosenFiles[0].id);
+      let fileIDs = this.chosenFiles.map(file => file.id)
+      if (fileIDs.length > 1) {
+        filesApi.downloadMultipleFiles(fileIDs);  
+      } else if (fileIDs.length == 1) {
+        filesApi.downloadFile(fileIDs[0]);
+      } 
     },
     canDownload() {
-      return this.chosenFiles.length === 1 && !isFolder(this.chosenFiles[0].type) && !this.isFileDeleted();
+      return this.chosenFiles.length >= 1 && !this.isFileDeleted();
     },
     isFileDeleted() {
       return this.chosenFiles.every((file) => file?.isDeleted != undefined && file.isDeleted);
