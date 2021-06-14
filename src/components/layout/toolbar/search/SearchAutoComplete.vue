@@ -1,10 +1,7 @@
 <template>
   <v-autocomplete
-    color="gray"
-    v-model="item"
-    :search-input="value"
+    v-model="selectedItem"
     :items="items"
-    :item-text="getValue(item)"
     :placeholder="placeholder"
     :loading="isLoading"
     :background-color="background"
@@ -17,12 +14,9 @@
     no-filter
     return-object
     clearable
+    persistent-placeholder
+    color="gray"
   >
-    <!-- item result -->
-    <template v-slot:item="{ item }">
-      <AdvancedSearchItemResult :item="item" @openItemLocation="openItemLocation" @select="onSelect" />
-    </template>
-
     <!-- basic search icon (right icons) -->
     <template v-slot:prepend-inner>
       <v-icon>{{ searchIcon }}</v-icon>
@@ -38,8 +32,26 @@
 
     <!-- advanced search form -->
     <template v-if="isAdvancedSearchOpen" v-slot:prepend-item>
-      <AdvancedSearchMenu :form="form" @onClearForm="onClearForm" @moreResults="onClickShowMoreResults" />
+      <AdvancedSearchMenu
+        :form="form"
+        @onClearForm="onClearForm"
+        @moreResults="onClickShowMoreResults"
+        @updateForm="updateForm"
+      />
       <v-divider></v-divider>
+    </template>
+
+    <!-- item result -->
+    <template v-slot:item="{ item }">
+      <AdvancedSearchItemResult :item="item" @openItemLocation="openItemLocation" @select="onSelect" />
+    </template>
+
+    <template v-slot:selection="{ item }">{{ getValue(item) }}</template>
+    <!-- more results -->
+    <template v-slot:append-item>
+      <v-btn v-if="itemsLength > pageSizeSearch - 1" @click="onClickShowMoreResults" block depressed>
+        {{ $t("header.AdvancedSearchShowMore") }}
+      </v-btn>
     </template>
 
     <!-- no data -->
@@ -54,16 +66,17 @@
 import debounce from "lodash/debounce";
 import AdvancedSearchMenu from "@/components/layout/toolbar/search/AdvancedSearchMenu";
 import AdvancedSearchItemResult from "@/components/layout/toolbar/search/AdvancedSearchItemResult";
-
 import { isDictEmpty } from "@/utils/dictUtils";
+import { pageSizeAdvancedSearch } from "@/config";
 
 export default {
   components: { AdvancedSearchMenu, AdvancedSearchItemResult },
   data: () => ({
-    item: null,
-    value: "",
     form: {},
+    value: "",
+    selectedItem: null,
     isAdvancedSearchOpen: false,
+    pageSizeSearch: pageSizeAdvancedSearch,
   }),
   props: [
     "searchIcon",
@@ -74,56 +87,63 @@ export default {
     "minLength",
     "noResult",
     "items",
+    "itemsLength",
   ],
   methods: {
     getValue(item) {
-      return item ? (item.file ? "file.display" : "display") : "";
+      return item && item.file && item.file.display ? item.file.display : "";
     },
     openAdvancedSearch() {
       this.isAdvancedSearchOpen = true;
+      this.value = null;
     },
     closeAdvancedSearch() {
       this.isAdvancedSearchOpen = false;
     },
     openItemLocation(item) {
+      this.onClearForm();
       this.$emit("openItemLocation", item);
     },
     onSelect(item) {
-      this.item = item;
-      this.$emit("select", this.item);
+      this.onClearForm();
+      this.$emit("select", item);
     },
     onEnter() {
       this.$emit("enter", this.value);
     },
     onInput(value) {
+      this.selectedItem = null;
       this.value = value;
       this.onSearch(value);
     },
     onClickShowMoreResults() {
-      this.$emit("enter", JSON.stringify(this.form));
+      this.value ? this.$emit("enter", this.value) : this.$emit("enter", JSON.stringify(this.form));
     },
     onClearForm() {
       this.form = {};
-      this.item = null;
+      this.selectedItem = null;
       this.$emit("clear");
+    },
+    updateForm(newForm) {
+      let tempForm = newForm;
+      Object.keys(newForm).forEach((key) => {
+        if (newForm[key] == null || newForm[key] == "") delete tempForm[key];
+      });
+
+      this.form = tempForm;
+
+      // If the form isn't empty, create search request
+      isDictEmpty(tempForm) ? this.$emit("clear") : this.onSearch(JSON.stringify(tempForm));
     },
     onSearch: debounce(function(value) {
       if (typeof value === "string" && value.length >= this.minLength) this.$emit("type", value);
       else if (!value || value.length === 0) this.$emit("clear");
-    }, 500),
+    }, 20),
   },
   watch: {
     form: {
       handler(newForm) {
-        let tempForm = newForm;
-        Object.keys(newForm).forEach((key) => {
-          if (newForm[key] == "") delete tempForm[key];
-        });
-
-        this.form = tempForm;
-
-        // If the form isn't empty, create search request
-        isDictEmpty(tempForm) ? this.$emit("clear") : this.onSearch(JSON.stringify(tempForm));
+        this.updateForm(newForm);
       },
       deep: true,
     },
@@ -132,6 +152,7 @@ export default {
     },
     value(newValue) {
       if (newValue) this.form = {};
+      this.onInput(newValue);
     },
   },
 };

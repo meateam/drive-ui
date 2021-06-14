@@ -1,8 +1,17 @@
 <template>
   <div class="text-center">
-    <AdvancedSearchForm :form="form" :disabled="disabled" id="advancedSearchFilters" :items="searchFiltersOptions" />
+    <AdvancedSearchForm
+      :form="form"
+      :disabled="disabled"
+      id="advancedSearchFilters"
+      :items="searchFiltersOptions"
+      :reset="reset"
+      @updateForm="updateForm"
+    />
 
     <div id="actions">
+      <v-checkbox v-model="exactMatch" :label="$t('header.AdvancedSearchExactMatch')" />
+
       <SubmitButton @click="getSearchResults()" :label="$t('header.AdvancedSearch')" />
       <SubmitButton @click="clearForm()" :label="$t('header.AdvancedSearchClear')" />
     </div>
@@ -20,9 +29,17 @@ export default {
   props: ["form"],
   data() {
     return {
+      exactMatch: false,
+      reset: false,
       disabled: true,
       advancedSearchOptions: this.$t("header.AdvancedSearchChoices"),
     };
+  },
+  watch: {
+    exactMatch(newVal) {
+      this.form["exactMatch"] = newVal;
+      this.updateForm(this.form);
+    },
   },
   methods: {
     getSearchResults() {
@@ -32,13 +49,18 @@ export default {
       let fieldObject = {};
 
       fieldObject.value = filterKey;
-      fieldObject.name = this.advancedSearchOptions[filterKey];
+      fieldObject.name = this.advancedSearchOptions[filterKey].name;
+      fieldObject.label = this.advancedSearchOptions[filterKey].label;
       fieldObject.icon = GetIconField(filterKey);
       fieldObject.type = GetTypeField(filterKey);
       return fieldObject;
     },
     clearForm() {
+      this.reset = !this.reset;
       this.$emit("onClearForm");
+    },
+    updateForm(newForm) {
+      this.$emit("updateForm", newForm);
     },
   },
   computed: {
@@ -59,7 +81,7 @@ export default {
   font-size: medium;
 }
 #advancedSearchFilters {
-  width: 400px;
+  width: 600px;
   padding-right: 30px;
 }
 </style>

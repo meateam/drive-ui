@@ -8,6 +8,7 @@
       :minLength="1"
       :items="results"
       :isLoading="isSearchLoading"
+      :itemsLength="resultsLength"
       @select="onSelect"
       @enter="onEnter"
       @openItemLocation="openItemLocation"
@@ -20,6 +21,7 @@
 <script>
 import Autocomplete from "@/components/layout/toolbar/search/SearchAutoComplete";
 import { advancedSearch } from "@/api/search";
+import { isFolder } from "@/utils/isFolder";
 
 export default {
   name: "SearchInput",
@@ -27,6 +29,7 @@ export default {
   data() {
     return {
       results: [],
+      resultsLength: 0,
       isSearchLoading: false,
     };
   },
@@ -40,19 +43,22 @@ export default {
     getSearchResults(query) {
       if (this.isSearchLoading) return;
       this.isSearchLoading = true;
-
       advancedSearch(query, 0)
         .then((results) => {
-          results.forEach((res) => (res.file.display = `${res.file.name}`));
-          this.results = results.map((result) => result);
+          results.files.forEach((res) => (res.file.display = `${res.file.name}`));
+
+          // Return the folders first
+          results.files.sort((firstItem, secItem) => (isFolder(secItem) && !isFolder(firstItem) ? 1 : -1));
+          this.results = results.files.map((result) => result);
+          this.resultsLength = results.count;
         })
         .finally(() => (this.isSearchLoading = false));
     },
     clearResults() {
       this.results = [];
+      this.resultsLength = 0;
     },
     onEnter(query) {
-      // TODO: change
       this.$router.push({ path: "/search", query: { q: query } });
     },
   },

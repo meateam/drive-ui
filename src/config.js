@@ -49,7 +49,7 @@ const fileTypes = {
   ],
 };
 
-const pageSizeAdvancedSearch = 5;
+const pageSizeAdvancedSearch = 4;
 const pageSizeSmaller = 7;
 const pageSize = 10;
 

@@ -83,7 +83,7 @@ export default {
 }
 #search-input {
   margin: auto 15px;
-  width: 500px;
+  width: 650px;
   padding-top: 20px;
 }
 #info {

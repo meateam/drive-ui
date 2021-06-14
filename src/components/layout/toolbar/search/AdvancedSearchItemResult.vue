@@ -44,7 +44,7 @@ export default {
 
 <style scoped>
 #itemResult {
-  width: 460px;
+  width: 600px;
 }
 #highlightedContent {
   font-size: small;

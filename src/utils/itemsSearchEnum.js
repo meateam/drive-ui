@@ -13,7 +13,8 @@ Object.freeze(ItemsSeacrhTypesEnum);
 
 export function GetTypeField(field) {
   switch (field) {
-    case "owner":
+    case "ownerId":
+    case "sharedWith":
       return ItemsSeacrhTypesEnum.User;
     case "date":
       return ItemsSeacrhTypesEnum.Date;
@@ -24,7 +25,8 @@ export function GetTypeField(field) {
 
 export function GetIconField(field) {
   switch (field) {
-    case "owner":
+    case "ownerId":
+    case "sharedWith":
       return "person";
     case "date":
       return "date_range";
