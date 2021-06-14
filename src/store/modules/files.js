@@ -3,7 +3,7 @@ import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import router from "@/router";
 import i18n from "@/i18n";
 import { sortFiles } from "@/utils/sortFiles";
-import { fileTypes } from "@/config";
+import { fileTypes, pageSize } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
@@ -12,16 +12,18 @@ import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const state = {
   files: [],
+  sharedFiles: [],
   chosenFiles: [],
   currentFolderHierarchy: [],
   pageNum: 1,
   currentFolder: undefined,
   currentFile: undefined,
   serverFilesLength: undefined,
+  isShared: undefined,
 };
 
 const getters = {
-  files: (state) => sortFiles(state.files),
+  files: (state) => (state.isShared ? state.files : sortFiles(state.files)),
   serverFilesLength: (state) => state.serverFilesLength,
   pageNum: (state) => state.pageNum,
   chosenFiles: (state) => state.chosenFiles,
@@ -30,13 +32,15 @@ const getters = {
   currentFile: (state) => state.currentFile,
   folders: (state) => state.files.filter((file) => file.type === fileTypes.folder),
   currentFolderHierarchy: (state) => state.currentFolderHierarchy,
+  isShared: (state) => state.isShared,
 };
 
 const actions = {
-  async fetchFiles({ dispatch }) {
+  async fetchFiles({ commit, dispatch }) {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
 
+      commit("setIsShared", false);
       dispatch("updateFetchedFiles", files);
     } catch (err) {
       dispatch("onError", err);
@@ -60,7 +64,7 @@ const actions = {
         const isOwner = isFileOwner(file.ownerId);
         if (isOwner) {
           formattedFile.owner = "אני";
-        } else if (file.appID === 'drive') {
+        } else if (file.appID === "drive") {
           formattedFile.owner = await getFileOwnerName(file.ownerId);
         } else {
           formattedFile.owner = await getExternalFileOwnerName(file.ownerId, getNetworkItemByAppId(file.appID).value);
@@ -74,13 +78,14 @@ const actions = {
   /**
    * fetchSharedFiles fetch the shared files in the root folder
    */
-  async fetchSharedFiles({ commit, dispatch }, pageNum) {
+  async fetchSharedFiles({ commit, dispatch }, { pageNum, isAppend, pageAmount }) {
     try {
-      const permissions = await filesApi.fetchSharedFiles(pageNum || 0);
+      const permissions = await filesApi.fetchSharedFiles(pageNum || 0, pageAmount || pageSize);
       const files = permissions.files;
 
+      commit("setIsShared", true);
       commit("updatePageNum", pageNum + 1);
-      commit("setFiles", files);
+      isAppend ? commit("setAppendFiles", files) : commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
       for (const file of files) {
@@ -97,6 +102,7 @@ const actions = {
       const permissions = await filesApi.fetchExternalTransferredFiles(pageNum || 0, appId);
       const files = permissions.files;
 
+      commit("setIsShared", false);
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
@@ -116,6 +122,7 @@ const actions = {
     try {
       const files = await lastUpdatedFileHandler.getUpdatedFiles();
 
+      commit("setIsShared", false);
       commit("setFiles", files);
 
       files.forEach(async (file) => {
@@ -335,6 +342,9 @@ const mutations = {
     state.serverFilesLength = undefined;
     state.files = files;
   },
+  setAppendFiles: (state, appendFiles) => {
+    state.files = [...state.files, ...appendFiles];
+  },
   setServerFilesLength: (state, itemCount) => {
     state.serverFilesLength = itemCount;
   },
@@ -343,6 +353,7 @@ const mutations = {
     state.chosenFiles = state.chosenFiles.filter((file) => {
       return file.id !== fileID;
     });
+    if (state.files.length == 0) state.serverFilesLength = 0;
   },
   updateFile: (state, updateFile) => {
     const updatedFiles = state.files.map((file) => {
@@ -392,6 +403,9 @@ const mutations = {
   },
   setHierarchy: (state, hieratchy) => {
     state.currentFolderHierarchy = hieratchy;
+  },
+  setIsShared: (state, isShared) => {
+    state.isShared = isShared;
   },
 };
 
