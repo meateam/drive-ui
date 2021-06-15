@@ -1,12 +1,14 @@
 const state = {
   onGoingRequests: 0,
   isLoading: false,
+  isUploadFolder: false,
   loadingFiles: [],
   pendingGetRequests: [],
 };
 
 const getters = {
   isLoading: (state) => state.isLoading,
+  isUploadFolder: (state) => state.isUploadFolder,
   loadingFiles: (state) => state.loadingFiles,
   pendingGetRequests: (state) => state.pendingGetRequests,
 };
@@ -22,6 +24,9 @@ const actions = {
 }
 
 const mutations = {
+  setUploadFolder: (state, status) => {
+    state.isUploadFolder = status;
+  },
   addLoadingReq: (state) => {
     if (state.loadingFiles.length) return;
 

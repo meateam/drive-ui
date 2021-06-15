@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Feature
+
+- minor: ([56](https://github.com/meateam/drive-ui/pull/56)): add an option to upload a folder.
+
 ### Fixed
 
 - hotfix: ([105](https://github.com/meateam/drive-ui/pull/105)): fix breadcrumbs for file when not reloading the page.
