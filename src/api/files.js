@@ -28,10 +28,22 @@ export async function getFoldersByFolder(parent) {
 }
 
 /**
- * fetchSharedFiles fetch all the shared files in the current folder
+ * fetchSharedFiles fetch all the shared folders in the current parent
+ * @param parent the file id of the parent
  */
-export async function fetchSharedFiles(pageNum) {
-  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive&pageSize=${pageSize}&pageNum=${pageNum}`);
+export async function fetchSharedFolders(parent) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive${parent ? `&parent=${parent}` : ""}`);
+  const permissions = res.data.files.filter((item) => isFolder(item.type));
+  return permissions;
+}
+
+/**
+ * fetchSharedFiles fetch all the shared files in the current folder
+ * @param pageNum - for pagination, the page number
+ * @param pageAmount - for pagination, the page size
+ */
+export async function fetchSharedFiles(pageNum, pageAmount) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive&pageSize=${pageAmount}&pageNum=${pageNum}`);
   const permissions = res.data;
   return permissions;
 }
