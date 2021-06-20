@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { pageSize } from "@/config";
 import PageTemplate from "@/components/BasePageTemplate";
+import { mapGetters } from "vuex";
+import { getPageSize } from "@/utils/getPageSize";
 
 export default {
   name: "Search",
@@ -23,7 +23,7 @@ export default {
     this.$store.dispatch("fetchSearchFiles", {
       query: this.$route.query.q,
       pageNum: 0,
-      pageAmount: this.getPageSize(this.fileView),
+      pageAmount: getPageSize(this.fileView),
     });
   },
   watch: {
@@ -31,7 +31,7 @@ export default {
       this.$store.dispatch("fetchSearchFiles", {
         query: this.$route.query.q,
         pageNum: 0,
-        pageAmount: this.getPageSize(this.fileView),
+        pageAmount: getPageSize(this.fileView),
       });
     },
     fileView: function(newValue, oldValue) {
@@ -42,27 +42,22 @@ export default {
         this.$store.dispatch("fetchSearchFiles", {
           query: this.$route.query.q,
           pageNum: 0,
-          pageAmount: this.getPageSize(newValue),
+          pageAmount: getPageSize(newValue),
         });
       }
     },
   },
   methods: {
-    getPageSize(fileView) {
-      return fileView === 0 || fileView === "0" || fileView === "undefined" || fileView === undefined
-        ? pageSize
-        : pageSize * 2;
-    },
     onPageChange(page) {
       if (
         this.fileView != 1 ||
-        (this.fileView == 1 && this.getPageSize(this.fileView) * (page - 1) < this.serverFilesLength)
+        (this.fileView == 1 && getPageSize(this.fileView) * (page - 1) < this.serverFilesLength)
       ) {
         this.$store.dispatch("fetchSearchFiles", {
           query: this.$route.query.q,
           pageNum: page - 1,
           isAppend: this.fileView == 1 ? true : false,
-          pageAmount: this.getPageSize(this.fileView),
+          pageAmount: getPageSize(this.fileView),
         });
       }
     },
