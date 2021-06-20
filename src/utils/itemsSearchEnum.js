@@ -4,6 +4,8 @@ export const ItemsSearchEnum = {
 };
 Object.freeze(ItemsSearchEnum);
 
+export const exactMatchSearch = "exactMatch";
+
 export const ItemsSeacrhTypesEnum = {
   String: "string",
   Date: "date",

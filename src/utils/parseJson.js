@@ -1,6 +1,6 @@
-export function isJson(str) {
+export function parseJson(str) {
   try {
-    var o = JSON.parse(str);
+    const o = JSON.parse(str);
 
     // Handle non-exception-throwing cases:
     // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,

@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { baseURL, pageSizeAdvancedSearch } from "@/config";
-import { isJson } from "@/utils/isJson";
-
+import { parseJson } from "@/utils/parseJson";
+import { ItemsSeacrhTypesEnum, exactMatchSearch } from "@/utils/itemsSearchEnum";
 // default search - search by fileName
 export async function search(query) {
   const res = await Axios.get(`${baseURL}/api/search?q=${encodeURIComponent(query)}`);
@@ -11,13 +11,13 @@ export async function search(query) {
 // advanced search - search by multiple attributes
 export async function advancedSearch(query, pageNum = 0, pageSize = pageSizeAdvancedSearch) {
   // Check if json. if not, set to default search query (filename)
-  let bodyQuery = isJson(query);
+  let bodyQuery = parseJson(query);
   if (!bodyQuery) {
     bodyQuery = { fileName: query };
   }
 
   // Handle date field
-  if ("date" in bodyQuery) {
+  if (ItemsSeacrhTypesEnum.Date in bodyQuery) {
     let date1 = new Date(bodyQuery.date[0]);
     let date2 = bodyQuery.date.length > 1 ? new Date(bodyQuery.date[1]) : date1;
 
@@ -31,9 +31,9 @@ export async function advancedSearch(query, pageNum = 0, pageSize = pageSizeAdva
   }
 
   let exactMatch = false;
-  if ("exactMatch" in bodyQuery) {
+  if (exactMatchSearch in bodyQuery) {
     exactMatch = bodyQuery.exactMatch;
-    delete bodyQuery["exactMatch"];
+    delete bodyQuery[exactMatchSearch];
   }
 
   if (Object.keys(bodyQuery).length > 0) {

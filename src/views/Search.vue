@@ -54,19 +54,14 @@ export default {
         : pageSize * 2;
     },
     onPageChange(page) {
-      if (this.fileView == 1) {
-        if (this.getPageSize(this.fileView) * (page - 1) < this.serverFilesLength) {
-          this.$store.dispatch("fetchSearchFiles", {
-            query: this.$route.query.q,
-            pageNum: page - 1,
-            isAppend: true,
-            pageAmount: this.getPageSize(this.fileView),
-          });
-        }
-      } else {
+      if (
+        this.fileView != 1 ||
+        (this.fileView == 1 && this.getPageSize(this.fileView) * (page - 1) < this.serverFilesLength)
+      ) {
         this.$store.dispatch("fetchSearchFiles", {
           query: this.$route.query.q,
           pageNum: page - 1,
+          isAppend: this.fileView == 1 ? true : false,
           pageAmount: this.getPageSize(this.fileView),
         });
       }

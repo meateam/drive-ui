@@ -45,11 +45,11 @@ export default {
       this.isSearchLoading = true;
       advancedSearch(query, 0)
         .then((results) => {
-          results.files.forEach((res) => (res.file.display = `${res.file.name}`));
+          results.files.map((res) => (res.file.display = `${res.file.name}`));
 
           // Return the folders first
           results.files.sort((firstItem, secItem) => (isFolder(secItem) && !isFolder(firstItem) ? 1 : -1));
-          this.results = results.files.map((result) => result);
+          this.results = results.files;
           this.resultsLength = results.count;
         })
         .finally(() => (this.isSearchLoading = false));

@@ -9,8 +9,8 @@
 
 <script>
 export default {
-  name: 'AdvancedSearchChips',
-  props: ['searchBy'],
+  name: "AdvancedSearchChips",
+  props: ["searchBy"],
 };
 </script>
 

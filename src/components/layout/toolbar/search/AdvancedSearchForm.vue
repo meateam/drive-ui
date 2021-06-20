@@ -71,8 +71,7 @@ export default {
       this.$refs.dateMenu[0].save(time);
     },
     selectUser: function(user, item) {
-      let tempform = this.form;
-      if (tempform === undefined) tempform = {};
+      const tempform = this.form ? this.form : {};
       tempform[item] = user;
 
       this.$emit("updateForm", tempform);

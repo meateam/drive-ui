@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import debounce from "lodash/debounce";
+import { mapGetters } from "vuex";
 
 export default {
   data: () => ({

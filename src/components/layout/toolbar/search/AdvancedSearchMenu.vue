@@ -46,14 +46,13 @@ export default {
       this.$emit("moreResults");
     },
     getFieldObject(filterKey) {
-      let fieldObject = {};
-
-      fieldObject.value = filterKey;
-      fieldObject.name = this.advancedSearchOptions[filterKey].name;
-      fieldObject.label = this.advancedSearchOptions[filterKey].label;
-      fieldObject.icon = GetIconField(filterKey);
-      fieldObject.type = GetTypeField(filterKey);
-      return fieldObject;
+      return {
+        value: filterKey,
+        name: this.advancedSearchOptions[filterKey].name,
+        label: this.advancedSearchOptions[filterKey].label,
+        icon: GetIconField(filterKey),
+        type: GetTypeField(filterKey),
+      };
     },
     clearForm() {
       this.reset = !this.reset;
@@ -65,7 +64,7 @@ export default {
   },
   computed: {
     searchFiltersOptions: function() {
-      return Object.keys(this.advancedSearchOptions).map((filterKey) => this.getFieldObject(filterKey));
+      return Object.keys(this.advancedSearchOptions).map(this.getFieldObject);
     },
   },
 };

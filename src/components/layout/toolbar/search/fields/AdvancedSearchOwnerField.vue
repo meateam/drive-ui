@@ -67,9 +67,7 @@ export default {
         : AdvancedSearchToEnum(this.advancedSearchSelection);
       usersApi
         .getUsers(content, searchBy)
-        .then((users) => {
-          this.users = users;
-        })
+        .then((users) => (this.users = users))
         .finally(() => (this.isLoading = false));
     },
     onUserSelect(user) {
@@ -92,9 +90,9 @@ export default {
         ? this.$t("header.AdvancedSearchUserPlaceholder", {
             field: this.$t(`header.AdvancedSearchUserChoices.${newval}`),
           })
-        : (this.placeholderSearch = this.$t("header.AdvancedSearchUserPlaceholder", {
+        : this.$t("header.AdvancedSearchUserPlaceholder", {
             field: this.$t(`header.AdvancedSearchUserChoices.${this.advancedSearchOptions[0].value}`),
-          }));
+          });
     },
   },
 };

@@ -58,11 +58,7 @@ export default {
     },
     openItemLocation(result) {
       if (this.$router.history.current.query.id !== result.id) {
-        if (isFolder(result.type)) {
-          this.$router.push({ path: "/folders", query: { id: result.id } });
-        } else {
-          this.$router.push({ path: "/file", query: { id: result.id } });
-        }
+        this.$router.push({ path: isFolder(result.type) ? "/folders" : "/file", query: { id: result.id } });
       }
     },
   },
