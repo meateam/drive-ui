@@ -1,3 +1,4 @@
+import i18n from "@/i18n";
 import { advancedSearch } from "@/api/search";
 import { getNetworkItemByAppId } from "@/utils/networkDest";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
@@ -22,7 +23,7 @@ const actions = {
         } else {
           const formattedFile = file;
           const isOwner = isFileOwner(file.ownerId);
-          formattedFile.owner = isOwner ? "אני" : await getFileOwnerName(file.ownerId);
+          formattedFile.owner = isOwner ? i18n.t("me") : await getFileOwnerName(file.ownerId);
           commit("updateFile", formattedFile);
         }
       });
