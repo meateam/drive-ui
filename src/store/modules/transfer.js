@@ -26,32 +26,30 @@ const actions = {
       };
 
       if (transfers.transfersInfo) {
-        await Promise.all(transfers.transfersInfo.map(async (transferInfo) => {
-          try {
-            const file = await fileApi.getFileByID(transferInfo.fileID);
-            transferInfo.file = file;
-          } catch (error) {
-            transferInfo.file = {};
-            transferInfo.file.name = transferInfo.fileName;
-            transferInfo.file.isDeleted = true;
-          }
+          await Promise.all(
+              transfers.transfersInfo.map(async (transferInfo) => {
+                  const [file, ownerName] = await Promise.all([
+                      fileApi.getFileByID(transferInfo.fileID).catch((_err) => {
+                          transferInfo.file = {};
+                          transferInfo.file.name = transferInfo.fileName;
+                          transferInfo.file.isDeleted = true;
+                      }),
+                      getFileOwnerName(transferInfo.fileOwnerID),
+                  ]);
 
-          transferInfo.file.status = transferInfo.status;
-          transferInfo.file.transferId = transferInfo.id;
-          transferInfo.file.isReadOnly = true;
+                  transferInfo.file = file;
+                  transferInfo.file.owner = ownerName;
 
-          outcomingTransfersFiles.push(transferInfo);
+                  transferInfo.file.status = transferInfo.status;
+                  transferInfo.file.transferId = transferInfo.id;
+                  transferInfo.file.isReadOnly = true;
+
+                  outcomingTransfersFiles.push(transferInfo);
+                  handleTransfers();
+              })
+          );
+      } else {
           handleTransfers();
-        }));
-      } else { 
-        handleTransfers();
-      }
-
-      if (transfers.transfersInfo) {
-        await Promise.all(transfers.transfersInfo.map(async (transferInfo) => {
-          transferInfo.file.owner = await getFileOwnerName(transferInfo.fileOwnerID);
-          commit("updateItem", transferInfo);
-        }));
       }
     } catch (err) {
       dispatch("onError", err);
@@ -69,11 +67,6 @@ const mutations = {
   },
   setTransfersLength: (state, itemCount) => {
     state.transfersLength = itemCount;
-  },
-  updateItem: (state, updateItem) => {
-    const updatedTransfers = state.transfers.concat().map((transfer) => transfer.id === updateItem.id ? updateItem : transfer);
-
-    state.transfers = updatedTransfers;
   },
 };
 
