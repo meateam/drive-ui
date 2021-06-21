@@ -18,14 +18,17 @@ const actions = {
   async fetchTransferredStatus({ commit, dispatch }, { pageNum }) {
     try {
       const transfers = await transferApi.fetchStatusTransferredFiles(pageNum || 0);
-      let outcomingTransfersFiles = [];
+      const transfersLength = transfers.itemCount;
+      const outcomingTransfersFiles = [];
+      const handleTransfers = () => {
+        commit("setTransfers", outcomingTransfersFiles);
+        commit("setTransfersLength", transfersLength);
+      };
 
       if (transfers.transfersInfo) {
-        for (const transferInfo of transfers.transfersInfo) {
-          let file;
-
+        await Promise.all(transfers.transfersInfo.map(async (transferInfo) => {
           try {
-            file = await fileApi.getFileByID(transferInfo.fileID);
+            const file = await fileApi.getFileByID(transferInfo.fileID);
             transferInfo.file = file;
           } catch (error) {
             transferInfo.file = {};
@@ -38,17 +41,17 @@ const actions = {
           transferInfo.file.isReadOnly = true;
 
           outcomingTransfersFiles.push(transferInfo);
-        }
+          handleTransfers();
+        }));
+      } else { 
+        handleTransfers();
       }
 
-      commit("setTransfers", outcomingTransfersFiles);
-      commit("setTransfersLength", transfers.itemCount);
-
       if (transfers.transfersInfo) {
-        for (const transferInfo of transfers.transfersInfo) {
+        await Promise.all(transfers.transfersInfo.map(async (transferInfo) => {
           transferInfo.file.owner = await getFileOwnerName(transferInfo.fileOwnerID);
           commit("updateItem", transferInfo);
-        }
+        }));
       }
     } catch (err) {
       dispatch("onError", err);
@@ -68,11 +71,7 @@ const mutations = {
     state.transfersLength = itemCount;
   },
   updateItem: (state, updateItem) => {
-    const updatedTransfers = state.transfers.map((transfer) => {
-      if (transfer.id === updateItem.id) return updateItem;
-
-      return transfer;
-    });
+    const updatedTransfers = state.transfers.concat().map((transfer) => transfer.id === updateItem.id ? updateItem : transfer);
 
     state.transfers = updatedTransfers;
   },
