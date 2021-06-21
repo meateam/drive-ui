@@ -8,6 +8,11 @@
 </template>
 
 <script>
+
+import { UploadGet } from "@/store/modules/uploadFolder";
+import { mapGetters } from "vuex";
+import { getFilesFromDroppedItems } from "./../../utils/drop";
+
 export default {
   name: "DragNDrop",
   data() {
@@ -16,7 +21,14 @@ export default {
       dragCount: 0,
     };
   },
+  computed: {
+    ...mapGetters({
+      currentFolder: "currentFolder",
+      isUpload: UploadGet.isUpload,
+    }),
+  },
   methods: {
+    getFilesFromDroppedItems,
     isFileDrag(event) {
       if (event.dataTransfer.types) {
         for (let i = 0; i < event.dataTransfer.types.length; i++) {
@@ -59,15 +71,15 @@ export default {
       );
       window.addEventListener(
         "drop",
-        (event) => {
+        async (event) => {
+          this.onDrag = false;
           event.preventDefault();
           event.stopImmediatePropagation();
           if (this.isFileDrag(event)) {
-            this.onDrag = false;
-            const files = Object.values(event.dataTransfer.items).map((file) =>
-              file.getAsFile()
+            this.getFilesFromDroppedItems(
+              event.dataTransfer,
+              this.currentFolder
             );
-            this.$store.dispatch("uploadFiles", files);
           }
         },
         false

@@ -43,6 +43,7 @@
   </v-dialog>
 </template>
 <script>
+import _ from "lodash";
 import KeyValue from "./BaseKeyValue";
 import UserAvatar from "@/components/popups/users-popup/UserAvatar";
 import { getPermissions, getExternalPermissions } from "@/api/share";
@@ -63,23 +64,28 @@ export default {
   },
   methods: {
     async open() {
-      this.users = await getPermissions(this.file.id);
-
-      let externalPermissionsRes = await getExternalPermissions(this.file.id);
-
-      externalPermissionsRes = externalPermissionsRes.slice().sort((a, b) => b.createdAt - a.createdAt);
-      externalPermissionsRes = externalPermissionsRes.filter(
-        (user, index, self) => index === self.findIndex((anotherUser) => anotherUser.id === user.id)
-      );
-
+      let externalPermissionsRes = [];
       this.externalUsers = [];
       this.externalUsersFailed = [];
 
-      externalPermissionsRes.forEach((externalPermission) => {
-        externalPermission.isFailed
-          ? this.externalUsersFailed.push(externalPermission)
-          : this.externalUsers.push(externalPermission);
-      });
+      [this.users, externalPermissionsRes] = await Promise.all([
+        getPermissions(this.file.id),
+        getExternalPermissions(this.file.id),
+      ]);
+
+      if (externalPermissionsRes) {
+        externalPermissionsRes = externalPermissionsRes
+          .slice()
+          .sort((a, b) => b.createdAt - a.createdAt)
+          .filter((user, index, self) => index === self.findIndex((anotherUser) => anotherUser.id === user.id));
+
+        const [externalUsersFailed, externalUsers] = _.partition(externalPermissionsRes, function(externalPermission) {
+          return externalPermission.isFailed;
+        });
+
+        this.externalUsersFailed = externalUsersFailed;
+        this.externalUsers = externalUsers;
+      }
 
       this.dialog = true;
     },
