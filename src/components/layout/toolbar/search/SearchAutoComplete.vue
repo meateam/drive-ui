@@ -66,7 +66,7 @@
 import debounce from "lodash/debounce";
 import AdvancedSearchMenu from "@/components/layout/toolbar/search/AdvancedSearchMenu";
 import AdvancedSearchItemResult from "@/components/layout/toolbar/search/AdvancedSearchItemResult";
-import { isDictEmpty } from "@/utils/dictUtils";
+import { isDictEmpty, removeEmptyValuesFromDict } from "@/utils/dictUtils";
 import { pageSizeAdvancedSearch } from "@/config";
 
 export default {
@@ -125,15 +125,10 @@ export default {
       this.$emit("clear");
     },
     updateForm(newForm) {
-      let tempForm = newForm;
-      Object.keys(newForm).forEach((key) => {
-        if (newForm[key] == null || newForm[key] == "") delete tempForm[key];
-      });
-
-      this.form = tempForm;
+      this.form = removeEmptyValuesFromDict(newForm);
 
       // If the form isn't empty, create search request
-      isDictEmpty(tempForm) ? this.$emit("clear") : this.onSearch(JSON.stringify(tempForm));
+      isDictEmpty(this.form) ? this.$emit("clear") : this.onSearch(JSON.stringify(this.form));
     },
     onSearch: debounce(function(value) {
       if (typeof value === "string" && value.length >= this.minLength) this.$emit("type", value);

@@ -35,12 +35,12 @@ export default {
     onPageChange(page) {
       if (
         this.fileView != 1 ||
-        (this.fileView == 1 && getPageSize(this.fileView) * (page - 1) < this.serverFilesLength)
+        (this.fileView === 1 && getPageSize(this.fileView) * (page - 1) < this.serverFilesLength)
       ) {
         this.$store.dispatch("fetchSearchFiles", {
           query: this.$route.query.q,
           pageNum: page - 1,
-          isAppend: this.fileView == 1 ? true : false,
+          isAppend: this.fileView === 1,
           pageAmount: getPageSize(this.fileView),
         });
       }

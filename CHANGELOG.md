@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+- major: ([103](https://github.com/meateam/drive-ui/pull/103)): add advanced search
+
 ### Feature
 
 - minor: ([56](https://github.com/meateam/drive-ui/pull/56)): add an option to upload a folder.

@@ -86,13 +86,9 @@ export default {
       this.clearItems();
     },
     advancedSearchSelection(newval) {
-      this.placeholderSearch = newval
-        ? this.$t("header.AdvancedSearchUserPlaceholder", {
-            field: this.$t(`header.AdvancedSearchUserChoices.${newval}`),
-          })
-        : this.$t("header.AdvancedSearchUserPlaceholder", {
-            field: this.$t(`header.AdvancedSearchUserChoices.${this.advancedSearchOptions[0].value}`),
-          });
+      this.placeholderSearch = this.$t("header.AdvancedSearchUserPlaceholder", {
+        field: this.$t(`header.AdvancedSearchUserChoices.${newval ? newval : this.advancedSearchOptions[0].value}`),
+      });
     },
   },
 };

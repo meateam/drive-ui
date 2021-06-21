@@ -10,8 +10,8 @@ export function parseJson(str) {
       return o;
     }
   } catch (e) {
-    return false;
+    return null;
   }
 
-  return false;
+  return null;
 }

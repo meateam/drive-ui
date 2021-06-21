@@ -12,14 +12,14 @@ export async function search(query) {
 export async function advancedSearch(query, pageNum = 0, pageSize = pageSizeAdvancedSearch) {
   // Check if json. if not, set to default search query (filename)
   let bodyQuery = parseJson(query);
-  if (!bodyQuery) {
+  if (bodyQuery == null) {
     bodyQuery = { fileName: query };
   }
 
   // Handle date field
   if (ItemsSeacrhTypesEnum.Date in bodyQuery) {
-    let date1 = new Date(bodyQuery.date[0]);
-    let date2 = bodyQuery.date.length > 1 ? new Date(bodyQuery.date[1]) : date1;
+    const date1 = new Date(bodyQuery.date[0]);
+    const date2 = bodyQuery.date.length > 1 ? new Date(bodyQuery.date[1]) : date1;
 
     const dateQuery = {
       start: (date1 <= date2 ? date1 : date2).setHours(0, 0, 0, 0),
