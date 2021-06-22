@@ -25,6 +25,7 @@ const actions = {
         commit("setTransfersLength", transfersLength);
       };
 
+      handleTransfers();
       if (transfers.transfersInfo) {
           await Promise.all(
               transfers.transfersInfo.map(async (transferInfo) => {
@@ -48,8 +49,6 @@ const actions = {
                   handleTransfers();
               })
           );
-      } else {
-          handleTransfers();
       }
     } catch (err) {
       dispatch("onError", err);
