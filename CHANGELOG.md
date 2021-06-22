@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- hotfix: ([107](https://github.com/meateam/drive-ui/pull/107)): fix transfers async handling.
 - hotfix: ([105](https://github.com/meateam/drive-ui/pull/105)): fix breadcrumbs for file when not reloading the page.
 - minor: ([73](https://github.com/meateam/drive-ui/pull/73)): add pagination in shared with me
 
