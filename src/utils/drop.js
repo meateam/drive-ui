@@ -1,5 +1,6 @@
 import store from '@/store'
 import i18n from "@/i18n"
+import mime from 'mime-types'
 import { UploadSet, UploadGet, UploadAction } from "@/store/modules/uploadFolder"
 import { Promise } from 'bluebird'
 
@@ -107,6 +108,13 @@ async function getEntries(entry, parent, isFirstFolder) {
     }
 }
 
-function getFile(fileEntry) {
-    return new Promise((resolve, reject) => fileEntry.file(resolve, reject));
+async function getFile(fileEntry) {
+    const tempFile = await new Promise((resolve, reject) =>
+        fileEntry.file(resolve, reject)
+    );
+    const file = new File([tempFile], tempFile.name, {
+        lastModified: tempFile.lastModified,
+        type: !tempFile.type ? mime.lookup(tempFile.name) : tempFile.type,
+    });
+    return file;
 }
