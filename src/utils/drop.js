@@ -97,6 +97,7 @@ async function getEntries(entry, parent, isFirstFolder) {
     }
 }
 
+// getFile extracts the file from the fileEntry and returns the new File.
 async function getFile(fileEntry) {
     const tempFile = await new Promise((resolve, reject) =>
         fileEntry.file(resolve, reject)
