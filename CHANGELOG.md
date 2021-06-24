@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v3.9.1] - 2021-06-23
+ 
+### Feature
+
+- minor: ([56](https://github.com/meateam/drive-ui/pull/56)): add an option to upload a folder.
+
+### Fixed
+
+- hotfix: ([108](https://github.com/meateam/drive-ui/pull/108)): fix drag and drop files mime types.
+- hotfix: ([105](https://github.com/meateam/drive-ui/pull/105)): fix breadcrumbs for file when not reloading the page.
+- minor: ([73](https://github.com/meateam/drive-ui/pull/73)): add pagination in shared with me
+
 ## [v3.8.3] - 2021-05-30
 
 ### Fixed
@@ -141,6 +153,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
 
 [unreleased]: https://github.com/meateam/api-gateway/compare/master...develop
+[v3.9.1]: https://github.com/meateam/api-gateway/compare/v3.8.3...v3.9.1
 [v3.8.3]: https://github.com/meateam/api-gateway/compare/v3.8.2...v3.8.3
 [v3.8.2]: https://github.com/meateam/api-gateway/compare/v3.7.1...v3.8.2
 [v3.7.1]: https://github.com/meateam/api-gateway/compare/v3.6.0...v3.7.1

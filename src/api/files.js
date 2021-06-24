@@ -28,10 +28,22 @@ export async function getFoldersByFolder(parent) {
 }
 
 /**
- * fetchSharedFiles fetch all the shared files in the current folder
+ * fetchSharedFiles fetch all the shared folders in the current parent
+ * @param parent the file id of the parent
  */
-export async function fetchSharedFiles(pageNum) {
-  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive&pageSize=${pageSize}&pageNum=${pageNum}`);
+export async function fetchSharedFolders(parent) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive${parent ? `&parent=${parent}` : ""}`);
+  const permissions = res.data.files.filter((item) => isFolder(item.type));
+  return permissions;
+}
+
+/**
+ * fetchSharedFiles fetch all the shared files in the current folder
+ * @param pageNum - for pagination, the page number
+ * @param pageAmount - for pagination, the page size
+ */
+export async function fetchSharedFiles(pageNum, pageAmount) {
+  const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive&pageSize=${pageAmount}&pageNum=${pageNum}`);
   const permissions = res.data;
   return permissions;
 }
@@ -65,7 +77,7 @@ export async function isFileExists(fileID) {
  * @param fileID is the id of the file
  */
 export async function getFileByID(fileID) {
-  const res = await Axios.get(`${baseURL}/api/files/${fileID}`);
+  const res = await Axios.get(`${baseURL}/api/files/${fileID}`, {doNotInterfere: true});
   return res.data;
 }
 
@@ -85,7 +97,7 @@ export async function deleteFile(fileID) {
  * multipartUpload create an upload with small size
  * @param file is the file that was chose by the user in the type blob
  */
-export async function multipartUpload({ file, parent }) {
+export async function multipartUpload({ file, parent }, progress) {
   const source = Axios.CancelToken.source();
   const formData = new FormData();
 
@@ -95,13 +107,10 @@ export async function multipartUpload({ file, parent }) {
     formData,
     {
       onUploadProgress: (event) => {
-        store.commit("addLoadingFile", {
-          name: file.name,
-          progress: Math.round((100 * event.loaded) / event.total),
-          source,
-        });
+        progress(file, event, source);
       },
       cancelToken: source.token,
+      doNotInterfere: true,
     }
   );
   const metadata = await getFileByID(res.data);
@@ -112,7 +121,7 @@ export async function multipartUpload({ file, parent }) {
  * resumableUpload is an upload for bigger files
  * @param file is the file to upload
  */
-export async function resumableUpload({ file, parent }) {
+export async function resumableUpload({ file, parent }, progress) {
   const uploadID = await createResumableUpload({ file, parent });
 
   const source = Axios.CancelToken.source();
@@ -124,13 +133,10 @@ export async function resumableUpload({ file, parent }) {
     {
       headers: { "Content-Range": `bytes 0-${file.size - 1}/${file.size}` },
       onUploadProgress: (event) => {
-        store.commit("addLoadingFile", {
-          name: file.name,
-          progress: Math.round((100 * event.loaded) / event.total),
-          source,
-        });
+        progress(file, event, source);
       },
       cancelToken: source.token,
+      doNotInterfere: true,
     }
   );
 
