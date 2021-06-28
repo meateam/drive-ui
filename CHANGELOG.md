@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- hotfix: ([114](https://github.com/meateam/drive-ui/pull/114)): fix drag and drop non responding page.
 - hotfix: ([108](https://github.com/meateam/drive-ui/pull/108)): fix drag and drop files mime types.
 - hotfix: ([105](https://github.com/meateam/drive-ui/pull/105)): fix breadcrumbs for file when not reloading the page.
 - minor: ([73](https://github.com/meateam/drive-ui/pull/73)): add pagination in shared with me
