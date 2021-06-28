@@ -168,14 +168,19 @@ export async function createResumableUpload({ file, parent }) {
  * @param fileIDs is an array of the file ids requested for download
  */
  export async function downloadMultipleFiles(fileIDs) {
-  const response = await Axios.post(`${baseURL}/api/files/zip`, 
-  {
-    files: fileIDs
-  }, 
-  {
-      headers: {Authorization: 'Bearer ' + store.state.jwt},
-      responseType: 'blob'
-  });
+  let response;
+  try {
+    response = await Axios.post(
+      `${baseURL}/api/files/zip`, 
+      { files: fileIDs }, 
+      {
+          headers: {Authorization: 'Bearer ' + store.state.jwt},
+          responseType: 'blob'
+      }
+    );
+  } catch(err) {
+      store.dispatch("onError", err);
+  }
 
   const url = window.URL.createObjectURL(new Blob([response.data]));
   const link = document.createElement('a');
