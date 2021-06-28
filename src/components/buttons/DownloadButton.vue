@@ -20,7 +20,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-// import { isFolder } from "@/utils/isFolder";
+import { isFolder } from "@/utils/isFolder";
 import * as filesApi from "@/api/files";
 
 export default {
@@ -29,7 +29,7 @@ export default {
   methods: {
     onDownload() {
       let fileIDs = this.chosenFiles.map(file => file.id)
-      if (fileIDs.length > 1) {
+      if (fileIDs.length > 1 || isFolder(this.chosenFiles[0].type)) {
         filesApi.downloadMultipleFiles(fileIDs);  
       } else if (fileIDs.length == 1) {
         filesApi.downloadFile(fileIDs[0]);
