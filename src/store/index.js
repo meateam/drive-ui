@@ -10,10 +10,11 @@ import error from "./modules/error";
 import search from "./modules/search";
 import success from "./modules/success";
 import directonary from "./modules/dictionary";
+import uploadFolder from "./modules/uploadFolder";
 import transfer from "./modules/transfer";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: { files, configuration, auth, quota, loading, preferences, error, success, search, directonary, transfer },
+  modules: { files, configuration, auth, quota, loading, preferences, error, success, search, directonary, uploadFolder, transfer },
 });

@@ -19,6 +19,7 @@
 
     <DragNDrop v-if="upload" />
     <FabButton v-if="upload" />
+
   </div>
 </template>
 
@@ -32,7 +33,14 @@ import DragNDrop from "@/components/shared/DragNDrop";
 export default {
   name: "PageTemplate",
   components: { FileView, FileViewButton, FabButton, DragNDrop, Breadcrumbs },
-  props: ["files", "header", "upload", "breadcrumbs", "serverFilesLength", "sortable"],
+  props: [
+    "files",
+    "header",
+    "upload",
+    "breadcrumbs",
+    "serverFilesLength",
+    "sortable",
+  ],
 };
 </script>
 
