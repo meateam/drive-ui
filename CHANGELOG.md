@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Feature
+
+- minor: ([116](https://github.com/meateam/drive-ui/pull/116)): added the ability to download multiple files and folders.
+
 ## [v3.9.1] - 2021-06-23
- 
+
 ### Feature
 
 - minor: ([56](https://github.com/meateam/drive-ui/pull/56)): add an option to upload a folder.
