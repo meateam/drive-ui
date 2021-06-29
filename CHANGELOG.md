@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Feature
+
+- minor: ([116](https://github.com/meateam/drive-ui/pull/116)): added the ability to download multiple files and folders.
+
 - minor: ([125](https://github.com/meateam/drive-ui/pull/125)): added fav-service.
 
 ## [v3.10.3] - 2021-10-13
