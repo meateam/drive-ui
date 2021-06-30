@@ -125,15 +125,17 @@
     "New": "new folder...",
     "Move": "move file to..."
   },
+  "rename": {
+    "New": "new name...",
+    "SpecialChars": "Special characters are not allowed"
+  },
   "renameFile": {
     "Upload": "rename file",
-    "Name": "file name",
-    "New": "new name..."
+    "Name": "file name"
   },
   "renameFolder": {
     "Upload": "rename folder",
-    "Name": "folder name",
-    "New": "new name..."
+    "Name": "folder name"
   },
   "fileInfo": {
     "Info": "File Info",
