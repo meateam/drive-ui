@@ -133,7 +133,7 @@ export default {
     onSearch: debounce(function(value) {
       if (typeof value === "string" && value.length >= this.minLength) this.$emit("type", value);
       else if (!value || value.length === 0) this.$emit("clear");
-    }, 20),
+    }, 500),
   },
   watch: {
     form: {
