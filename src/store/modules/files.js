@@ -65,14 +65,15 @@ const actions = {
       files.forEach(async (file) => {
         const formattedFile = file;
         const isOwner = isFileOwner(file.ownerId);
-        formattedFile.owner = isOwner ? i18n.t("me") : await getFileOwnerName(file.ownerId);
+        let ownerName;
         if (isOwner) {
-          formattedFile.owner = "אני";
+          ownerName = i18n.t("me");
         } else if (file.appID === "drive") {
-          formattedFile.owner = await getFileOwnerName(file.ownerId);
+          ownerName = await getFileOwnerName(file.ownerId);
         } else {
-          formattedFile.owner = await getExternalFileOwnerName(file.ownerId, getNetworkItemByAppId(file.appID).value);
+          ownerName = await getExternalFileOwnerName(file.ownerId, getNetworkItemByAppId(file.appID).value);
         }
+        formattedFile.owner = ownerName;
         commit("updateFile", formattedFile);
       });
     } catch (err) {
@@ -92,11 +93,13 @@ const actions = {
       isAppend ? commit("setAppendFiles", files) : commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
-      for (const file of files) {
-        const formattedFile = file;
-        formattedFile.owner = await getFileOwnerName(file.ownerId);
-        commit("updateFile", formattedFile);
-      }
+      await Promise.all(
+          files.map(async (file) => {
+              const formattedFile = file;
+              formattedFile.owner = await getFileOwnerName(file.ownerId);
+              commit("updateFile", formattedFile);
+          })
+      );
     } catch (err) {
       dispatch("onError", err);
     }
@@ -110,11 +113,16 @@ const actions = {
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
-      for (const file of files) {
-        const formattedFile = file;
-        formattedFile.owner = await getExternalFileOwnerName(file.ownerId, dest);
-        commit("updateFile", formattedFile);
-      }
+      await Promise.all(
+          files.map(async (file) => {
+              const formattedFile = file;
+              formattedFile.owner = await getExternalFileOwnerName(
+                  file.ownerId,
+                  dest
+              );
+              commit("updateFile", formattedFile);
+          })
+      );
     } catch (err) {
       dispatch("onError", err);
     }
