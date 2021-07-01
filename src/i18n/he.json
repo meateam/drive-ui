@@ -2,6 +2,7 @@
   "comingSoon": "Coming Soon",
   "NoData": "אין מידע זמין",
   "Error": "שגיאה",
+  "Warning": "אזהרה",
   "me": "אני",
   "sidenav": {
     "MyDrive": "הדרייב שלי",
@@ -305,6 +306,9 @@
     "Unavailable": "המערכת אינה זמינה",
     "BackSoon": "נשוב בקרוב",
     "ForHelp": "לתמיכה אנה פנו לצ'אט \"תמיכה drive\" במערכת היי צ'אט"
+  },
+  "warnings": {
+    "SpecialChars": "ישנם תווים לא חוקיים בשם הקובץ או התיקייה"
   },
   "questions": {
     "Header": "שאלות ותשובות נפוצות",

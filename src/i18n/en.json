@@ -2,6 +2,7 @@
   "comingSoon": "Coming Soon",
   "NoData": "No availble data",
   "Error": "error",
+  "Warning": "warning",
   "me": "אני",
   "sidenav": {
     "MyDrive": "my drive",
@@ -271,6 +272,9 @@
     "Unavailable": "Unavailable System",
     "BackSoon": "we will be back soon",
     "ForHelp": "for support, massage us in the hi chat group - drive support"
+  },
+  "warnings": {
+    "SpecialChars": "invalid characters in the file or folder name"
   },
   "questions": {
     "Header": "Q&A",
