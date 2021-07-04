@@ -7,11 +7,11 @@ import { fileTypes, pageSize } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
+import { isFolder } from "@/utils/isFolder";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const MB = 1024 * 1024;
 const MB5 = MB * 5;
-import { isFolder } from "@/utils/isFolder";
-import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const state = {
   files: [],
@@ -101,9 +101,9 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async fetchExternalTransferdFiles({ commit, dispatch }, { pageNum, appId, dest }) {
+  async fetchExternalTransferredFiles({ commit, dispatch }, { pageNum, appId, dest }) {
     try {
-      const permissions = await filesApi.fetchExternalTransferdFiles(pageNum || 0, appId);
+      const permissions = await filesApi.fetchExternalTransferredFiles(pageNum || 0, appId);
       const files = permissions.files.successful;
 
       commit("setIsShared", false);
