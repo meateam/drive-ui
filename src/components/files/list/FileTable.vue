@@ -26,11 +26,15 @@
             <FileTypeIcon :file="item" :size="30" />
           </td>
 
-          <td class="file-name">{{ item.name }}</td>
+          <td class="file-name">
+            <v-icon small>star</v-icon>
+            {{ item.name }}
+          </td>          
 
           <td>{{ item.owner || '???' }}</td>
           <td class="ltr-td">{{ formatFileDate(item.updatedAt) }}</td>
           <td class="ltr-td">{{ formatFileSize(item.size) }}</td>
+
         </tr>
       </template>
       <template v-slot:[`header.data-table-select`]="{ props, on }">
