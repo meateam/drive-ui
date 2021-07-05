@@ -14,14 +14,17 @@
           ref="input"
           @keyup.enter.native="onConfirm"
           @input="onNameChange"
-          :placeholder="$t(`${type}.New`)"
+          :placeholder="$t(`rename.New`)"
           :val="value"
         />
+        <p v-if="isSpecialChars()" id="specialCharsMsg">
+          {{ $t(`rename.SpecialChars`) }}
+        </p>
         <v-card-actions class="popup-confirm">
           <SubmitButton
             @click="onConfirm"
             :label="$t('buttons.Confirm')"
-            :disabled="name.length < 2"
+            :disabled="isInvalidName()"
           />
         </v-card-actions>
       </div>
@@ -32,6 +35,7 @@
 <script>
 import TextField from "@/components/inputs/BaseTextField";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
+import { isValidString } from "@/utils/validateInput";
 
 export default {
   name: "NamePopup",
@@ -44,6 +48,12 @@ export default {
   },
   props: ["img", "type", "value"],
   methods: {
+    isSpecialChars() {
+      return !isValidString(this.name) && this.name !== "";
+    },
+    isInvalidName() {
+      return this.name.length < 2 || !isValidString(this.name);
+    },
     open() {
       this.dialog = true;
     },
@@ -63,4 +73,9 @@ export default {
 </script>
 
 <style scoped>
+#specialCharsMsg {
+  position: absolute;
+  color: red;
+  margin-top: -10px;
+}
 </style>

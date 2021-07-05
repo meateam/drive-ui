@@ -7,11 +7,11 @@ import { fileTypes, pageSize } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
 import { isFileNameExists } from "@/utils/isFileNameExists";
+import { isFolder } from "@/utils/isFolder";
+import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const MB = 1024 * 1024;
 const MB5 = MB * 5;
-import { isFolder } from "@/utils/isFolder";
-import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 const state = {
   files: [],
@@ -86,7 +86,7 @@ const actions = {
   async fetchSharedFiles({ commit, dispatch }, { pageNum, isAppend, pageAmount }) {
     try {
       const permissions = await filesApi.fetchSharedFiles(pageNum || 0, pageAmount || pageSize);
-      const files = permissions.files;
+      const files = permissions.files.successful;
 
       commit("setIsShared", true);
       commit("updatePageNum", pageNum + 1);
@@ -107,7 +107,7 @@ const actions = {
   async fetchExternalTransferredFiles({ commit, dispatch }, { pageNum, appId, dest }) {
     try {
       const permissions = await filesApi.fetchExternalTransferredFiles(pageNum || 0, appId);
-      const files = permissions.files;
+      const files = permissions.files.successful;
 
       commit("setIsShared", false);
       commit("setFiles", files);
@@ -201,7 +201,9 @@ const actions = {
         files: state.files,
         loadingFiles: rootState.loading.loadingFiles,
       })
-    ) { throw new Error(i18n.t("errors.fileExistInFolder")); }
+    ) {
+      throw new Error(i18n.t("errors.fileExistInFolder"));
+    }
 
     let metadata = undefined;
     const loadingFileCallBack = (file, event, source) => {
@@ -210,18 +212,24 @@ const actions = {
         progress: Math.round((100 * event.loaded) / event.total),
         source,
       });
-    }
+    };
 
     if (file.size <= MB5) {
-      metadata = await filesApi.multipartUpload({
-        file: file,
-        parent: state.currentFolder,
-      }, loadingFileCallBack);
+      metadata = await filesApi.multipartUpload(
+        {
+          file: file,
+          parent: state.currentFolder,
+        },
+        loadingFileCallBack
+      );
     } else {
-      metadata = await filesApi.resumableUpload({
-        file: file,
-        parent: state.currentFolder,
-      }, loadingFileCallBack);
+      metadata = await filesApi.resumableUpload(
+        {
+          file: file,
+          parent: state.currentFolder,
+        },
+        loadingFileCallBack
+      );
     }
 
     metadata.owner = i18n.t("me");
@@ -241,13 +249,14 @@ const actions = {
     return Promise.all(
       Object.values(files).map((file) => {
         return dispatch("uploadFile", file);
-      }))
+      })
+    )
       .then(() => commit("onSuccess", files.length === 1 ? "success.File" : "success.Files"))
       .catch((err) => {
         dispatch("onError", err);
       });
   },
-  
+
   async cancelUpload({ commit, dispatch }, file) {
     try {
       await filesApi.cancelUpload(file.source);
@@ -270,7 +279,9 @@ const actions = {
           files: state.files,
           loadingFiles: rootState.loading.loadingFiles,
         })
-      ) {throw new Error(i18n.t("errors.folderExistInFolder"));}
+      ) {
+        throw new Error(i18n.t("errors.folderExistInFolder"));
+      }
 
       const folder = await filesApi.uploadFolder({
         name,
@@ -341,8 +352,8 @@ const actions = {
 
       const failedFiles = data
         ? data.map((error) => {
-          if (error.error) return error.id;
-        })
+            if (error.error) return error.id;
+          })
         : [];
 
       const movedFiles = fileIDs.filter((fileID) => !failedFiles.includes(fileID));
@@ -396,7 +407,7 @@ const mutations = {
     state.pageNum = pageNum;
   },
   addFile: (state, file) => {
-    const currentFolder = state.currentFolder ? state.currentFolder.id : undefined
+    const currentFolder = state.currentFolder ? state.currentFolder.id : undefined;
     if ((!(currentFolder === file.parent) && isOwner(file.ownerId)) || state.files.includes(file)) return;
     state.files.push(file);
   },

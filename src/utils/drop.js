@@ -2,6 +2,7 @@ import store from '@/store'
 import i18n from "@/i18n"
 import { UploadSet, UploadGet, UploadAction } from "@/store/modules/uploadFolder"
 import { Promise } from 'bluebird'
+import { getMimeType } from './fileMimeType'
 
 // this call from the drop event
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
@@ -29,12 +30,10 @@ export async function getFilesFromInput(files, parent) {
     store.commit(UploadSet.isUpload, false)
 }
 
-
 // Receives a file from the array of files received by the user.
 // The action checks if it is a file it uploads it,
 // if it is a folder then it creates a folder in its name and sends it again to the same method and repeats all
 async function getEntries(entry, parent, isFirstFolder) {
-
     if (entry instanceof File) {
         return await store.dispatch(UploadAction.uploadFileToFolder, {
             folder: parent,
@@ -52,7 +51,7 @@ async function getEntries(entry, parent, isFirstFolder) {
     }
     // return if item is from a browser that does not support webkitGetAsEntry
     if (entry.getAsFile) {
-        return new Promise((resolve) => resolve());
+        return Promise.resolve();
     }
 
     if (entry.isFile) {
@@ -68,11 +67,9 @@ async function getEntries(entry, parent, isFirstFolder) {
             isFirstFolder ? UploadAction.createFolder : UploadAction.createFolderInFolder,
             isFirstFolder ? entry.name : { parent: parent, name: entry.name }
         )
-        if (isFirstFolder) {
-            isFirstFolder = false;
-        }
+        isFirstFolder = false;
         const entryReader = entry.createReader();
-        let entries = [];
+        const entries = [];
 
         const readEntries = async () => {
             const results = await new Promise((resolve) => {
@@ -82,23 +79,16 @@ async function getEntries(entry, parent, isFirstFolder) {
             })
 
             if (results.length) {
-                entries = entries.concat(Array.prototype.slice.call(results || [], 0));
+                entries.push(...Array.prototype.slice.call(results || [], 0));
                 await readEntries();
             } else {
-                let first = true;
                 const NUM_OF_MAX_PROMISES = 3;
                 await Promise.map(
                     entries,
-                    (entry) => {
-                        if (!entry && first) {
-                            return new Promise((resolve) => resolve());
-                        }
-                        first = false;
-                        if (!entry) {
-                            return new Promise((resolve) => resolve());
-                        }
-                        return getEntries(entry, res, isFirstFolder);
-                    },
+                    (entry) =>
+                        !entry
+                            ? Promise.resolve()
+                            : getEntries(entry, res, isFirstFolder),
                     { concurrency: NUM_OF_MAX_PROMISES }
                 );
             }
@@ -107,6 +97,14 @@ async function getEntries(entry, parent, isFirstFolder) {
     }
 }
 
-function getFile(fileEntry) {
-    return new Promise((resolve, reject) => fileEntry.file(resolve, reject));
+// getFile extracts the file from the fileEntry and returns the new File.
+async function getFile(fileEntry) {
+    const tempFile = await new Promise((resolve, reject) =>
+        fileEntry.file(resolve, reject)
+    );
+    const file = new File([tempFile], tempFile.name, {
+        lastModified: tempFile.lastModified,
+        type: !tempFile.type ? getMimeType(tempFile.name) : tempFile.type,
+    });
+    return file;
 }
