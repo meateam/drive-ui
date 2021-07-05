@@ -2,7 +2,7 @@
   <v-tooltip top :disabled="!icon" v-if="canShare()">
     <template v-slot:activator="{ on }">
       <v-btn
-        @click="$refs.share.open()"
+        @click="mayaqueen()"
         v-on="on"
         :icon="icon"
         class="auto-margin"
@@ -10,24 +10,19 @@
         text
         :class="{ right: !icon }"
       >
-        <img class="fab-icon" src="@/assets/icons/share.svg" />
-        <p class="button-text" v-if="!icon">{{ $t("buttons.Share") }}</p>
+        <img class="fab-icon" src="@/assets/icons/favorites.svg" />
+        <p class="button-text" v-if="!icon">{{ $t("buttons.Favorite") }}</p>
       </v-btn>
     </template>
-    <span>{{ $t("buttons.Share") }}</span>
-    <SharePopup @onShare="onShare" ref="share" :files="chosenFiles" />
+    <span>{{ $t("buttons.Favorite") }}</span>
   </v-tooltip>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 import { writeRole } from "@/utils/roles";
-import * as shareApi from "@/api/share";
-import SharePopup from "@/components/popups/share-popup/SharePopup";
 
 export default {
-  name: "Share",
-  components: { SharePopup },
+  name: "Favorite",
   computed: {
     ...mapGetters(["currentFolder", "chosenFiles"]),
   },
@@ -44,10 +39,10 @@ export default {
     isFileReadOnly() {
       return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
     },
-    async onShare(shareObject) {
-      this.$emit("close");
-      await shareApi.shareUsers(shareObject);
-    },
+    mayaqueen() {
+      console.log("maya queen")
+
+    }
   },
 };
 </script>

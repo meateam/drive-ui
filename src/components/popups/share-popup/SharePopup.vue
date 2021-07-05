@@ -57,6 +57,7 @@ export default {
   props: ["files"],
   methods: {
     async open() {
+      console.log("in open function")
       this.dialog = true;
 
       if (this.files.length === 1) {
