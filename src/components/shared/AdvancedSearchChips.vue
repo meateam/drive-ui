@@ -1,6 +1,6 @@
 <template>
   <v-chip outlined color="035c64" id="chip">
-    <p>{{searchBy}}</p>
+    <p>{{ searchBy }}</p>
     <v-btn icon color="#035c64" @click="$emit('remove', searchBy)">
       <v-icon id="close-icon">close</v-icon>
     </v-btn>

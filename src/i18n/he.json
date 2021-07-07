@@ -24,7 +24,25 @@
   },
   "header": {
     "connect": "צור קשר",
-    "notification": "עדכונים"
+    "notification": "עדכונים",
+    "AdvancedSearch": "חיפוש מתקדם",
+    "AdvancedSearchUserPlaceholder": "יש לחפש {field}",
+    "AdvancedSearchUserChoices": {
+      "SearchByName": "לפי שם",
+      "SearchByT": "לפי מס' T",
+      "SearchByMail": "לפי אימייל"
+    },
+    "AdvancedSearchExactMatch": "חפש התאמה מדויקת",
+    "AdvancedSearchChoices": {
+      "filename": { "name": "שם פריט", "label": "יש להזין שם פריט או חלק משם פריט" },
+      "content": { "name": "תוכן", "label": "אפשר להזין מילים מתוך הקובץ" },
+      "date": { "name": "תאריך", "label": "" },
+      "sharedWith": { "name": "משותף עם", "label": "יש להזין כתובת מייל, שם או מזהה" },
+      "ownerId": { "name": "בעלים", "label": "יש להזין כתובת מייל, שם או מזהה" }
+    },
+    "AdvancedSearchClear": "נקה",
+    "AdvancedSearchFileLocation": "פתח מיקום קובץ",
+    "AdvancedSearchShowMore": "לכל התוצאות..."
   },
   "autocomplete": {
     "NoResult": "לא נמצאו תוצאות",

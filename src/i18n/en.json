@@ -24,7 +24,25 @@
   },
   "header": {
     "connect": "contact us",
-    "notification": "notification"
+    "notification": "notification",
+    "AdvancedSearch": "advanced search",
+    "AdvancedSearchUserPlaceholder": "search {field}",
+    "AdvancedSearchUserChoices": {
+      "SearchByName": "by name",
+      "SearchByT": "by T",
+      "SearchByMail": "by mail"
+    },
+    "AdvancedSearchExactMatch": "search by exact match",
+    "AdvancedSearchChoices": {
+      "filename": { "name": "Item Name", "label": "enter a term that match a part of the file name" },
+      "content": { "name": "Content", "label": "enter a term that match a part of the file" },
+      "date": { "name": "Date", "label": "" },
+      "ownerId": { "name": "Owner", "label": "enter a mail, name or identifier of the person" },
+      "sharedWith": { "name": "Shared With", "label": "enter a mail, name or identifier of the person" }
+    },
+    "AdvancedSearchClear": "Clear",
+    "AdvancedSearchFileLocation": "open file location",
+    "AdvancedSearchShowMore": "Show more..."
   },
   "autocomplete": {
     "NoResult": "no results...",

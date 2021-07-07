@@ -1,17 +1,7 @@
 <template>
   <v-app-bar app id="header" color="white" height="86px">
     <div id="search-input">
-      <Autocomplete
-        background="#f0f4f7"
-        :placeholder="$t('autocomplete.Drive')"
-        icon="search"
-        :minLength="0"
-        :items="results"
-        :isLoading="isSearchLoading"
-        @select="onSelect"
-        @enter="onEnter"
-        @type="getSearchResults"
-      />
+      <SearchInput @onSelectItem="onSelect" @openItemLocation="openItemLocation" />
     </div>
     <v-spacer></v-spacer>
     <div id="left">
@@ -37,24 +27,17 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { search } from "@/api/search";
-import { isFolder } from "@/utils/isFolder";
+import SearchInput from "@/components/layout/toolbar/search/SearchInput";
 import Progress from "@/components/shared/BaseProgress";
 import ChatButton from "@/components/buttons/ChatButton";
 import LoadingFiles from "@/components/shared/BaseLoadingFiles";
-import Autocomplete from "@/components/inputs/BaseAutocomplete";
 import Preview from "@/components/popups/Preview";
+import { mapGetters } from "vuex";
+import { isFolder } from "@/utils/isFolder";
 
 export default {
   name: "AppBar",
-  components: { ChatButton, Autocomplete, LoadingFiles, Preview, Progress },
-  data() {
-    return {
-      results: [],
-      isSearchLoading: false,
-    };
-  },
+  components: { ChatButton, LoadingFiles, Preview, Progress, SearchInput },
   methods: {
     getUserName() {
       if (this.user) {
@@ -64,24 +47,18 @@ export default {
       }
       return "";
     },
-    getSearchResults(query) {
-      if (this.isSearchLoading) return;
-      this.isSearchLoading = true;
-      search(query)
-        .then((results) => {
-          results.forEach((res) => (res.display = `${res.name}`));
-          this.results = results;
-        })
-        .finally(() => (this.isSearchLoading = false));
-    },
-    onEnter(query) {
-      this.$router.push({ path: "/search", query: { q: query } });
-    },
     onSelect(result) {
-      if (isFolder(result.type)) {
-        this.$router.push({ path: "/folders", query: { id: result.id } });
-      } else {
-        this.$refs.preview.open(result);
+      if (this.$router.history.current.query.id !== result.id) {
+        if (isFolder(result.type)) {
+          this.$router.push({ path: "/folders", query: { id: result.id } });
+        } else {
+          this.$refs.preview.open(result);
+        }
+      }
+    },
+    openItemLocation(result) {
+      if (this.$router.history.current.query.id !== result.id) {
+        this.$router.push({ path: isFolder(result.type) ? "/folders" : "/file", query: { id: result.id } });
       }
     },
   },
@@ -102,7 +79,7 @@ export default {
 }
 #search-input {
   margin: auto 15px;
-  width: 470px;
+  width: 650px;
   padding-top: 20px;
 }
 #info {
@@ -124,6 +101,7 @@ export default {
   -webkit-animation: rotate-scale-up 0.65s linear both;
   animation: rotate-scale-up 0.65s linear both;
 }
+
 @-webkit-keyframes rotate-scale-up {
   0% {
     -webkit-transform: scale(1) rotateZ(0);
