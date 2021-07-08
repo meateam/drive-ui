@@ -18,7 +18,10 @@ export async function getFilesFromDroppedItems(dataTransfer, parent) {
     }
     const files = [...dataTransfer.items];
     store.commit(UploadSet.isUpload, true);
-    const uploader = new Upload();
+    const uploader = new UploadEntries(
+        store.getters.maxUploadedFiles,
+        store.getters.maxUploadedFolders
+    );
     await Promise.all(
         files
             .filter((file) => file.kind === "file")
@@ -39,7 +42,10 @@ export async function getFilesFromInput(files, parent) {
     }
     const items = [...files];
     store.commit(UploadSet.isUpload, true);
-    const uploader = new Upload();
+    const uploader = new UploadEntries(
+        store.getters.maxUploadedFiles,
+        store.getters.maxUploadedFolders
+    );
     await Promise.all(
         items.map((file) => uploader.uploadEntries(file, parent))
     );
@@ -48,8 +54,12 @@ export async function getFilesFromInput(files, parent) {
     store.commit(UploadSet.isUpload, false);
 }
 
-class Upload {
-    constructor(maxNumOfFiles = 100, maxNumOfFolders = Infinity) {
+/**
+ * A class that handles the upload of entries for both files and folders.
+ * The only public method in this class is uploadEntries.
+ */
+class UploadEntries {
+    constructor(maxNumOfFiles = Infinity, maxNumOfFolders = Infinity) {
         this.filesCounter = 0;
         this.foldersCounter = 0;
         this.maxNumOfFiles = maxNumOfFiles;
