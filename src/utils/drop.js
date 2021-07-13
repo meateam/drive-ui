@@ -66,6 +66,12 @@ class UploadEntries {
         this.maxNumOfFolders = maxNumOfFolders;
     }
 
+    /**
+     * A function that handles the uploads entries (of file or folder) functionality and handles errors.
+     * @param {DataTransferItem} file the file (or folder) item which will be uploaded.
+     * @param {Object} parent the parent folder that the file will be uploaded to.
+     * @returns an array of the uploaded files.
+     */
     async uploadEntries(file, parent) {
         try {
             return await this.getEntries(file, parent, true);
@@ -76,31 +82,54 @@ class UploadEntries {
         }
     }
 
+    /**
+     * Resets the class's counters.
+     */
     resetCounters() {
         this.filesCounter = 0;
         this.foldersCounter = 0;
     }
 
+    /**
+     * Increment the files counter.
+     */
     countFile() {
         this.filesCounter++;
     }
 
+    /**
+     * Reduce the files counter.
+     */
     removeFile() {
         this.filesCounter--;
     }
 
+    /**
+     * Checks if the if the files counter has reached the maximum number of files.
+     * @returns true if the files counter has reached the maximum and false otherwise.
+     */
     isMaxedFiles() {
         return this.filesCounter >= this.maxNumOfFiles;
     }
 
+    /**
+     * Increment the folders counter.
+     */
     countFolder() {
         this.foldersCounter++;
     }
 
+    /**
+     * Reduce the folder counter.
+     */
     removeFolder() {
         this.foldersCounter--;
     }
 
+    /**
+     * Checks if the if the folders counter has reached the maximum number of folders.
+     * @returns true if the folders counter has reached the maximum and false otherwise.
+     */
     isMaxedFolders() {
         return this.foldersCounter >= this.maxNumOfFolders;
     }
@@ -163,16 +192,20 @@ class UploadEntries {
     }
 
     async handleFolderEntry(entry, parent, isFirstFolder) {
-        const res = await store.dispatch(
-            isFirstFolder
-                ? UploadAction.createFolder
-                : UploadAction.createFolderInFolder,
-            isFirstFolder ? entry.name : { parent: parent, name: entry.name }
-        );
+        const [res, entries] = await Promise.all([
+            store.dispatch(
+                isFirstFolder
+                    ? UploadAction.createFolder
+                    : UploadAction.createFolderInFolder,
+                isFirstFolder
+                    ? entry.name
+                    : { parent: parent, name: entry.name }
+            ),
+            this.readAllEntries(entry),
+        ]);
         isFirstFolder = false;
 
-        const entries = await this.readAllEntries(entry);
-
+        // Handles a folder's content upload asynchronous with 3 promises limitation at once.
         const NUM_OF_MAX_PROMISES = 3;
         return await Promise.map(
             entries,
@@ -184,16 +217,20 @@ class UploadEntries {
         );
     }
 
+    /**
+     * Read all the files and folders from a given folder entry.
+     * @param {DirectoryEntry} entry a folder that is represented as a folder in the file system.
+     * @returns all the entries in the current folder (files and folders).
+     */
     async readAllEntries(entry) {
         const entryReader = entry.createReader();
         const entries = [];
         let entriesResult;
 
-        async function promisifiedReadEntries(entryReader) {
-            return await new Promise((resolve) =>
+        const promisifiedReadEntries = async (entryReader) =>
+            await new Promise((resolve) =>
                 entryReader.readEntries((res) => resolve(res))
             );
-        }
 
         do {
             entriesResult = await promisifiedReadEntries(entryReader);
@@ -223,7 +260,11 @@ class UploadEntries {
         });
     }
 
-    // getFile extracts the file from the fileEntry and returns the new File.
+    /**
+     * Extracts the file from the fileEntry.
+     * @param {FileEntry} fileEntry a file that is represented as a file in the file system.
+     * @returns a file of type File.
+     */
     async getFile(fileEntry) {
         const tempFile = await new Promise((resolve, reject) =>
             fileEntry.file(resolve, reject)
