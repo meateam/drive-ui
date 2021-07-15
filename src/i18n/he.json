@@ -14,7 +14,7 @@
     "Deleted": "קבצים שנמחקו",
     "LastUpdated": "שונו לאחרונה",
     "Folders": "תיקיות",
-    "Favorites": "הוספה למועדפים",
+    "Favorites": "המועדפים",
     "Quota": {
       "Quota": "אחסון",
       "Usage": "{used} / {limit}"
@@ -38,7 +38,8 @@
     "ExternalTransferred": "קבצים שהתקבלו מ{networkName}",
     "StatusTransferred": "סטטוס קבצים שנשלחו",
     "MyDrive": "הדרייב שלי",
-    "Search": "תוצאות החיפוש"
+    "Search": "תוצאות החיפוש",
+    "Favorites": "המועדפים"
   },
   "file": {
     "Name": "שם",
@@ -96,7 +97,8 @@
     "MoreInfo": "לפרטים נוספים לחץ כאן",
     "BackToShare": "חזרה לבחירת המאשרים",
     "AboutMe": "לפרטים שלי",
-    "Favorite": "הוספה למועדפים"
+    "Favorite": "הוספה למועדפים",
+    "RemoveFavorite": "הסרה מהמועדפים"
   },
   "success": {
     "File": "הקובץ עלה בהצלחה!",

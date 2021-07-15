@@ -22,12 +22,13 @@
           <td>
             <v-simple-checkbox color="#035c64" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </td>
+          
           <td id="file-icon">
             <FileTypeIcon :file="item" :size="30" />
           </td>
 
           <td class="file-name">
-            <v-icon small>star</v-icon>
+            <v-icon v-if="item.isFavorite" left small>star</v-icon>
             {{ item.name }}
           </td>          
 

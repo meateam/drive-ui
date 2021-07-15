@@ -42,7 +42,6 @@ const actions = {
       dispatch("onError", err);
     }
   },
-
   async fetchFile({ dispatch }) {
     try {
       const files = [await filesApi.getFileByID(state.currentFile.id)];
