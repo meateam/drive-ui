@@ -134,15 +134,14 @@ export default {
         },
         title: "sidenav.LastUpdated",
       },
-
-      // {
-      //   path: '/favorites',
-      //   icons: {
-      //     white: 'favorites',
-      //     green: 'green-favorites',
-      //   },
-      //   title: 'sidenav.Favorites',
-      // },
+      {
+        path: '/favorites',
+        icons: {
+          white: 'last-update',
+          green: 'green-last-update',
+        },
+        title: 'sidenav.Favorites',
+      },
       //  {
       //   path: '/deleted-files',
       //   icons: {

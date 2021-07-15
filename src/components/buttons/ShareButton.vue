@@ -34,7 +34,6 @@ export default {
   props: ["icon"],
   methods: {
     canShare() {
-      console.log("in can share method")
       return (
         (!this.currentFolder || writeRole(this.currentFolder.role)) &&
         this.chosenFiles.every((file) => writeRole(file.role)) &&
@@ -45,7 +44,9 @@ export default {
       return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
     },
     async onShare(shareObject) {
+      console.log("in share")
       this.$emit("close");
+      console.log(shareObject)
       await shareApi.shareUsers(shareObject);
     },
   },

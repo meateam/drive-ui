@@ -1,8 +1,8 @@
 <template>
-  <v-tooltip top :disabled="!icon" v-if="canShare()">
+  <v-tooltip top :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
-        @click="mayaqueen()"
+        @click="onFav()"
         v-on="on"
         :icon="icon"
         class="auto-margin"
@@ -11,38 +11,47 @@
         :class="{ right: !icon }"
       >
         <img class="fab-icon" src="@/assets/icons/favorites.svg" />
-        <p class="button-text" v-if="!icon">{{ $t("buttons.Favorite") }}</p>
+        <p class="button-text" v-if="!icon && !isFav" >{{ $t("buttons.Favorite") }}</p>
+        <p class="button-text" v-if="!icon && isFav" >{{ $t("buttons.RemoveFavorite") }}</p>
       </v-btn>
     </template>
     <span>{{ $t("buttons.Favorite") }}</span>
   </v-tooltip>
 </template>
 <script>
+
 import { mapGetters } from "vuex";
-import { writeRole } from "@/utils/roles";
+import * as favApi from "@/api/favorite";
+
 
 export default {
+  data() {
+    return {
+      isFav: false,
+    }
+  },
   name: "Favorite",
   computed: {
     ...mapGetters(["currentFolder", "chosenFiles"]),
   },
   props: ["icon"],
   methods: {
-    canShare() {
-      console.log("in can share method")
-      return (
-        (!this.currentFolder || writeRole(this.currentFolder.role)) &&
-        this.chosenFiles.every((file) => writeRole(file.role)) &&
-        !this.isFileReadOnly()
-      );
-    },
-    isFileReadOnly() {
-      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
-    },
-    mayaqueen() {
-      console.log("maya queen")
 
-    }
+    async onFav() {
+      this.chosenFiles.forEach((file) => {
+        if (!file.isFavorite) {
+          this.isFav = true;
+          file.isFavorite = true;
+          favApi.addFavorite({fileID: file.id})
+        } else {
+          this.isFav = false;
+          file.isFavorite = false
+          favApi.deleteFavorite({fileID: file.id})
+        }
+
+      })
+    },
+
   },
 };
 </script>
