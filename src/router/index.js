@@ -114,7 +114,7 @@ const router = new Router({
     },
     {
       path: "/favorites",
-      component: Favorites,
+      component: () => import("@/views/Favorites"),
       meta: {
         layout: true,
       },

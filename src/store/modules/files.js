@@ -1,5 +1,5 @@
 import * as filesApi from "@/api/files";
-
+import * as favApi from "@/api/favorite"
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import router from "@/router";
 import i18n from "@/i18n";
@@ -37,6 +37,15 @@ const actions = {
   async fetchFiles({ dispatch }) {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
+      dispatch("updateFetchedFiles", files);
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+
+  async fetchFavFiles({ dispatch }) {
+    try {
+      const files = await favApi.fetchFavFiles(state.currentFolder);
       dispatch("updateFetchedFiles", files);
     } catch (err) {
       dispatch("onError", err);
