@@ -11,8 +11,7 @@
         :class="{ right: !icon }"
       >
         <img class="fab-icon" src="@/assets/icons/favorites.svg" />
-        <p class="button-text" v-if="!icon && !isFav" >{{ $t("buttons.Favorite") }}</p>
-        <p class="button-text" v-if="!icon && isFav" >{{ $t("buttons.RemoveFavorite") }}</p>
+        <p class="button-text" v-if="!icon" >{{ $t("buttons.Favorite") }}</p>
       </v-btn>
     </template>
     <span>{{ $t("buttons.Favorite") }}</span>
@@ -25,12 +24,7 @@ import * as favApi from "@/api/favorite";
 
 
 export default {
-  data() {
-    return {
-      isFav: false,
-    }
-  },
-  name: "Favorite",
+  name: "Favorites",
   computed: {
     ...mapGetters(["currentFolder", "chosenFiles"]),
   },
@@ -51,7 +45,6 @@ export default {
 
       })
     },
-
   },
 };
 </script>
