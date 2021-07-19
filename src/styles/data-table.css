@@ -14,7 +14,7 @@
     white-space: nowrap;
     text-align: right;
     direction: ltr;
-    width: 600px;
+    max-width: 100px;
 }
 
 .v-data-table {

@@ -24,11 +24,10 @@
           </td>
           
           <td id="file-icon">
-            <FileTypeIcon :file="item" :size="30" />
+            <FileTypeIcon :file="item" :size="30" :isTypeIcon="true"/>
           </td>
 
           <td class="file-name">
-            <v-icon v-if="item.isFavorite" left small>star</v-icon>
             {{ item.name }}
           </td>          
 
@@ -133,4 +132,5 @@
   #pagination {
     padding-top: 20px;
   }
+
 </style>

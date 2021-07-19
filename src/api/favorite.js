@@ -4,36 +4,12 @@ import store from "@/store";
 // import * as filesApi from "@/api/files";
 
 
-export async function fetchFavFiles(parent) {
+export async function fetchFavFiles() {
+    const result = await Axios.get(`${baseURL}/api/files/fav`)
+    return result.data;
 
-    
-    // console.log(parent)
-    // const filtered = []
-    // const result = await Axios.get(`${baseURL}/api/fav`)
-    // result.data.favFileIDList.forEach(async(fav) => {
-    //     const result = await filesApi.getFileByID(fav.fileID)
-    //     console.log(result)
-    //     filtered.push(result)
-    // })
-    
-    // console.log(filtered)
-    // return filtered;
-
-    const res = await Axios.get(`${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id}` : ""}`);
-    const files = res.data;
-    const filteredFiles = []
-    files.forEach((file) => {
-        if (file.isFavorite) {
-            filteredFiles.push(file)
-        }
-    });
-
-    return filteredFiles;
-
-    
-  }
+}
   
-
 export async function addFavorite({ fileID }) {
     await Axios.post(`${baseURL}/api/fav/${fileID}`)
 }
