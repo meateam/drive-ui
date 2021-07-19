@@ -10,6 +10,7 @@
     <EditButton :icon="true" />
     <ShareButton :icon="true" />
     <ExternalTransferButton :icon="true" />
+    <FavoriteButton :icon="true" :files="files" />
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
 import ExternalTransferButton from "@/components/buttons/ExternalTransferButton";
+import FavoriteButton from "@/components/buttons/FavoriteButton";
 
 export default {
   name: "BottomMenu",
@@ -39,6 +41,7 @@ export default {
     EditButton,
     ExternalTransferButton,
     PreviewButton,
+    FavoriteButton,
   },
 };
 </script>

@@ -1,6 +1,8 @@
 <template>
   <v-lazy>
     <v-card
+      @mouseover="mouseOver()"
+      @mouseleave="mouseLeave()"
       id="file"
       :class="{ selected: isSelected }"
       class="pointer"
@@ -18,8 +20,12 @@
         id="pdf"
       ></iframe>
       <div v-else id="file-icon">
-        <FileTypeIcon :file="file" :size="120" />
+        <FileTypeIcon :file="file" :size="120" :view="false" />
       </div>
+
+      <img @click="starclick" v-if="!file.isFavorite && hover" class="starfull"  src="@/assets/icons/favorite.jpg" />
+      <v-icon @click="starclick" v-if="file.isFavorite" class="starfull" left >star</v-icon>
+
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <p v-on="on" id="file-name">{{ file.name }}</p>
@@ -34,15 +40,36 @@
 import { getPdfPreview, getPreview } from "@/api/files";
 import { canPreviewPdf } from "@/utils/canPreview";
 import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
+import * as favApi from "@/api/favorite";
 
 export default {
   name: "File",
   props: ["file", "isSelected"],
   components: { FileTypeIcon },
+  data() {
+    return {
+      hover: false,  
+    }
+  },
   methods: {
     showPDF() {
       return canPreviewPdf(this.file.type);
     },
+    starclick() {
+        if (!this.file.isFavorite) {
+          this.file.isFavorite = true;
+          favApi.addFavorite({fileID: this.file.id})
+        } else {
+          this.file.isFavorite = false
+          favApi.deleteFavorite({fileID: this.file.id})
+        }
+    },
+    mouseOver() {
+      this.hover = true;
+    },
+    mouseLeave() {
+      this.hover = false;
+    }
   },
   computed: {
     getImage() {
@@ -54,7 +81,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 #file {
   width: 220px;
@@ -65,6 +91,7 @@ export default {
   box-shadow: 0px 1px 6px 0 rgba(42, 87, 120, 0.1);
   border-radius: 10px !important;
 }
+
 .selected {
   box-shadow: 0px 30px 38px 0 rgba(44, 110, 161, 0.308) !important;
 }
@@ -85,6 +112,8 @@ export default {
   text-align: center;
   font-size: 18px;
 }
+
+
 #image {
   max-width: 50%;
   max-height: 50%;
@@ -111,4 +140,15 @@ export default {
   height: 100%;
   pointer-events: none !important;
 }
+
+.starfull {
+  color: gray;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+
 </style>

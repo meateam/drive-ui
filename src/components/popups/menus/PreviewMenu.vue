@@ -9,6 +9,7 @@
     <EditButton :icon="true" @close="$emit('close')" />
     <ShareButton :icon="true" @close="$emit('close')" />
     <ExternalTransferButton :icon="true" @close="$emit('close')" />
+    <FavoriteButton :icon="true" @close="$emit('close')" />
   </div>
 </template>
 
@@ -22,6 +23,8 @@ import LocalEditButton from "@/components/buttons/LocalEditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import ShareButton from "@/components/buttons/ShareButton";
 import ExternalTransferButton from "@/components/buttons/ExternalTransferButton";
+import FavoriteButton from "@/components/buttons/FavoriteButton";
+
 
 export default {
   name: "PreviewMenu",
@@ -35,6 +38,7 @@ export default {
     InfoButton,
     EditButton,
     ExternalTransferButton,
+    FavoriteButton,
   },
 };
 </script>
