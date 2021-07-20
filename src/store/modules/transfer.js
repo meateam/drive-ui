@@ -26,7 +26,6 @@ const actions = {
 
           try {
             file = await fileApi.getFileByID(transferInfo.fileID);
-            console.log(file)
             transferInfo.file = file;
           } catch (error) {
             transferInfo.file = {};

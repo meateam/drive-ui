@@ -20,7 +20,6 @@
       <ShareButton />
       <ExternalTransferButton />
       <FavoriteButton />
-      
     </v-list>
   </v-menu>
 </template>

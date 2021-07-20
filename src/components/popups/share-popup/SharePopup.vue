@@ -83,7 +83,6 @@ export default {
       this.users = this.users.filter((user) => user.id != permission.userID);
     },
     async onShare(shareObject) {
-      console.log("in share pop up")
       this.$emit("onShare", shareObject);
 
       if (this.files.length === 1) {

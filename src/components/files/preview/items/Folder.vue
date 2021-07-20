@@ -10,7 +10,7 @@
     @click.native.exact="$emit('click', folder)"
     @click.ctrl.native="$emit('ctrlclick', folder)"
   >
-    <img @click="starclick" v-if="!folder.isFavorite && hover" class="starfull" src="@/assets/icons/star-outline.svg" />
+    <img @click="starclick" v-if="!folder.isFavorite && hover" class="starfull" src="@/assets/icons/favorite.jpg" />
     <v-icon @click="starclick" v-if="folder.isFavorite" class="starfull" left >star</v-icon>
     <v-icon color="#fc8946" id="folder-icon">folder</v-icon>
     <p id="folder-name">{{ folder.name }}</p>
