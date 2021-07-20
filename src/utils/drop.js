@@ -219,7 +219,7 @@ class UploadEntries {
 
     /**
      * Read all the files and folders from a given folder entry.
-     * @param {DirectoryEntry} entry a folder that is represented as a folder in the file system.
+     * @param {DirectoryEntry} entry - a folder that is represented as a folder in the file system.
      * @returns all the entries in the current folder (files and folders).
      */
     async readAllEntries(entry) {
