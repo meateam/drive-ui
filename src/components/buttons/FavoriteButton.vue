@@ -12,14 +12,13 @@
       >
         <img class="fab-icon" src="@/assets/icons/favorites.svg" />
         <p class="button-text" v-if="!icon" >{{ $t("buttons.Favorite") }}</p>
-        <!-- <p class="button-text" v-if="!icon" >{{ $t("buttons.RemoveFavorite") }}</p> -->
       </v-btn>
     </template>
     <span>{{ $t("buttons.Favorite") }}</span>
   </v-tooltip>
 </template>
-<script>
 
+<script>
 import { mapGetters } from "vuex";
 import * as favApi from "@/api/favorite";
 
@@ -27,11 +26,10 @@ import * as favApi from "@/api/favorite";
 export default {
   name: "FavoriteButton",
   computed: {
-    ...mapGetters(["currentFolder", "chosenFiles"]),
+    ...mapGetters(["chosenFiles"]),
   },
   props: ["icon"],
   methods: {
-
     onFav() {
       this.chosenFiles.forEach((file) => {
         if (!file.isFavorite) {
@@ -41,7 +39,6 @@ export default {
           file.isFavorite = false
           favApi.deleteFavorite({fileID: file.id})
         }
-
       })
     },
   },

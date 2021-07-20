@@ -44,9 +44,7 @@ export default {
       return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
     },
     async onShare(shareObject) {
-      console.log("in share")
       this.$emit("close");
-      console.log(shareObject)
       await shareApi.shareUsers(shareObject);
     },
   },

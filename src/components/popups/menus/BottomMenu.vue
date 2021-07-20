@@ -10,7 +10,7 @@
     <EditButton :icon="true" />
     <ShareButton :icon="true" />
     <ExternalTransferButton :icon="true" />
-    <FavoriteButton :icon="true" :files="files" />
+    <FavoriteButton :icon="true" />
   </div>
 </template>
 
