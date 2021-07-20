@@ -36,7 +36,7 @@ export default {
         this.fileView != 1 ||
         (this.fileView === 1 && getPageSize(this.fileView) * (page - 1) < this.serverFilesLength)
       ) {
-        this.$store.dispatch("fetchSearchFiles", {
+        this.$store.dispatch("fetchSharedFiles", {
           query: this.$route.query.q,
           pageNum: page - 1,
           isAppend: this.fileView === 1,
