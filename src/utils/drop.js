@@ -69,7 +69,7 @@ class UploadEntries {
     /**
      * A function that handles the uploads entries (of file or folder) functionality and handles errors.
      * @param {DataTransferItem} file- the file (or folder) item which will be uploaded.
-     * @param {Object} parent the parent folder that the file will be uploaded to.
+     * @param {Object} parent- the parent folder that the file will be uploaded to.
      * @returns an array of the uploaded files.
      */
     async uploadEntries(file, parent) {
