@@ -32,8 +32,6 @@ const state = {
       isEnabled: true,
     },
   ],
-  maxUploadedFiles: 100,
-  maxUploadedFolders: Infinity,
 };
 
 const getters = {
@@ -60,8 +58,6 @@ const getters = {
   externalNetworkDests: (state) => state.externalNetworkDests,
   statusWaitingForReview: (state) => state.statusWaitingForReview,
   statusSuccessNames: (state) => state.statusSuccessNames,
-  maxUploadedFiles: (state) => state.maxUploadedFiles,
-  maxUploadedFolders: (state) => state.maxUploadedFolders,
 };
 
 const actions = {
@@ -95,8 +91,6 @@ const mutations = {
     state.statusFailedType = config.statusFailedType;
     state.statusSuccessType = config.statusSuccessType;
     state.statusPendingType = config.statusPendingType;
-    state.maxUploadedFiles = config.maxUploadedFiles;
-    state.maxUploadedFolders = config.maxUploadedFolders;
   },
 };
 
