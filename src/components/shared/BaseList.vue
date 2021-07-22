@@ -4,6 +4,7 @@
       link
       v-for="(item, index) in items"
       :key="index"
+      :disabled="disabledChecker ? disabledChecker(item) : false"
       @click="onChoose(item)"
     >
       <v-list-item-icon v-if="icon">
@@ -22,7 +23,7 @@ export default {
       selected: undefined,
     };
   },
-  props: ["items", "icon"],
+  props: ["items", "icon", "disabledChecker"],
   methods: {
     onChoose(item) {
       this.$emit("change", item);
