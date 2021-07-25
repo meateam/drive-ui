@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 
 ### Fixed
+- hotfix: ([127](https://github.com/meateam/drive-ui/pull/127)): add append number to the file name when it exists
 
 - hotfix: ([115](https://github.com/meateam/drive-ui/pull/115)): fix edit file name extention and special chars in the file name.
 - hotfix: ([114](https://github.com/meateam/drive-ui/pull/114)): fix drag and drop non responding page.
