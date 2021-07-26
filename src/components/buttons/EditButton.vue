@@ -17,7 +17,7 @@
     <NamePopup
       img="green-edit.svg"
       ref="rename"
-      :value="chosenFiles[0].name"
+      :value="nameOnly"
       :type="isFolder() ? 'renameFolder' : 'renameFile'"
       @confirm="onConfirm"
     />
@@ -27,8 +27,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { fileTypes } from "@/config";
 import { writeRole } from "@/utils/roles";
+import { isFolder } from "@/utils/isFolder";
 import NamePopup from "../popups/BaseNamePopup";
 
 export default {
@@ -37,14 +37,37 @@ export default {
   components: { NamePopup },
   computed: {
     ...mapGetters(["chosenFiles", "currentFolder"]),
+    nameOnly() {
+      if (!this.isFolder()) {
+        const splitedName = this.chosenFiles[0].name.split(".");
+        if (splitedName.length > 1) {
+          splitedName.pop();
+          return splitedName.join(".");
+        }
+      }
+      return this.chosenFiles[0].name;
+    },
+    extentionOnly() {
+      if (!this.isFolder()) {
+        const splitedName = this.chosenFiles[0].name.split(".");
+        if (splitedName.length > 1) {
+          return `.${splitedName.pop()}`;
+        }
+      }
+      return "";
+    },
   },
   methods: {
     onConfirm(name) {
-      this.$store.dispatch("editFile", { name, file: this.chosenFiles[0] });
+      const fullName = `${name}${this.extentionOnly}`;
+      this.$store.dispatch("editFile", {
+        name: fullName,
+        file: this.chosenFiles[0],
+      });
       this.$emit("close");
     },
     isFolder() {
-      return this.chosenFiles[0].type === fileTypes.folder;
+      return isFolder(this.chosenFiles[0].type);
     },
     openNameEdit() {
       if (this.canEdit()) this.$refs.rename.open();
@@ -58,7 +81,9 @@ export default {
       );
     },
     isFileReadOnly() {
-      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
+      return this.chosenFiles.every(
+        (file) => file?.isReadOnly != undefined && file.isReadOnly
+      );
     },
   },
   mounted() {

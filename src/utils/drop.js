@@ -51,7 +51,7 @@ async function getEntries(entry, parent, isFirstFolder) {
     }
     // return if item is from a browser that does not support webkitGetAsEntry
     if (entry.getAsFile) {
-        return new Promise((resolve) => resolve());
+        return Promise.resolve();
     }
 
     if (entry.isFile) {
@@ -67,9 +67,7 @@ async function getEntries(entry, parent, isFirstFolder) {
             isFirstFolder ? UploadAction.createFolder : UploadAction.createFolderInFolder,
             isFirstFolder ? entry.name : { parent: parent, name: entry.name }
         )
-        if (isFirstFolder) {
-            isFirstFolder = false;
-        }
+        isFirstFolder = false;
         const entryReader = entry.createReader();
         const entries = [];
 
@@ -84,20 +82,13 @@ async function getEntries(entry, parent, isFirstFolder) {
                 entries.push(...Array.prototype.slice.call(results || [], 0));
                 await readEntries();
             } else {
-                let first = true;
                 const NUM_OF_MAX_PROMISES = 3;
                 await Promise.map(
                     entries,
-                    (entry) => {
-                        if (!entry && first) {
-                            return new Promise((resolve) => resolve());
-                        }
-                        first = false;
-                        if (!entry) {
-                            return new Promise((resolve) => resolve());
-                        }
-                        return getEntries(entry, res, isFirstFolder);
-                    },
+                    (entry) =>
+                        !entry
+                            ? Promise.resolve()
+                            : getEntries(entry, res, isFirstFolder),
                     { concurrency: NUM_OF_MAX_PROMISES }
                 );
             }
