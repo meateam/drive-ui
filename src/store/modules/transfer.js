@@ -19,6 +19,12 @@ const actions = {
     try {
       const transfers = await transferApi.fetchStatusTransferredFiles(pageNum || 0);
       const outcomingTransfersFiles = [];
+      const fileOwnersPromises = [];
+
+      const updateTransfers = () => {
+        commit("setTransfers", outcomingTransfersFiles);
+        commit("setTransfersLength", transfers.itemCount);
+      };
 
       if (transfers.transfersInfo) {
         await Promise.allSettled(transfers.transfersInfo.map(async (transferInfo) => {
@@ -37,14 +43,15 @@ const actions = {
 
           outcomingTransfersFiles.push(transferInfo);
           
-          commit("setTransfers", outcomingTransfersFiles);
-          commit("setTransfersLength", transfers.itemCount);
+          updateTransfers();
 
-          getFileOwnerName(transferInfo.fileOwnerID).then((ownerName) => {
+          fileOwnersPromises.push(getFileOwnerName(transferInfo.fileOwnerID).then((ownerName) => {
             transferInfo.file.owner = ownerName;
-            commit("updateItem", transferInfo);
-          });
+            updateTransfers();
+          }));
         }));
+        
+        await Promise.allSettled(fileOwnersPromises);
       }
     } catch (err) {
       dispatch("onError", err);
