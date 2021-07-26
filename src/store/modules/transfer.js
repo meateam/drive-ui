@@ -18,14 +18,12 @@ const actions = {
   async fetchTransferredStatus({ commit, dispatch }, { pageNum }) {
     try {
       const transfers = await transferApi.fetchStatusTransferredFiles(pageNum || 0);
-      let outcomingTransfersFiles = [];
+      const outcomingTransfersFiles = [];
 
       if (transfers.transfersInfo) {
-        await Promise.all(transfers.transfersInfo.map(async (transferInfo) => {
-          let file;
-
+        await Promise.allSettled(transfers.transfersInfo.map(async (transferInfo) => {
           try {
-            file = await fileApi.getFileByID(transferInfo.fileID);
+            const file = await fileApi.getFileByID(transferInfo.fileID);
             transferInfo.file = file;
           } catch (error) {
             transferInfo.file = {};
@@ -38,16 +36,14 @@ const actions = {
           transferInfo.file.isReadOnly = true;
 
           outcomingTransfersFiles.push(transferInfo);
-        }));
-      }
+          
+          commit("setTransfers", outcomingTransfersFiles);
+          commit("setTransfersLength", transfers.itemCount);
 
-      commit("setTransfers", outcomingTransfersFiles);
-      commit("setTransfersLength", transfers.itemCount);
-
-      if (transfers.transfersInfo) {
-        await Promise.all(transfers.transfersInfo.map(async (transferInfo) => {
-          transferInfo.file.owner = await getFileOwnerName(transferInfo.fileOwnerID);
-          commit("updateItem", transferInfo);
+          getFileOwnerName(transferInfo.fileOwnerID).then((ownerName) => {
+            transferInfo.file.owner = ownerName;
+            commit("updateItem", transferInfo);
+          });
         }));
       }
     } catch (err) {
