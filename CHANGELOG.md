@@ -160,6 +160,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
 
 [unreleased]: https://github.com/meateam/api-gateway/compare/master...develop
+[v3.9.4]: https://github.com/meateam/api-gateway/compare/v3.9.1...v3.9.4
 [v3.9.1]: https://github.com/meateam/api-gateway/compare/v3.8.3...v3.9.1
 [v3.8.3]: https://github.com/meateam/api-gateway/compare/v3.8.2...v3.8.3
 [v3.8.2]: https://github.com/meateam/api-gateway/compare/v3.7.1...v3.8.2
