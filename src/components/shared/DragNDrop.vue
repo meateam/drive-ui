@@ -1,23 +1,16 @@
 <template>
-  <div :class="{ onDrag }">
-    <div v-if="onDrag" id="drop-description">
-      <v-icon id="upload-icon">cloud_upload</v-icon>
-      <p>{{ $t("buttons.UploadFile") }}</p>
-    </div>
-  </div>
+  <div></div>
 </template>
 
 <script>
-
 import { UploadGet } from "@/store/modules/uploadFolder";
 import { mapGetters } from "vuex";
-import { getFilesFromDroppedItems } from "./../../utils/drop";
+import { getFilesFromDroppedItems } from "@/utils/drop";
 
 export default {
   name: "DragNDrop",
   data() {
     return {
-      onDrag: false,
       dragCount: 0,
     };
   },
@@ -53,9 +46,6 @@ export default {
         (event) => {
           event.preventDefault();
           this.dragCount -= 1;
-          if (this.isFileDrag(event) && !this.dragCount) {
-            this.onDrag = false;
-          }
         },
         false
       );
@@ -63,20 +53,16 @@ export default {
         "dragover",
         (event) => {
           event.preventDefault();
-          if (this.isFileDrag(event)) {
-            this.onDrag = true;
-          }
         },
         false
       );
       window.addEventListener(
         "drop",
         async (event) => {
-          this.onDrag = false;
           event.preventDefault();
           event.stopImmediatePropagation();
           if (this.isFileDrag(event)) {
-            this.getFilesFromDroppedItems(
+            await this.getFilesFromDroppedItems(
               event.dataTransfer,
               this.currentFolder
             );
@@ -93,26 +79,4 @@ export default {
 </script>
 
 <style scoped>
-.onDrag {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-#upload-icon {
-  color: #035c64;
-  display: block;
-  font-size: 250px;
-}
-#drop-description {
-  display: block;
-  margin: auto;
-  margin-top: 15%;
-  text-align: center;
-  font-size: 30px;
-}
 </style>

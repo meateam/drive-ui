@@ -11,7 +11,7 @@
           ref="input"
           @keyup.enter.native="onConfirm"
           @input="onNameChange"
-          :placeholder="$t(`renameFile.New`)"
+          :placeholder="$t(`rename.New`)"
         />
         <p class="d-subtitle">{{$t(`file.Type`)}}</p>
         <v-item-group v-model="selectedType" mandatory>

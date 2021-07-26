@@ -9,6 +9,7 @@ import loading from "./modules/loading";
 import error from "./modules/error";
 import search from "./modules/search";
 import success from "./modules/success";
+import warning from "./modules/warning";
 import directonary from "./modules/dictionary";
 import uploadFolder from "./modules/uploadFolder";
 import transfer from "./modules/transfer";
@@ -16,5 +17,19 @@ import transfer from "./modules/transfer";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: { files, configuration, auth, quota, loading, preferences, error, success, search, directonary, uploadFolder, transfer },
+    modules: {
+        files,
+        configuration,
+        auth,
+        quota,
+        loading,
+        preferences,
+        error,
+        success,
+        search,
+        directonary,
+        uploadFolder,
+        transfer,
+        warning,
+    },
 });

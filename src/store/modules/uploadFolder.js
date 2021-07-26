@@ -1,6 +1,7 @@
 import * as filesApi from "@/api/files";
 import { isFileNameExists } from "@/utils/isFileNameExists";
 import i18n from "@/i18n";
+import { isValidString } from "@/utils/validateInput";
 
 const MB = 1024 * 1024;
 const MB5 = MB * 5;
@@ -35,6 +36,10 @@ const actions = {
   */
   async [UploadAction.uploadFileToFolder]({ commit }, { folder, file }) {
     try {
+      if (!isValidString(file.name)) {
+        commit("onWarning", "warnings.SpecialChars");
+        return Promise.resolve();
+      }
       let res = null
       
       const loadingFileCallBack = (file, event, source) => {
@@ -68,7 +73,11 @@ const actions = {
    * createFolder in the current folder without notification
    * @param name is the name of the folder
    */
-  async [UploadAction.createFolder]({ rootState }, name) {
+  async [UploadAction.createFolder]({ rootState, commit }, name) {
+    if (!isValidString(name)) {
+      commit("onWarning", "warnings.SpecialChars");
+      return Promise.resolve();
+    }
 
     const fileState = rootState.files;
     const loadingState = rootState.loading;
@@ -94,8 +103,12 @@ const actions = {
   * createFolderInFolder create folder in folder without notification
   * @param parentAndName is contains parent: is the file to create, name: is the name of the folder
   */
-  async [UploadAction.createFolderInFolder](_, { name, parent }) {
+  async [UploadAction.createFolderInFolder]({ commit }, { name, parent }) {
     try {
+      if (!isValidString(name)) {
+        commit("onWarning", "warnings.SpecialChars");
+        return Promise.resolve();
+      }
       let res = filesApi.uploadFolder({
         name: name,
         parent: parent,
