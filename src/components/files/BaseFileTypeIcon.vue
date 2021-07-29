@@ -29,7 +29,7 @@
     <v-icon v-else-if="file.type.startsWith('audio')" :size="size" color="#9caec4">audiotrack</v-icon>
     <v-icon v-else-if="file.type.startsWith('video')" :size="size" color="#9caec4">movie</v-icon>
     <v-icon v-else color="#1a73e8" :size="size">insert_drive_file</v-icon>
-    <v-icon v-if="file.isFavorite && isTypeIcon" class="staricon" small>star</v-icon>
+    <v-icon v-if="file.isFavorite && isTypeIcon" class="star-icon" small>star</v-icon>
 
   </div>
 </template>
@@ -63,15 +63,13 @@ export default {
 </script>
 
 <style scoped>
-.staricon {
-  /* background: #f5cb42; */
-  /* border-radius: 3px; */
-  color: grey;
+.star-icon {
   display: flex;
   justify-content: space-between;
   position: absolute;
-  top: -5px;
+  top: -5px; 
   left: -2px;
+  color: #D2691E;
 }
 
 .display-img {

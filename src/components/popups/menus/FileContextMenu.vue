@@ -13,13 +13,13 @@
       <PreviewButton />
       <DownloadButton />
       <DeleteButton />
+      <FavoriteButton />
       <MoveToButton />
       <OnlineEditButton />
       <LocalEditButton />
       <EditButton />
       <ShareButton />
       <ExternalTransferButton />
-      <FavoriteButton />
     </v-list>
   </v-menu>
 </template>

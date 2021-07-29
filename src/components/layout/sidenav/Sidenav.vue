@@ -127,20 +127,20 @@ export default {
         title: "sidenav.SharedWithMe",
       },
       {
+        path: '/favorites',
+        icons: {
+          white: 'white-star',
+          green: 'green-star',
+        },
+        title: 'sidenav.Favorites',
+      },
+      {
         path: "/last-updated",
         icons: {
           white: "last-update",
           green: "green-last-update",
         },
         title: "sidenav.LastUpdated",
-      },
-      {
-        path: '/favorites',
-        icons: {
-          white: 'last-update',
-          green: 'green-last-update',
-        },
-        title: 'sidenav.Favorites',
       },
       //  {
       //   path: '/deleted-files',
