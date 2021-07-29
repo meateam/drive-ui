@@ -78,7 +78,7 @@
         pageCount: 1,
         headers: [
           { value: 'type', align: 'center', sortable: false },
-          { text: this.$t('file.Name'), value: 'name', sortable: this.sortable },
+          { text: this.$t('file.Name'), value: 'name', sortable: this.sortable, width: '50%' },
           { text: this.$t('file.Owner'), value: 'owner', sortable: this.sortable },
           { text: this.$t('file.LastUpdate'), value: 'updatedAt', sortable: this.sortable },
           { text: this.$t('file.Size'), value: 'size', sortable: this.sortable },

@@ -22,10 +22,8 @@
       <div v-else id="file-icon">
         <FileTypeIcon :file="file" :size="120" :view="false" />
       </div>
-
-      <img @click="starclick" v-if="!file.isFavorite && hover" class="starfull"  src="@/assets/icons/favorite.jpg" />
-      <v-icon @click="starclick" v-if="file.isFavorite" class="starfull" left >star</v-icon>
-
+      <img @click="starClick" v-if="!file.isFavorite && hover" class="star"  src="@/assets/icons/dark-gray-star.svg" />
+      <img @click="starClick" v-if="file.isFavorite" class="star" src="@/assets/icons/orange-star.svg" />
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <p v-on="on" id="file-name">{{ file.name }}</p>
@@ -55,14 +53,10 @@ export default {
     showPDF() {
       return canPreviewPdf(this.file.type);
     },
-    starclick() {
-        if (!this.file.isFavorite) {
-          this.file.isFavorite = true;
-          favApi.addFavorite({fileID: this.file.id})
-        } else {
-          this.file.isFavorite = false
-          favApi.deleteFavorite({fileID: this.file.id})
-        }
+    starClick() {
+        if (!this.file.isFavorite) favApi.addFavorite({fileID: this.file.id})
+        else favApi.deleteFavorite({fileID: this.file.id})
+        this.file.isFavorite = !this.file.isFavorite
     },
     mouseOver() {
       this.hover = true;
@@ -141,8 +135,9 @@ export default {
   pointer-events: none !important;
 }
 
-.starfull {
-  color: gray;
+.star {
+  width: 20px;
+  height: 20px;
   display: flex;
   justify-content: space-between;
   position: absolute;

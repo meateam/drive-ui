@@ -1,9 +1,8 @@
 <template>
   <PageTemplate
     :files="files"
-    :sortable="true"
+    :sortable="false"
     :header="$t('pageHeaders.Favorites')"
-    :upload="true"
   />
 </template>
 
@@ -15,7 +14,7 @@ export default {
   name: "Favorites",
   components: { PageTemplate },
   computed: {
-    ...mapGetters(["files"]),
+    ...mapGetters(["currentFile","files"]),
   },
   created() {
     this.$store.dispatch("fetchFavFiles");

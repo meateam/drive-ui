@@ -1,17 +1,17 @@
 import Axios from "axios";
 import { baseURL } from "@/config";
 import store from "@/store";
-// import * as filesApi from "@/api/files";
-
 
 export async function fetchFavFiles() {
     const result = await Axios.get(`${baseURL}/api/files/fav`)
-    return result.data;
+    console.log(result.data)
+    if (result.data.files === null) return []
+    return result.data.files.successful;
 
 }
   
 export async function addFavorite({ fileID }) {
-    await Axios.post(`${baseURL}/api/fav/${fileID}`)
+    await Axios.post(`${baseURL}/api/fav/${fileID}?appId=drive`)
 }
 
 export async function addFavorites({ files }) {

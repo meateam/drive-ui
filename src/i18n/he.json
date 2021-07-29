@@ -16,7 +16,7 @@
     "Deleted": "קבצים שנמחקו",
     "LastUpdated": "שונו לאחרונה",
     "Folders": "תיקיות",
-    "Favorites": "המועדפים",
+    "Favorites": "מועדפים",
     "Quota": {
       "Quota": "אחסון",
       "Usage": "{used} / {limit}"
@@ -41,7 +41,7 @@
     "StatusTransferred": "סטטוס קבצים שנשלחו",
     "MyDrive": "הדרייב שלי",
     "Search": "תוצאות החיפוש",
-    "Favorites": "המועדפים"
+    "Favorites": "מועדפים"
   },
   "file": {
     "Name": "שם",
@@ -100,7 +100,7 @@
     "BackToShare": "חזרה לבחירת המאשרים",
     "AboutMe": "לפרטים שלי",
     "Favorite": "הוספה למועדפים",
-    "RemoveFavorite": "הסרה מהמועדפים"
+    "RemoveFavorite": "הסרה ממועדפים"
   },
   "success": {
     "File": "הקובץ עלה בהצלחה!",
@@ -114,7 +114,9 @@
     "Copied": "הקישור הועתק",
     "EditShare": "ההרשאה שונתה בהצלחה",
     "DeleteShare": "ההרשאה הוסרה בהצלחה",
-    "Cancel": "העלאת הקובץ בוטלה!"
+    "Cancel": "העלאת הקובץ בוטלה!",
+    "AddFavorite": "הפריט התווסף למועדפים בהצלחה!",
+    "RemoveFavorite": "הפריט הוסר מהמועדפים בהצלחה!"
   },
   "preview": {
     "Unavailable": "התצוגה המקדימה אינה זמינה",

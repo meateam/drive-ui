@@ -10,6 +10,7 @@ import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils
 import { appendNumberIfFileExists } from "@/utils/isFileNameExists";
 import { isFolder } from "@/utils/isFolder";
 import { getNetworkItemByAppId } from "@/utils/networkDest";
+import { Promise } from "core-js";
 
 const MB = 1024 * 1024;
 const MB5 = MB * 5;
@@ -59,6 +60,50 @@ const actions = {
       dispatch("onError", err);
     }
   },
+
+    /**
+   * addFav gets a file id and add it to favorites
+   * @param fileID is the id of the file to add
+   */
+     async addFav({ commit, dispatch }, fileID) {
+      await favApi.addFavorite({fileID: fileID});
+      commit("addFav", fileID);
+      dispatch("getQuota");
+    },
+    /**
+   * removeFav gets a file id and removes it from favorites
+   * @param fileID is the id of the file to remove
+   */
+    async removeFav({ commit, dispatch }, fileID) {
+     await favApi.deleteFavorite({fileID: fileID});
+    // dispatch("fetchFavFiles");
+     commit("removeFav", fileID);
+     dispatch("getQuota");
+   },
+    /**
+     * addFavs uses the method addFav and removeFav to add/remove all the files in the chosen array
+     */
+     addOrRemoveFavs({ dispatch, commit }, files) {
+      let isFav = false;
+      Promise.all(files.map((file) => {
+        if (!file.isFavorite)
+        {
+          isFav = true;
+          file.isFavorite = true;
+          dispatch("addFav", file.id)
+
+        } else {
+          file.isFavorite = false;
+          dispatch("removeFav", file.id)
+        }
+      }))
+        .then(() => {
+          commit("onSuccess", isFav ? "success.AddFavorite" : "success.RemoveFavorite")
+        })
+        .catch((err) => {
+          dispatch("onError", err);
+        });
+    },
 
   async fetchFile({ dispatch }) {
     try {

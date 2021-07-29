@@ -152,6 +152,8 @@ services:
       - user-service
   fav-service:
     image: "drivehub.azurecr.io/meateam/fav-service:develop"
+    env_file:
+      - ../kdrive.env
     ports:
       - 8092:8080
     depends_on: 
