@@ -50,8 +50,7 @@ export default {
   props: ["files"],
   methods: {
     async open() {
-      await this.fetchHierachy(this.currentFolder);
-      await this.fetchFolders(this.currentFolder);
+      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchFolders(this.currentFolder)]);
 
       this.dialog = true;
     },
