@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+- minor: ([125](https://github.com/meateam/drive-ui/pull/125)): added fav-service.
+
 ## [v3.10.3] - 2021-10-13
 - hotfix: ([142](https://github.com/meateam/drive-ui/pull/142)): fix app bar spacing
 
