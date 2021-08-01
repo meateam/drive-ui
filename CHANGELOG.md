@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [unreleased]
 ### Fixed
 - hotfix: ([105](https://github.com/meateam/drive-ui/pull/105)): fix breadcrumbs for file when not reloading the page.
+- minor: ([125](https://github.com/meateam/drive-ui/pull/125)): added fav-service.
 
 ## [v3.8.3] - 2021-05-30
 
