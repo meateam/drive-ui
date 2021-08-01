@@ -32,7 +32,6 @@ import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import { writeRole, ownerRole } from "@/utils/roles";
 import { mapGetters } from "vuex";
-
 export default {
   name: "MoveToPopup",
   components: { SubmitButton, List, TextButton, Breadcrumbs },
@@ -51,7 +50,6 @@ export default {
   methods: {
     async open() {
       await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchFolders(this.currentFolder)]);
-
       this.dialog = true;
     },
     async fetchFolders(parent) {
@@ -59,7 +57,6 @@ export default {
     },
     async fetchHierachy(folder) {
       const breadcrumbs = [];
-
       const getDriveFirstBreadcrumb = (role) =>
         this.isFolderOwner(role)
           ? [this.$t("pageHeaders.MyDrive"), false]
@@ -73,7 +70,7 @@ export default {
         });
       } else {
         const hierarchy = await filesApi.getFolderHierarchy(folder.id);
-        const firstFolder = hierarchy && hierarchy.length > 0 ? hierarchy[0] : this.currentFolder;
+        const firstFolder = hierarchy && hierarchy.length > 0 ? hierarchy[0] : folder;
         const [firstBreadCrumb, firstIsDisabled] = getDriveFirstBreadcrumb(firstFolder.role);
 
         breadcrumbs.push({
@@ -81,7 +78,6 @@ export default {
           text: firstBreadCrumb,
           disabled: firstIsDisabled || !folder,
         });
-
         hierarchy.forEach((folder) => {
           breadcrumbs.push({
             value: folder,
@@ -89,7 +85,6 @@ export default {
             disabled: false,
           });
         });
-
         breadcrumbs.push({
           text: folder.name,
           disabled: true,
@@ -100,18 +95,15 @@ export default {
     },
     async onFolderChange(folder) {
       if (this.isFolderInFolder(folder)) return;
-
       await this.fetchHierachy(folder);
       await this.fetchFolders(folder);
       this.folderDest = folder;
     },
     isFolderInFolder(folder) {
       if (!folder) return false;
-
       for (let i = 0; i < this.files.length; i++) {
         if (this.files[i].id === folder.id) return true;
       }
-
       return false;
     },
     isFolderDestDisabled(folder) {
