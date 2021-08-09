@@ -12,12 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - hotfix: ([127](https://github.com/meateam/drive-ui/pull/127)): add append number to the file name when it exists
 
+- hotfix: ([126](https://github.com/meateam/drive-ui/pull/126)): fix move files in shared folder and breadcrumb in shared-with-me page
 - hotfix: ([115](https://github.com/meateam/drive-ui/pull/115)): fix edit file name extention and special chars in the file name.
 - hotfix: ([114](https://github.com/meateam/drive-ui/pull/114)): fix drag and drop non responding page.
 - hotfix: ([49](https://github.com/meateam/drive-ui/pull/49/)) : fix fetch shared files bug.
 
 ## [v3.9.1] - 2021-06-23
- 
+
 ### Feature
 
 - minor: ([56](https://github.com/meateam/drive-ui/pull/56)): add an option to upload a folder.

@@ -22,7 +22,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { ownerRole } from "@/utils/roles";
+import { writeRole } from "@/utils/roles";
 import MoveToPopup from "@/components/popups/MoveToPopup";
 
 export default {
@@ -43,10 +43,14 @@ export default {
     },
     canMove() {
       return (
-        (!this.currentFolder || ownerRole(this.currentFolder.role)) &&
-        this.chosenFiles.every((file) => ownerRole(file.role)) &&
+        (!(this.currentFolder || this.isSharedFile()) || (this.currentFolder && writeRole(this.currentFolder.role))) &&
+        this.chosenFiles.every((file) => writeRole(file.role)) &&
         !this.isFileReadOnly()
       );
+    },
+    isSharedFile() {
+      const firstFile = this.chosenFiles && this.chosenFiles.length > 0 ? this.chosenFiles[0] : this.currentFolder;
+      return firstFile && firstFile.shared;
     },
     isFileReadOnly() {
       return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
