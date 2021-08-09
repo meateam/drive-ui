@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
-## [v3.9.4] - 2021-07-25
+## [v3.10.0] - 2021-08-09
 
 ### Fixed
 - hotfix: ([127](https://github.com/meateam/drive-ui/pull/127)): add append number to the file name when it exists
-
+- minor: ([107](https://github.com/meateam/drive-ui/pull/107/)) : improve async handling.
 - hotfix: ([126](https://github.com/meateam/drive-ui/pull/126)): fix move files in shared folder and breadcrumb in shared-with-me page
+
+## [v3.9.4] - 2021-07-25
+
+### Fixed
+
 - hotfix: ([115](https://github.com/meateam/drive-ui/pull/115)): fix edit file name extention and special chars in the file name.
 - hotfix: ([114](https://github.com/meateam/drive-ui/pull/114)): fix drag and drop non responding page.
 - hotfix: ([49](https://github.com/meateam/drive-ui/pull/49/)) : fix fetch shared files bug.
@@ -162,6 +167,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
 
 [unreleased]: https://github.com/meateam/api-gateway/compare/master...develop
+[v3.10.0]: https://github.com/meateam/api-gateway/compare/v3.9.1...v3.9.4
 [v3.9.4]: https://github.com/meateam/api-gateway/compare/v3.9.1...v3.9.4
 [v3.9.1]: https://github.com/meateam/api-gateway/compare/v3.8.3...v3.9.1
 [v3.8.3]: https://github.com/meateam/api-gateway/compare/v3.8.2...v3.8.3
