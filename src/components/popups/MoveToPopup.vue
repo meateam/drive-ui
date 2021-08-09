@@ -2,10 +2,7 @@
   <v-dialog v-model="dialog" max-width="550" class="popup">
     <v-card>
       <div class="popup-header">
-        <img
-          class="popup-icon auto-margin"
-          src="@/assets/icons/green-move-to.svg"
-        />
+        <img class="popup-icon auto-margin" src="@/assets/icons/green-move-to.svg" />
         <p class="d-title">{{ $t("folder.Move") }}</p>
         <div class="files">
           <p class="ltr file" v-for="file in files" :key="file.id">
@@ -16,7 +13,7 @@
       <div class="popup-body">
         <Breadcrumbs :items="folderHierarchy" @click="onFolderChange" />
 
-        <List :items="currentChildren" icon="folder" @change="onFolderChange" />
+        <List :items="currentChildren" icon="folder" @change="onFolderChange" :disabledChecker="isFolderDestDisabled" />
 
         <v-card-actions class="popup-confirm">
           <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
@@ -33,43 +30,54 @@ import List from "@/components/shared/BaseList";
 import TextButton from "@/components/buttons/BaseTextButton";
 import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
-
+import { writeRole, ownerRole } from "@/utils/roles";
+import { mapGetters } from "vuex";
 export default {
   name: "MoveToPopup",
   components: { SubmitButton, List, TextButton, Breadcrumbs },
+  computed: {
+    ...mapGetters(["currentFolder"]),
+  },
   data() {
     return {
       dialog: false,
       folderHierarchy: undefined,
-      currentFolder: undefined,
       currentChildren: undefined,
+      folderDest: undefined,
     };
   },
   props: ["files"],
   methods: {
     async open() {
-      await this.fetchHierachy(this.currentFolder);
-      await this.fetchFolders(this.currentFolder);
-
+      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchFolders(this.currentFolder)]);
       this.dialog = true;
     },
     async fetchFolders(parent) {
-      this.currentChildren = await filesApi.getFoldersByFolder(
-        parent ? parent.id : undefined
-      );
+      this.currentChildren = await filesApi.getFoldersByFolder(parent ? parent.id : undefined);
     },
     async fetchHierachy(folder) {
       const breadcrumbs = [];
+      const getDriveFirstBreadcrumb = (role) =>
+        this.isFolderOwner(role)
+          ? [this.$t("pageHeaders.MyDrive"), false]
+          : [this.$t("pageHeaders.SharedWithMe"), true];
 
-      breadcrumbs.push({
-        value: undefined,
-        text: this.$t("pageHeaders.MyDrive"),
-        disabled: !folder,
-      });
-
-      if (folder) {
+      if (!folder) {
+        breadcrumbs.push({
+          value: undefined,
+          text: this.$t("pageHeaders.MyDrive"),
+          disabled: !folder,
+        });
+      } else {
         const hierarchy = await filesApi.getFolderHierarchy(folder.id);
+        const firstFolder = hierarchy && hierarchy.length > 0 ? hierarchy[0] : folder;
+        const [firstBreadCrumb, firstIsDisabled] = getDriveFirstBreadcrumb(firstFolder.role);
 
+        breadcrumbs.push({
+          value: undefined,
+          text: firstBreadCrumb,
+          disabled: firstIsDisabled || !folder,
+        });
         hierarchy.forEach((folder) => {
           breadcrumbs.push({
             value: folder,
@@ -77,7 +85,6 @@ export default {
             disabled: false,
           });
         });
-
         breadcrumbs.push({
           text: folder.name,
           disabled: true,
@@ -88,26 +95,26 @@ export default {
     },
     async onFolderChange(folder) {
       if (this.isFolderInFolder(folder)) return;
-
       await this.fetchHierachy(folder);
       await this.fetchFolders(folder);
-      this.currentFolder = folder;
+      this.folderDest = folder;
     },
     isFolderInFolder(folder) {
       if (!folder) return false;
-
       for (let i = 0; i < this.files.length; i++) {
         if (this.files[i].id === folder.id) return true;
       }
-
       return false;
     },
+    isFolderDestDisabled(folder) {
+      return !writeRole(folder.role) || this.isFolderInFolder(folder);
+    },
     onConfirm() {
-      this.$emit(
-        "confirm",
-        this.currentFolder ? this.currentFolder.id : undefined
-      );
+      this.$emit("confirm", this.folderDest ? this.folderDest.id : undefined);
       this.dialog = false;
+    },
+    isFolderOwner(role) {
+      return ownerRole(role);
     },
   },
 };
