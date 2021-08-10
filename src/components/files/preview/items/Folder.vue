@@ -1,7 +1,5 @@
 <template>
   <v-card
-    @mouseover="mouseOver()"
-    @mouseleave="mouseLeave()"
     id="folder"
     class="pointer"
     :class="{ selected: isSelected }"
@@ -10,37 +8,17 @@
     @click.native.exact="$emit('click', folder)"
     @click.ctrl.native="$emit('ctrlclick', folder)"
   >
-    <img @click="starClick" v-if="!folder.isFavorite && hover" class="star" src="@/assets/icons/dark-gray-star.svg" />
-    <img @click="starClick" v-if="folder.isFavorite" class="star" src="@/assets/icons/orange-star.svg" />
-    <v-icon color="#fc8946" id="folder-icon">folder</v-icon>
+    <v-icon v-if="folder.isFavorite" class="star-fill" left >star</v-icon>
+    <v-icon color="#4FBEA0" id="folder-icon">folder</v-icon>
     <p id="folder-name">{{ folder.name }}</p>
   </v-card>
 </template>
 
 <script>
-import * as favApi from "@/api/favorite";
 
 export default {
   name: "Folder",
   props: ["folder", "isSelected"],
-  data() {
-  return {
-    hover: false,  
-  }
-},
-  methods: {
-    starClick() {
-      if (!this.folder.isFavorite) favApi.addFavorite({fileID: this.folder.id})
-      else favApi.deleteFavorite({fileID: this.folder.id})
-      this.folder.isFavorite = !this.folder.isFavorite
-    },
-    mouseOver() {
-      this.hover = true;
-    },
-    mouseLeave() {
-      this.hover = false;
-    }
-  },
 };
 </script>
 
@@ -68,15 +46,15 @@ export default {
   margin: auto 10px;
 }
 
-.star {
+.star-fill {
+  color: #FFA500;
   width: 20px;
   height: 20px;
   display: flex;
   justify-content: space-between;
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 8px;
 }
-
 
 </style>

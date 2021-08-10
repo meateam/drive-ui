@@ -4,28 +4,16 @@ import store from "@/store";
 
 export async function fetchFavFiles() {
     const result = await Axios.get(`${baseURL}/api/files/fav`)
-    console.log(result.data)
     if (result.data.files === null) return []
-    return result.data.files.successful;
+    console.log("favorites:",result.data.files.SuccessfulFileIDs)
+    return result.data.files.SuccessfulFileIDs;
 
 }
-  
+
 export async function addFavorite({ fileID }) {
     await Axios.post(`${baseURL}/api/fav/${fileID}?appId=drive`)
 }
 
-export async function addFavorites({ files }) {
-    return Promise.all(
-     files.map(async (file) => {
-         await addFavorite({ fileID: file.id });
-     })   
-    ).then(() => {
-        store.commit("onSuccess", "success.Share");
-    })
-    .catch((err) => {
-        store.dispatch("onError", err);
-    })
-}
 
 export async function deleteFavorite({ fileID }) {
     await Axios.delete(`${baseURL}/api/fav/${fileID}`)
