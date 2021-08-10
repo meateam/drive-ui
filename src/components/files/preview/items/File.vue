@@ -1,8 +1,6 @@
 <template>
   <v-lazy>
     <v-card
-      @mouseover="mouseOver()"
-      @mouseleave="mouseLeave()"
       id="file"
       :class="{ selected: isSelected }"
       class="pointer"
@@ -22,8 +20,7 @@
       <div v-else id="file-icon">
         <FileTypeIcon :file="file" :size="120" :view="false" />
       </div>
-      <img @click="starClick" v-if="!file.isFavorite && hover" class="star"  src="@/assets/icons/dark-gray-star.svg" />
-      <img @click="starClick" v-if="file.isFavorite" class="star" src="@/assets/icons/orange-star.svg" />
+      <v-icon v-if="file.isFavorite" class="star-fill">star</v-icon>
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <p v-on="on" id="file-name">{{ file.name }}</p>
@@ -38,32 +35,15 @@
 import { getPdfPreview, getPreview } from "@/api/files";
 import { canPreviewPdf } from "@/utils/canPreview";
 import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
-import * as favApi from "@/api/favorite";
 
 export default {
   name: "File",
   props: ["file", "isSelected"],
   components: { FileTypeIcon },
-  data() {
-    return {
-      hover: false,  
-    }
-  },
   methods: {
     showPDF() {
       return canPreviewPdf(this.file.type);
     },
-    starClick() {
-        if (!this.file.isFavorite) favApi.addFavorite({fileID: this.file.id})
-        else favApi.deleteFavorite({fileID: this.file.id})
-        this.file.isFavorite = !this.file.isFavorite
-    },
-    mouseOver() {
-      this.hover = true;
-    },
-    mouseLeave() {
-      this.hover = false;
-    }
   },
   computed: {
     getImage() {
@@ -135,7 +115,8 @@ export default {
   pointer-events: none !important;
 }
 
-.star {
+.star-fill {
+  color: #FFA500;
   width: 20px;
   height: 20px;
   display: flex;
@@ -144,6 +125,5 @@ export default {
   top: 10px;
   left: 10px;
 }
-
 
 </style>

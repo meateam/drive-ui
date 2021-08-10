@@ -121,7 +121,6 @@ export default {
       headers: [
         { value: "type", align: "center", sortable: this.sortable },
         { text: this.$t("file.Name"), value: "fileName", sortable: this.sortable, width: "300px", fixed: true },
-        {text: "played", value: "played"},
         { text: this.$t("file.TransferClassification"), value: "classification", sortable: this.sortable },
         { text: this.$t("file.Owner"), value: "file.owner", sortable: this.sortable },
         {

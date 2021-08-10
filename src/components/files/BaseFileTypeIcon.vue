@@ -1,6 +1,6 @@
 <template>
   <div class="display-img">
-    <v-icon v-if="isFolder(file.type)" :size="size" color="#fc8946">folder</v-icon>
+    <v-icon v-if="isFolder(file.type)" :size="size" color="#4FBEA0">folder</v-icon>
     <v-img v-else-if="isDeleted(file)" src="@/assets/file-types/deleted.svg" :width="size" />
     
     <v-img v-else-if="fileType === 'txt'" src="@/assets/file-types/txt.svg" :width="size" />
@@ -37,7 +37,7 @@
 <script>
 import { fileTypes } from "@/config";
 import { getFileType } from "@/utils/getFileType";
-
+//fc8946
 export default {
   name: "FileTypeIcon",
   props: ["file", "size", "isTypeIcon"],
@@ -69,7 +69,7 @@ export default {
   position: absolute;
   top: -5px; 
   left: -2px;
-  color: #D2691E;
+  color: #FFA500;
 }
 
 .display-img {

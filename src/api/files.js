@@ -10,9 +10,10 @@ import store from "@/store";
  */
 export async function fetchFiles(parent) {
   const res = await Axios.get(`${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id}` : ""}`);
-  const files = res.data;
-  return files;
+  console.log("files:",res.data)
+  return res.data;
 }
+
 
 /**
  * getFoldersByFolder returns all the folder childrens (with the type folder)
@@ -88,7 +89,6 @@ export async function deleteFile(fileID) {
 export async function multipartUpload({ file, parent }) {
   const source = Axios.CancelToken.source();
   const formData = new FormData();
-
   formData.append("file", file, file.name);
   const res = await Axios.post(
     `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""}`,
@@ -114,7 +114,6 @@ export async function multipartUpload({ file, parent }) {
  */
 export async function resumableUpload({ file, parent }) {
   const uploadID = await createResumableUpload({ file, parent });
-
   const source = Axios.CancelToken.source();
   const formData = new FormData();
   formData.append("file", file, file.name);
@@ -188,6 +187,10 @@ export async function uploadFolder({ name, parent }) {
   );
 
   const folder = await getFileByID(res.data);
+
+  // initialize isFavorite to false
+  if (folder.isFavorite === undefined) folder.isFavorite = false;
+  
   return folder;
 }
 

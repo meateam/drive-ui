@@ -57,10 +57,10 @@ const actions = {
    * addFav gets a file id and add it to favorites
    * @param fileID is the id of the file to add
    */
-     async addFav({ commit, dispatch }, fileID) {
+     async addFav({ commit }, fileID) {
       await favApi.addFavorite({fileID: fileID});
       commit("addFav", fileID);
-      dispatch("getQuota");
+      // dispatch("getQuota");
     },
     /**
    * removeFav gets a file id and removes it from favorites
@@ -253,9 +253,11 @@ const actions = {
       });
     }
 
+    // initialize isFavorite to false
+    if (metadata.isFavorite === undefined) metadata.isFavorite = false;
+    
     metadata.owner = "אני";
     lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
-
     commit("removeLoadingFile", metadata.name);
     commit("addFile", metadata);
 
@@ -271,7 +273,9 @@ const actions = {
         return dispatch("uploadFile", file);
       })
     )
-      .then(() => commit("onSuccess", files.length === 1 ? "success.File" : "success.Files"))
+      .then(() => { 
+        commit("onSuccess", files.length === 1 ? "success.File" : "success.Files")
+      })
       .catch((err) => {
         dispatch("onError", err);
       });
