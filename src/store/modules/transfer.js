@@ -30,6 +30,7 @@ const actions = {
           await Promise.all(
               transfers.transfersInfo.map(async (transferInfo) => {
                   const [file, ownerName] = await Promise.all([
+                    // eslint-disable-next-line no-unused-vars
                       fileApi.getFileByID(transferInfo.fileID).catch((_err) => {
                           transferInfo.file = {};
                           transferInfo.file.name = transferInfo.fileName;
