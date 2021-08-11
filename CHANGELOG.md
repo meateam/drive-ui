@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v3.9.4] - 2021-07-25
 
 ### Fixed
+- minor: ([124](https://github.com/meateam/drive-ui/pull/124/)) : add restriction to the number of uploaded files and folders.
+
+## [v3.10.0] - 2021-08-09
+
+### Fixed
+- hotfix: ([127](https://github.com/meateam/drive-ui/pull/127)): add append number to the file name when it exists
+- minor: ([107](https://github.com/meateam/drive-ui/pull/107/)) : improve async handling.
+- hotfix: ([126](https://github.com/meateam/drive-ui/pull/126)): fix move files in shared folder and breadcrumb in shared-with-me page
+
+## [v3.9.4] - 2021-07-25
+
+### Fixed
 
 - hotfix: ([115](https://github.com/meateam/drive-ui/pull/115)): fix edit file name extention and special chars in the file name.
 - hotfix: ([114](https://github.com/meateam/drive-ui/pull/114)): fix drag and drop non responding page.
