@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- hotfix: ([107](https://github.com/meateam/drive-ui/pull/107)): fix transfer and file async handling.
 - hotfix: ([115](https://github.com/meateam/drive-ui/pull/115)): fix edit file name extention and special chars in the file name.
 - hotfix: ([114](https://github.com/meateam/drive-ui/pull/114)): fix drag and drop non responding page.
 - hotfix: ([49](https://github.com/meateam/drive-ui/pull/49/)) : fix fetch shared files bug.
