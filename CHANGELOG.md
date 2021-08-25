@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+- hotfix: ([132](https://github.com/meateam/drive-ui/pull/132)): improve async requests in file.js.
+
 ## [v3.10.0] - 2021-08-09
 
 ### Fixed
