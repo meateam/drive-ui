@@ -1,6 +1,6 @@
 import store from '@/store'
 import i18n from "@/i18n"
-import { UploadSet, UploadGet, UploadAction } from "@/store/modules/uploadFolder"
+import { UploadSet, UploadGet, UploadAction } from "@/store/modules/upload"
 import { Promise } from 'bluebird'
 import { getMimeType } from './fileMimeType'
 
