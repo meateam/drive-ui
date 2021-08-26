@@ -6,12 +6,8 @@ import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes, pageSize } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
-import { appendNumberIfFileExists } from "@/utils/isFileNameExists";
 import { isFolder } from "@/utils/isFolder";
 import { getNetworkItemByAppId } from "@/utils/networkDest";
-
-const MB = 1024 * 1024;
-const MB5 = MB * 5;
 
 const state = {
   files: [],
@@ -183,121 +179,6 @@ const actions = {
       });
   },
   /**
-   * uploadFile create multipart or resumable upload by the file size
-   * @param file is the file to upload
-   */
-  async uploadFile({ commit, rootState }, file) {
-    const [isExist, newFileName] = appendNumberIfFileExists({
-      name: file.name,
-      files: state.files,
-      loadingFiles: rootState.loadingState.loadingFiles,
-    });
-
-    if (isExist) {
-      if (newFileName) {
-          file = new File([file], newFileName, { type: file.type });
-      } else {
-        throw new Error(i18n.t("errors.fileExistInFolder"));
-      }
-    }
-
-    let metadata = undefined;
-    const loadingFileCallBack = (file, event, source) => {
-      commit("addLoadingFile", {
-        name: file.name,
-        progress: Math.round((100 * event.loaded) / event.total),
-        source,
-      });
-    };
-
-    if (file.size <= MB5) {
-      metadata = await filesApi.multipartUpload(
-        {
-          file: file,
-          parent: state.currentFolder,
-        },
-        loadingFileCallBack
-      );
-    } else {
-      metadata = await filesApi.resumableUpload(
-        {
-          file: file,
-          parent: state.currentFolder,
-        },
-        loadingFileCallBack
-      );
-    }
-
-    metadata.owner = i18n.t("me");
-    lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
-
-    commit("removeLoadingFile", metadata.name);
-    commit("addFile", metadata);
-
-    commit("addQuota", metadata.size);
-  },
-
-  /**
-   * uploadFiles uploads all the files async
-   * @param files is the files to upload
-   */
-  async uploadFiles({ dispatch, commit }, files) {
-    return Promise.all(
-      Object.values(files).map((file) => {
-        return dispatch("uploadFile", file);
-      })
-    )
-      .then(() => commit("onSuccess", files.length === 1 ? "success.File" : "success.Files"))
-      .catch((err) => {
-        dispatch("onError", err);
-      });
-  },
-
-  async cancelUpload({ commit, dispatch }, file) {
-    try {
-      await filesApi.cancelUpload(file.source);
-      commit("removeLoadingFile", file.name);
-      commit("onSuccess", "success.Cancel");
-    } catch (err) {
-      dispatch("onError", err);
-    }
-  },
-
-  /**
-   * uploadFolder in the current folder
-   * @param name is the name of the folder
-   */
-  async uploadFolder({ commit, dispatch, rootState }, name) {
-    try {
-      const [isExist, newFileName] = appendNumberIfFileExists({
-        name: name,
-        files: state.files,
-        loadingFiles: rootState.loading.loadingFiles,
-        isFolder: true,
-      });
-  
-      if (isExist) {
-        if (newFileName) {
-          name = newFileName;
-        } else {
-          throw new Error(i18n.t("errors.folderExistInFolder"));
-        }
-      }
-     
-      const folder = await filesApi.uploadFolder({
-        name,
-        parent: state.currentFolder,
-      });
-      folder.owner = i18n.t("me");
-
-      commit("onSuccess", "success.Folder");
-      commit("addFile", folder);
-    } catch (err) {
-      dispatch("onError", err);
-    }
-  },
-
-  /**
    * onFolderChange change the current folder by the recived id
    * @param fileOrFolderID is the id of the current file or folder
    */
@@ -382,10 +263,9 @@ const mutations = {
     state.serverFilesLength = itemCount;
   },
   deleteFile: (state, fileID) => {
-    state.files = state.files.filter((file) => file.id !== fileID);
-    state.chosenFiles = state.chosenFiles.filter((file) => {
-      return file.id !== fileID;
-    });
+    const filterCallback = (file) => file.id !== fileID;
+    state.files = state.files.filter(filterCallback);
+    state.chosenFiles = state.chosenFiles.filter(filterCallback);
     if (state.files.length == 0) state.serverFilesLength = 0;
   },
   updateFile: (state, updateFile) => {
