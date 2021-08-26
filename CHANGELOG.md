@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v3.10.0] - 2021-08-09
+
+### Fixed
+- hotfix: ([127](https://github.com/meateam/drive-ui/pull/127)): add append number to the file name when it exists
+- minor: ([107](https://github.com/meateam/drive-ui/pull/107/)) : improve async handling.
+- hotfix: ([126](https://github.com/meateam/drive-ui/pull/126)): fix move files in shared folder and breadcrumb in shared-with-me page
+
+## [v3.9.4] - 2021-07-25
+
+### Fixed
+- minor: ([124](https://github.com/meateam/drive-ui/pull/124/)) : add restriction to the number of uploaded files and folders.
+
+## [v3.10.0] - 2021-08-09
+
+### Fixed
+- hotfix: ([127](https://github.com/meateam/drive-ui/pull/127)): add append number to the file name when it exists
+- minor: ([107](https://github.com/meateam/drive-ui/pull/107/)) : improve async handling.
+- hotfix: ([126](https://github.com/meateam/drive-ui/pull/126)): fix move files in shared folder and breadcrumb in shared-with-me page
+
 ## [v3.9.4] - 2021-07-25
 
 ### Fixed
@@ -16,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - hotfix: ([49](https://github.com/meateam/drive-ui/pull/49/)) : fix fetch shared files bug.
 
 ## [v3.9.1] - 2021-06-23
- 
+
 ### Feature
 
 - minor: ([56](https://github.com/meateam/drive-ui/pull/56)): add an option to upload a folder.
@@ -160,6 +179,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
 
 [unreleased]: https://github.com/meateam/api-gateway/compare/master...develop
+[v3.10.0]: https://github.com/meateam/api-gateway/compare/v3.9.1...v3.9.4
 [v3.9.4]: https://github.com/meateam/api-gateway/compare/v3.9.1...v3.9.4
 [v3.9.1]: https://github.com/meateam/api-gateway/compare/v3.8.3...v3.9.1
 [v3.8.3]: https://github.com/meateam/api-gateway/compare/v3.8.2...v3.8.3

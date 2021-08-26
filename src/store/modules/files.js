@@ -6,7 +6,7 @@ import { sortFiles } from "@/utils/sortFiles";
 import { fileTypes, pageSize } from "@/config";
 import { isOwner } from "@/utils/isOwner";
 import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils/formatFile";
-import { isFileNameExists } from "@/utils/isFileNameExists";
+import { appendNumberIfFileExists } from "@/utils/isFileNameExists";
 import { isFolder } from "@/utils/isFolder";
 import { getNetworkItemByAppId } from "@/utils/networkDest";
 
@@ -187,14 +187,18 @@ const actions = {
    * @param file is the file to upload
    */
   async uploadFile({ commit, rootState }, file) {
-    if (
-      isFileNameExists({
-        name: file.name,
-        files: state.files,
-        loadingFiles: rootState.loading.loadingFiles,
-      })
-    ) {
-      throw new Error(i18n.t("errors.fileExistInFolder"));
+    const [isExist, newFileName] = appendNumberIfFileExists({
+      name: file.name,
+      files: state.files,
+      loadingFiles: rootState.loadingState.loadingFiles,
+    });
+
+    if (isExist) {
+      if (newFileName) {
+          file = new File([file], newFileName, { type: file.type });
+      } else {
+        throw new Error(i18n.t("errors.fileExistInFolder"));
+      }
     }
 
     let metadata = undefined;
@@ -265,16 +269,21 @@ const actions = {
    */
   async uploadFolder({ commit, dispatch, rootState }, name) {
     try {
-      if (
-        isFileNameExists({
-          name,
-          files: state.files,
-          loadingFiles: rootState.loading.loadingFiles,
-        })
-      ) {
-        throw new Error(i18n.t("errors.folderExistInFolder"));
+      const [isExist, newFileName] = appendNumberIfFileExists({
+        name: name,
+        files: state.files,
+        loadingFiles: rootState.loading.loadingFiles,
+        isFolder: true,
+      });
+  
+      if (isExist) {
+        if (newFileName) {
+          name = newFileName;
+        } else {
+          throw new Error(i18n.t("errors.folderExistInFolder"));
+        }
       }
-
+     
       const folder = await filesApi.uploadFolder({
         name,
         parent: state.currentFolder,

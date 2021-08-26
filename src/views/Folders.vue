@@ -27,7 +27,7 @@ export default {
     this.onFolderChange(this.currentFolder);
   },
   watch: {
-    currentFolder: function (folder) {
+    currentFolder: function(folder) {
       this.onFolderChange(folder);
     },
   },
@@ -37,7 +37,8 @@ export default {
   methods: {
     async onFolderChange(folder) {
       await this.getBreadcrumbs(folder);
-      this.$store.dispatch("fetchFiles");
+
+      if (folder) this.$store.dispatch("fetchFiles");
     },
     async getBreadcrumbs(folder) {
       if (!folder) return;
@@ -51,14 +52,11 @@ export default {
         });
       };
       const getDriveFirstBreadcrumb = (role) =>
-        this.isFolderOwner(role)
-          ? this.$t("pageHeaders.MyDrive")
-          : this.$t("pageHeaders.SharedWithMe");
+        this.isFolderOwner(role) ? this.$t("pageHeaders.MyDrive") : this.$t("pageHeaders.SharedWithMe");
 
       const breadcrumbs = [];
 
-      const firstFolder =
-        hierarchy && hierarchy.length > 0 ? hierarchy[0] : this.currentFolder;
+      const firstFolder = hierarchy && hierarchy.length > 0 ? hierarchy[0] : this.currentFolder;
       const firstBreadcrumbText = firstFolder.isExternal
         ? getExternalNetworkFirstBreadcrumb(firstFolder.appID)
         : getDriveFirstBreadcrumb(firstFolder.role);

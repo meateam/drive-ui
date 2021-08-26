@@ -271,7 +271,9 @@
     "GoBack": "GO HOME",
     "Unavailable": "Unavailable System",
     "BackSoon": "we will be back soon",
-    "ForHelp": "for support, massage us in the hi chat group - drive support"
+    "ForHelp": "for support, massage us in the hi chat group - drive support",
+    "maxFiles": "Cannot upload more then {maxFiles} files at once",
+    "maxFolders": "Cannot upload more then {maxFolders} folders at once"
   },
   "warnings": {
     "SpecialChars": "invalid characters in the file or folder name"
