@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { UploadGet } from "@/store/modules/uploadFolder";
+import { UploadGet } from "@/store/modules/upload";
 import { mapGetters } from "vuex";
 import { getFilesFromDroppedItems } from "@/utils/drop";
 

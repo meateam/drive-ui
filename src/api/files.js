@@ -112,7 +112,7 @@ export async function multipartUpload({ file, parent }, progress) {
       doNotInterfere: true,
     }
   );
-  const metadata = await getFileByID(res.data);
+  const metadata = res.data;
   return metadata;
 }
 
@@ -137,8 +137,7 @@ export async function resumableUpload({ file, parent }, progress) {
       doNotInterfere: true,
     }
   );
-
-  const metadata = await getFileByID(res.data);
+  const metadata = res.data;
   return metadata;
 }
 
@@ -190,8 +189,7 @@ export async function uploadFolder({ name, parent }) {
       },
     }
   );
-
-  const folder = await getFileByID(res.data);
+  const folder = res.data;
   return folder;
 }
 

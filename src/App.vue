@@ -6,7 +6,7 @@
 
 <script>
 import Layout from "@/components/layout/Layout";
-import { UploadGet } from "@/store/modules/uploadFolder";
+import { UploadGet } from "@/store/modules/upload";
 import { mapGetters } from "vuex";
 
 export default {

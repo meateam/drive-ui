@@ -11,7 +11,7 @@ import search from "./modules/search";
 import success from "./modules/success";
 import warning from "./modules/warning";
 import directonary from "./modules/dictionary";
-import uploadFolder from "./modules/uploadFolder";
+import upload from "./modules/upload";
 import transfer from "./modules/transfer";
 
 Vue.use(Vuex);
@@ -28,7 +28,7 @@ export default new Vuex.Store({
         success,
         search,
         directonary,
-        uploadFolder,
+        upload,
         transfer,
         warning,
     },
