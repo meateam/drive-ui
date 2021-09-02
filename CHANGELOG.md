@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
-## [v3.10.0] - 2021-08-09
+## [v3.10.1] - 2021-08-26
+### Added
+- hotfix: ([132](https://github.com/meateam/drive-ui/pull/132)): fix transfer and file async handling.
+
+## [v3.10.0] - 2021-08-25
 
 ### Fixed
 - hotfix: ([127](https://github.com/meateam/drive-ui/pull/127)): add append number to the file name when it exists
@@ -179,7 +183,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - default timoout for the axios request because some big files uploads that took more then 10 sec faild.
 
 [unreleased]: https://github.com/meateam/api-gateway/compare/master...develop
-[v3.10.0]: https://github.com/meateam/api-gateway/compare/v3.9.1...v3.9.4
+[v3.10.1]: https://github.com/meateam/api-gateway/compare/v3.10.0...v3.10.1
+[v3.10.0]: https://github.com/meateam/api-gateway/compare/v3.9.4...v3.10.0
 [v3.9.4]: https://github.com/meateam/api-gateway/compare/v3.9.1...v3.9.4
 [v3.9.1]: https://github.com/meateam/api-gateway/compare/v3.8.3...v3.9.1
 [v3.8.3]: https://github.com/meateam/api-gateway/compare/v3.8.2...v3.8.3
