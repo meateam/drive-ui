@@ -7,13 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
-## [v3.10.1] - 2021-08-26
+## [v3.10.2] - 2021-08-26
+
 ### Added
+
+- hotfix: ([136](https://github.com/meateam/drive-ui/pull/136)): fix deleted file in transfer and change format user
+
+## [v3.10.1] - 2021-08-26
+
+### Added
+
 - hotfix: ([132](https://github.com/meateam/drive-ui/pull/132)): fix transfer and file async handling.
 
 ## [v3.10.0] - 2021-08-25
 
 ### Fixed
+
 - hotfix: ([127](https://github.com/meateam/drive-ui/pull/127)): add append number to the file name when it exists
 - minor: ([107](https://github.com/meateam/drive-ui/pull/107/)) : improve async handling.
 - hotfix: ([126](https://github.com/meateam/drive-ui/pull/126)): fix move files in shared folder and breadcrumb in shared-with-me page
@@ -21,11 +30,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v3.9.4] - 2021-07-25
 
 ### Fixed
+
 - minor: ([124](https://github.com/meateam/drive-ui/pull/124/)) : add restriction to the number of uploaded files and folders.
 
 ## [v3.10.0] - 2021-08-09
 
 ### Fixed
+
 - hotfix: ([127](https://github.com/meateam/drive-ui/pull/127)): add append number to the file name when it exists
 - minor: ([107](https://github.com/meateam/drive-ui/pull/107/)) : improve async handling.
 - hotfix: ([126](https://github.com/meateam/drive-ui/pull/126)): fix move files in shared folder and breadcrumb in shared-with-me page
