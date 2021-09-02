@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v3.10.2] - 2021-08-26
 
 ### Added
-
+- minor: ([138](https://github.com/meateam/drive-ui/pull/138)): add holiday gif 
 - hotfix: ([136](https://github.com/meateam/drive-ui/pull/136)): fix deleted file in transfer and change format user
 
 ## [v3.10.1] - 2021-08-26
