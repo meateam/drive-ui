@@ -10,7 +10,6 @@ import store from "@/store";
  */
 export async function fetchFiles(parent) {
   const res = await Axios.get(`${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id}` : ""}`);
-  console.log("files:",res.data)
   return res.data;
 }
 
@@ -188,9 +187,7 @@ export async function uploadFolder({ name, parent }) {
 
   const folder = await getFileByID(res.data);
 
-  // initialize isFavorite to false
-  if (folder.isFavorite === undefined) folder.isFavorite = false;
-  
+
   return folder;
 }
 
