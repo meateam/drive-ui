@@ -65,25 +65,25 @@ const actions = {
    * addFav gets a file id and add it to favorites
    * @param fileID is the id of the file to add
    */
-     async addFav({ commit }, fileID) {
+  async addFav({ commit }, fileID) {
       await favApi.addFavorite({fileID: fileID});
       commit("addFav", fileID);
       // dispatch("getQuota");
-    },
+  },
     /**
    * removeFav gets a file id and removes it from favorites
    * @param fileID is the id of the file to remove
    */
-    async removeFav({ commit, dispatch }, fileID) {
+  async removeFav({ commit, dispatch }, fileID) {
      await favApi.deleteFavorite({fileID: fileID});
     // dispatch("fetchFavFiles");
      commit("removeFav", fileID);
      dispatch("getQuota");
-   },
+  },
     /**
      * addFavs uses the method addFav and removeFav to add/remove all the files in the chosen array
      */
-     addOrRemoveFavs({ dispatch, commit }, files) {
+  addOrRemoveFavs({ dispatch, commit }, files) {
       let isFav = false;
       Promise.all(files.map((file) => {
         if (!file.isFavorite)
@@ -103,7 +103,7 @@ const actions = {
         .catch((err) => {
           dispatch("onError", err);
         });
-    },
+  },
 
   async fetchFile({ dispatch }) {
     try {

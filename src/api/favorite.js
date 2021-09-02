@@ -5,7 +5,6 @@ import store from "@/store";
 export async function fetchFavFiles() {
     const result = await Axios.get(`${baseURL}/api/files/fav`)
     if (result.data.files === null) return []
-    console.log("favorites:",result.data.files.SuccessfulFileIDs)
     return result.data.files.SuccessfulFileIDs;
 
 }
@@ -13,7 +12,6 @@ export async function fetchFavFiles() {
 export async function addFavorite({ fileID }) {
     await Axios.post(`${baseURL}/api/fav/${fileID}?appId=drive`)
 }
-
 
 export async function deleteFavorite({ fileID }) {
     await Axios.delete(`${baseURL}/api/fav/${fileID}`)
