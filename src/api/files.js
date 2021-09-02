@@ -192,8 +192,6 @@ export async function uploadFolder({ name, parent }) {
   );
 
   const folder = await getFileByID(res.data);
-
-
   return folder;
 }
 

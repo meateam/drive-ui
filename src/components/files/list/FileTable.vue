@@ -22,19 +22,15 @@
           <td>
             <v-simple-checkbox color="#035c64" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </td>
-          
           <td id="file-icon">
             <FileTypeIcon :file="item" :size="30" :isTypeIcon="true"/>
           </td>
 
-          <td class="file-name">
-            {{ item.name }}
-          </td>          
+          <td class="file-name">{{ item.name }}</td>          
 
           <td>{{ item.owner || '???' }}</td>
           <td class="ltr-td">{{ formatFileDate(item.updatedAt) }}</td>
           <td class="ltr-td">{{ formatFileSize(item.size) }}</td>
-
         </tr>
       </template>
       <template v-slot:[`header.data-table-select`]="{ props, on }">
@@ -132,5 +128,4 @@
   #pagination {
     padding-top: 20px;
   }
-
 </style>

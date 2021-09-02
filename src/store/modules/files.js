@@ -10,7 +10,6 @@ import { isFileOwner, getFileOwnerName, getExternalFileOwnerName } from "@/utils
 import { appendNumberIfFileExists } from "@/utils/isFileNameExists";
 import { isFolder } from "@/utils/isFolder";
 import { getNetworkItemByAppId } from "@/utils/networkDest";
-import { Promise } from "core-js";
 
 const MB = 1024 * 1024;
 const MB5 = MB * 5;
@@ -44,7 +43,6 @@ const actions = {
   async fetchFiles({ commit, dispatch }) {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
-
       commit("setIsShared", false);
       dispatch("updateFetchedFiles", files);
     } catch (err) {
@@ -68,17 +66,14 @@ const actions = {
   async addFav({ commit }, fileID) {
       await favApi.addFavorite({fileID: fileID});
       commit("addFav", fileID);
-      // dispatch("getQuota");
   },
     /**
    * removeFav gets a file id and removes it from favorites
    * @param fileID is the id of the file to remove
    */
-  async removeFav({ commit, dispatch }, fileID) {
+  async removeFav({ commit }, fileID) {
      await favApi.deleteFavorite({fileID: fileID});
-    // dispatch("fetchFavFiles");
      commit("removeFav", fileID);
-     dispatch("getQuota");
   },
     /**
      * addFavs uses the method addFav and removeFav to add/remove all the files in the chosen array
@@ -296,9 +291,9 @@ const actions = {
     if (metadata.isFavorite === undefined) metadata.isFavorite = false;
     
     lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
+    
     commit("removeLoadingFile", metadata.name);
     commit("addFile", metadata);
-
     commit("addQuota", metadata.size);
   },
 

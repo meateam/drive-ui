@@ -3,7 +3,7 @@
     <v-card>
       <div class="popup-header">
         <img class="popup-icon auto-margin" src="@/assets/icons/green-info.svg" />
-        <v-icon v-if="file.isFavorite" class="star-fill">star</v-icon>
+        <v-icon v-if="file.isFavorite" class="star-popupIcon">star</v-icon>
         <p class="d-title">{{ $t("fileInfo.Info") }}</p>
       </div>
       <div class="popup-body">
@@ -119,17 +119,7 @@ p {
   color: #1b2e35;
 }
 
-.star {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  top: 58px; 
-  right: 265px;
-}
-
-.star-fill {
+.star-popupIcon {
   width: 20px;
   height: 20px;
   display: flex;

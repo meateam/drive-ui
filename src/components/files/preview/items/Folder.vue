@@ -8,14 +8,13 @@
     @click.native.exact="$emit('click', folder)"
     @click.ctrl.native="$emit('ctrlclick', folder)"
   >
-    <v-icon v-if="folder.isFavorite" class="star-fill" left >star</v-icon>
+    <v-icon v-if="folder.isFavorite" class="star-folderIcon" left >star</v-icon>
     <v-icon color="#4FBEA0" id="folder-icon">folder</v-icon>
     <p id="folder-name">{{ folder.name }}</p>
   </v-card>
 </template>
 
 <script>
-
 export default {
   name: "Folder",
   props: ["folder", "isSelected"],
@@ -46,7 +45,7 @@ export default {
   margin: auto 10px;
 }
 
-.star-fill {
+.star-folderIcon {
   color: #FFA500;
   width: 20px;
   height: 20px;
