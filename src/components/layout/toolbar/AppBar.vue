@@ -164,7 +164,7 @@ export default {
 }
 
 .holiday-div {
-  margin-right: 50px;
+  margin-right: 380px;
 }
 
 #holiday-text {
