@@ -13,6 +13,10 @@
         @type="getSearchResults"
       />
     </div>
+    <div class="holiday-div" >
+      <v-img id="gif" src="@/assets/icons/giphy.gif"></v-img>
+      <p id="holiday-text">{{ $t("SpecialEvents.Holiday") }}</p>
+    </div>        
     <v-spacer></v-spacer>
     <div id="left">
       <Progress :show="isLoading" color="#035c64" :size="60" />
@@ -151,5 +155,26 @@ export default {
     -webkit-transform: scale(1) rotateZ(360deg);
     transform: scale(1) rotateZ(360deg);
   }
+}
+
+#gif {
+  width: 100px;
+  height: 80px;
+  margin-right: 10px;
+}
+
+.holiday-div {
+  margin-right: 380px;
+}
+
+#holiday-text {
+  margin-top: -20px;
+  text-align: center;
+  margin-right: -35px;
+  font-size: 15px;
+  color: #2c3448;
+  font-family: Assistant-ExtraBold;
+  font-weight: 400;
+
 }
 </style>
