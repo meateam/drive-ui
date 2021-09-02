@@ -5,7 +5,6 @@
 .ltr-td {
     direction: ltr;
     text-align: right;
-    max-width: 90px;
 }
 
 .file-name {
@@ -45,4 +44,3 @@
 .theme--light.v-data-table tbody tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
     background-color: rgb(213, 221, 235) !important;
 }
-

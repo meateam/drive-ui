@@ -4,13 +4,14 @@
     <PreviewButton :icon="true" />
     <DownloadButton :icon="true" />
     <DeleteButton :icon="true" />
+    <FavoriteButton :icon="true" />
     <MoveToButton :icon="true" />
     <OnlineEditButton :icon="true" />
     <LocalEditButton :icon="true" />
     <EditButton :icon="true" />
     <ShareButton :icon="true" />
     <ExternalTransferButton :icon="true" />
-    <FavoriteButton :icon="true" />
+    
   </div>
 </template>
 

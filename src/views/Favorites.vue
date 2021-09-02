@@ -14,7 +14,7 @@ export default {
   name: "Favorites",
   components: { PageTemplate },
   computed: {
-    ...mapGetters(["currentFile","files"]),
+    ...mapGetters(["files"]),
   },
   created() {
     this.$store.dispatch("fetchFavFiles");

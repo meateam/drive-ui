@@ -30,14 +30,13 @@
     <v-icon v-else-if="file.type.startsWith('video')" :size="size" color="#9caec4">movie</v-icon>
     <v-icon v-else color="#1a73e8" :size="size">insert_drive_file</v-icon>
     <v-icon v-if="file.isFavorite && isTypeIcon" class="star-icon" small>star</v-icon>
-
   </div>
 </template>
 
 <script>
 import { fileTypes } from "@/config";
 import { getFileType } from "@/utils/getFileType";
-//fc8946
+
 export default {
   name: "FileTypeIcon",
   props: ["file", "size", "isTypeIcon"],
@@ -75,5 +74,4 @@ export default {
 .display-img {
   position: relative;
 }
-
 </style>
