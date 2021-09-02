@@ -33,7 +33,7 @@ const actions = {
               let file = await fileApi.getFileByID(transferInfo.fileID);
               transferInfo.file = file;
 
-              const ownerName = await getFileOwnerName(transferInfo.fileID);
+              const ownerName = await getFileOwnerName(file.ownerId);
               transferInfo.file.owner = ownerName;
             } catch (error) {
               transferInfo.file = {};
