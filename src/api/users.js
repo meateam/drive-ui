@@ -44,7 +44,7 @@ export async function getExternalUserByID(userID, destination) {
     const res = await Axios.get(`${baseURL}/api/users/${userID}`, {
       headers: { destination: destination },
     });
-    const user = formatUser(res.data.user);
+    const user = formatUser(res.data.user, true);
     store.commit("addUserToictionary", user);
 
     return user;
@@ -78,7 +78,7 @@ export async function searchExternalUsersByName(name, destination) {
       headers: { destination: destination },
     });
     const users = res.data.users || [];
-    return Promise.all(users.map((user) => formatUser(user)));
+    return Promise.all(users.map((user) => formatUser(user, true)));
   } catch (err) {
     store.dispatch("onError", err);
   }
