@@ -121,7 +121,7 @@ export async function getUsers(content, searchBy, destination = "") {
           return user.id !== store.state.auth.user.id;
         })
       : [];
-    return Promise.all(users.map(formatUser));
+    return Promise.all(users.map((user) => formatUser(user)));
   } catch (err) {
     if (searchBy !== AdvancedSearchEnum.SearchByName) {
       const advancedSearchError = new Error(i18n.t("share.AdvancedSearchError"));
