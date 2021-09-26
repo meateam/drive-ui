@@ -6,47 +6,42 @@ import { getMimeType } from './fileMimeType'
 
 // this call from the drop event
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
-    if (store.getters[UploadGet.isUpload]) {
-        return store.dispatch(
-            "onError",
-            new Error(i18n.t("errors.waitForUpload"))
-        );
-    }
-    const files = [...dataTransfer.items];
-    store.commit(UploadSet.isUpload, true);
-    const uploader = new UploadEntries(
-        store.getters.maxUploadedFiles,
-        store.getters.maxUploadedFolders
-    );
-    await Promise.all(
-        files
-            .filter((file) => file.kind === "file")
-            .map((file) => uploader.uploadEntries(file, parent))
-    );
-    store.commit("removeLoadingFiles");
-    store.dispatch("fetchFiles");
-    store.commit(UploadSet.isUpload, false);
+    const uploadCallback = (async function (dataTransferInput, parentInput) {
+        const files = [...dataTransferInput.items].filter((file) => file.kind === "file");
+        await uploadFiles(files, parentInput);
+    }).bind(null, dataTransfer, parent);
+    await canUpload(uploadCallback);
 }
 
 // this call from the plus button
 export async function getFilesFromInput(files, parent) {
+    const uploadCallback = (async function (filesInput, parentInput) {
+        const files = [...filesInput];
+        await uploadFiles(files, parentInput);
+        store.dispatch("fetchFiles");
+    }).bind(null, files, parent);
+    await canUpload(uploadCallback);
+}
+
+async function canUpload(uploadCallback) {
     if (store.getters[UploadGet.isUpload]) {
         return store.dispatch(
             "onError",
             new Error(i18n.t("errors.waitForUpload"))
         );
     }
-    const items = [...files];
-    store.commit(UploadSet.isUpload, true);
+    return await uploadCallback();
+}
+
+async function uploadFiles(files, parent) {
     const uploader = new UploadEntries(
         store.getters.maxUploadedFiles,
         store.getters.maxUploadedFolders
+        );
+    store.commit(UploadSet.isUpload, true);
+    await Promise.allSettled(
+        files.map((file) => uploader.uploadEntries(file, parent))
     );
-    await Promise.all(
-        items.map((file) => uploader.uploadEntries(file, parent))
-    );
-    store.commit("removeLoadingFiles");
-    store.dispatch("fetchFiles");
     store.commit(UploadSet.isUpload, false);
 }
 
