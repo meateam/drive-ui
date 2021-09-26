@@ -111,7 +111,7 @@ const actions = {
      * @param folder the folder to upload the file to
      */
     async [UploadAction.uploadFileToFolder](
-        { commit, rootState, dispatch },
+        { commit, rootState },
         { folder, file }
     ) {
         try {
