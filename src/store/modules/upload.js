@@ -111,7 +111,7 @@ const actions = {
      * @param folder the folder to upload the file to
      */
     async [UploadAction.uploadFileToFolder](
-        { commit, rootState },
+        { commit, rootState, dispatch },
         { folder, file }
     ) {
         try {
@@ -167,7 +167,6 @@ const actions = {
             res.owner = i18n.t("me");
             lastUpdatedFileHandler.pushUpdatedFile(res.id);
             commit("removeLoadingFile", res.name);
-            commit("addFile", res);
             commit("addQuota", res.size);
             return res;
         } catch (err) {
