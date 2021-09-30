@@ -13,10 +13,7 @@
                 @type="getSearchResults"
             />
         </div>
-        <div class="holiday-div">
-            <v-img id="gif" src="@/assets/images/beeholiday.png"></v-img>
-            <p id="holiday-text">{{ $t('SpecialEvents.Holiday') }}</p>
-        </div>
+
         <v-spacer></v-spacer>
         <div id="left">
             <Progress :show="isLoading" color="#035c64" :size="60" />
