@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   drive-ui:
-    image: "drivehub.azurecr.io/yarin/drive-ui:develop"
+    image: "drivehub.azurecr.io/meateam/drive-ui:develop"
     build: .
     ports:
       - "80:80"
