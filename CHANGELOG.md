@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v3.10.3] - 2021-10-13
+- hotfix: ([142](https://github.com/meateam/drive-ui/pull/142)): fix app bar spacing
+
 ## [v3.10.2] - 2021-08-26
 
 ### Added
