@@ -74,24 +74,25 @@ const actions = {
      */
   addOrRemoveFavs({ dispatch, commit }, files) {
       let isFav = false;
-      Promise.all(files.map((file) => {
-        if (!file.isFavorite)
-        {
-          isFav = true;
-          file.isFavorite = true;
-          dispatch("addFav", file.id)
-
-        } else {
-          file.isFavorite = false;
-          dispatch("removeFav", file.id)
-        }
-      }))
-        .then(() => {
-          commit("onSuccess", isFav ? "success.AddFavorite" : "success.RemoveFavorite")
+      try {
+        files.map((file) => {
+          if (!file.isFavorite)
+          {
+            isFav = true;
+            file.isFavorite = true;
+            dispatch("addFav", file.id)
+  
+          } else {
+            file.isFavorite = false;
+            dispatch("removeFav", file.id)
+          }
         })
-        .catch((err) => {
-          dispatch("onError", err);
-        });
+        commit("onSuccess", isFav ? "success.AddFavorite" : "success.RemoveFavorite")
+
+      } catch (err) {
+        dispatch("onError", err);
+
+      }
   },
 
   async fetchFile({ dispatch }) {
@@ -133,7 +134,6 @@ const actions = {
       commit("updatePageNum", pageNum + 1);
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount); 
-      
       for (const file of files) {
         const formattedFile = file;
         formattedFile.owner = await getFileOwnerName(file.ownerId);
@@ -249,7 +249,6 @@ const actions = {
         parent: state.currentFolder,
       });
     }
-  
     metadata.owner = "אני";
     lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
     

@@ -31,15 +31,13 @@ export default {
   props: ["icon"],
   methods: {
     favButtonAppear() {
-        if (this.chosenFiles.every((file) => file.isFavorite) || this.chosenFiles.every((file) => !file.isFavorite)) return true
-        return false
+      return this.chosenFiles.every((file) => file.isFavorite) || this.chosenFiles.every((file) => !file.isFavorite) ? true : false
     },
     onFavButton() {
       this.$store.dispatch("addOrRemoveFavs", this.chosenFiles)
     },
-    isFav() { 
-      if (this.chosenFiles.length === 0) return false
-      return this.chosenFiles[0].isFavorite
+    isFav() {
+      return this.chosenFiles.length === 0 ? false : this.chosenFiles[0].isFavorite
     }
   },
 };

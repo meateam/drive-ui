@@ -18,7 +18,7 @@
         id="pdf"
       ></iframe>
       <div v-else id="file-icon">
-        <FileTypeIcon :file="file" :size="120" :view="false" />
+        <FileTypeIcon :file="file" :size="120" :isTypeIcon="false" />
       </div>
       <v-icon v-if="file.isFavorite" class="star-fileIcon">star</v-icon>
       <v-tooltip bottom>
@@ -38,7 +38,7 @@ import FileTypeIcon from "@/components/files/BaseFileTypeIcon";
 
 export default {
   name: "File",
-  props: ["file", "isSelected"],
+  props: ["file", "isSelected", "isTypeIcon"],
   components: { FileTypeIcon },
   methods: {
     showPDF() {

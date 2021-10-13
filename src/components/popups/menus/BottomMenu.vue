@@ -11,7 +11,6 @@
     <EditButton :icon="true" />
     <ShareButton :icon="true" />
     <ExternalTransferButton :icon="true" />
-    
   </div>
 </template>
 

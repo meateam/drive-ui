@@ -26,7 +26,7 @@
             <FileTypeIcon :file="item" :size="30" :isTypeIcon="true"/>
           </td>
 
-          <td class="file-name">{{ item.name }}</td>          
+          <td class="file-name">{{ item.name }}</td>     
 
           <td>{{ item.owner || '???' }}</td>
           <td class="ltr-td">{{ formatFileDate(item.updatedAt) }}</td>
