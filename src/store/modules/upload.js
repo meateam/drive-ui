@@ -35,6 +35,7 @@ const actions = {
      * @param file is the file to upload
      */
     async uploadFile({ dispatch, rootState }, file) {
+        console.log("uploadFile", file);
         return await dispatch(UploadAction.uploadFileToFolder, {
             file,
             folder: rootState.files.currentFolder,
@@ -93,6 +94,8 @@ const actions = {
                 }
             }
 
+            console.log("Name: ", name);
+            console.log("Folder: ", state.currentFolder);
             const folder = await filesApi.uploadFolder({
                 name,
                 parent: state.currentFolder,

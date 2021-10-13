@@ -6,21 +6,26 @@ import { getMimeType } from './fileMimeType'
 
 // this call from the drop event
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
-    const uploadCallback = (async function (dataTransferInput, parentInput) {
-        const files = [...dataTransferInput.items].filter((file) => file.kind === "file");
-        await uploadFiles(files, parentInput);
-    }).bind(null, dataTransfer, parent);
-    await canUpload(uploadCallback);
+    console.log("getFilesFromDroppedItems: ", parent);
+    await canUpload(uploadDroppedCallback.bind(null, dataTransfer, parent));
 }
 
 // this call from the plus button
 export async function getFilesFromInput(files, parent) {
-    const uploadCallback = (async function (filesInput, parentInput) {
-        const files = [...filesInput];
-        await uploadFiles(files, parentInput);
-        store.dispatch("fetchFiles");
-    }).bind(null, files, parent);
-    await canUpload(uploadCallback);
+    await canUpload(uploadInputCallback.bind(null, files, parent));
+}
+
+async function uploadDroppedCallback (dataTransferInput, parentInput) {
+    console.log("parentInput: ", parentInput);
+    const files = [...dataTransferInput.items].filter((file) => file.kind === "file");
+    await uploadFiles(files, parentInput);
+    store.dispatch("fetchFiles");
+}
+
+async function uploadInputCallback(filesInput, parentInput) {
+    const files = [...filesInput];
+    await uploadFiles(files, parentInput);
+    store.dispatch("fetchFiles");
 }
 
 async function canUpload(uploadCallback) {
@@ -38,6 +43,8 @@ async function uploadFiles(files, parent) {
         store.getters.maxUploadedFiles,
         store.getters.maxUploadedFolders
         );
+        console.log("files: ", files);
+        console.log("parent: ", parent);
     store.commit(UploadSet.isUpload, true);
     await Promise.allSettled(
         files.map((file) => uploader.uploadEntries(file, parent))
