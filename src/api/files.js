@@ -10,9 +10,9 @@ import store from "@/store";
  */
 export async function fetchFiles(parent) {
   const res = await Axios.get(`${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id}` : ""}`);
-  return res.data;
+  const files = res.data;
+  return files;
 }
-
 
 /**
  * getFoldersByFolder returns all the folder childrens (with the type folder)

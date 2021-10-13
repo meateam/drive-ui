@@ -80,24 +80,25 @@ const actions = {
      */
   addOrRemoveFavs({ dispatch, commit }, files) {
       let isFav = false;
-      Promise.all(files.map((file) => {
-        if (!file.isFavorite)
-        {
-          isFav = true;
-          file.isFavorite = true;
-          dispatch("addFav", file.id)
-
-        } else {
-          file.isFavorite = false;
-          dispatch("removeFav", file.id)
-        }
-      }))
-        .then(() => {
-          commit("onSuccess", isFav ? "success.AddFavorite" : "success.RemoveFavorite")
+      try {
+        files.map((file) => {
+          if (!file.isFavorite)
+          {
+            isFav = true;
+            file.isFavorite = true;
+            dispatch("addFav", file.id)
+  
+          } else {
+            file.isFavorite = false;
+            dispatch("removeFav", file.id)
+          }
         })
-        .catch((err) => {
-          dispatch("onError", err);
-        });
+        commit("onSuccess", isFav ? "success.AddFavorite" : "success.RemoveFavorite")
+
+      } catch (err) {
+        dispatch("onError", err);
+
+      }
   },
 
   async fetchFile({ dispatch }) {
