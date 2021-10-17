@@ -501,6 +501,12 @@ const mutations = {
   setIsShared: (state, isShared) => {
     state.isShared = isShared;
   },
+  addFav: (state, addFav) => {
+    state.addFav = addFav;
+  },
+  removeFav: (state, removeFav) => {
+    state.removeFav = removeFav;
+  },
 };
 
 export default {
