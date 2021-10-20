@@ -52,8 +52,7 @@ const actions = {
 
   async fetchFavFiles({ dispatch }) {
     try {
-      const files = await favApi.fetchFavFiles(state.currentFolder);
-      dispatch("updateFetchedFiles", files);
+      await favApi.fetchFavFiles(state.currentFolder);
     } catch (err) {
       dispatch("onError", err);
     }
@@ -63,42 +62,39 @@ const actions = {
    * addFav gets a file id and add it to favorites
    * @param fileID is the id of the file to add
    */
-  async addFav({ commit }, fileID) {
-      await favApi.addFavorite({fileID: fileID});
-      commit("addFav", fileID);
+  async addFav({dispatch }, file) {
+    try {
+      await favApi.addFavorite(file);
+    } catch (err) {
+      dispatch("onError", err);
+    }
   },
     /**
    * removeFav gets a file id and removes it from favorites
    * @param fileID is the id of the file to remove
    */
-  async removeFav({ commit }, fileID) {
-     await favApi.deleteFavorite({fileID: fileID});
-     commit("removeFav", fileID);
+  async removeFav({dispatch }, file) {
+    try {
+      await favApi.deleteFavorite(file);
+    } catch (err) {
+      dispatch("onError", err);
+    }
   },
     /**
      * addFavs uses the method addFav and removeFav to add/remove all the files in the chosen array
      */
-  addOrRemoveFavs({ dispatch, commit }, files) {
-      let isFav = false;
-      try {
-        files.map((file) => {
-          if (!file.isFavorite)
-          {
-            isFav = true;
-            file.isFavorite = true;
-            dispatch("addFav", file.id)
-  
-          } else {
-            file.isFavorite = false;
-            dispatch("removeFav", file.id)
-          }
-        })
-        commit("onSuccess", isFav ? "success.AddFavorite" : "success.RemoveFavorite")
-
-      } catch (err) {
-        dispatch("onError", err);
-
-      }
+  addOrRemoveFavs({ dispatch }, files) {
+    try {
+      files.map((file) => {
+        if (!file.isFavorite) {
+          dispatch("addFav", file)
+        } else {
+          dispatch("removeFav", file)
+        }
+      })
+    } catch (err) {
+      dispatch("onError", err);
+    }
   },
 
   async fetchFile({ dispatch }) {
@@ -308,9 +304,7 @@ const actions = {
         return dispatch("uploadFile", file);
       })
     )
-      .then(() => { 
-        commit("onSuccess", files.length === 1 ? "success.File" : "success.Files")
-      })
+      .then(() => commit("onSuccess", files.length === 1 ? "success.File" : "success.Files"))
       .catch((err) => {
         dispatch("onError", err);
       });

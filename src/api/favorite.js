@@ -4,24 +4,28 @@ import store from "@/store";
 
 export async function fetchFavFiles() {
     try {
-        const result = await Axios.get(`${baseURL}/api/files/fav`)
-        return result.data.files && result.data.files.SuccessfulFileIDs ? result.data.files.SuccessfulFileIDs : [];
+        const res = await Axios.get(`${baseURL}/api/files/fav`)
+        if (res.data.files !== null && res.data.files.successful !== null) store.dispatch("updateFetchedFiles", res.data.files.successful)
     } catch (err) {
         store.dispatch("onError", err);
     }
 }
 
-export async function addFavorite(fileIdObject) {
+export async function addFavorite(file) {
     try {
-        await Axios.post(`${baseURL}/api/fav/${fileIdObject.fileID}?appId=drive`)
+        await Axios.post(`${baseURL}/api/fav/${file.id}?appId=drive`)
+        store.commit("onSuccess", "success.AddFavorite")
+        file.isFavorite = true;
     } catch (err) {
         store.dispatch("onError", err);
     }
 }
 
-export async function deleteFavorite(fileIdObject) {
+export async function deleteFavorite(file) {
     try {
-        await Axios.delete(`${baseURL}/api/fav/${fileIdObject.fileID}`)
+        await Axios.delete(`${baseURL}/api/fav/${file.id}`)
+        store.commit("onSuccess", "success.RemoveFavorite")
+        file.isFavorite = false;
     } catch (err) {
         store.dispatch("onError", err);
     }
