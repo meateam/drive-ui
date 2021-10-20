@@ -3,7 +3,7 @@ import * as fileApi from "@/api/files";
 import { getFileOwnerName } from "@/utils/formatFile";
 
 const state = {
-  currentMailOrT: '',
+  currentMailOrT: "",
   transfers: [],
   transfersLength: undefined,
 };
@@ -27,29 +27,29 @@ const actions = {
 
       handleTransfers();
       if (transfers.transfersInfo) {
-          await Promise.all(
-              transfers.transfersInfo.map(async (transferInfo) => {
-                  const [file, ownerName] = await Promise.all([
-                    // eslint-disable-next-line no-unused-vars
-                      fileApi.getFileByID(transferInfo.fileID).catch((_err) => {
-                          transferInfo.file = {};
-                          transferInfo.file.name = transferInfo.fileName;
-                          transferInfo.file.isDeleted = true;
-                      }),
-                      getFileOwnerName(transferInfo.fileOwnerID),
-                  ]);
+        await Promise.all(
+          transfers.transfersInfo.map(async (transferInfo) => {
+            try {
+              let file = await fileApi.getFileByID(transferInfo.fileID);
+              transferInfo.file = file;
 
-                  transferInfo.file = file;
-                  transferInfo.file.owner = ownerName;
+              const ownerName = await getFileOwnerName(file.ownerId);
+              transferInfo.file.owner = ownerName;
+            } catch (error) {
+              transferInfo.file = {};
+              transferInfo.file.name = transferInfo.fileName;
+              transferInfo.file.isDeleted = true;
+              transferInfo.file.owner = "???";
+            }
 
-                  transferInfo.file.status = transferInfo.status;
-                  transferInfo.file.transferId = transferInfo.id;
-                  transferInfo.file.isReadOnly = true;
+            transferInfo.file.status = transferInfo.status;
+            transferInfo.file.transferId = transferInfo.id;
+            transferInfo.file.isReadOnly = true;
 
-                  outcomingTransfersFiles.push(transferInfo);
-                  handleTransfers();
-              })
-          );
+            outcomingTransfersFiles.push(transferInfo);
+            handleTransfers();
+          })
+        );
       }
     } catch (err) {
       dispatch("onError", err);

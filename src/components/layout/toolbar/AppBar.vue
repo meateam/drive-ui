@@ -16,7 +16,6 @@
     <v-spacer></v-spacer>
     <div id="left">
       <Progress :show="isLoading" color="#035c64" :size="60" />
-
       <div v-if="loadingFiles.length">
         <LoadingFiles :files="loadingFiles" />
       </div>
