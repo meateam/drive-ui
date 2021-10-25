@@ -13,6 +13,7 @@
       <PreviewButton />
       <DownloadButton />
       <DeleteButton />
+      <FavoriteButton />
       <MoveToButton />
       <OnlineEditButton />
       <LocalEditButton />
@@ -34,6 +35,7 @@ import EditButton from "@/components/buttons/EditButton";
 import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
+import FavoriteButton from "@/components/buttons/FavoriteButton"
 
 export default {
   name: "FileMenu",
@@ -48,6 +50,7 @@ export default {
     LocalEditButton,
     EditButton,
     PreviewButton,
+    FavoriteButton,
   },
   data() {
     return {

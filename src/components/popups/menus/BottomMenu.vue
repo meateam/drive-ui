@@ -4,6 +4,7 @@
     <PreviewButton :icon="true" />
     <DownloadButton :icon="true" />
     <DeleteButton :icon="true" />
+    <FavoriteButton :icon="true" />
     <MoveToButton :icon="true" />
     <OnlineEditButton :icon="true" />
     <LocalEditButton :icon="true" />
@@ -24,6 +25,7 @@ import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
 import ExternalTransferButton from "@/components/buttons/ExternalTransferButton";
+import FavoriteButton from "@/components/buttons/FavoriteButton";
 
 export default {
   name: "BottomMenu",
@@ -39,6 +41,7 @@ export default {
     EditButton,
     ExternalTransferButton,
     PreviewButton,
+    FavoriteButton,
   },
 };
 </script>

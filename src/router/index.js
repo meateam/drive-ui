@@ -5,9 +5,7 @@ import store from "@/store";
 import NotFound from "@/views/errors/404";
 import Unavailable from "@/views/errors/503";
 import DeletedFiles from "@/views/DeletedFiles";
-import Favorites from "@/views/Favorites";
 import QuestionAnswer from "@/views/Q&A";
-import { getNetworkItemByAppId } from "@/utils/networkDest";
 
 Vue.use(Router);
 
@@ -114,7 +112,7 @@ const router = new Router({
     },
     {
       path: "/favorites",
-      component: Favorites,
+      component: () => import("@/views/Favorites"),
       meta: {
         layout: true,
       },

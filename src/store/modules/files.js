@@ -1,4 +1,5 @@
 import * as filesApi from "@/api/files";
+import * as favApi from "@/api/favorite"
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import router from "@/router";
 import i18n from "@/i18n";
@@ -42,17 +43,63 @@ const actions = {
   async fetchFiles({ commit, dispatch }) {
     try {
       const files = await filesApi.fetchFiles(state.currentFolder);
-
       commit("setIsShared", false);
       dispatch("updateFetchedFiles", files);
     } catch (err) {
       dispatch("onError", err);
     }
   },
+
+  async fetchFavFiles({ dispatch }) {
+    try {
+      await favApi.fetchFavFiles(state.currentFolder);
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+
+    /**
+   * addFav gets a file id and add it to favorites
+   * @param fileID is the id of the file to add
+   */
+  async addFav({dispatch }, file) {
+    try {
+      await favApi.addFavorite(file);
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+    /**
+   * removeFav gets a file id and removes it from favorites
+   * @param fileID is the id of the file to remove
+   */
+  async removeFav({dispatch }, file) {
+    try {
+      await favApi.deleteFavorite(file);
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+    /**
+     * addFavs uses the method addFav and removeFav to add/remove all the files in the chosen array
+     */
+  addOrRemoveFavs({ dispatch }, files) {
+    try {
+      files.map((file) => {
+        if (!file.isFavorite) {
+          dispatch("addFav", file)
+        } else {
+          dispatch("removeFav", file)
+        }
+      })
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+
   async fetchFile({ dispatch }) {
     try {
       const files = [await filesApi.getFileByID(state.currentFile.id)];
-
       dispatch("updateFetchedFiles", files);
     } catch (err) {
       dispatch("onError", err);
@@ -237,11 +284,13 @@ const actions = {
     }
 
     metadata.owner = i18n.t("me");
+    // initialize isFavorite to false
+    if (metadata.isFavorite === undefined) metadata.isFavorite = false;
+    
     lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
-
+    
     commit("removeLoadingFile", metadata.name);
     commit("addFile", metadata);
-
     commit("addQuota", metadata.size);
   },
 
@@ -445,6 +494,12 @@ const mutations = {
   },
   setIsShared: (state, isShared) => {
     state.isShared = isShared;
+  },
+  addFav: (state, addFav) => {
+    state.addFav = addFav;
+  },
+  removeFav: (state, removeFav) => {
+    state.removeFav = removeFav;
   },
 };
 

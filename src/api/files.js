@@ -100,7 +100,6 @@ export async function deleteFile(fileID) {
 export async function multipartUpload({ file, parent }, progress) {
   const source = Axios.CancelToken.source();
   const formData = new FormData();
-
   formData.append("file", file, file.name);
   const res = await Axios.post(
     `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""}`,
@@ -123,7 +122,6 @@ export async function multipartUpload({ file, parent }, progress) {
  */
 export async function resumableUpload({ file, parent }, progress) {
   const uploadID = await createResumableUpload({ file, parent });
-
   const source = Axios.CancelToken.source();
   const formData = new FormData();
   formData.append("file", file, file.name);

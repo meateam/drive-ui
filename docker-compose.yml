@@ -8,7 +8,7 @@ services:
     depends_on:
       - api-gateway
   api-gateway:
-    image: "drivehub.azurecr.io/meateam/api-gateway:develop"
+    image: "drivehub.azurecr.io/meateam/api-gateway:fav"
     env_file:
       - ../kdrive.env
     ports:
@@ -150,3 +150,11 @@ services:
       - mongo
       - spike-service
       - user-service
+  fav-service:
+    image: "drivehub.azurecr.io/meateam/fav-service:develop"
+    env_file:
+      - ../kdrive.env
+    ports:
+      - 8092:8080
+    depends_on: 
+      - mongo

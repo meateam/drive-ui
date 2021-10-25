@@ -23,10 +23,10 @@
             <v-simple-checkbox color="#035c64" v-ripple :value="isSelected" @input="select($event)"></v-simple-checkbox>
           </td>
           <td id="file-icon">
-            <FileTypeIcon :file="item" :size="30" />
+            <FileTypeIcon :file="item" :size="30" :isTypeIcon="true"/>
           </td>
 
-          <td class="file-name">{{ item.name }}</td>
+          <td class="file-name">{{ item.name }}</td>     
 
           <td>{{ item.owner || '???' }}</td>
           <td class="ltr-td">{{ formatFileDate(item.updatedAt) }}</td>
@@ -74,7 +74,7 @@
         pageCount: 1,
         headers: [
           { value: 'type', align: 'center', sortable: false },
-          { text: this.$t('file.Name'), value: 'name', sortable: this.sortable },
+          { text: this.$t('file.Name'), value: 'name', sortable: this.sortable, width: '50%' },
           { text: this.$t('file.Owner'), value: 'owner', sortable: this.sortable },
           { text: this.$t('file.LastUpdate'), value: 'updatedAt', sortable: this.sortable },
           { text: this.$t('file.Size'), value: 'size', sortable: this.sortable },
