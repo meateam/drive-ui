@@ -9,7 +9,7 @@ import store from "@/store";
  * @param parent - the parent folder id
  */
 export async function fetchFiles(parent) {
-  const res = await Axios.get(`${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id}` : ""}`);
+  const res = await Axios.get(`${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id ?? parent}` : ""}`);
   const files = res.data;
   return files;
 }
@@ -102,7 +102,7 @@ export async function multipartUpload({ file, parent }, progress) {
   const formData = new FormData();
   formData.append("file", file, file.name);
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""}`,
+    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id ?? parent}` : ""}`,
     formData,
     {
       onUploadProgress: (event) => {
@@ -126,7 +126,7 @@ export async function resumableUpload({ file, parent }, progress) {
   const formData = new FormData();
   formData.append("file", file, file.name);
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${parent ? `&parent=${parent.id}` : ""}`,
+    `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${parent ? `&parent=${parent.id ?? parent}` : ""}`,
     formData,
     {
       headers: { "Content-Range": `bytes 0-${file.size - 1}/${file.size}` },
@@ -151,7 +151,7 @@ export function cancelUpload(source) {
  */
 export async function createResumableUpload({ file, parent }) {
   const res = await Axios.post(
-    `${baseURL}/api/upload${parent ? `?parent=${parent.id}` : ""}`,
+    `${baseURL}/api/upload${parent ? `?parent=${parent.id ?? parent}` : ""}`,
     {
       title: file.name,
       mimeType: file.type,
@@ -180,7 +180,7 @@ export function downloadFile(fileID) {
  */
 export async function uploadFolder({ name, parent }) {
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""}`,
+    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id ?? parent}` : ""}`,
     {},
     {
       headers: {
@@ -236,7 +236,7 @@ export function getFileLink(file) {
 
 export function createNewFile({ name, type, parent }) {
   window.open(
-    `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}${parent ? `&parent=${parent.id}` : ""}`
+    `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}${parent ? `&parent=${parent.id ?? parent}` : ""}`
   );
   location.reload();
 }
