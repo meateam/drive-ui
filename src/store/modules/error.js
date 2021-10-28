@@ -11,7 +11,7 @@ const getters = {
 const actions = {
   onError({ commit }, error) {
     if (!Axios.isCancel(error)) {
-      commit("removeLoadingFiles");
+      commit("removeUploadingFiles");
       commit("setError", error);
     }
     commit("removeLoadingReq");

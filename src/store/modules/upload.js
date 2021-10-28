@@ -3,6 +3,7 @@ import i18n from "@/i18n";
 import * as lastUpdatedFileHandler from "@/utils/lastUpdatedFileHandler";
 import { appendNumberIfFileExists } from "@/utils/isFileNameExists";
 import { isValidString } from "@/utils/validateInput";
+import { generateUId } from "@/utils/uploadUId";
 
 const MB = 1024 * 1024;
 const MB5 = MB * 5;
@@ -35,7 +36,6 @@ const actions = {
      * @param file is the file to upload
      */
     async uploadFile({ dispatch, rootState }, file) {
-        console.log("uploadFile", file);
         return await dispatch(UploadAction.uploadFileToFolder, {
             file,
             folder: rootState.files.currentFolder,
@@ -66,10 +66,11 @@ const actions = {
     async cancelUpload({ commit, dispatch }, file) {
         try {
             await filesApi.cancelUpload(file.source);
-            commit("removeLoadingFile", file.name);
             commit("onSuccess", "success.Cancel");
         } catch (err) {
             dispatch("onError", err);
+        } finally {
+            commit("removeUploadingFile", file.uploadId);
         }
     },
 
@@ -94,16 +95,12 @@ const actions = {
                 }
             }
 
-            console.log("Name: ", name);
-            console.log("Folder: ", state.currentFolder);
-            const folder = await filesApi.uploadFolder({
+            await filesApi.uploadFolder({
                 name,
                 parent: state.currentFolder,
             });
-            folder.owner = i18n.t("me");
 
             commit("onSuccess", "success.Folder");
-            commit("addFile", folder);
         } catch (err) {
             dispatch("onError", err);
         }
@@ -122,7 +119,6 @@ const actions = {
                 commit("onWarning", "warnings.SpecialChars");
                 return Promise.resolve();
             }
-            let res = null;
 
             if (folder === rootState.files.currentFolder) {
                 const [isExist, newFileName] = appendNumberIfFileExists({
@@ -142,36 +138,31 @@ const actions = {
                 }
             }
 
+            const uploadId = generateUId();
+
             const loadingFileCallBack = (file, event, source) => {
-                commit("addLoadingFile", {
+                commit("addUploadingFile", {
+                    uploadId,
                     name: file.name,
                     progress: Math.round((100 * event.loaded) / event.total),
                     source,
                 });
             };
 
-            if (file.size <= MB5) {
-                res = await filesApi.multipartUpload(
-                    {
-                        file: file,
-                        parent: folder,
-                    },
-                    loadingFileCallBack
-                );
-            } else {
-                res = await filesApi.resumableUpload(
-                    {
-                        file: file,
-                        parent: folder,
-                    },
-                    loadingFileCallBack
-                );
-            }
-            res.owner = i18n.t("me");
-            lastUpdatedFileHandler.pushUpdatedFile(res.id);
-            commit("removeLoadingFile", res.name);
-            commit("addQuota", res.size);
-            return res;
+            const fileId = await filesApi[
+                file.size <= MB5 ? "multipartUpload" : "resumableUpload"
+            ](
+                {
+                    file,
+                    parent: folder,
+                },
+                loadingFileCallBack
+            );
+            
+            // TODO: fix last updated files
+            lastUpdatedFileHandler.pushUpdatedFile(fileId);
+            commit("removeUploadingFile", uploadId);
+            return fileId;
         } catch (err) {
             throw new Error(err.message);
         }
@@ -205,12 +196,11 @@ const actions = {
             }
         }
 
-        const res = filesApi.uploadFolder({
+        const folderId = filesApi.uploadFolder({
             name,
             parent: fileState.currentFolder,
         });
-        res.owner = i18n.t("me");
-        return res;
+        return folderId;
     },
 
     /**

@@ -1,50 +1,63 @@
-import store from '@/store'
-import i18n from "@/i18n"
-import { UploadSet, UploadGet, UploadAction } from "@/store/modules/upload"
-import { Promise } from 'bluebird'
-import { getMimeType } from './fileMimeType'
+import store from "@/store";
+import i18n from "@/i18n";
+import { UploadSet, UploadGet, UploadAction } from "@/store/modules/upload";
+import { Promise } from "bluebird";
+import { getMimeType } from "./fileMimeType";
 
 // this call from the drop event
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
-    console.log("getFilesFromDroppedItems: ", parent);
-    await canUpload(uploadDroppedCallback.bind(null, dataTransfer, parent));
+    await beforeUploadValidator(
+        uploadInputCallback.bind(
+            null,
+            dataTransfer,
+            parent,
+            FILES_INPUT_TYPES.DATA_TRANSFER_INPUT
+        )
+    );
 }
 
 // this call from the plus button
 export async function getFilesFromInput(files, parent) {
-    await canUpload(uploadInputCallback.bind(null, files, parent));
+    await beforeUploadValidator(
+        uploadInputCallback.bind(null, files, parent, FILES_INPUT_TYPES.FILES)
+    );
 }
 
-async function uploadDroppedCallback (dataTransferInput, parentInput) {
-    console.log("parentInput: ", parentInput);
-    const files = [...dataTransferInput.items].filter((file) => file.kind === "file");
-    await uploadFiles(files, parentInput);
-    store.dispatch("fetchFiles");
-}
+const FILES_INPUT_TYPES = {
+    FILES: "files",
+    DATA_TRANSFER_INPUT: "dataTransfer",
+};
 
-async function uploadInputCallback(filesInput, parentInput) {
-    const files = [...filesInput];
-    await uploadFiles(files, parentInput);
-    store.dispatch("fetchFiles");
-}
+Object.freeze(FILES_INPUT_TYPES);
 
-async function canUpload(uploadCallback) {
-    if (store.getters[UploadGet.isUpload]) {
-        return store.dispatch(
-            "onError",
-            new Error(i18n.t("errors.waitForUpload"))
-        );
+function filesFactory(input, type) {
+    switch (type) {
+        case FILES_INPUT_TYPES.FILES:
+            return [...input];
+        case FILES_INPUT_TYPES.DATA_TRANSFER_INPUT:
+            return [...input.items].filter((file) => file.kind === "file");
+        default:
+            return null;
     }
-    return await uploadCallback();
+}
+
+async function uploadInputCallback(input, parentInput, filesInputType) {
+    const files = filesFactory(input, filesInputType);
+    await uploadFiles(files, parentInput);
+    store.dispatch("fetchFiles");
+}
+
+async function beforeUploadValidator(uploadCallback) {
+    return store.getters[UploadGet.isUpload]
+        ? store.dispatch("onError", new Error(i18n.t("errors.waitForUpload")))
+        : await uploadCallback();
 }
 
 async function uploadFiles(files, parent) {
     const uploader = new UploadEntries(
         store.getters.maxUploadedFiles,
         store.getters.maxUploadedFolders
-        );
-        console.log("files: ", files);
-        console.log("parent: ", parent);
+    );
     store.commit(UploadSet.isUpload, true);
     await Promise.allSettled(
         files.map((file) => uploader.uploadEntries(file, parent))
