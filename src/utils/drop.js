@@ -46,6 +46,7 @@ async function uploadInputCallback(input, parentInput, filesInputType) {
     const files = filesFactory(input, filesInputType);
     await uploadFiles(files, parentInput);
     store.dispatch("fetchFiles");
+    store.dispatch("getQuota");
 }
 
 async function beforeUploadValidator(uploadCallback) {
