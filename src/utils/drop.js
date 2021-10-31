@@ -6,20 +6,21 @@ import { getMimeType } from "./fileMimeType";
 
 // this call from the drop event
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
-    await beforeUploadValidator(
-        uploadInputCallback.bind(
-            null,
-            dataTransfer,
-            parent,
-            FILES_INPUT_TYPES.DATA_TRANSFER_INPUT
-        )
+    return await uploadFilesFromInput(
+        dataTransfer,
+        parent,
+        FILES_INPUT_TYPES.DATA_TRANSFER_INPUT
     );
 }
 
 // this call from the plus button
-export async function getFilesFromInput(files, parent) {
-    await beforeUploadValidator(
-        uploadInputCallback.bind(null, files, parent, FILES_INPUT_TYPES.FILES)
+export async function getFilesFromSelectedItems(files, parent) {
+    return await uploadFilesFromInput(files, parent, FILES_INPUT_TYPES.FILES);
+}
+
+async function uploadFilesFromInput(input, parent, filesInputType) {
+    return await beforeUploadValidator(
+        uploadInputCallback.bind(null, input, parent, filesInputType)
     );
 }
 
