@@ -159,7 +159,6 @@ const actions = {
                 loadingFileCallBack
             );
             
-            // TODO: fix last updated files
             lastUpdatedFileHandler.pushUpdatedFile(fileId);
             commit("removeUploadingFile", uploadId);
             return fileId;
