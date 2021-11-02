@@ -88,6 +88,7 @@ export async function getFileByID(fileID) {
 export async function deleteFile(fileID) {
   const res = await Axios.delete(`${baseURL}/api/files/${fileID}`);
 
+  // TODO: fix last updated files on delete folder
   removeUpdatedFile(fileID);
 
   return res.data[0];
