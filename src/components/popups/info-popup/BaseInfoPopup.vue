@@ -4,17 +4,31 @@
       <div class="popup-header">
         <img class="popup-icon auto-margin" src="@/assets/icons/green-info.svg" />
         <v-icon v-if="file.isFavorite" class="star-popupIcon">star</v-icon>
+
         <p class="d-title">{{ $t("fileInfo.Info") }}</p>
       </div>
       <div class="popup-body">
         <div class="file-info">
-          <KeyValue :field="$t('fileInfo.Owner')" :value="file.owner || '???'" />
-          <KeyValue :field="$t('fileInfo.Size')" :value="formatFileSize(file.size)" />
+          <KeyValue
+            :field="$t('fileInfo.Owner')"
+            :value="file.owner || '???'"
+          />
+          <KeyValue
+            :field="$t('fileInfo.Size')"
+            :value="formatFileSize(file.size)"
+          />
           <KeyValue :field="$t('fileInfo.Name')" :value="file.name" />
-          <KeyValue :field="$t('fileInfo.CreatedAt')" :value="formatFileDate(file.createdAt)" />
+          <KeyValue
+            :field="$t('fileInfo.CreatedAt')"
+            :value="formatFileDate(file.createdAt)"
+          />
           <KeyValue :field="$t('fileInfo.Type')" :value="file.type" />
-          <KeyValue :field="$t('fileInfo.UpdatedAt')" :value="formatFileDate(file.updatedAt)" />
+          <KeyValue
+            :field="$t('fileInfo.UpdatedAt')"
+            :value="formatFileDate(file.updatedAt)"
+          />
         </div>
+        <v-divider id="divider"></v-divider>
         <v-divider id="divider"></v-divider>
         <div>
           <p>{{ $t("fileInfo.Shared") }}</p>
@@ -27,14 +41,22 @@
           <p>{{ $t("fileInfo.ExternalShare") }}</p>
           <div>
             <div v-if="externalUsers.length" class="flex shared">
-              <UserAvatar v-for="user in externalUsers" :key="user.id" :user="user" />
+              <UserAvatar
+                v-for="user in externalUsers"
+                :key="user.id"
+                :user="user"
+              />
             </div>
             <div v-else>-</div>
           </div>
           <p>{{ $t("fileInfo.ExternalShareFailed") }}</p>
           <div>
             <div v-if="externalUsersFailed.length" class="flex shared">
-              <UserAvatar v-for="user in externalUsersFailed" :key="user.id" :user="user" />
+              <UserAvatar
+                v-for="user in externalUsersFailed"
+                :key="user.id"
+                :user="user"
+              />
             </div>
             <div v-else>-</div>
           </div>
@@ -78,11 +100,18 @@ export default {
         externalPermissionsRes = externalPermissionsRes
           .slice()
           .sort((a, b) => b.createdAt - a.createdAt)
-          .filter((user, index, self) => index === self.findIndex((anotherUser) => anotherUser.id === user.id));
+          .filter(
+            (user, index, self) =>
+              index ===
+              self.findIndex((anotherUser) => anotherUser.id === user.id)
+          );
 
-        const [externalUsersFailed, externalUsers] = _.partition(externalPermissionsRes, function(externalPermission) {
-          return externalPermission.isFailed;
-        });
+        const [externalUsersFailed, externalUsers] = _.partition(
+          externalPermissionsRes,
+          function (externalPermission) {
+            return externalPermission.isFailed;
+          }
+        );
 
         this.externalUsersFailed = externalUsersFailed;
         this.externalUsers = externalUsers;

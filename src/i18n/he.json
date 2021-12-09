@@ -81,6 +81,10 @@
     "CopyLink": "העתקת הקישור",
     "FileInfo": "פרטי הקובץ",
     "FolderInfo": "פרטי התיקייה",
+
+    "CreateShortcut":"צור קיצור דרך",
+    "ShortcutFolder":"--------------",
+
     "EditOnline": "עריכת online",
     "EditLocally": "עריכה מקומית",
     "CreateFile": "צור קובץ חדש",

@@ -20,6 +20,7 @@
       <EditButton />
       <ShareButton />
       <ExternalTransferButton />
+      <ShortcutButton />
     </v-list>
   </v-menu>
 </template>
@@ -36,6 +37,8 @@ import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
 import FavoriteButton from "@/components/buttons/FavoriteButton"
+import ShortcutButton from "@/components/buttons/CreateShortcutButton";
+
 
 export default {
   name: "FileMenu",
@@ -51,6 +54,8 @@ export default {
     EditButton,
     PreviewButton,
     FavoriteButton,
+    ShortcutButton
+
   },
   data() {
     return {
