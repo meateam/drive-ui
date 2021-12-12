@@ -1,46 +1,60 @@
 <template>
-  <v-tooltip top v-if="chosenFiles.length === 1" :disabled="!icon">
+  <v-tooltip top :disabled="!icon" v-if="canMove()">
     <template v-slot:activator="{ on }">
       <v-btn
-        @click="isFileDeleted() "
+        @click="$refs.movePopup.open()"
         v-on="on"
         :icon="icon"
         :class="{ right: !icon }"
         class="auto-margin"
-        id="info-button"
+        id="move-button"
         text
       >
-        <img class="fab-icon" src="@/assets/icons/info.svg" />
-        <p class="button-text" v-if="!icon">{{ isFolder() ? $t("buttons.ShortcutFolder") : $t("buttons.CreateShortcut") }}</p>
+        <img class="fab-icon" src="@/assets/icons/move-shortcut-to3.svg" />
+        <p class="button-text" v-if="!icon">{{ $t("buttons.CreateShortcut") }}</p>
       </v-btn>
     </template>
-    <!-- <InfoPopup ref="popup" :file="chosenFiles[0]" /> -->
-    <!-- <AlertPopup ref="deletedPopup" cancelButton="true" img="deleted.svg" :text="$t('fileInfo.Deleted')" /> -->
-     // TODO: handle a case when u access the menu on a folder
-    <!-- <span>{{ isFolder() ? $t("buttons.FolderInfo") : $t("buttons.FileInfo") }}</span> -->
+
+    <MoveShortcutToPopup ref="movePopup" :files="chosenFiles" @confirm="onSubmit" />
+    <span>{{ $t("buttons.CreateShortcut") }}</span>
   </v-tooltip>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { fileTypes } from "@/config";
-// import InfoPopup from "@/components/popups/info-popup/BaseInfoPopup";
-// import AlertPopup from "@/components/popups/BaseAlertPopup";
+import { writeRole } from "@/utils/roles";
+import MoveShortcutToPopup from "@/components/popups/MoveShortcutToPopup";
 
 export default {
-  name: "InfoButton",
+  name: "MoveToButton",
   props: ["icon"],
+  components: { MoveShortcutToPopup },
   computed: {
-    ...mapGetters(["chosenFiles"]),
+    ...mapGetters(["chosenFiles", "currentFolder"]),
   },
   methods: {
-    isFolder() {
-      return this.chosenFiles[0].type === fileTypes.folder;
+    onSubmit(folderID) {
+      if (folderID === this.currentFolder) return;
+      this.$store.dispatch("moveFiles", {
+        folderID,
+        fileIDs: this.chosenFiles.map((file) => file.id),
+      });
+      this.$emit("close");
     },
-    createShortcut() {
-      return this.chosenFiles[0]?.isDeleted != undefined && this.chosenFiles[0].isDeleted;
+    canMove() {
+      return (
+        (!(this.currentFolder || this.isSharedFile()) || (this.currentFolder && writeRole(this.currentFolder.role))) &&
+        this.chosenFiles.every((file) => writeRole(file.role)) &&
+        !this.isFileReadOnly()
+      );
+    },
+    isSharedFile() {
+      const firstFile = this.chosenFiles && this.chosenFiles.length > 0 ? this.chosenFiles[0] : this.currentFolder;
+      return firstFile && firstFile.shared;
+    },
+    isFileReadOnly() {
+      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
     },
   },
-//   components: { InfoPopup, AlertPopup },
 };
 </script>
