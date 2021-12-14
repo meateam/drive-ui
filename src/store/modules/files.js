@@ -58,10 +58,10 @@ const actions = {
     }
   },
 
-    /**
-   * addFav gets a file id and add it to favorites
-   * @param fileID is the id of the file to add
-   */
+  /**
+ * addFav gets a file id and add it to favorites
+ * @param fileID is the id of the file to add
+ */
   async addFav({dispatch }, file) {
     try {
       await favApi.addFavorite(file);
@@ -69,20 +69,20 @@ const actions = {
       dispatch("onError", err);
     }
   },
-    /**
-   * removeFav gets a file id and removes it from favorites
-   * @param fileID is the id of the file to remove
-   */
-  async removeFav({dispatch }, file) {
+  /**
+ * removeFav gets a file id and removes it from favorites
+ * @param fileID is the id of the file to remove
+ */
+  async removeFav({ dispatch }, file) {
     try {
       await favApi.deleteFavorite(file);
     } catch (err) {
       dispatch("onError", err);
     }
   },
-    /**
-     * addFavs uses the method addFav and removeFav to add/remove all the files in the chosen array
-     */
+  /**
+   * addFavs uses the method addFav and removeFav to add/remove all the files in the chosen array
+   */
   addOrRemoveFavs({ dispatch }, files) {
     try {
       files.map((file) => {
@@ -141,11 +141,11 @@ const actions = {
       commit("setServerFilesLength", permissions.itemCount);
 
       await Promise.all(
-          files.map(async (file) => {
-              const formattedFile = file;
-              formattedFile.owner = await getFileOwnerName(file.ownerId);
-              commit("updateFile", formattedFile);
-          })
+        files.map(async (file) => {
+          const formattedFile = file;
+          formattedFile.owner = await getFileOwnerName(file.ownerId);
+          commit("updateFile", formattedFile);
+        })
       );
     } catch (err) {
       dispatch("onError", err);
@@ -161,14 +161,14 @@ const actions = {
       commit("setServerFilesLength", permissions.itemCount);
 
       await Promise.all(
-          files.map(async (file) => {
-              const formattedFile = file;
-              formattedFile.owner = await getExternalFileOwnerName(
-                  file.ownerId,
-                  dest
-              );
-              commit("updateFile", formattedFile);
-          })
+        files.map(async (file) => {
+          const formattedFile = file;
+          formattedFile.owner = await getExternalFileOwnerName(
+            file.ownerId,
+            dest
+          );
+          commit("updateFile", formattedFile);
+        })
       );
     } catch (err) {
       dispatch("onError", err);
@@ -250,7 +250,7 @@ const actions = {
 
     if (isExist) {
       if (newFileName) {
-          file = new File([file], newFileName, { type: file.type });
+        file = new File([file], newFileName, { type: file.type });
       } else {
         throw new Error(i18n.t("errors.fileExistInFolder"));
       }
@@ -286,9 +286,9 @@ const actions = {
     metadata.owner = i18n.t("me");
     // initialize isFavorite to false
     if (metadata.isFavorite === undefined) metadata.isFavorite = false;
-    
+
     lastUpdatedFileHandler.pushUpdatedFile(metadata.id);
-    
+
     commit("removeLoadingFile", metadata.name);
     commit("addFile", metadata);
     commit("addQuota", metadata.size);
@@ -332,7 +332,7 @@ const actions = {
         loadingFiles: rootState.loading.loadingFiles,
         isFolder: true,
       });
-  
+
       if (isExist) {
         if (newFileName) {
           name = newFileName;
@@ -340,7 +340,7 @@ const actions = {
           throw new Error(i18n.t("errors.folderExistInFolder"));
         }
       }
-     
+
       const folder = await filesApi.uploadFolder({
         name,
         parent: state.currentFolder,
@@ -410,8 +410,8 @@ const actions = {
 
       const failedFiles = data
         ? data.map((error) => {
-            if (error.error) return error.id;
-          })
+          if (error.error) return error.id;
+        })
         : [];
 
       const movedFiles = fileIDs.filter((fileID) => !failedFiles.includes(fileID));
@@ -421,6 +421,14 @@ const actions = {
       });
 
       if (failedFiles.length) throw new Error(i18n.t("errors.failedToPassFiles"));
+    } catch (err) {
+      dispatch("onError", err);
+    }
+  },
+  async copyFile({ commit, dispatch }, { fileID, folderID }) {
+    try {      
+      await filesApi.copyFile(fileID, folderID);
+      commit("onSuccess", "success.CopyFile")
     } catch (err) {
       dispatch("onError", err);
     }

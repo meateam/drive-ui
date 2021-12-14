@@ -33,7 +33,7 @@ export async function getFoldersByFolder(parent) {
  */
 export async function fetchSharedFolders(parent) {
   const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive${parent ? `&parent=${parent}` : ""}`);
-  const permissions = res.data.files.filter((item) => isFolder(item.type));
+  const permissions = res.data.files.successful.filter((item) => isFolder(item.type));
   return permissions;
 }
 
@@ -260,4 +260,9 @@ export function getPreview(fileID) {
 
 export function getPdfPreview(fileID) {
   return `${baseURL}/api/files/${fileID}?alt=media&preview`;
+}
+
+export async function copyFile(fileID, folderID) {
+  const res = await Axios.post(`${baseURL}/api/files/copyObject/${fileID}/${folderID}?appId=drive`)
+  return res;
 }

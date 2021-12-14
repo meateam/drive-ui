@@ -8,7 +8,7 @@ services:
     depends_on:
       - api-gateway
   api-gateway:
-    image: "drivehub.azurecr.io/meateam/api-gateway:develop"
+    image: "drivehub.azurecr.io/meateam/api-gateway:save-to-mydrive"
     env_file:
       - ../kdrive.env
     ports:
@@ -55,6 +55,7 @@ services:
     depends_on:
       - mongo
   mongo:
+    restart: always
     image: "mongo:4.0.9"
     ports:
       - "27017:27017"
@@ -99,6 +100,7 @@ services:
     depends_on:
       - mongo
   search-service:
+    restart: always
     image: "drivehub.azurecr.io/meateam/search-service:develop"
     env_file:
       - ../kdrive.env
