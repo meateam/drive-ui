@@ -34,7 +34,6 @@
 
 <script>
 import { isAlive } from "@/api/healthcheck";
-import router from '../../router'
 export default {
   name: "Unavailable",
   data() {
@@ -54,7 +53,7 @@ export default {
       this.interval = setInterval(this.healthcheck, 10000);
     },
     async healthcheck() {
-      if (await isAlive()) router.push("/my-drive");
+      if (await isAlive()) window.location.replace("/my-drive");
     },
   },
 };
