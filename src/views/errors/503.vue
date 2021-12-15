@@ -34,7 +34,7 @@
 
 <script>
 import { isAlive } from "@/api/healthcheck";
-import {router} from '../../router/index';
+import router from '../../router/index';
 export default {
   name: "Unavailable",
   data() {
