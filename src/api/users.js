@@ -3,7 +3,7 @@ import store from "@/store";
 import { formatUser } from "@/utils/formatUser";
 import { baseURL } from "@/config";
 import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
-import i18n from "@/i18n";
+// import i18n from "@/i18n";
 import { getNetworkItemByDest } from "@/utils/networkDest";
 
 /**
@@ -111,25 +111,16 @@ export async function canBeApproved(userID, approverID, destination) {
  * @param {AdvancedSearchEnum} searchBy
  */
 export async function getUsers(content, searchBy, destination = "") {
-  try {
-    const res = await Axios.get(`${baseURL}/api/users`, {
-      params: { content, searchBy },
-      headers: { destination },
-    });
-    let users = res.data.users
-      ? res.data.users.filter((user) => {
-          return user.id !== store.state.auth.user.id;
-        })
-      : [];
-    return Promise.all(users.map((user) => formatUser(user)));
-  } catch (err) {
-    if (searchBy !== AdvancedSearchEnum.SearchByName) {
-      const advancedSearchError = new Error(i18n.t("share.AdvancedSearchError"));
-      store.dispatch("onError", advancedSearchError);
-    } else {
-      store.dispatch("onError", err);
-    }
-  }
+  const res = await Axios.get(`${baseURL}/api/users`, {
+    params: { content, searchBy },
+    headers: { destination },
+  });
+  let users = res.data.users
+    ? res.data.users.filter((user) => {
+        return user.id !== store.state.auth.user.id;
+      })
+    : [];
+  return Promise.all(users.map((user) => formatUser(user)));
 }
 
 export function openApprovalPage(destination) {
