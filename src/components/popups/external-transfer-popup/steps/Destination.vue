@@ -65,6 +65,10 @@ import TextButton from "@/components/buttons/BaseTextButton";
 import { mapGetters } from "vuex";
 import { SearchToEnum } from "@/utils/convertAdvancedSearchToEnum";
 import { validationAdvancedSearchFactory } from "@/utils/advancedSearchValidation";
+import store from "@/store";
+import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
+import i18n from "@/i18n";
+
 
 export default {
   name: "Destination",
@@ -79,15 +83,18 @@ export default {
     return {
       selectedUsers: [],
       users: [],
-      isLoading: false,
       disabled: true,
       searchOptions: [this.$t("share.searchOptions.name"), this.$t("share.searchOptions.id")],
       searchSelection: null,
       displayAdvancedSearchOptions: false,
+      loadingCounter: 0,
     };
   },
   computed: {
     ...mapGetters(["user"]),
+    isLoading(){
+      return this.loadingCounter > 0;
+    }
   },
   created() {
     this.searchSelection = this.searchOptions[0];
@@ -102,7 +109,7 @@ export default {
     reset() {
       this.selectedUsers = [];
       this.users = [];
-      this.isLoading = false;
+      this.loadingCounter = 0;
       this.disabled = true;
       this.searchSelection = this.searchOptions[0];
     },
@@ -119,25 +126,34 @@ export default {
       this.$emit("back");
     },
     getExternalUsers(content) {
-      if (this.isLoading) return;
-      this.isLoading = true;
+      this.loadingCounter += 1;
 
       switch (this.searchSelection) {
         case this.$t("share.searchOptions.name"): {
           usersApi
             .searchExternalUsersByName(content, this.networkDest)
             .then((users) => (this.users = users))
-            .finally(() => (this.isLoading = false));
+            .finally(() => (this.loadingCounter -= 1));
           break;
         }
         case this.$t("share.searchOptions.id"): {
           const searchBy = SearchToEnum(this.searchSelection);
           usersApi
             .getUsers(content, searchBy, this.networkDest)
+            .catch((err) => {
+              if(this.loadingCounter === 1){
+                if (searchBy !== AdvancedSearchEnum.SearchByName) {
+                  const advancedSearchError = new Error(i18n.t("share.AdvancedSearchError"));
+                  store.dispatch("onError", advancedSearchError);
+                } else {
+                  store.dispatch("onError", err);
+                }
+              }
+            })
             .then((users) => {
               this.users = users;
             })
-            .finally(() => (this.isLoading = false));
+            .finally(() => (this.loadingCounter -= 1));
           break;
         }
       }
