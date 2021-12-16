@@ -10,15 +10,13 @@
           </p>
         </div>
       </div>
+        <div id="selection-effect" :class="{ 'maya': maya === 1 }"></div>
+        <v-btn :ripple="false" class="button" @click="open(0)" text small ><p>{{ $t('sidenav.MyDrive') }}</p></v-btn>
+        <v-btn v-if="!isSharedFile()" :ripple="false" class="button" @click="openshared(1)" text small><p>{{ $t('sidenav.SharedWithMe') }}</p></v-btn>
       <div class="popup-body">
-        <div class="buttons">
-          <v-btn text small @click="open()">הדרייב שלי</v-btn>
-          <v-btn v-if="!isSharedFile()" text small @click="maya()">שותפו איתי</v-btn>
-        </div>
 
         <Breadcrumbs :items="folderHierarchy" @click="onFolderChange" />
-        <List v-if="step" :items="currentChildren" icon="folder" @change="onFolderChange" :disabledChecker="isFolderDestDisabled" />
-        <List v-if="!step" :items="currentChildren" icon="folder" @change="onFolderChange" :disabledChecker="isFolderDestDisabled" />
+        <List :items="currentChildren" icon="folder" @change="onFolderChange" :disabledChecker="isFolderDestDisabled" />
 
         <v-card-actions class="popup-confirm">
           <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
@@ -38,7 +36,7 @@ import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import { writeRole, ownerRole } from "@/utils/roles";
 import { mapGetters } from "vuex";
 export default {
-  name: "MoveToPopup",
+  name: "CopyFilePopup",
   components: { SubmitButton, List, TextButton, Breadcrumbs },
   computed: {
     ...mapGetters(["currentFolder", "chosenFiles"]),
@@ -49,8 +47,7 @@ export default {
       folderHierarchy: undefined,
       currentChildren: undefined,
       folderDest: undefined,
-      step: true,
-      header: '',
+      maya: 0,
     };
   },
   props: ["files"],
@@ -62,26 +59,25 @@ export default {
           : this.currentFolder;
       return firstFile && firstFile.shared;
     },
-    canCopy() {
-      console.log(this.chosenFiles);
-      return true;
+    async openshared(buttonIndex) {
+      this.maya = buttonIndex;
+      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchSharedFolders(this.currentFolder)]);
+      this.dialog = true;
     },
-    async maya() {
-      this.header = 'SharedWithMe'
-      Promise.all([this.fetchHierachy(this.currentFolder), this.fetchSharedFolders(this.currentFolder)]);
-      this.step = !this.step;
-    },
-    async open() {
-      this.header = 'MyDrive'
+    async open(buttonIndex) {
+      this.maya = buttonIndex;
       await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchFolders(this.currentFolder)]);
-      this.step = !this.step;
       this.dialog = true;
     },
     async fetchFolders(parent) {
-      this.currentChildren = await filesApi.getFoldersByFolder(parent ? parent.id : undefined);
+        this.currentChildren = await filesApi.getFoldersByFolder(parent ? parent.id : undefined);
     },
     async fetchSharedFolders(parent) {
+      if (parent === undefined) {
       this.currentChildren = await filesApi.fetchSharedFolders(parent ? parent.id : undefined);
+      } else {
+        this.currentChildren = await filesApi.getFoldersByFolder(parent ? parent.id : undefined);
+      }
     },
     async fetchHierachy(folder) {
       const breadcrumbs = [];
@@ -89,16 +85,28 @@ export default {
         this.isFolderOwner(role)
           ? [this.$t("pageHeaders.MyDrive"), false]
           : [this.$t("pageHeaders.SharedWithMe"), false];
+
       if (!folder) {
-        breadcrumbs.push({
-          value: undefined,
-          text: this.$t(`pageHeaders.${this.header}`),
-          disabled: !folder,
-        });
+        if (this.maya === undefined) this.maya = 0;
+        if (this.maya === 0) {
+          breadcrumbs.push({
+            value: undefined,
+            text: this.$t("pageHeaders.MyDrive"),
+            disabled: !folder,
+          });
+        } else {
+          breadcrumbs.push({
+            value: undefined,
+            text: this.$t("pageHeaders.SharedWithMe"),
+            disabled: !folder,
+          });
+        }
+
       } else {
         const hierarchy = await filesApi.getFolderHierarchy(folder.id);
         const firstFolder = hierarchy && hierarchy.length > 0 ? hierarchy[0] : folder;
         const [firstBreadCrumb, firstIsDisabled] = getDriveFirstBreadcrumb(firstFolder.role);
+
         breadcrumbs.push({
           value: undefined,
           text: firstBreadCrumb,
@@ -108,7 +116,7 @@ export default {
           breadcrumbs.push({
             value: folder,
             text: folder.name,
-            disabled: true,
+            disabled: false,
           });
         });
         breadcrumbs.push({
@@ -122,7 +130,12 @@ export default {
     async onFolderChange(folder) {
       if (this.isFolderInFolder(folder)) return;
       await this.fetchHierachy(folder);
-      await this.fetchFolders(folder);
+      if (this.maya === 0){
+        await this.fetchFolders(folder);
+      } else {
+        await this.fetchSharedFolders(folder);
+      }
+      // await this.fetchFolders(folder);
       this.folderDest = folder;
     },
     isFolderInFolder(folder) {
@@ -166,23 +179,25 @@ export default {
 .popup-confirm {
   position: absolute;
   bottom: 20px;
-  left: 30px;
+  left: 30px; 
 }
 
-.buttons {
-  display: flex;
-  max-width: 30px;
-  /* max-width: 30px; */
-  /* max-height: 20px; */
-  /* margin-right: 360px; */
-  /* margin-bottom: -40px; */
+#selection-effect {
+  background-color: #f0f4f7;
+  width: 85px;
+  height: 30px;
+  position: absolute;
+  
+  transition: ease-in-out .3s;
+  right: 0;
 }
 
-/* #back-button {
-  max-width: 30px;
-  max-height: 20px;
-  margin-right: 360px;
-  margin-bottom: -40px;
+#selection-effect.maya {
+  right: 85px;
+}
 
-} */
+.button::before {
+  background-color: transparent !important;
+}
+
 </style>
