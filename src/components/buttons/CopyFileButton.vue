@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     copyButtonAppear() {
-      console.log('here');
       return this.chosenFiles.every((file) => !isFolder(file.type)) ? true : false;
     },
     onSubmit(folderID) {
@@ -47,7 +46,6 @@ export default {
         fileID: this.chosenFiles[0].id,
         folderID,
       });
-      // this.$store.dispatch("fetchFiles", folderID);
       this.$emit("close");
     },
     canMove() {
