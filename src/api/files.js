@@ -9,7 +9,7 @@ import store from "@/store";
  * @param parent - the parent folder id
  */
 export async function fetchFiles(parent) {
-  const res = await Axios.get(`${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id}` : ""}`);
+  const res = await Axios.get(`${baseURL}/api/files?appId=drive${parent ? `&parent=${parent.id ?? parent}` : ""}`);
   const files = res.data;
   return files;
 }
@@ -88,6 +88,7 @@ export async function getFileByID(fileID) {
 export async function deleteFile(fileID) {
   const res = await Axios.delete(`${baseURL}/api/files/${fileID}`);
 
+  // TODO: fix last updated files on delete folder
   removeUpdatedFile(fileID);
 
   return res.data[0];
@@ -102,7 +103,7 @@ export async function multipartUpload({ file, parent }, progress) {
   const formData = new FormData();
   formData.append("file", file, file.name);
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""}`,
+    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id ?? parent}` : ""}`,
     formData,
     {
       onUploadProgress: (event) => {
@@ -112,7 +113,7 @@ export async function multipartUpload({ file, parent }, progress) {
       doNotInterfere: true,
     }
   );
-  const metadata = await getFileByID(res.data);
+  const metadata = res.data;
   return metadata;
 }
 
@@ -126,7 +127,7 @@ export async function resumableUpload({ file, parent }, progress) {
   const formData = new FormData();
   formData.append("file", file, file.name);
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${parent ? `&parent=${parent.id}` : ""}`,
+    `${baseURL}/api/upload?uploadType=resumable&uploadId=${uploadID}${parent ? `&parent=${parent.id ?? parent}` : ""}`,
     formData,
     {
       headers: { "Content-Range": `bytes 0-${file.size - 1}/${file.size}` },
@@ -137,8 +138,7 @@ export async function resumableUpload({ file, parent }, progress) {
       doNotInterfere: true,
     }
   );
-
-  const metadata = await getFileByID(res.data);
+  const metadata = res.data;
   return metadata;
 }
 
@@ -152,7 +152,7 @@ export function cancelUpload(source) {
  */
 export async function createResumableUpload({ file, parent }) {
   const res = await Axios.post(
-    `${baseURL}/api/upload${parent ? `?parent=${parent.id}` : ""}`,
+    `${baseURL}/api/upload${parent ? `?parent=${parent.id ?? parent}` : ""}`,
     {
       title: file.name,
       mimeType: file.type,
@@ -181,7 +181,7 @@ export function downloadFile(fileID) {
  */
 export async function uploadFolder({ name, parent }) {
   const res = await Axios.post(
-    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id}` : ""}`,
+    `${baseURL}/api/upload?uploadType=multipart${parent ? `&parent=${parent.id ?? parent}` : ""}`,
     {},
     {
       headers: {
@@ -190,8 +190,7 @@ export async function uploadFolder({ name, parent }) {
       },
     }
   );
-
-  const folder = await getFileByID(res.data);
+  const folder = res.data;
   return folder;
 }
 
@@ -238,7 +237,7 @@ export function getFileLink(file) {
 
 export function createNewFile({ name, type, parent }) {
   window.open(
-    `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}${parent ? `&parent=${parent.id}` : ""}`
+    `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}${parent ? `&parent=${parent.id ?? parent}` : ""}`
   );
   location.reload();
 }

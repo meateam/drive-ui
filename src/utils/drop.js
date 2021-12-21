@@ -1,56 +1,69 @@
 import store from "@/store";
 import i18n from "@/i18n";
-import {
-    UploadSet,
-    UploadGet,
-    UploadAction,
-} from "@/store/modules/uploadFolder";
+import { UploadSet, UploadGet, UploadAction } from "@/store/modules/upload";
 import { Promise } from "bluebird";
 import { getMimeType } from "./fileMimeType";
 
 // this call from the drop event
 export async function getFilesFromDroppedItems(dataTransfer, parent) {
-    if (store.getters[UploadGet.isUpload]) {
-        return store.dispatch(
-            "onError",
-            new Error(i18n.t("errors.waitForUpload"))
-        );
-    }
-    const files = [...dataTransfer.items];
-    store.commit(UploadSet.isUpload, true);
-    const uploader = new UploadEntries(
-        store.getters.maxUploadedFiles,
-        store.getters.maxUploadedFolders
+    return await uploadFilesFromInput(
+        dataTransfer,
+        parent,
+        FILES_INPUT_TYPES.DATA_TRANSFER_INPUT
     );
-    await Promise.all(
-        files
-            .filter((file) => file.kind === "file")
-            .map((file) => uploader.uploadEntries(file, parent))
-    );
-    store.commit("removeLoadingFiles");
-    store.dispatch("fetchFiles");
-    store.commit(UploadSet.isUpload, false);
 }
 
 // this call from the plus button
-export async function getFilesFromInput(files, parent) {
-    if (store.getters[UploadGet.isUpload]) {
-        return store.dispatch(
-            "onError",
-            new Error(i18n.t("errors.waitForUpload"))
-        );
+export async function getFilesFromSelectedItems(files, parent) {
+    return await uploadFilesFromInput(files, parent, FILES_INPUT_TYPES.FILES);
+}
+
+async function uploadFilesFromInput(input, parent, filesInputType) {
+    return await beforeUploadValidator(
+        uploadInputCallback.bind(null, input, parent, filesInputType)
+    );
+}
+
+const FILES_INPUT_TYPES = {
+    FILES: "files",
+    DATA_TRANSFER_INPUT: "dataTransfer",
+};
+
+Object.freeze(FILES_INPUT_TYPES);
+
+function filesFactory(input, type) {
+    switch (type) {
+        case FILES_INPUT_TYPES.FILES:
+            return [...input];
+        case FILES_INPUT_TYPES.DATA_TRANSFER_INPUT:
+            return [...input.items].filter((file) => file.kind === "file");
+        default:
+            return null;
     }
-    const items = [...files];
-    store.commit(UploadSet.isUpload, true);
+}
+
+async function uploadInputCallback(input, parentInput, filesInputType) {
+    const files = filesFactory(input, filesInputType);
+    await uploadFiles(files, parentInput);
+    store.dispatch("fetchFiles");
+    store.dispatch("getQuota");
+}
+
+async function beforeUploadValidator(uploadCallback) {
+    return store.getters[UploadGet.isUpload]
+        ? store.dispatch("onError", new Error(i18n.t("errors.waitForUpload")))
+        : await uploadCallback();
+}
+
+async function uploadFiles(files, parent) {
     const uploader = new UploadEntries(
         store.getters.maxUploadedFiles,
         store.getters.maxUploadedFolders
     );
-    await Promise.all(
-        items.map((file) => uploader.uploadEntries(file, parent))
+    store.commit(UploadSet.isUpload, true);
+    await Promise.allSettled(
+        files.map((file) => uploader.uploadEntries(file, parent))
     );
-    store.commit("removeLoadingFiles");
-    store.dispatch("fetchFiles");
     store.commit(UploadSet.isUpload, false);
 }
 

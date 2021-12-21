@@ -6,7 +6,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getFilesFromInput } from "@/utils/drop"; 
+import { getFilesFromSelectedItems } from "@/utils/drop"; 
 
 export default {
   name: "Upload",
@@ -14,9 +14,9 @@ export default {
     ...mapGetters(["currentFolder"])
   },
   methods: {
-    getFilesFromInput,
+    getFilesFromSelectedItems,
     uploadInput(event) {
-      this.getFilesFromInput(event.currentTarget.files, this.currentFolder)
+      this.getFilesFromSelectedItems(event.currentTarget.files, this.currentFolder)
     },
     open() {
       document.getElementById("upload-input").click();
