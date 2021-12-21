@@ -10,7 +10,7 @@
         id="move-button"
         text
       >
-        <img class="fab-icon" src="@/assets/icons/move-to.svg" />
+        <img class="fab-icon" src="@/assets/icons/make-a-copy.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.MakeCopy") }}</p>
       </v-btn>
     </template>
@@ -46,6 +46,15 @@ export default {
         fileID: this.chosenFiles[0].id,
         folderID,
       });
+
+    // folderID ? this.$router.push({ path: "/folders", query: { id: folderID } }) 
+    // : this.$router.currentRoute.path === "/favorites" ? this.$router.push("/my-drive") :
+
+      if (folderID) {
+        this.$router.push({ path: "/folders", query: { id: folderID } });
+      } else if (this.$router.currentRoute.path === "/favorites" || this.$router.currentRoute.path === "/shared-with-me") {
+          this.$router.push("/my-drive")
+      }
       this.$emit("close");
     },
     canMove() {

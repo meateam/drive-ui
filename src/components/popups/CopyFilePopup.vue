@@ -10,16 +10,16 @@
           </p>
         </div>
       </div>
-        <div id="selection-effect" :class="{ 'maya': maya === 1 }"></div>
+        <div id="selection-effect" :class="{ 'copyButton': copyButton === 1 }"></div>
         <v-btn :ripple="false" class="button" @click="open(0)" text small ><p>{{ $t('sidenav.MyDrive') }}</p></v-btn>
-        <v-btn v-if="!isSharedFile()" :ripple="false" class="button" @click="openshared(1)" text small><p>{{ $t('sidenav.SharedWithMe') }}</p></v-btn>
+        <v-btn v-if="!isSharedFile()" :ripple="false" class="button" @click="opensharedFolders(1)" text small><p>{{ $t('sidenav.SharedWithMe') }}</p></v-btn>
       <div class="popup-body">
 
         <Breadcrumbs :items="folderHierarchy" @click="onFolderChange" />
         <List :items="currentChildren" icon="folder" @change="onFolderChange" :disabledChecker="isFolderDestDisabled" />
 
         <v-card-actions class="popup-confirm">
-          <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
+          <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" :disabled="submitButtonDisabled"/>
           <TextButton @click="dialog = false" :label="$t('buttons.Cancel')" />
         </v-card-actions>
       </div>
@@ -47,7 +47,8 @@ export default {
       folderHierarchy: undefined,
       currentChildren: undefined,
       folderDest: undefined,
-      maya: 0,
+      copyButton: 0,
+      submitButtonDisabled: false,
     };
   },
   props: ["files"],
@@ -59,14 +60,14 @@ export default {
           : this.currentFolder;
       return firstFile && firstFile.shared;
     },
-    async openshared(buttonIndex) {
-      this.maya = buttonIndex;
-      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchSharedFolders(this.currentFolder)]);
+    async open(buttonIndex) {
+      this.copyButton = buttonIndex;
+      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchFolders(this.currentFolder)]);
       this.dialog = true;
     },
-    async open(buttonIndex) {
-      this.maya = buttonIndex;
-      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchFolders(this.currentFolder)]);
+    async opensharedFolders(buttonIndex) {
+      this.copyButton = buttonIndex;
+      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchSharedFolders(this.currentFolder)]);
       this.dialog = true;
     },
     async fetchFolders(parent) {
@@ -74,8 +75,10 @@ export default {
     },
     async fetchSharedFolders(parent) {
       if (parent === undefined) {
-      this.currentChildren = await filesApi.fetchSharedFolders(parent ? parent.id : undefined);
+        this.submitButtonDisabled = true;
+        this.currentChildren = await filesApi.fetchSharedFolders(parent ? parent.id : undefined);
       } else {
+        this.submitButtonDisabled = false;
         this.currentChildren = await filesApi.getFoldersByFolder(parent ? parent.id : undefined);
       }
     },
@@ -87,9 +90,9 @@ export default {
           : [this.$t("pageHeaders.SharedWithMe"), false];
 
       if (!folder) {
-        if (this.maya === undefined) this.maya = 0;
-        if (this.maya === 0) {
-          breadcrumbs.push({
+        if (this.copyButton === undefined) {
+            this.copyButton = 0;
+            breadcrumbs.push({
             value: undefined,
             text: this.$t("pageHeaders.MyDrive"),
             disabled: !folder,
@@ -130,12 +133,8 @@ export default {
     async onFolderChange(folder) {
       if (this.isFolderInFolder(folder)) return;
       await this.fetchHierachy(folder);
-      if (this.maya === 0){
-        await this.fetchFolders(folder);
-      } else {
-        await this.fetchSharedFolders(folder);
-      }
-      // await this.fetchFolders(folder);
+      if (this.copyButton === 0) await this.fetchFolders(folder);
+      else await this.fetchSharedFolders(folder);
       this.folderDest = folder;
     },
     isFolderInFolder(folder) {
@@ -192,7 +191,7 @@ export default {
   right: 0;
 }
 
-#selection-effect.maya {
+#selection-effect.copyButton {
   right: 85px;
 }
 
