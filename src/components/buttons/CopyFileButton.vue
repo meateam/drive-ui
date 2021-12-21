@@ -2,7 +2,7 @@
   <v-tooltip top :disabled="!icon" v-if="copyButtonAppear()">
     <template v-slot:activator="{ on }">
       <v-btn
-        @click="$refs.copyPopup.open()"
+        @click="$refs.copyPopup.openMyDrive()"
         v-on="on"
         :icon="icon"
         :class="{ right: !icon }"
@@ -21,9 +21,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { writeRole } from "@/utils/roles";
 import CopyFilePopup from "@/components/popups/CopyFilePopup";
+import { mapGetters } from "vuex";
 import { isFolder } from "@/utils/isFolder";
 
 export default {
@@ -33,13 +32,9 @@ export default {
   computed: {
     ...mapGetters(["chosenFiles", "currentFolder"]),
   },
-  data() {
-    return {
-    };
-  },
   methods: {
     copyButtonAppear() {
-      return this.chosenFiles.every((file) => !isFolder(file.type)) ? true : false;
+      return this.chosenFiles.every((file) => !isFolder(file.type) && this.chosenFiles.length <= 1);
     },
     onSubmit(folderID) {
       this.$store.dispatch("copyFile", {
@@ -47,35 +42,12 @@ export default {
         folderID,
       });
 
-    // folderID ? this.$router.push({ path: "/folders", query: { id: folderID } }) 
-    // : this.$router.currentRoute.path === "/favorites" ? this.$router.push("/my-drive") :
-
       if (folderID) {
         this.$router.push({ path: "/folders", query: { id: folderID } });
       } else if (this.$router.currentRoute.path === "/favorites" || this.$router.currentRoute.path === "/shared-with-me") {
           this.$router.push("/my-drive")
       }
       this.$emit("close");
-    },
-    canMove() {
-      return (
-        (!(this.currentFolder || this.isSharedFile()) ||
-          (this.currentFolder && writeRole(this.currentFolder.role))) &&
-        this.chosenFiles.every((file) => writeRole(file.role)) &&
-        !this.isFileReadOnly()
-      );
-    },
-    isSharedFile() {
-      const firstFile =
-        this.chosenFiles && this.chosenFiles.length > 0
-          ? this.chosenFiles[0]
-          : this.currentFolder;
-      return firstFile && firstFile.shared;
-    },
-    isFileReadOnly() {
-      return this.chosenFiles.every(
-        (file) => file?.isReadOnly != undefined && file.isReadOnly
-      );
     },
   },
 };

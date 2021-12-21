@@ -10,9 +10,9 @@
           </p>
         </div>
       </div>
-        <div id="selection-effect" :class="{ 'copyButton': copyButton === 1 }"></div>
-        <v-btn :ripple="false" class="button" @click="open(0)" text small ><p>{{ $t('sidenav.MyDrive') }}</p></v-btn>
-        <v-btn v-if="!isSharedFile()" :ripple="false" class="button" @click="opensharedFolders(1)" text small><p>{{ $t('sidenav.SharedWithMe') }}</p></v-btn>
+        <div id="selection-effect" :class="{ 'copyButton': copyButton === 'SharedWithMe' }"></div>
+        <v-btn :ripple="false" class="button" @click="openMyDrive()" text small ><p>{{ $t('sidenav.MyDrive') }}</p></v-btn>
+        <v-btn v-if="!isSharedFile()" :ripple="false" class="button" @click="openSharedFolders()" text small><p>{{ $t('sidenav.SharedWithMe') }}</p></v-btn>
       <div class="popup-body">
 
         <Breadcrumbs :items="folderHierarchy" @click="onFolderChange" />
@@ -35,6 +35,12 @@ import Breadcrumbs from "@/components/shared/BaseBreadcrumbs";
 import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import { writeRole, ownerRole } from "@/utils/roles";
 import { mapGetters } from "vuex";
+
+const COPY_TO_BUTTON = {
+  MY_DRIVE: 'MyDrive',
+  SHARED_WITH_ME: 'SharedWithMe'
+};
+
 export default {
   name: "CopyFilePopup",
   components: { SubmitButton, List, TextButton, Breadcrumbs },
@@ -47,7 +53,7 @@ export default {
       folderHierarchy: undefined,
       currentChildren: undefined,
       folderDest: undefined,
-      copyButton: 0,
+      copyButton: COPY_TO_BUTTON.MY_DRIVE,
       submitButtonDisabled: false,
     };
   },
@@ -60,17 +66,19 @@ export default {
           : this.currentFolder;
       return firstFile && firstFile.shared;
     },
-    async open(buttonIndex) {
+    async open(fetchFunction, buttonIndex) {
       this.copyButton = buttonIndex;
-      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchFolders(this.currentFolder)]);
+      await Promise.all([this.fetchHierachy(this.currentFolder), fetchFunction(this.currentFolder)]);
       this.dialog = true;
     },
-    async opensharedFolders(buttonIndex) {
-      this.copyButton = buttonIndex;
-      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchSharedFolders(this.currentFolder)]);
-      this.dialog = true;
+    async openMyDrive() {
+      this.open(this.fetchFolders, COPY_TO_BUTTON.MY_DRIVE);
+    },
+    async openSharedFolders() {
+      this.open(this.fetchSharedFolders, COPY_TO_BUTTON.SHARED_WITH_ME);
     },
     async fetchFolders(parent) {
+        this.submitButtonDisabled = false;
         this.currentChildren = await filesApi.getFoldersByFolder(parent ? parent.id : undefined);
     },
     async fetchSharedFolders(parent) {
@@ -90,21 +98,22 @@ export default {
           : [this.$t("pageHeaders.SharedWithMe"), false];
 
       if (!folder) {
-        if (this.copyButton === undefined) {
-            this.copyButton = 0;
+        switch (this.copyButton) {
+          case COPY_TO_BUTTON.MY_DRIVE:
             breadcrumbs.push({
             value: undefined,
             text: this.$t("pageHeaders.MyDrive"),
             disabled: !folder,
-          });
-        } else {
-          breadcrumbs.push({
+            });
+            break;
+          case COPY_TO_BUTTON.SHARED_WITH_ME:
+            breadcrumbs.push({
             value: undefined,
             text: this.$t("pageHeaders.SharedWithMe"),
             disabled: !folder,
-          });
+            });
+            break;
         }
-
       } else {
         const hierarchy = await filesApi.getFolderHierarchy(folder.id);
         const firstFolder = hierarchy && hierarchy.length > 0 ? hierarchy[0] : folder;
@@ -132,9 +141,18 @@ export default {
     },
     async onFolderChange(folder) {
       if (this.isFolderInFolder(folder)) return;
-      await this.fetchHierachy(folder);
-      if (this.copyButton === 0) await this.fetchFolders(folder);
-      else await this.fetchSharedFolders(folder);
+      let fetchPromise;
+      switch (this.copyButton) {
+        case COPY_TO_BUTTON.MY_DRIVE:
+          fetchPromise = this.fetchFolders(folder);
+          break;
+        case COPY_TO_BUTTON.SHARED_WITH_ME:
+          fetchPromise = this.fetchSharedFolders(folder);
+          break;
+      }
+
+      await Promise.all([this.fetchHierachy(folder), fetchPromise]);
+   
       this.folderDest = folder;
     },
     isFolderInFolder(folder) {
