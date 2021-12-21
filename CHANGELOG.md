@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
+- hotfix: ([148](https://github.com/meateam/drive-ui/pull/148)): fix page 503 bug
 
 ## [v3.11.0] - 2021-12-7
 - minor: ([125](https://github.com/meateam/drive-ui/pull/125)): added fav-service.
