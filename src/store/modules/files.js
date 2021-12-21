@@ -62,7 +62,7 @@ const actions = {
 * addFav gets a file id and add it to favorites
 * @param fileID is the id of the file to add
 */
-  async addFav({dispatch }, file) {
+  async addFav({ dispatch }, file) {
     try {
       await favApi.addFavorite(file);
     } catch (err) {

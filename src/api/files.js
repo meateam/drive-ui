@@ -1,8 +1,8 @@
+import store from "@/store";
 import Axios from "axios";
 import { pushUpdatedFile, removeUpdatedFile } from "@/utils/lastUpdatedFileHandler";
 import { baseURL, fileTypes, pageSize } from "@/config";
 import { isFolder } from "@/utils/isFolder";
-import store from "@/store";
 import { appendNumberIfFileExists } from "@/utils/isFileNameExists";
 
 /**
@@ -265,7 +265,7 @@ export function getPdfPreview(fileID) {
 
 export async function copyFile(fileID, folderID, newFileName) {
   const res = await Axios.post(`${baseURL}/api/files/copyObject/${fileID}/${folderID}/${newFileName}?appId=drive`)
-  return res;
+  return res.data;
 }
 
 // If I am copying from MyDrive or from Favorites to MyDrive I need to get the files from MyDrive.
@@ -292,10 +292,5 @@ async function getNewFileName(name, folders) {
     loadingFiles: [],
   });
 
-  
-  if (isExist) {
-    return newFileName;
-  } else {
-    return name;
-  } 
+  return isExist ? newFileName : name;
 }
