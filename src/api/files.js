@@ -3,6 +3,7 @@ import { pushUpdatedFile, removeUpdatedFile } from "@/utils/lastUpdatedFileHandl
 import { baseURL, fileTypes, pageSize } from "@/config";
 import { isFolder } from "@/utils/isFolder";
 import store from "@/store";
+import { appendNumberIfFileExists } from "@/utils/isFileNameExists";
 
 /**
  * fetchFiles fetch all the files in the current folder
@@ -262,7 +263,39 @@ export function getPdfPreview(fileID) {
   return `${baseURL}/api/files/${fileID}?alt=media&preview`;
 }
 
-export async function copyFile(fileID, folderID) {
-  const res = await Axios.post(`${baseURL}/api/files/copyObject/${fileID}/${folderID}?appId=drive`)
+export async function copyFile(fileID, folderID, newFileName) {
+  const res = await Axios.post(`${baseURL}/api/files/copyObject/${fileID}/${folderID}/${newFileName}?appId=drive`)
   return res;
+}
+
+// If I am copying from MyDrive or from Favorites to MyDrive I need to get the files from MyDrive.
+// If I am copying to a folder I need to get the files from the chosen folder.
+export async function GetCopiedFileName(fileID, folderID) {
+  const file = await getFileByID(fileID);
+    if (folderID == undefined) {
+      const folderFiles = await fetchFiles();
+      return await getNewFileName(file.name, folderFiles);
+    } else {
+      const folder = await getFileByID(folderID);
+      const folderFiles = await fetchFiles(folder);
+      return await getNewFileName(file.name, folderFiles);
+    }
+}
+
+// The function gets the file name and the files in a folder and checks if the file name already exists.
+// If it does, it returns the new file name with a number appended to it.
+// If it doesn't, it returns the original file name.
+async function getNewFileName(name, folders) {
+  let [isExist, newFileName] = appendNumberIfFileExists({
+    name: name,
+    files: folders,
+    loadingFiles: [],
+  });
+
+  
+  if (isExist) {
+    return newFileName;
+  } else {
+    return name;
+  } 
 }

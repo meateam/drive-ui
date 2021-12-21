@@ -426,8 +426,10 @@ const actions = {
     }
   },
   async copyFile({ commit, dispatch }, { fileID, folderID }) {
-    try {      
-      await filesApi.copyFile(fileID, folderID);
+    try {
+      const fileName = await filesApi.GetCopiedFileName(fileID, folderID);
+      await filesApi.copyFile(fileID, folderID, fileName);
+      dispatch("fetchFiles");
       commit("onSuccess", "success.CopyFile")
     } catch (err) {
       dispatch("onError", err);
