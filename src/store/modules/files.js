@@ -58,10 +58,10 @@ const actions = {
     }
   },
 
-  /**
- * addFav gets a file id and add it to favorites
- * @param fileID is the id of the file to add
- */
+/**
+* addFav gets a file id and add it to favorites
+* @param fileID is the id of the file to add
+*/
   async addFav({dispatch }, file) {
     try {
       await favApi.addFavorite(file);
@@ -69,10 +69,10 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  /**
- * removeFav gets a file id and removes it from favorites
- * @param fileID is the id of the file to remove
- */
+/**
+* removeFav gets a file id and removes it from favorites
+* @param fileID is the id of the file to remove
+*/
   async removeFav({ dispatch }, file) {
     try {
       await favApi.deleteFavorite(file);
@@ -80,9 +80,9 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  /**
-   * addFavs uses the method addFav and removeFav to add/remove all the files in the chosen array
-   */
+/**
+  * addFavs uses the method addFav and removeFav to add/remove all the files in the chosen array
+  */
   addOrRemoveFavs({ dispatch }, files) {
     try {
       files.map((file) => {
