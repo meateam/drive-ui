@@ -1,16 +1,11 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="32.000000pt" height="32.000000pt" viewBox="0 0 32.000000 32.000000"
- preserveAspectRatio="xMidYMid meet">
-
-<g transform="translate(0.000000,32.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
-<path d="M50 160 l0 -110 110 0 110 0 0 110 0 110 -110 0 -110 0 0 -110z m200
-0 l0 -90 -90 0 -90 0 0 90 0 90 90 0 90 0 0 -90z"/>
-<path d="M130 220 c0 -5 9 -10 19 -10 17 0 15 -4 -10 -31 -34 -36 -37 -64 -10
--79 25 -13 81 -13 81 0 0 6 -15 10 -34 10 -44 0 -53 15 -29 48 25 34 43 39 43
-13 0 -12 5 -21 10 -21 6 0 10 18 10 40 l0 40 -40 0 c-22 0 -40 -4 -40 -10z"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="-10 15 200 200">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="Color_Fill_1" stroke="#fff" stroke-width="5px" data-name="Color Fill 1" class="cls-1" d="M142,25l35,27-2,3L142,85q-0.5-8.5-1-17c-18.91.214-36.309,6.505-44,18l-4,14H82c4.827-40.857,23.1-47.392,60-57V25ZM22,42H78V52L32,53l1,115,115-1V102h10v76H22V42Z"/>
 </svg>

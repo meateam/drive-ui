@@ -1,8 +1,8 @@
 <template>
-  <v-tooltip top :disabled="!icon" v-if="canMove()">
+  <v-tooltip top :disabled="!icon" v-if="canCreateShortcut()">
     <template v-slot:activator="{ on }">
       <v-btn
-        @click="$refs.movePopup.open()"
+        @click="$refs.CreateShortcutPopup.open()"
         v-on="on"
         :icon="icon"
         :class="{ right: !icon }"
@@ -10,12 +10,12 @@
         id="move-button"
         text
       >
-        <img class="fab-icon" src="@/assets/icons/move-shortcut-to3.svg" />
+        <img class="fab-icon" src="@/assets/icons/move-shortcut-to.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.CreateShortcut") }}</p>
       </v-btn>
     </template>
 
-    <MoveShortcutToPopup ref="movePopup" :files="chosenFiles" @confirm="onSubmit" />
+    <CreateShortcutPopup ref="CreateShortcutPopup" :files="chosenFiles" @confirm="onSubmit"/>
     <span>{{ $t("buttons.CreateShortcut") }}</span>
   </v-tooltip>
 </template>
@@ -23,12 +23,12 @@
 <script>
 import { mapGetters } from "vuex";
 import { writeRole } from "@/utils/roles";
-import MoveShortcutToPopup from "@/components/popups/MoveShortcutToPopup";
+import CreateShortcutPopup from "@/components/popups/CreateShortcutPopup";
 
 export default {
-  name: "MoveToButton",
+  name: "CreateShortcutButton",
   props: ["icon"],
-  components: { MoveShortcutToPopup },
+  components: { CreateShortcutPopup },
   computed: {
     ...mapGetters(["chosenFiles", "currentFolder"]),
   },
@@ -41,7 +41,7 @@ export default {
       });
       this.$emit("close");
     },
-    canMove() {
+    canCreateShortcut(){
       return (
         (!(this.currentFolder || this.isSharedFile()) || (this.currentFolder && writeRole(this.currentFolder.role))) &&
         this.chosenFiles.every((file) => writeRole(file.role)) &&
@@ -49,11 +49,16 @@ export default {
       );
     },
     isSharedFile() {
-      const firstFile = this.chosenFiles && this.chosenFiles.length > 0 ? this.chosenFiles[0] : this.currentFolder;
+      const firstFile =
+        this.chosenFiles && this.chosenFiles.length > 0
+          ? this.chosenFiles[0]
+          : this.currentFolder;
       return firstFile && firstFile.shared;
     },
     isFileReadOnly() {
-      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
+      return this.chosenFiles.every(
+        (file) => file?.isReadOnly != undefined && file.isReadOnly
+      );
     },
   },
 };

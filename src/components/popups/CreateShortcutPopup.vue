@@ -33,7 +33,7 @@ import SubmitButton from "@/components/buttons/BaseSubmitButton";
 import { writeRole, ownerRole } from "@/utils/roles";
 import { mapGetters } from "vuex";
 export default {
-  name: "MoveToPopup",
+  name: "CreateShortcutPopup",
   components: { SubmitButton, List, TextButton, Breadcrumbs },
   computed: {
     ...mapGetters(["currentFolder"]),
