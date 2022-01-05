@@ -10,7 +10,7 @@
         id="move-button"
         text
       >
-        <img style="width: 20px; height: 20px" src="@/assets/icons/copylink.png" />
+        <img class="image-ctcb" src="@/assets/icons/copylink.png" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.CopyLink") }}</p>
       </v-btn>
     </template>
@@ -21,8 +21,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import store from "@/store";
 import { isFolder } from "@/utils/isFolder";
+import { isSharedFile } from "@/utils/isSharedFile";
+import { isSingleFile } from "@/utils/isSingleFile";
+import store from "@/store";
 
 export default {
   name: "CopyToClipboard",
@@ -32,17 +34,24 @@ export default {
   },
   methods: {
     copy() {
-      if (isFolder(this.chosenFiles[0].type)) navigator.clipboard.writeText(`${window.location.origin}/folder?id=${this.chosenFiles[0].id}`);
-      else navigator.clipboard.writeText(`${window.location.origin}/file?id=${this.chosenFiles[0].id}`)
+      const fileId = this.chosenFiles[0].id; 
+      if (isFolder(this.chosenFiles[0].type)) navigator.clipboard.writeText(`${window.location.origin}/folder?id=${fileId}`);
+      else navigator.clipboard.writeText(`${window.location.origin}/file?id=${fileId}`)
       store.commit("onSuccess", "success.CopyToClipboard");
     },
     isSharedFile() {
-      const firstFile = this.chosenFiles && this.chosenFiles.length > 0 ? this.chosenFiles[0] : this.currentFolder;
-      return firstFile && firstFile.shared;
+      return isSharedFile(this.chosenFiles, this.currentFolder);
     },
     isSingleFile() {
-      return this.chosenFiles && this.chosenFiles.length === 1;
+      return isSingleFile(this.chosenFiles);
     },
   },
 };
 </script>
+
+<style>
+.image-ctcb {
+  width: 20px;
+  height: 20px
+}
+</style>
