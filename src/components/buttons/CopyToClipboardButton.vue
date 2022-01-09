@@ -5,9 +5,9 @@
         @click="copy()"
         v-on="on"
         :icon="icon"
-        :class="{ right: !icon }"
         class="auto-margin"
         id="move-button"
+        :class="{ right: !icon }"
         text
       >
         <img class="image-ctcb" src="@/assets/icons/copylink.png" />
@@ -20,11 +20,11 @@
 </template>
 
 <script>
+import store from "@/store";
 import { mapGetters } from "vuex";
 import { isFolder } from "@/utils/isFolder";
 import { isSharedFile } from "@/utils/isSharedFile";
 import { isSingleFile } from "@/utils/isSingleFile";
-import store from "@/store";
 
 export default {
   name: "CopyToClipboard",
@@ -34,9 +34,10 @@ export default {
   },
   methods: {
     copy() {
-      const fileId = this.chosenFiles[0].id; 
-      if (isFolder(this.chosenFiles[0].type)) navigator.clipboard.writeText(`${window.location.origin}/folder?id=${fileId}`);
-      else navigator.clipboard.writeText(`${window.location.origin}/file?id=${fileId}`)
+      const fileId = this.chosenFiles[0].id;
+      const chosenFileType = this.chosenFiles[0].type;
+      const url = `${window.location.origin}/${isFolder(chosenFileType) ? 'file' : 'folder'}?id=${fileId}`;
+      navigator.clipboard.writeText(url);
       store.commit("onSuccess", "success.CopyToClipboard");
     },
     isSharedFile() {
