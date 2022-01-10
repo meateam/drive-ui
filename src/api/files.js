@@ -77,7 +77,7 @@ export async function isFileExists(fileID) {
  * @param fileID is the id of the file
  */
 export async function getFileByID(fileID) {
-  const res = await Axios.get(`${baseURL}/api/files/${fileID}`, {doNotInterfere: true});
+  const res = await Axios.get(`${baseURL}/api/files/${fileID}`, { doNotInterfere: true });
   return res.data;
 }
 
@@ -241,6 +241,16 @@ export function createNewFile({ name, type, parent }) {
     `${store.state.configuration.docsUrl}/api/blank?name=${name}&type=${type}${parent ? `&parent=${parent.id}` : ""}`
   );
   location.reload();
+}
+
+export async function createNewShortcut({ fileID, parent, name }) {
+  await Axios.post(`${baseURL}/api/files/shortcut`, {
+    params: {
+      fileID: fileID,
+      parent: parent ? parent : "",
+      name: name,
+    }
+  });
 }
 
 export async function moveFiles({ folderID, fileIDs }) {

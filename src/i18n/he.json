@@ -137,7 +137,7 @@
     "Name": "שם התיקייה",
     "New": "תיקייה חדשה...",
     "Move": "העברת קובץ ל...",
-    "UploadShortcutIn":"יצירת קיצור דרך ב..."
+    "UploadShortcut":"יצירת קיצור דרך ב..."
   },
   "rename": {
     "New": "שם חדש...",
@@ -309,9 +309,11 @@
   },
   "errors": {
     "folderExistInFolder": "שם התיקייה כבר קיים בתיקייה הנוכחית",
-    "fileExistInFolder": "שם הקובץ כבר קים בתיקייה",
+    "fileExistInFolder": "שם הקובץ כבר קיים בתיקייה",
+    "shortcutExistInFolder": "קיצור דרך עם שם זה כבר קיים בתיקייה",
     "waitForUpload": "המתן שהעלאה ההקיימת תסתיים",
     "failedToPassFiles": "חלק מהקבצים שניסית להעביר נכשלו",
+    "failedToCreateShortcut":"יצירת קיצור הדרך נכשלה",
     "GoBack": "חזור הביתה",
     "Unavailable": "המערכת אינה זמינה",
     "BackSoon": "נשוב בקרוב",

@@ -3,7 +3,7 @@
     <v-card>
       <div class="popup-header">
         <img class="popup-icon auto-margin" src="@/assets/icons/green-move-to.svg" />
-        <p class="d-title">{{ $t("folder.UploadShortcutIn") }}</p>
+        <p class="d-title">{{ $t("folder.UploadShortcut") }}</p>
         <div class="files">
           <p class="ltr file" v-for="file in files" :key="file.id">
             {{ file.name }}
