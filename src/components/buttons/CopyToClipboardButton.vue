@@ -36,7 +36,7 @@ export default {
     copy() {
       const fileId = this.chosenFiles[0].id;
       const chosenFileType = this.chosenFiles[0].type;
-      const url = `${window.location.origin}/${isFolder(chosenFileType) ? 'file' : 'folder'}?id=${fileId}`;
+      const url = `${window.location.origin}/${isFolder(chosenFileType) ? 'folders' : 'file'}?id=${fileId}`;
       navigator.clipboard.writeText(url);
       store.commit("onSuccess", "success.CopyToClipboard");
     },
