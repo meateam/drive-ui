@@ -20,6 +20,7 @@
       <EditButton />
       <ShareButton />
       <ExternalTransferButton />
+      <CopyToClipboardButton/>
     </v-list>
   </v-menu>
 </template>
@@ -36,6 +37,7 @@ import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
 import FavoriteButton from "@/components/buttons/FavoriteButton"
+import CopyToClipboardButton from "@/components/buttons/CopyToClipboardButton";
 
 export default {
   name: "FileMenu",
@@ -51,6 +53,7 @@ export default {
     EditButton,
     PreviewButton,
     FavoriteButton,
+    CopyToClipboardButton,
   },
   data() {
     return {
