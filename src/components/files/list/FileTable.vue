@@ -29,7 +29,7 @@
           <td class="file-name">{{ item.name }}</td>     
 
           <td>{{ item.owner || '???' }}</td>
-          <td class="ltr-td">{{ formatFileDate(item.updatedAt) }}</td>
+          <td id="updated-at" :class="{ 'isRecentlyUpdated': isUpdatedInTheLastTwoDays(item.updatedAt)}" class="ltr-td">{{ formatFileDate(item.updatedAt) }}</td>
           <td class="ltr-td">{{ formatFileSize(item.size) }}</td>
         </tr>
       </template>
@@ -101,6 +101,9 @@
       onFileClick(file) {
         this.selected = [file];
       },
+      isUpdatedInTheLastTwoDays(date) {
+        return date < new Date() && date > new Date().setDate(new Date().getDate() - 2)
+      },
     },
     watch: {
       selected: function(files) {
@@ -127,5 +130,8 @@
   }
   #pagination {
     padding-top: 20px;
+  }
+  #updated-at.isRecentlyUpdated {
+    font-weight: bold;
   }
 </style>
