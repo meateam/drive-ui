@@ -10,8 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - minor: ([145](https://github.com/meateam/drive-ui/pull/145)): add copy to clipboard.
 
-- minor: ([145](https://github.com/meateam/drive-ui/pull/145)): add copy to clipboard.
-
 ## [v3.11.0] - 2021-12-7
 - minor: ([125](https://github.com/meateam/drive-ui/pull/125)): added fav-service.
 
