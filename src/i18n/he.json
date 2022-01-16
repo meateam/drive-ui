@@ -100,7 +100,8 @@
     "BackToShare": "חזרה לבחירת המאשרים",
     "AboutMe": "לפרטים שלי",
     "Favorite": "הוספה למועדפים",
-    "RemoveFavorite": "הסרה ממועדפים"
+    "RemoveFavorite": "הסרה ממועדפים",
+    "CopyToClipboard": "העתקת קישור"
   },
   "success": {
     "File": "הקובץ עלה בהצלחה!",
@@ -117,7 +118,7 @@
     "Cancel": "העלאת הקובץ בוטלה!",
     "AddFavorite": "הפריט התווסף למועדפים בהצלחה!",
     "RemoveFavorite": "הפריט הוסר מהמועדפים בהצלחה!",
-    "CopyToClipboard": "הקישור הועתק"
+    "CopyToClipboard": "הקישור הועתק בהצלחה!"
   },
   "preview": {
     "Unavailable": "התצוגה המקדימה אינה זמינה",
