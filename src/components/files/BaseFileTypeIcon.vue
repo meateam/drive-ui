@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <v-icon v-if="isFolder(file.type)" :size="size" color="#fc8946">folder</v-icon>
+  <div class="display-img">
+    <v-icon v-if="isFolder(file.type)" :size="size" color="#4FBEA0">folder</v-icon>
     <v-img v-else-if="isDeleted(file)" src="@/assets/file-types/deleted.svg" :width="size" />
-
+    
     <v-img v-else-if="fileType === 'txt'" src="@/assets/file-types/txt.svg" :width="size" />
     <v-img v-else-if="fileType === 'png'" src="@/assets/file-types/png.svg" :width="size" />
     <v-img v-else-if="fileType === 'svg'" src="@/assets/file-types/svg.svg" :width="size" />
@@ -29,6 +29,7 @@
     <v-icon v-else-if="file.type.startsWith('audio')" :size="size" color="#9caec4">audiotrack</v-icon>
     <v-icon v-else-if="file.type.startsWith('video')" :size="size" color="#9caec4">movie</v-icon>
     <v-icon v-else color="#1a73e8" :size="size">insert_drive_file</v-icon>
+    <v-icon v-if="file.isFavorite && isTypeIcon" class="star-icon" small>star</v-icon>
   </div>
 </template>
 
@@ -38,7 +39,7 @@ import { getFileType } from "@/utils/getFileType";
 
 export default {
   name: "FileTypeIcon",
-  props: ["file", "size"],
+  props: ["file", "size", "isTypeIcon"],
   data() {
     return {
       fileType: getFileType(this.file.name),
@@ -60,4 +61,17 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.star-icon {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: -5px; 
+  left: -2px;
+  color: #FFA500;
+}
+
+.display-img {
+  position: relative;
+}
+</style>

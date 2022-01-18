@@ -4,12 +4,14 @@
     <PreviewButton :icon="true" />
     <DownloadButton :icon="true" />
     <DeleteButton :icon="true" />
+    <FavoriteButton :icon="true" />
     <MoveToButton :icon="true" />
     <OnlineEditButton :icon="true" />
     <LocalEditButton :icon="true" />
     <EditButton :icon="true" />
     <ShareButton :icon="true" />
     <ExternalTransferButton :icon="true" />
+    <CopyToClipboardButton :icon="true" />
   </div>
 </template>
 
@@ -24,6 +26,8 @@ import InfoButton from "@/components/buttons/InfoButton";
 import PreviewButton from "@/components/buttons/PreviewButton";
 import ShareButton from "@/components/buttons/ShareButton";
 import ExternalTransferButton from "@/components/buttons/ExternalTransferButton";
+import FavoriteButton from "@/components/buttons/FavoriteButton";
+import CopyToClipboardButton from "@/components/buttons/CopyToClipboardButton";
 
 export default {
   name: "BottomMenu",
@@ -39,6 +43,8 @@ export default {
     EditButton,
     ExternalTransferButton,
     PreviewButton,
+    FavoriteButton,
+    CopyToClipboardButton,
   },
 };
 </script>

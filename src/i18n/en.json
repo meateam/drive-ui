@@ -94,7 +94,10 @@
     "ConvertNow": "convert",
     "AboutMe": "About me",
     "MoreInfo": "for more info, press here",
-    "BackToShare": "return to select approvers"
+    "BackToShare": "return to select approvers",
+    "Favorite": "add favorite",
+    "RemoveFavorite": "remove favorite",
+    "CopyToClipboard": "copy to clipboard"
   },
   "success": {
     "File": "Uploaded successfully",
@@ -108,7 +111,10 @@
     "EditShare": "role was changed successfully!",
     "DeleteShare": "permission deleted successfully!",
     "Cancel": "Canceld successfully!",
-    "Copied": "The link was copied successfully!"
+    "Copied": "The link was copied successfully!",
+    "AddFavorite": "Added Favorite successfully!",
+    "RemoveFavorite": "Removed Favorite successfully!",
+    "CopyToClipboard": "Copied to clipboard successfully!"
   },
   "preview": {
     "Unavailable": "preview is unavailble",
