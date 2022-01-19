@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - minor: ([150](https://github.com/meateam/drive-ui/pull/150)): add copy file.
 
 
+- minor: ([150](https://github.com/meateam/drive-ui/pull/150)): add copy file.
+
+
 ## [v3.11.0] - 2021-12-7
 - minor: ([125](https://github.com/meateam/drive-ui/pull/125)): added fav-service.
 
