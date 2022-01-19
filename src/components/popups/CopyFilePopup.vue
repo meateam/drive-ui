@@ -68,8 +68,11 @@ export default {
     },
     async open(fetchFunction, buttonIndex) {
       this.copyButton = buttonIndex;
-      await Promise.all([this.fetchHierachy(this.currentFolder), fetchFunction(this.currentFolder)]);
-      this.dialog = true;
+      const isSharedWithMe = this.copyButton === COPY_TO_BUTTON.SHARED_WITH_ME;
+      const isSharedFolder = this.currentFolder && this.currentFolder.shared;
+      const folder = isSharedWithMe || isSharedFolder ? undefined : this.currentFolder;
+      await Promise.all([this.fetchHierachy(folder), fetchFunction(folder)]);
+      this.dialog = true;  
     },
     async openMyDrive() {
       this.open(this.fetchFolders, COPY_TO_BUTTON.MY_DRIVE);
