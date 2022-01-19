@@ -3,7 +3,6 @@ import store from "@/store";
 import { formatUser } from "@/utils/formatUser";
 import { baseURL } from "@/config";
 import { AdvancedSearchEnum } from "@/utils/advancedSearchEnum";
-// import i18n from "@/i18n";
 import { getNetworkItemByDest } from "@/utils/networkDest";
 
 /**
@@ -115,12 +114,12 @@ export async function getUsers(content, searchBy, destination = "") {
     params: { content, searchBy },
     headers: { destination },
   });
-  let users = res.data.users
+  const users = res.data.users
     ? res.data.users.filter((user) => {
         return user.id !== store.state.auth.user.id;
       })
     : [];
-  return Promise.all(users.map((user) => formatUser(user)));
+    return Promise.all(users.map((user) => formatUser(user)));
 }
 
 export function openApprovalPage(destination) {
