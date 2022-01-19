@@ -97,7 +97,8 @@
     "BackToShare": "return to select approvers",
     "Favorite": "add favorite",
     "RemoveFavorite": "remove favorite",
-    "CopyToClipboard": "copy to clipboard"
+    "CopyToClipboard": "copy to clipboard",
+    "CopyFile": "copy file"
   },
   "success": {
     "File": "Uploaded successfully",
@@ -114,7 +115,8 @@
     "Copied": "The link was copied successfully!",
     "AddFavorite": "Added Favorite successfully!",
     "RemoveFavorite": "Removed Favorite successfully!",
-    "CopyToClipboard": "Copied to clipboard successfully!"
+    "CopyToClipboard": "Copied to clipboard successfully!",
+    "CopyFile": "File copied successfully!"
   },
   "preview": {
     "Unavailable": "preview is unavailble",

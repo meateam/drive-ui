@@ -12,6 +12,7 @@
     <ShareButton :icon="true" />
     <ExternalTransferButton :icon="true" />
     <CopyToClipboardButton :icon="true" />
+    <CopyFileButton :icon="true" />
   </div>
 </template>
 
@@ -28,6 +29,7 @@ import ShareButton from "@/components/buttons/ShareButton";
 import ExternalTransferButton from "@/components/buttons/ExternalTransferButton";
 import FavoriteButton from "@/components/buttons/FavoriteButton";
 import CopyToClipboardButton from "@/components/buttons/CopyToClipboardButton";
+import CopyFileButton from "@/components/buttons/CopyFileButton";
 
 export default {
   name: "BottomMenu",
@@ -45,6 +47,7 @@ export default {
     PreviewButton,
     FavoriteButton,
     CopyToClipboardButton,
+    CopyFileButton
   },
 };
 </script>
