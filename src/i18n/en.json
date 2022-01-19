@@ -115,11 +115,8 @@
     "Copied": "The link was copied successfully!",
     "AddFavorite": "Added Favorite successfully!",
     "RemoveFavorite": "Removed Favorite successfully!",
-<<<<<<< HEAD
-    "CopyToClipboard": "Copied to clipboard successfully!"
-=======
+    "CopyToClipboard": "Copied to clipboard successfully!",
     "CopyFile": "File copied successfully!"
->>>>>>> f0e080b (fix: add copy to he.json)
   },
   "preview": {
     "Unavailable": "preview is unavailble",
