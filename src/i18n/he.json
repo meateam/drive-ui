@@ -102,6 +102,7 @@
     "Favorite": "הוספה למועדפים",
     "RemoveFavorite": "הסרה ממועדפים",
     "MakeCopy": "צור עותק"
+    "CopyToClipboard": "העתקת קישור"
   },
   "success": {
     "File": "הקובץ עלה בהצלחה!",
@@ -119,6 +120,7 @@
     "AddFavorite": "הפריט התווסף למועדפים בהצלחה!",
     "RemoveFavorite": "הפריט הוסר מהמועדפים בהצלחה!",
     "CopyFile": "הקובץ הועתק בהצלחה!"
+    "CopyToClipboard": "הקישור הועתק בהצלחה!"
   },
   "preview": {
     "Unavailable": "התצוגה המקדימה אינה זמינה",

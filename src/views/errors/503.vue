@@ -53,7 +53,7 @@ export default {
       this.interval = setInterval(this.healthcheck, 10000);
     },
     async healthcheck() {
-      if (await isAlive()) window.location.replace("/my-drive");
+      if (await isAlive()) this.$router.push("/my-drive");
     },
   },
 };

@@ -11,6 +11,7 @@
     <ExternalTransferButton :icon="true" @close="$emit('close')" />
     <FavoriteButton :icon="true" @close="$emit('close')" />
     <CopyFileButton :icon="true" @close="$emit('close')" />
+    <CopyToClipboardButton :icon="true"/>
   </div>
 </template>
 
@@ -26,6 +27,7 @@ import ShareButton from "@/components/buttons/ShareButton";
 import ExternalTransferButton from "@/components/buttons/ExternalTransferButton";
 import FavoriteButton from "@/components/buttons/FavoriteButton";
 import CopyFileButton from "@/components/buttons/CopyFileButton";
+import CopyToClipboardButton from "@/components/buttons/CopyToClipboardButton";
 
 export default {
   name: "PreviewMenu",
@@ -41,6 +43,7 @@ export default {
     ExternalTransferButton,
     FavoriteButton,
     CopyFileButton,
+    CopyToClipboardButton,
   },
 };
 </script>

@@ -98,6 +98,7 @@
     "Favorite": "add favorite",
     "RemoveFavorite": "remove favorite",
     "CopyFile": "copy file"
+    "CopyToClipboard": "copy to clipboard"
   },
   "success": {
     "File": "Uploaded successfully",
@@ -115,6 +116,7 @@
     "AddFavorite": "Added Favorite successfully!",
     "RemoveFavorite": "Removed Favorite successfully!",
     "CopyFile": "File copied successfully!"
+    "CopyToClipboard": "Copied to clipboard successfully!"
   },
   "preview": {
     "Unavailable": "preview is unavailble",

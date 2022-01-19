@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
+- hotfix: ([148](https://github.com/meateam/drive-ui/pull/148)): fix page 503 bug
+
+- minor: ([145](https://github.com/meateam/drive-ui/pull/145)): add copy to clipboard.
 
 - minor: ([150](https://github.com/meateam/drive-ui/pull/150)): add copy file.
 
