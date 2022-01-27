@@ -240,11 +240,6 @@
           "color": "red"
         },
         {
-          "text": "סודי ביותר - סמ\"צ גולמי",
-          "color": "purple",
-          "enable": false
-        },
-        {
           "text": "סודי ביותר - כחול",
           "color": "blue",
           "enable": false

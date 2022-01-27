@@ -216,7 +216,6 @@
         { "text": "Limited" },
         { "text": "Secret" },
         { "text": "Top Secret - red", "color": "red" },
-        { "text": "Top Secret - purple", "color": "purple", "enable": false },
         { "text": "Top Secret - blue", "color": "blue", "enable": false }
       ]
     },
