@@ -63,18 +63,26 @@ export default {
       externalUsersFailed: [],
     };
   },
+  watch: {
+    dialog(val) {
+      if (!val) {
+        this.$store.commit('changePopupStatus')
+      } 
+    },
+  },
   methods: {
     async open() {
-      let externalPermissionsRes = [];
-      this.externalUsers = [];
-      this.externalUsersFailed = [];
+      if (!this.$store.getters.popupStatus) {
+        let externalPermissionsRes = [];
+        this.externalUsers = [];
+        this.externalUsersFailed = [];
 
-      [this.users, externalPermissionsRes] = await Promise.all([
+        [this.users, externalPermissionsRes] = await Promise.all([
         getPermissions(this.file.id),
         getExternalPermissions(this.file.id),
-      ]);
+        ]);
 
-      if (externalPermissionsRes) {
+        if (externalPermissionsRes) {
         externalPermissionsRes = externalPermissionsRes
           .slice()
           .sort((a, b) => b.createdAt - a.createdAt)
@@ -86,9 +94,11 @@ export default {
 
         this.externalUsersFailed = externalUsersFailed;
         this.externalUsers = externalUsers;
-      }
+        }
 
-      this.dialog = true;
+        this.dialog = true;
+        this.$store.commit('changePopupStatus')
+      }
     },
     formatFileSize(size) {
       return formatBytes(size);

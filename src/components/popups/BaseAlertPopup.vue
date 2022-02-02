@@ -24,11 +24,21 @@ export default {
       data: undefined,
     };
   },
+  watch: {
+    dialog(val) {
+      if (!val) {
+        this.$store.commit('changePopupStatus')
+      } 
+    },
+  },
   props: ["img", "text", "button", "cancelButton"],
   methods: {
     open(data) {
-      this.data = data;
-      this.dialog = true;
+      if (!this.$store.getters.popupStatus) {
+        this.data = data;
+        this.dialog = true;
+        this.$store.commit('changePopupStatus')
+      }
     },
     onConfirm() {
       this.$emit("confirm", this.data);

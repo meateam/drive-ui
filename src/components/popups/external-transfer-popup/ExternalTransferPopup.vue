@@ -134,7 +134,10 @@ export default {
   },
   props: ["file"],
   watch: {
-    dialog() {
+    dialog(val) {
+      if (!val) {
+        this.$store.commit('changePopupStatus')
+      }
       this.resetPopup = !this.resetPopup;
       this.externalNetworkDest = undefined;
       this.destHeader = this.$t("externalTransfer.HeaderDestDefault");
@@ -144,8 +147,11 @@ export default {
   },
   methods: {
     open() {
-      this.dialog = true;
-      this.currentStep = 1;
+      if (!this.$store.getters.popupStatus) {
+        this.$store.commit('changePopupStatus')
+        this.dialog = true;
+        this.currentStep = 1;
+      }      
     },
     isFileAllowed() {
       const nameArray = this.file.name.split(".");

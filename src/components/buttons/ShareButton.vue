@@ -1,4 +1,5 @@
 <template>
+ <div>
   <v-tooltip top :disabled="!icon" v-if="canShare()">
     <template v-slot:activator="{ on }">
       <v-btn
@@ -15,8 +16,9 @@
       </v-btn>
     </template>
     <span>{{ $t("buttons.Share") }}</span>
-    <SharePopup @onShare="onShare" ref="share" :files="chosenFiles" />
-  </v-tooltip>
+     </v-tooltip>
+         <SharePopup @onShare="onShare" ref="share" :files="chosenFiles" />
+   </div>
 </template>
 
 <script>

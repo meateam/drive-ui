@@ -63,10 +63,20 @@ export default {
       file: undefined,
     };
   },
+  watch: {
+    dialog(val) {
+      if (!val) {
+        this.$store.commit('changePopupStatus')
+      } 
+    },
+  },
   methods: {
     open(file) {
-      this.file = file;
-      this.dialog = true;
+      if (!this.$store.getters.popupStatus) {
+        this.$store.commit('changePopupStatus');
+        this.file = file;
+        this.dialog = true;
+      }
     },
     close() {
       this.dialog = false;

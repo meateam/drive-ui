@@ -1,19 +1,26 @@
 <template>
-  <v-tooltip top :disabled="!icon" v-if="canDelete()">
-    <template v-slot:activator="{ on }">
-      <v-btn
-        id="delete-button"
-        @click="$refs.popup.open()"
-        v-on="on"
-        :icon="icon"
-        class="auto-margin"
-        :class="{ right: !icon }"
-        text
-      >
-        <img class="fab-icon" src="@/assets/icons/delete.svg" />
-        <p class="button-text" v-if="!icon">{{ isUserOwner() ? $t("buttons.Delete") : $t("buttons.RemoveShare") }}</p>
-      </v-btn>
-    </template>
+  <div>
+    <v-tooltip top :disabled="!icon" v-if="canDelete()">
+      <template v-slot:activator="{ on }">
+        <v-btn
+          id="delete-button"
+          v-shortkey="{delete: ['del'], backspace: ['backspace']}"
+          @shortkey="$refs.popup.open()"
+          @click="$refs.popup.open()"
+          v-on="on"
+          :icon="icon"
+          class="auto-margin"
+          :class="{ right: !icon }"
+          text
+        >
+          <img class="fab-icon" src="@/assets/icons/delete.svg" />
+          <p class="button-text" v-if="!icon">
+            {{ isUserOwner() ? $t("buttons.Delete") : $t("buttons.RemoveShare") }}
+          </p>
+        </v-btn>
+      </template>
+      <span>{{isUserOwner() ? $t("buttons.Delete") : $t("buttons.RemoveShare")}}</span>
+    </v-tooltip>
     <AlertPopup
       ref="popup"
       @confirm="onDelete"
@@ -21,8 +28,7 @@
       :text="$t('file.Delete')"
       :button="$t('buttons.DeleteNow')"
     />
-    <span>{{ isUserOwner() ? $t("buttons.Delete") : $t("buttons.RemoveShare") }}</span>
-  </v-tooltip>
+  </div>
 </template>
 
 <script>

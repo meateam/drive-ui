@@ -46,11 +46,21 @@ export default {
       folderDest: undefined,
     };
   },
+  watch: {
+    dialog(val) {
+      if (!val) {
+        this.$store.commit('changePopupStatus')
+      } 
+    },
+  },
   props: ["files"],
   methods: {
     async open() {
-      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchFolders(this.currentFolder)]);
-      this.dialog = true;
+      if (!this.$store.getters.popupStatus) {
+        await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchFolders(this.currentFolder)]);
+        this.dialog = true;
+        this.$store.commit('changePopupStatus')
+      }
     },
     async fetchFolders(parent) {
       this.currentChildren = await filesApi.getFoldersByFolder(parent ? parent.id : undefined);

@@ -1,4 +1,5 @@
 <template>
+ <div>
   <v-tooltip top :disabled="!icon" v-if="canMove()">
     <template v-slot:activator="{ on }">
       <v-btn
@@ -14,10 +15,10 @@
         <p class="button-text" v-if="!icon">{{ $t("buttons.Move") }}</p>
       </v-btn>
     </template>
-
-    <MoveToPopup ref="movePopup" :files="chosenFiles" @confirm="onSubmit" />
     <span>{{ $t("buttons.Move") }}</span>
   </v-tooltip>
+    <MoveToPopup ref="movePopup" :files="chosenFiles" @confirm="onSubmit" />
+ </div>
 </template>
 
 <script>

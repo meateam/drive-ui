@@ -51,21 +51,27 @@ export default {
   components: { Share, EditPermissions, CopyPopup },
   watch: {
     dialog: function (val) {
-      if (!val) this.isShareMode = val;
+      if (!val) {
+        this.isShareMode = val;
+        this.$store.commit('changePopupStatus')
+      } 
     },
   },
   props: ["files"],
   methods: {
     async open() {
-      this.dialog = true;
+      if (!this.$store.getters.popupStatus) {
+        this.$store.commit('changePopupStatus')
+        this.dialog = true;
 
-      if (this.files.length === 1) {
-        const file = this.files[0];
+        if (this.files.length === 1) {
+          const file = this.files[0];
 
-        this.link = filesApi.getFileLink(file);
-        this.users = await shareApi.getPermissions(file.id);
-      } else {
-        this.isShareMode = true;
+          this.link = filesApi.getFileLink(file);
+          this.users = await shareApi.getPermissions(file.id);
+        } else {
+          this.isShareMode = true;
+        }
       }
     },
     async onPermissionEdit(shareObject) {
