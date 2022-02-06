@@ -1,5 +1,4 @@
 <template>
- <div>
   <v-tooltip top :disabled="!icon" v-if="canTransfer()">
     <template v-slot:activator="{ on }">
       <v-btn
@@ -16,11 +15,10 @@
           {{ $t("buttons.ExternalTransfer") }}
         </p>
       </v-btn>
+      <ExternalTransferPopup ref="transfer" :file="chosenFiles[0]" @onShare="onShare" />
     </template>
     <span>{{ $t("buttons.ExternalTransfer") }}</span>  
   </v-tooltip>
-    <ExternalTransferPopup ref="transfer" :file="chosenFiles[0]" @onShare="onShare" />
- </div>
 </template>
 
 <script>

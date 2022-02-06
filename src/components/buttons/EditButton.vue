@@ -1,5 +1,4 @@
 <template>
- <div>
   <v-tooltip top v-if="canEdit()" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
@@ -16,17 +15,16 @@
         <img class="fab-icon" src="@/assets/icons/edit.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Edit") }}</p>
       </v-btn>
-    </template>
-    <span>{{ $t("buttons.Edit") }}</span>
-  </v-tooltip>
-     <NamePopup
+      <NamePopup
       img="green-edit.svg"
       ref="rename"
       :value="nameOnly"
       :type="isFolder() ? 'renameFolder' : 'renameFile'"
       @confirm="onConfirm"
     />
-  </div>
+    </template>
+    <span>{{ $t("buttons.Edit") }}</span>
+  </v-tooltip>
 </template>
 
 <script>
