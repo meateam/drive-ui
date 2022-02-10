@@ -16,7 +16,7 @@
       <SharePopup @onShare="onShare" ref="share" :files="chosenFiles" />
     </template>
     <span>{{ $t("buttons.Share") }}</span>
-     </v-tooltip>
+  </v-tooltip>
 </template>
 
 <script>
@@ -41,7 +41,9 @@ export default {
       );
     },
     isFileReadOnly() {
-      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
+      return this.chosenFiles.every(
+        (file) => file?.isReadOnly != undefined && file.isReadOnly
+      );
     },
     async onShare(shareObject) {
       this.$emit("close");

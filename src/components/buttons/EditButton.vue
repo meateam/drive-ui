@@ -16,12 +16,12 @@
         <p class="button-text" v-if="!icon">{{ $t("buttons.Edit") }}</p>
       </v-btn>
       <NamePopup
-      img="green-edit.svg"
-      ref="rename"
-      :value="nameOnly"
-      :type="isFolder() ? 'renameFolder' : 'renameFile'"
-      @confirm="onConfirm"
-    />
+        img="green-edit.svg"
+        ref="rename"
+        :value="nameOnly"
+        :type="isFolder() ? 'renameFolder' : 'renameFile'"
+        @confirm="onConfirm"
+      />
     </template>
     <span>{{ $t("buttons.Edit") }}</span>
   </v-tooltip>

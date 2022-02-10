@@ -47,10 +47,8 @@ export default {
     };
   },
   watch: {
-    dialog(val) {
-      if (!val) {
-        this.$store.commit('changePopupStatus')
-      } 
+    dialog() {
+      this.$store.commit("changePopupStatus");
     },
   },
   props: ["img", "type", "value"],
@@ -62,10 +60,10 @@ export default {
       return this.name.length < 2 || !isValidString(this.name);
     },
     open() {
-      if (!this.$store.getters.popupStatus) {
-        this.$store.commit('changePopupStatus')
-        this.dialog = true;
+      if (this.$store.getters.isPopupOpen) {
+        return;
       }
+      this.dialog = true;
     },
     onNameChange(name) {
       this.name = name;

@@ -1,8 +1,16 @@
 <template>
-  <v-tooltip top v-if="chosenFiles.length === 1 && isPreviewAvailable()" :disabled="!icon">
+  <v-tooltip
+    top
+    v-if="chosenFiles.length === 1 && isPreviewAvailable()"
+    :disabled="!icon"
+  >
     <template v-slot:activator="{ on }">
       <v-btn
-        @click="isFileDeleted() ? $refs.deletedPopup.open() : $refs.popup.open(chosenFiles[0])"
+        @click="
+          isFileDeleted()
+            ? $refs.deletedPopup.open()
+            : $refs.popup.open(chosenFiles[0])
+        "
         v-on="on"
         :icon="icon"
         :class="{ right: !icon }"
@@ -14,7 +22,12 @@
         <p class="button-text" v-if="!icon">{{ $t("buttons.Preview") }}</p>
       </v-btn>
       <Preview ref="popup" />
-     <AlertPopup ref="deletedPopup" cancelButton="true" img="deleted.svg" :text="$t('preview.Deleted')" />
+      <AlertPopup
+        ref="deletedPopup"
+        cancelButton="true"
+        img="deleted.svg"
+        :text="$t('preview.Deleted')"
+      />
     </template>
     <span>{{ $t("buttons.Preview") }}</span>
   </v-tooltip>
@@ -37,7 +50,10 @@ export default {
       return this.isFileDeleted() || canPreview(this.chosenFiles[0].type);
     },
     isFileDeleted() {
-      return this.chosenFiles[0]?.isDeleted != undefined && this.chosenFiles[0].isDeleted;
+      return (
+        this.chosenFiles[0]?.isDeleted != undefined &&
+        this.chosenFiles[0].isDeleted
+      );
     },
   },
   components: { Preview, AlertPopup },

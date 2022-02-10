@@ -1,8 +1,10 @@
 <template>
-   <v-tooltip top v-if="chosenFiles.length === 1" :disabled="!icon">
+  <v-tooltip top v-if="chosenFiles.length === 1" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
-        @click="isFileDeleted() ? $refs.deletedPopup.open() : $refs.popup.open()"
+        @click="
+          isFileDeleted() ? $refs.deletedPopup.open() : $refs.popup.open()
+        "
         v-on="on"
         :icon="icon"
         :class="{ right: !icon }"
@@ -11,12 +13,21 @@
         text
       >
         <img class="fab-icon" src="@/assets/icons/info.svg" />
-        <p class="button-text" v-if="!icon">{{ isFolder() ? $t("buttons.FolderInfo") : $t("buttons.FileInfo") }}</p>
+        <p class="button-text" v-if="!icon">
+          {{ isFolder() ? $t("buttons.FolderInfo") : $t("buttons.FileInfo") }}
+        </p>
       </v-btn>
       <InfoPopup ref="popup" :file="chosenFiles[0]" />
-    <AlertPopup ref="deletedPopup" cancelButton="true" img="deleted.svg" :text="$t('fileInfo.Deleted')" />
+      <AlertPopup
+        ref="deletedPopup"
+        cancelButton="true"
+        img="deleted.svg"
+        :text="$t('fileInfo.Deleted')"
+      />
     </template>
-    <span>{{ isFolder() ? $t("buttons.FolderInfo") : $t("buttons.FileInfo") }}</span>
+    <span>{{
+      isFolder() ? $t("buttons.FolderInfo") : $t("buttons.FileInfo")
+    }}</span>
   </v-tooltip>
 </template>
 
@@ -37,7 +48,10 @@ export default {
       return this.chosenFiles[0].type === fileTypes.folder;
     },
     isFileDeleted() {
-      return this.chosenFiles[0]?.isDeleted != undefined && this.chosenFiles[0].isDeleted;
+      return (
+        this.chosenFiles[0]?.isDeleted != undefined &&
+        this.chosenFiles[0].isDeleted
+      );
     },
   },
   components: { InfoPopup, AlertPopup },

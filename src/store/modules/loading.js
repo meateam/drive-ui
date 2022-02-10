@@ -1,7 +1,7 @@
 const state = {
   onGoingRequests: 0,
   isLoading: false,
-  popupStatus: false,
+  isPopupOpen: false,
   isUploadFolder: false,
   loadingFiles: [],
   pendingGetRequests: [],
@@ -9,7 +9,7 @@ const state = {
 
 const getters = {
   isLoading: (state) => state.isLoading,
-  popupStatus: (state) => state.popupStatus,
+  isPopupOpen: (state) => state.isPopupOpen,
   isUploadFolder: (state) => state.isUploadFolder,
   loadingFiles: (state) => state.loadingFiles,
   pendingGetRequests: (state) => state.pendingGetRequests,
@@ -64,7 +64,7 @@ const mutations = {
     );
   },
   removeLoadingFiles: (state) => (state.loadingFiles = []),
-  changePopupStatus: (state) => (state.popupStatus = !state.popupStatus),
+  changePopupStatus: (state) => (state.isPopupOpen = !state.isPopupOpen),
 };
 
 export default {

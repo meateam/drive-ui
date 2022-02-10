@@ -6,21 +6,35 @@
           class="popup-icon auto-margin"
           :src="
             require(`@/assets/icons/${
-              externalNetworkDest ? (isColorChange ? 'green' : 'purple') : 'blue'
+              externalNetworkDest
+                ? isColorChange
+                  ? 'green'
+                  : 'purple'
+                : 'blue'
             }-transfer.svg`)
           "
         />
         <p class="d-title">
           {{
             $t("externalTransfer.Header", {
-              dest: destHeader.startsWith("ה") ? destHeader.substring(1) : destHeader,
+              dest: destHeader.startsWith("ה")
+                ? destHeader.substring(1)
+                : destHeader,
             })
           }}
         </p>
         <p class="align-center">{{ file.name }}</p>
       </div>
 
-      <div :class="externalNetworkDest ? (isColorChange ? 'popup-body-color' : 'popup-body-purple') : 'popup-body'">
+      <div
+        :class="
+          externalNetworkDest
+            ? isColorChange
+              ? 'popup-body-color'
+              : 'popup-body-purple'
+            : 'popup-body'
+        "
+      >
         <div class="align-center" v-if="!isFileAllowed()">
           <p class="popup-text">{{ $t("externalTransfer.errors.FileType") }}</p>
           <p>{{ getAllowedTypes() }}</p>
@@ -33,25 +47,36 @@
         <div id="stepper" v-else>
           <v-stepper v-model="currentStep" alt-labels>
             <v-stepper-header>
-              <v-stepper-step :complete="currentStep > 1" step="1" :color="colorStepper">{{
-                $t("externalTransfer.NetworkDest")
-              }}</v-stepper-step>
+              <v-stepper-step
+                :complete="currentStep > 1"
+                step="1"
+                :color="colorStepper"
+                >{{ $t("externalTransfer.NetworkDest") }}</v-stepper-step
+              >
 
               <v-divider></v-divider>
 
-              <v-stepper-step :complete="currentStep > 2" step="2" :color="colorStepper">{{
-                $t("externalTransfer.Destination")
-              }}</v-stepper-step>
+              <v-stepper-step
+                :complete="currentStep > 2"
+                step="2"
+                :color="colorStepper"
+                >{{ $t("externalTransfer.Destination") }}</v-stepper-step
+              >
 
               <v-divider></v-divider>
 
-              <v-stepper-step :complete="currentStep > 3" step="3" :color="colorStepper">{{
-                $t("externalTransfer.Approval")
-              }}</v-stepper-step>
+              <v-stepper-step
+                :complete="currentStep > 3"
+                step="3"
+                :color="colorStepper"
+                >{{ $t("externalTransfer.Approval") }}</v-stepper-step
+              >
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="4" :color="colorStepper">{{ $t("externalTransfer.AddInfo") }}</v-stepper-step>
+              <v-stepper-step step="4" :color="colorStepper">{{
+                $t("externalTransfer.AddInfo")
+              }}</v-stepper-step>
             </v-stepper-header>
 
             <v-stepper-items>
@@ -91,7 +116,11 @@
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
-          <NotePopup @complete="onComplete" :networkDest="externalNetworkDest" ref="note" />
+          <NotePopup
+            @complete="onComplete"
+            :networkDest="externalNetworkDest"
+            ref="note"
+          />
         </div>
       </div>
     </v-card>
@@ -113,7 +142,7 @@ export default {
   name: "ExternalTransferPopup",
   computed: {
     ...mapGetters(["enableExternalShare", "externalNetworkDests"]),
-    colorStepper: function() {
+    colorStepper: function () {
       return "#035c64";
     },
   },
@@ -134,10 +163,8 @@ export default {
   },
   props: ["file"],
   watch: {
-    dialog(val) {
-      if (!val) {
-        this.$store.commit('changePopupStatus')
-      }
+    dialog() {
+      this.$store.commit("changePopupStatus");
       this.resetPopup = !this.resetPopup;
       this.externalNetworkDest = undefined;
       this.destHeader = this.$t("externalTransfer.HeaderDestDefault");
@@ -147,11 +174,11 @@ export default {
   },
   methods: {
     open() {
-      if (!this.$store.getters.popupStatus) {
-        this.$store.commit('changePopupStatus')
-        this.dialog = true;
-        this.currentStep = 1;
-      }      
+      if (this.$store.getters.isPopupOpen) {
+        return;
+      }
+      this.dialog = true;
+      this.currentStep = 1;
     },
     isFileAllowed() {
       const nameArray = this.file.name.split(".");
@@ -159,10 +186,7 @@ export default {
       return fileTypes.externalShare.includes(fileType.toLowerCase());
     },
     getAllowedTypes() {
-      return fileTypes.externalShare
-        .toString()
-        .split(",")
-        .join(", ");
+      return fileTypes.externalShare.toString().split(",").join(", ");
     },
     onExternalNetworkComplete(externalNetworkDest) {
       this.externalNetworkDest = externalNetworkDest;
@@ -172,7 +196,9 @@ export default {
       var selectedNetwork = getNetworkItemByDest(externalNetworkDest);
       this.externalNetworkDest = externalNetworkDest;
       this.isColorChange = selectedNetwork ? selectedNetwork.isDefault : false;
-      this.destHeader = selectedNetwork ? selectedNetwork.label : this.$t("externalTransfer.HeaderDestDefault");
+      this.destHeader = selectedNetwork
+        ? selectedNetwork.label
+        : this.$t("externalTransfer.HeaderDestDefault");
     },
     onDestinationComplete(users) {
       this.destination = users;

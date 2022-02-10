@@ -64,19 +64,18 @@ export default {
     };
   },
   watch: {
-    dialog(val) {
-      if (!val) {
-        this.$store.commit('changePopupStatus')
-      } 
+    dialog() {
+      this.$store.commit("changePopupStatus");
     },
   },
   methods: {
     open(file) {
-      if (!this.$store.getters.popupStatus) {
-        this.$store.commit('changePopupStatus');
-        this.file = file;
-        this.dialog = true;
+      if (this.$store.getters.isPopupOpen) {
+        return;
       }
+
+      this.file = file;
+      this.dialog = true;
     },
     close() {
       this.dialog = false;
