@@ -1,9 +1,8 @@
-import store from "@/store";
 import Axios from "axios";
 import { pushUpdatedFile, removeUpdatedFile } from "@/utils/lastUpdatedFileHandler";
 import { baseURL, fileTypes, pageSize } from "@/config";
 import { isFolder } from "@/utils/isFolder";
-import { appendNumberIfFileExists } from "@/utils/isFileNameExists";
+import store from "@/store";
 
 /**
  * fetchFiles fetch all the files in the current folder
@@ -34,7 +33,7 @@ export async function getFoldersByFolder(parent) {
  */
 export async function fetchSharedFolders(parent) {
   const res = await Axios.get(`${baseURL}/api/files?shares&appId=drive${parent ? `&parent=${parent}` : ""}`);
-  const permissions = res.data.files.successful.filter((item) => isFolder(item.type));
+  const permissions = res.data.files.filter((item) => isFolder(item.type));
   return permissions;
 }
 
@@ -261,35 +260,4 @@ export function getPreview(fileID) {
 
 export function getPdfPreview(fileID) {
   return `${baseURL}/api/files/${fileID}?alt=media&preview`;
-}
-
-export async function copyFile(fileID, folderID, newFileName) {
-  const res = await Axios.post(`${baseURL}/api/files/copyObject/${fileID}/${folderID}/${newFileName}?appId=drive`)
-  return res.data;
-}
-
-// If I am copying from MyDrive or from Favorites to MyDrive I need to get the files from MyDrive.
-// If I am copying to a folder I need to get the files from the chosen folder.
-export async function GetCopiedFileName(fileID, folderID) {
-  if (folderID == undefined) {
-    const [file, folderFiles] = await Promise.all([getFileByID(fileID), fetchFiles()]);
-    return await getNewFileName(file.name, folderFiles);
-  } else {
-    const folder = await getFileByID(folderID);
-    const [file, folderFiles] = await Promise.all([getFileByID(fileID), fetchFiles(folder)]);
-    return await getNewFileName(file.name, folderFiles);
-  }
-}
-
-// The function gets the file name and the files in a folder and checks if the file name already exists.
-// If it does, it returns the new file name with a number appended to it.
-// If it doesn't, it returns the original file name.
-async function getNewFileName(name, folders) {
-  const [isExist, newFileName] = appendNumberIfFileExists({
-    name: name,
-    files: folders,
-    loadingFiles: [],
-  });
-
-  return isExist ? newFileName : name;
 }
