@@ -63,8 +63,17 @@ export default {
       file: undefined,
     };
   },
+  watch: {
+    dialog() {
+      this.$store.commit("changePopupStatus");
+    },
+  },
   methods: {
     open(file) {
+      if (this.$store.getters.isPopupOpen) {
+        return;
+      }
+
       this.file = file;
       this.dialog = true;
     },

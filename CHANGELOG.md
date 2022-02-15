@@ -6,11 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
-- hotfix: ([148](https://github.com/meateam/drive-ui/pull/148)): fix page 503 bug
-
-- minor: ([145](https://github.com/meateam/drive-ui/pull/145)): add copy to clipboard.
+- minor: ([155](https://github.com/meateam/drive-ui/pull/155)): add keyboard shortcuts.
 
 - minor: ([150](https://github.com/meateam/drive-ui/pull/150)): add copy file.
+
+
+## [v3.12.0] - 2022-02-15
+- minor: ([145](https://github.com/meateam/drive-ui/pull/145)): add copy to clipboard.
+
+## [v3.11.1] - 2022-02-15
+- hotfix: ([148](https://github.com/meateam/drive-ui/pull/148)): fix page 503 bug
 
 ## [v3.11.0] - 2021-12-7
 - minor: ([125](https://github.com/meateam/drive-ui/pull/125)): added fav-service.

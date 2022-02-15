@@ -51,12 +51,17 @@ export default {
   components: { Share, EditPermissions, CopyPopup },
   watch: {
     dialog: function (val) {
+      this.$store.commit("changePopupStatus");
       if (!val) this.isShareMode = val;
     },
   },
   props: ["files"],
   methods: {
     async open() {
+      if (this.$store.getters.isPopupOpen) {
+        return;
+      }
+
       this.dialog = true;
 
       if (this.files.length === 1) {

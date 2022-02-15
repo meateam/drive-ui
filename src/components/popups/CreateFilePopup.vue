@@ -2,18 +2,21 @@
   <v-dialog v-model="dialog" max-width="600" class="popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/green-create-file.svg" />
-        <p class="d-title">{{$t(`file.Create`)}}</p>
+        <img
+          class="popup-icon auto-margin"
+          src="@/assets/icons/green-create-file.svg"
+        />
+        <p class="d-title">{{ $t(`file.Create`) }}</p>
       </div>
       <div class="popup-body">
-        <p class="d-subtitle">{{$t(`renameFile.Name`)}}</p>
+        <p class="d-subtitle">{{ $t(`renameFile.Name`) }}</p>
         <TextField
           ref="input"
           @keyup.enter.native="onConfirm"
           @input="onNameChange"
           :placeholder="$t(`rename.New`)"
         />
-        <p class="d-subtitle">{{$t(`file.Type`)}}</p>
+        <p class="d-subtitle">{{ $t(`file.Type`) }}</p>
         <v-item-group v-model="selectedType" mandatory>
           <v-container>
             <v-row>
@@ -77,8 +80,16 @@ export default {
       selectedType: null,
     };
   },
+  watch: {
+    dialog() {
+      this.$store.commit("changePopupStatus");
+    },
+  },
   methods: {
     open() {
+      if (this.$store.getters.isPopupOpen) {
+        return;
+      }
       this.dialog = true;
     },
     onNameChange(name) {

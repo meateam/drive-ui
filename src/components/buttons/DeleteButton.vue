@@ -3,6 +3,8 @@
     <template v-slot:activator="{ on }">
       <v-btn
         id="delete-button"
+        v-shortkey="{ delete: ['del'], backspace: ['backspace'] }"
+        @shortkey="$refs.popup.open()"
         @click="$refs.popup.open()"
         v-on="on"
         :icon="icon"
@@ -11,17 +13,21 @@
         text
       >
         <img class="fab-icon" src="@/assets/icons/delete.svg" />
-        <p class="button-text" v-if="!icon">{{ isUserOwner() ? $t("buttons.Delete") : $t("buttons.RemoveShare") }}</p>
+        <p class="button-text" v-if="!icon">
+          {{ isUserOwner() ? $t("buttons.Delete") : $t("buttons.RemoveShare") }}
+        </p>
       </v-btn>
+      <AlertPopup
+        ref="popup"
+        @confirm="onDelete"
+        img="deletePopup.svg"
+        :text="$t('file.Delete')"
+        :button="$t('buttons.DeleteNow')"
+      />
     </template>
-    <AlertPopup
-      ref="popup"
-      @confirm="onDelete"
-      img="deletePopup.svg"
-      :text="$t('file.Delete')"
-      :button="$t('buttons.DeleteNow')"
-    />
-    <span>{{ isUserOwner() ? $t("buttons.Delete") : $t("buttons.RemoveShare") }}</span>
+    <span>{{
+      isUserOwner() ? $t("buttons.Delete") : $t("buttons.RemoveShare")
+    }}</span>
   </v-tooltip>
 </template>
 
@@ -42,13 +48,18 @@ export default {
       this.$emit("close");
     },
     canDelete() {
-      return (!this.currentFolder || writeRole(this.currentFolder.role)) && !this.isFileReadOnly();
+      return (
+        (!this.currentFolder || writeRole(this.currentFolder.role)) &&
+        !this.isFileReadOnly()
+      );
     },
     isUserOwner() {
       return this.chosenFiles.every((file) => ownerRole(file.role));
     },
     isFileReadOnly() {
-      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
+      return this.chosenFiles.every(
+        (file) => file?.isReadOnly != undefined && file.isReadOnly
+      );
     },
   },
   computed: {

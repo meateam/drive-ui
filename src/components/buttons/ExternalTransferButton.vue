@@ -15,9 +15,13 @@
           {{ $t("buttons.ExternalTransfer") }}
         </p>
       </v-btn>
+      <ExternalTransferPopup
+        ref="transfer"
+        :file="chosenFiles[0]"
+        @onShare="onShare"
+      />
     </template>
     <span>{{ $t("buttons.ExternalTransfer") }}</span>
-    <ExternalTransferPopup ref="transfer" :file="chosenFiles[0]" @onShare="onShare" />
   </v-tooltip>
 </template>
 
@@ -48,7 +52,9 @@ export default {
       shareApi.shareExternalUsers(shareObject);
     },
     isFileReadOnly() {
-      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
+      return this.chosenFiles.every(
+        (file) => file?.isReadOnly != undefined && file.isReadOnly
+      );
     },
   },
 };
