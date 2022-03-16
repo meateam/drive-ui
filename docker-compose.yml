@@ -8,7 +8,7 @@ services:
     depends_on:
       - api-gateway
   api-gateway:
-    image: "shortcut-api-gateway:latest"
+    image: "api-gateway:latest"
     env_file:
       - ../kdrive.env
     ports:
@@ -47,7 +47,7 @@ services:
     depends_on:
       - minio
   file-service:
-    image: "drivehub.azurecr.io/meateam/file-service:develop"
+    image: "file-service:latest"
     env_file:
       - ../kdrive.env
     ports:

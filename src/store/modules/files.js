@@ -425,27 +425,12 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async createShortcut({ dispatch, rootState }, { fileID, parent, name }) {
+  async createShortcut({ commit, dispatch }, { fileID, parent, name }) {
     try {
-      const shortcutNamePrefix = "קיצור דרך ל-";
+      name += ' - קיצור דרך של'
+      const data = await filesApi.createShortcut({ fileID, parent, name});
 
-      console.log(state.chosenFiles);
-
-      const [isExist, newFileName] = appendNumberIfFileExists({
-        name: shortcutNamePrefix + state.chosenFiles[0].name,
-        files: state.files,
-        loadingFiles: rootState.loading.loadingFiles,
-      });
-
-      if (isExist) {
-        if (newFileName) {
-          name = newFileName;
-        } else {
-          throw new Error(i18n.t("errors.shortcutExistInFolder"));
-        }
-      }
-
-      await filesApi.createNewShortcut({ fileID, parent, name });
+      commit("uploadFile", data);
 
     } catch (err) {
       dispatch("onError", err);

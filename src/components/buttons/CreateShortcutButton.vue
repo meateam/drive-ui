@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top :disabled="!icon">
+  <v-tooltip v-if="shortcutButtonAppear()" top :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
         @click="$refs.CreateShortcutPopup.open()"
@@ -10,19 +10,12 @@
         id="shortcut-button"
         text
       >
-        <img class="fab-icon" src="@/assets/icons/move-shortcut-to.svg" />
-        <p class="button-text" v-if="!icon">
-          {{ $t("buttons.CreateShortcut") }}
-        </p>
+        <img class="fab-icon" src="@/assets/icons/shortcut.svg" />
+        <p class="button-text" v-if="!icon">{{ $t("buttons.CreateShortcut") }}</p>
       </v-btn>
     </template>
-
-    <CreateShortcutPopup
-      ref="CreateShortcutPopup"
-      :files="chosenFiles"
-      @confirm="onSubmit"
-    />
-    <span>{{ $t("buttons.CreateShortcut") }}</span>
+    <CreateShortcutPopup ref="CreateShortcutPopup" :files="chosenFiles" @confirm="onSubmit" />
+    <span v-if="!isShortcut()" >{{ $t("buttons.CreateShortcut") }}</span>
   </v-tooltip>
 </template>
 
@@ -38,14 +31,20 @@ export default {
     ...mapGetters(["chosenFiles", "currentFolder"]),
   },
   methods: {
+    shortcutButtonAppear() {
+      return this.chosenFiles.every((file) => !file.isShortcut) || this.chosenFiles.every((file) => file.isShortcut) ? true : false
+    },
     onSubmit() {
       const fileID = this.chosenFiles[0].id;
-      const parent = this.chosenFiles[0].parent;
       const name = this.chosenFiles[0].name;
+      const parent = this.chosenFiles[0].parent;
 
       this.$store.dispatch("createShortcut", { fileID, parent, name });
       this.$emit("close");
     },
+    isShortcut() {
+      return this.chosenFiles.length === 0 ? false : this.chosenFiles[0].isShortcut;
+    }
   },
 };
 </script>

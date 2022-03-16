@@ -243,14 +243,15 @@ export function createNewFile({ name, type, parent }) {
   location.reload();
 }
 
-export async function createNewShortcut({ fileID, parent, name }) {
-  await Axios.post(`${baseURL}/api/files/shortcut`, {
-    params: {
-      fileID: fileID,
-      parent: parent ? parent : "",
+export async function createShortcut({ fileID, parent, name }) {
+  const res = await Axios.post(`${baseURL}/api/files/${fileID}/shortcut`, {
+    data: {
       name: name,
+      parent: parent ? parent : "",
     }
   });
+
+  return res;
 }
 
 export async function moveFiles({ folderID, fileIDs }) {
