@@ -10,6 +10,8 @@
     <ShareButton :icon="true" @close="$emit('close')" />
     <ExternalTransferButton :icon="true" @close="$emit('close')" />
     <FavoriteButton :icon="true" @close="$emit('close')" />
+    <ShortcutButton :icon="true" @close="$emit('close')" />
+    
   </div>
 </template>
 

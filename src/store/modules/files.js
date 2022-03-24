@@ -427,7 +427,9 @@ const actions = {
   },
   async createShortcut({ commit, dispatch }, { fileID, parent, name }) {
     try {
-      name += ' - קיצור דרך של'
+      const splittedName = name.split(".");
+      const addon = ' - קיצור דרך של';
+      name = splittedName[0] + addon + '.' + splittedName[1];
       const data = await filesApi.createShortcut({ fileID, parent, name});
 
       commit("uploadFile", data);

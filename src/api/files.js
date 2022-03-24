@@ -245,11 +245,11 @@ export function createNewFile({ name, type, parent }) {
 
 export async function createShortcut({ fileID, parent, name }) {
   const res = await Axios.post(`${baseURL}/api/files/${fileID}/shortcut`, {
-    data: {
-      name: name,
-      parent: parent ? parent : "",
-    }
+    name: name,
+    parent: parent ? parent : "",
   });
+  
+  store.commit("onSuccess", "success.Shortcut")
 
   return res;
 }
