@@ -141,7 +141,7 @@ import NotePopup from "./NotePopup";
 export default {
   name: "ExternalTransferPopup",
   computed: {
-    ...mapGetters(["enableExternalShare", "externalNetworkDests"]),
+    ...mapGetters(["enableExternalShare"]),
     colorStepper: function () {
       return "#035c64";
     },

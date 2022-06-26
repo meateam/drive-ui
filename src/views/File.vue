@@ -33,7 +33,6 @@ export default {
       "files",
       "currentFolder",
       "currentFile",
-      "externalNetworkDests",
     ]),
   },
   methods: {

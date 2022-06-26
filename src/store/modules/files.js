@@ -151,25 +151,36 @@ const actions = {
       dispatch("onError", err);
     }
   },
-  async fetchExternalTransferredFiles({ commit, dispatch }, { pageNum, appId, dest }) {
+  async fetchExternalTransferredFiles({ commit, dispatch }, { pageNum, appId, dest, external = true}) {
     try {
-      const permissions = await filesApi.fetchExternalTransferredFiles(pageNum || 0, appId);
-      const files = permissions.files.successful;
+      const permissions = await filesApi.fetchExternalTransferredFiles(pageNum || 0, appId, external);
+      const files = external? permissions.files.successful: permissions;
 
       commit("setIsShared", false);
       commit("setFiles", files);
       commit("setServerFilesLength", permissions.itemCount);
 
-      await Promise.all(
-          files.map(async (file) => {
-              const formattedFile = file;
-              formattedFile.owner = await getExternalFileOwnerName(
-                  file.ownerId,
-                  dest
-              );
-              commit("updateFile", formattedFile);
-          })
-      );
+      if (external) {
+        await Promise.all(
+            files.map(async (file) => {
+                const formattedFile = file;
+                formattedFile.owner = await getExternalFileOwnerName(
+                    file.ownerId,
+                    dest
+                );
+                commit("updateFile", formattedFile);
+            })
+        );
+      } else {
+        files.map((file) => {
+          const isOwner = isFileOwner(file.ownerId);
+          if (isOwner) {
+            file.owner = i18n.t("me");
+          }
+          file.onlyDelete = true;
+          commit("updateFile", file);
+        });
+      }
     } catch (err) {
       dispatch("onError", err);
     }

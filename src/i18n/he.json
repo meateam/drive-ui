@@ -6,9 +6,9 @@
   "me": "אני",
   "sidenav": {
     "MyDrive": "הדרייב שלי",
-    "ExternalTransferIncoming": "התקבל ממרחב חיצוני",
+    "ExternalTransferIncoming": "התקבל ממערכת חיצונית",
     "ExternalTransferIncomingName": "התקבל מ{networkName}",
-    "ExternalTransferOutgoing": "נשלח למרחב חיצוני",
+    "ExternalTransferOutgoing": "נשלח למערכת חיצונית",
     "ExternalTransferOutgoingName": "אישורים ל{networkName}",
     "ExternalTransferOutgoingStatus": "סטטוס קבצים שנשלחו",
     "ExternalFiles": "שיתופים חיצוניים",

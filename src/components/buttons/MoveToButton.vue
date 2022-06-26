@@ -45,7 +45,7 @@ export default {
         (!(this.currentFolder || this.isSharedFile()) ||
           (this.currentFolder && writeRole(this.currentFolder.role))) &&
         this.chosenFiles.every((file) => writeRole(file.role)) &&
-        !this.isFileReadOnly()
+        !this.isFileReadOnly() 
       );
     },
     isSharedFile() {
@@ -57,7 +57,7 @@ export default {
     },
     isFileReadOnly() {
       return this.chosenFiles.every(
-        (file) => file?.isReadOnly != undefined && file.isReadOnly
+        (file) => file?.isReadOnly != undefined && file.isReadOnly || file?.onlyDelete !=undefined && file.onlyDelete
       );
     },
   },

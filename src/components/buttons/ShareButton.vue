@@ -42,7 +42,7 @@ export default {
     },
     isFileReadOnly() {
       return this.chosenFiles.every(
-        (file) => file?.isReadOnly != undefined && file.isReadOnly
+        (file) => file?.isReadOnly != undefined && file.isReadOnly || file?.onlyDelete !=undefined && file.onlyDelete
       );
     },
     async onShare(shareObject) {
