@@ -86,10 +86,10 @@ export default {
   },
   computed: {
     getFile() {
-      return getPreview(this.file.id);
+      return getPreview(this.file.id, this.file.appID);
     },
     getPDF() {
-      return getPdfPreview(this.file.id);
+      return getPdfPreview(this.file.id, this.file.appID);
     },
   },
 };

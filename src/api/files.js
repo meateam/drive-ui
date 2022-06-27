@@ -254,10 +254,10 @@ export async function moveFiles({ folderID, fileIDs }) {
   return res.data;
 }
 
-export function getPreview(fileID) {
-  return `${baseURL}/api/files/${fileID}?alt=media&inline=true`;
+export function getPreview(fileID, appID) {
+  return `${baseURL}/api/files/${fileID}?alt=media&inline=true&appId=${appID}`;
 }
 
-export function getPdfPreview(fileID) {
-  return `${baseURL}/api/files/${fileID}?alt=media&preview`;
+export function getPdfPreview(fileID, appID) {
+  return `${baseURL}/api/files/${fileID}?alt=media&preview&appId=${appID}`;
 }
