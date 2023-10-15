@@ -14,7 +14,7 @@
         </v-btn>
       </template>
 
-      <v-tooltip right>
+      <!-- <v-tooltip right>
         <template v-slot:activator="{ on }">
           <v-btn
             @click.stop="$refs.newFolder.open()"
@@ -27,7 +27,7 @@
           </v-btn>
         </template>
         <span>{{ $t("buttons.NewFolder") }}</span>
-      </v-tooltip>
+      </v-tooltip> -->
       <v-tooltip right>
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" fab color="#035c64" @click="$refs.upload.open()">
@@ -36,7 +36,7 @@
         </template>
         <span>{{ $t("buttons.UploadFile") }}</span>
       </v-tooltip>
-      <v-tooltip right>
+      <!-- <v-tooltip right>
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
@@ -48,7 +48,7 @@
           </v-btn>
         </template>
         <span>{{ $t("buttons.CreateFile") }}</span>
-      </v-tooltip>
+      </v-tooltip> -->
     </v-speed-dial>
     
     <CreateFilePopup ref="newFile" @confirm="onFileConfirm" />

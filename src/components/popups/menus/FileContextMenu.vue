@@ -10,50 +10,50 @@
   >
     <v-list color="#035c64" id="right-click-popup">
       <InfoButton />
-      <PreviewButton />
-      <DownloadButton />
+      <!-- <PreviewButton /> -->
+      <!-- <DownloadButton /> -->
       <DeleteButton />
-      <FavoriteButton />
+      <!-- <FavoriteButton />
       <MoveToButton />
-      <OnlineEditButton />
-      <LocalEditButton />
+      <OnlineEditButton /> -->
+      <!-- <LocalEditButton />
       <EditButton />
-      <ShareButton />
+      <ShareButton /> -->
       <ExternalTransferButton />
-      <CopyToClipboardButton/>
+      <!-- <CopyToClipboardButton/> -->
     </v-list>
   </v-menu>
 </template>
 
 <script>
-import DownloadButton from "@/components/buttons/DownloadButton";
+// import DownloadButton from "@/components/buttons/DownloadButton";
 import ExternalTransferButton from "@/components/buttons/ExternalTransferButton";
 import DeleteButton from "@/components/buttons/DeleteButton";
-import MoveToButton from "@/components/buttons/MoveToButton";
-import OnlineEditButton from "@/components/buttons/OnlineEditButton";
-import LocalEditButton from "@/components/buttons/LocalEditButton";
-import EditButton from "@/components/buttons/EditButton";
+// import MoveToButton from "@/components/buttons/MoveToButton";
+// import OnlineEditButton from "@/components/buttons/OnlineEditButton";
+// import LocalEditButton from "@/components/buttons/LocalEditButton";
+// import EditButton from "@/components/buttons/EditButton";
 import InfoButton from "@/components/buttons/InfoButton";
-import PreviewButton from "@/components/buttons/PreviewButton";
-import ShareButton from "@/components/buttons/ShareButton";
-import FavoriteButton from "@/components/buttons/FavoriteButton"
-import CopyToClipboardButton from "@/components/buttons/CopyToClipboardButton";
+// import PreviewButton from "@/components/buttons/PreviewButton";
+// import ShareButton from "@/components/buttons/ShareButton";
+// import FavoriteButton from "@/components/buttons/FavoriteButton"
+// import CopyToClipboardButton from "@/components/buttons/CopyToClipboardButton";
 
 export default {
   name: "FileMenu",
   components: {
-    DownloadButton,
-    ShareButton,
+    // DownloadButton,
+    // ShareButton,
     ExternalTransferButton,
-    MoveToButton,
+    // MoveToButton,
     DeleteButton,
     InfoButton,
-    OnlineEditButton,
-    LocalEditButton,
-    EditButton,
-    PreviewButton,
-    FavoriteButton,
-    CopyToClipboardButton,
+    // OnlineEditButton,
+    // LocalEditButton,
+    // EditButton,
+    // PreviewButton,
+    // FavoriteButton,
+    // CopyToClipboardButton,
   },
   data() {
     return {

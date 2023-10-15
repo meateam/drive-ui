@@ -85,12 +85,12 @@
       </v-list-group>
 
       <div>
-        <v-list-item>
+        <!-- <v-list-item>
           <v-list-item-icon>
             <img class="icons" src="@/assets/icons/storage.svg" />
           </v-list-item-icon>
           <v-list-item-title class="sidenav-title">{{ $t("sidenav.Quota.Quota") }}</v-list-item-title>
-        </v-list-item>
+        </v-list-item> -->
         <Quota :quota="quota" />
       </div>
     </v-list>
@@ -118,30 +118,30 @@ export default {
         },
         title: "sidenav.MyDrive",
       },
-      {
-        path: "/shared-with-me",
-        icons: {
-          white: "share",
-          green: "green-share",
-        },
-        title: "sidenav.SharedWithMe",
-      },
-      {
-        path: '/favorites',
-        icons: {
-          white: 'white-star',
-          green: 'green-star',
-        },
-        title: 'sidenav.Favorites',
-      },
-      {
-        path: "/last-updated",
-        icons: {
-          white: "last-update",
-          green: "green-last-update",
-        },
-        title: "sidenav.LastUpdated",
-      },
+      // {
+      //   path: "/shared-with-me",
+      //   icons: {
+      //     white: "share",
+      //     green: "green-share",
+      //   },
+      //   title: "sidenav.SharedWithMe",
+      // },
+      // {
+      //   path: '/favorites',
+      //   icons: {
+      //     white: 'white-star',
+      //     green: 'green-star',
+      //   },
+      //   title: 'sidenav.Favorites',
+      // },
+      // {
+      //   path: "/last-updated",
+      //   icons: {
+      //     white: "last-update",
+      //     green: "green-last-update",
+      //   },
+      //   title: "sidenav.LastUpdated",
+      // },
       //  {
       //   path: '/deleted-files',
       //   icons: {
