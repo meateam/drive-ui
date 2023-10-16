@@ -2,7 +2,7 @@
   <div>
     <v-app
       :class="{ dragging: drag }"
-      v-if="user"
+      v-if="!user"
       @dragover.prevent
       @drop.stop.prevent="onDrop"
       @dragenter="drag = true"
