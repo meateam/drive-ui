@@ -20,10 +20,10 @@
               src="@/assets/images/driveSample.png" width="90%">
           </div>
         </div>
-        <div style="display: flex; flex-direction: row; justify-items: end; margin: 20px; gap: 15px;">
+        <div style="display: flex; width: 100%; flex-direction: row; justify-content: center; margin: 20px; gap: 15px;">
+          <v-btn style="width: 200px; font-size: 16px;" @click="closePopup" class="close-btn">סגירה</v-btn>
           <v-btn style="width: 200px; font-size: 16px; color: white; background-color: #298d82;" @click="goToNewDrive"
             class="new-drive-btn">מעבר לדרייב החדש</v-btn>
-          <v-btn style="width: 200px; font-size: 16px;" @click="closePopup" class="close-btn">סגירה</v-btn>
         </div>
       </div>
     </transition>
