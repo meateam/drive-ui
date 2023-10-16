@@ -13,9 +13,9 @@
         <img class="fab-icon" src="@/assets/icons/share.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Share") }}</p>
       </v-btn>
+      <SharePopup @onShare="onShare" ref="share" :files="chosenFiles" />
     </template>
     <span>{{ $t("buttons.Share") }}</span>
-    <SharePopup @onShare="onShare" ref="share" :files="chosenFiles" />
   </v-tooltip>
 </template>
 
@@ -41,7 +41,9 @@ export default {
       );
     },
     isFileReadOnly() {
-      return this.chosenFiles.every((file) => file?.isReadOnly != undefined && file.isReadOnly);
+      return this.chosenFiles.every(
+        (file) => file?.isReadOnly != undefined && file.isReadOnly || file?.onlyDelete !=undefined && file.onlyDelete
+      );
     },
     async onShare(shareObject) {
       this.$emit("close");

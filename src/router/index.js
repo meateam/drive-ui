@@ -64,6 +64,7 @@ const router = new Router({
       },
       props: {
         appID: "dropbox",
+        external: true,
       },
       name: "External Transferred Dropbox",
     },
@@ -75,8 +76,21 @@ const router = new Router({
       },
       props: {
         appID: "cargo",
+        external: true,
       },
       name: "External Transferred Cargo",
+    },
+    {
+      path: "/external-transferred-falcon",
+      component: () => import("@/views/ExternalTransferred"),
+      meta: {
+        layout: true,
+      },
+      props: {
+        appID: "falcon",
+        external: false,
+      },
+      name: "external falcon",
     },
     {
       path: "/statusTransferred",

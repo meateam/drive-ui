@@ -2,6 +2,8 @@
   <v-tooltip top v-if="canEdit()" :disabled="!icon">
     <template v-slot:activator="{ on }">
       <v-btn
+        v-shortkey="['f2']"
+        @shortkey="$refs.rename.open()"
         @click="$refs.rename.open()"
         v-on="on"
         :icon="icon"
@@ -13,14 +15,14 @@
         <img class="fab-icon" src="@/assets/icons/edit.svg" />
         <p class="button-text" v-if="!icon">{{ $t("buttons.Edit") }}</p>
       </v-btn>
+      <NamePopup
+        img="green-edit.svg"
+        ref="rename"
+        :value="nameOnly"
+        :type="isFolder() ? 'renameFolder' : 'renameFile'"
+        @confirm="onConfirm"
+      />
     </template>
-    <NamePopup
-      img="green-edit.svg"
-      ref="rename"
-      :value="nameOnly"
-      :type="isFolder() ? 'renameFolder' : 'renameFile'"
-      @confirm="onConfirm"
-    />
     <span>{{ $t("buttons.Edit") }}</span>
   </v-tooltip>
 </template>
@@ -82,7 +84,7 @@ export default {
     },
     isFileReadOnly() {
       return this.chosenFiles.every(
-        (file) => file?.isReadOnly != undefined && file.isReadOnly
+        (file) => file?.isReadOnly != undefined && file.isReadOnly || file?.onlyDelete !=undefined && file.onlyDelete
       );
     },
   },

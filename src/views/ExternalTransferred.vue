@@ -22,19 +22,19 @@ export default {
       headerNetwork: this.$t("pageHeaders.ExternalTransferDefault"),
     };
   },
-  props: ["appID"],
+  props: ["appID", "external"],
   computed: {
-    ...mapGetters(["files", "serverFilesLength", "externalNetworkDests"]),
+    ...mapGetters(["files", "serverFilesLength"]),
   },
   watch: {
     appID(newAppId) {
       this.currentNetworkDest = getNetworkItemByAppId(newAppId);
       this.headerNetwork = this.currentNetworkDest.label;
-
       this.$store.dispatch("fetchExternalTransferredFiles", {
         pageNum: 0,
         appId: newAppId,
         dest: this.currentNetworkDest.value,
+        external: this.external, 
       });
     },
   },
@@ -46,6 +46,7 @@ export default {
       pageNum: 0,
       appId: this.appID,
       dest: this.currentNetworkDest.value,
+      external: this.external, 
     });
   },
   methods: {
@@ -54,6 +55,7 @@ export default {
         pageNum: page - 1,
         appId: this.appID,
         dest: this.currentNetworkDest.value,
+        external: this.external, 
       });
     },
   },

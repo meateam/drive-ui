@@ -46,6 +46,11 @@ export default {
       name: "",
     };
   },
+  watch: {
+    dialog() {
+      this.$store.commit("changePopupStatus");
+    },
+  },
   props: ["img", "type", "value"],
   methods: {
     isSpecialChars() {
@@ -55,6 +60,9 @@ export default {
       return this.name.length < 2 || !isValidString(this.name);
     },
     open() {
+      if (this.$store.getters.isPopupOpen) {
+        return;
+      }
       this.dialog = true;
     },
     onNameChange(name) {

@@ -37,7 +37,7 @@ export default {
   components: { SubmitButton, SelectBtn },
   props: { reset: Boolean },
   computed: {
-    ...mapGetters(["user", "externalNetworkDests", "dropboxSupportLink"]),
+    ...mapGetters(["user", "dropboxSupportLink"]),
     enableNetworks: function() {
       return getEnabledNetworks();
     },

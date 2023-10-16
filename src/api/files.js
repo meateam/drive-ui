@@ -53,8 +53,8 @@ export async function fetchSharedFiles(pageNum, pageAmount) {
  * @param pageNum - for pagination, the page number
  * @param appId - appId, external sources app
  */
-export async function fetchExternalTransferredFiles(pageNum, appId) {
-  const res = await Axios.get(`${baseURL}/api/files?shares&appId=${appId}&pageSize=${pageSize}&pageNum=${pageNum}`);
+export async function fetchExternalTransferredFiles(pageNum, appId, external = true) {
+  const res = await Axios.get(`${baseURL}/api/files?${external? 'shares&':''}appId=${appId}&pageSize=${pageSize}&pageNum=${pageNum}`);
   const permissions = res.data;
   return permissions;
 }
@@ -254,10 +254,10 @@ export async function moveFiles({ folderID, fileIDs }) {
   return res.data;
 }
 
-export function getPreview(fileID) {
-  return `${baseURL}/api/files/${fileID}?alt=media&inline=true`;
+export function getPreview(fileID, appID) {
+  return `${baseURL}/api/files/${fileID}?alt=media&inline=true&appId=${appID}`;
 }
 
-export function getPdfPreview(fileID) {
-  return `${baseURL}/api/files/${fileID}?alt=media&preview`;
+export function getPdfPreview(fileID, appID) {
+  return `${baseURL}/api/files/${fileID}?alt=media&preview&appId=${appID}`;
 }

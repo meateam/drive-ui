@@ -63,8 +63,17 @@ export default {
       file: undefined,
     };
   },
+  watch: {
+    dialog() {
+      this.$store.commit("changePopupStatus");
+    },
+  },
   methods: {
     open(file) {
+      if (this.$store.getters.isPopupOpen) {
+        return;
+      }
+
       this.file = file;
       this.dialog = true;
     },
@@ -77,10 +86,10 @@ export default {
   },
   computed: {
     getFile() {
-      return getPreview(this.file.id);
+      return getPreview(this.file.id, this.file.appID);
     },
     getPDF() {
-      return getPdfPreview(this.file.id);
+      return getPdfPreview(this.file.id, this.file.appID);
     },
   },
 };

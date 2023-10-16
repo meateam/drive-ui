@@ -2,7 +2,10 @@
   <v-dialog v-model="dialog" max-width="550" class="popup">
     <v-card>
       <div class="popup-header">
-        <img class="popup-icon auto-margin" src="@/assets/icons/green-move-to.svg" />
+        <img
+          class="popup-icon auto-margin"
+          src="@/assets/icons/green-move-to.svg"
+        />
         <p class="d-title">{{ $t("folder.Move") }}</p>
         <div class="files">
           <p class="ltr file" v-for="file in files" :key="file.id">
@@ -13,7 +16,12 @@
       <div class="popup-body">
         <Breadcrumbs :items="folderHierarchy" @click="onFolderChange" />
 
-        <List :items="currentChildren" icon="folder" @change="onFolderChange" :disabledChecker="isFolderDestDisabled" />
+        <List
+          :items="currentChildren"
+          icon="folder"
+          @change="onFolderChange"
+          :disabledChecker="isFolderDestDisabled"
+        />
 
         <v-card-actions class="popup-confirm">
           <SubmitButton @click="onConfirm" :label="$t('buttons.Confirm')" />
@@ -46,14 +54,28 @@ export default {
       folderDest: undefined,
     };
   },
+  watch: {
+    dialog() {
+      this.$store.commit("changePopupStatus");
+    },
+  },
   props: ["files"],
   methods: {
     async open() {
-      await Promise.all([this.fetchHierachy(this.currentFolder), this.fetchFolders(this.currentFolder)]);
+      if (this.$store.getters.isPopupOpen) {
+        return;
+      }
+
+      await Promise.all([
+        this.fetchHierachy(this.currentFolder),
+        this.fetchFolders(this.currentFolder),
+      ]);
       this.dialog = true;
     },
     async fetchFolders(parent) {
-      this.currentChildren = await filesApi.getFoldersByFolder(parent ? parent.id : undefined);
+      this.currentChildren = await filesApi.getFoldersByFolder(
+        parent ? parent.id : undefined
+      );
     },
     async fetchHierachy(folder) {
       const breadcrumbs = [];
@@ -70,8 +92,11 @@ export default {
         });
       } else {
         const hierarchy = await filesApi.getFolderHierarchy(folder.id);
-        const firstFolder = hierarchy && hierarchy.length > 0 ? hierarchy[0] : folder;
-        const [firstBreadCrumb, firstIsDisabled] = getDriveFirstBreadcrumb(firstFolder.role);
+        const firstFolder =
+          hierarchy && hierarchy.length > 0 ? hierarchy[0] : folder;
+        const [firstBreadCrumb, firstIsDisabled] = getDriveFirstBreadcrumb(
+          firstFolder.role
+        );
 
         breadcrumbs.push({
           value: undefined,

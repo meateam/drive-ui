@@ -183,7 +183,9 @@ export default {
 #sidenav {
   background-image: linear-gradient(to bottom, #347a99, #2f7e71);
   display: block;
+  width: 270px !important;
 }
+
 .sidenav-subitem {
   background-image: linear-gradient(to left, #347a99, #2f7e71);
   background-color: #072333;
