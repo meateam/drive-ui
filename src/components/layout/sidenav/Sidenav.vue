@@ -84,6 +84,18 @@
         </div>
       </v-list-group>
 
+
+      <div exact-active-class="route-active">
+        <a href="https://drive.services.idf">
+          <v-list-item link :id="123">
+            <v-list-item-icon>
+              <img height="36x" style="padding-left: 14px;" :src="require(`@/assets/icons/new-drive.svg`)" />
+            </v-list-item-icon>
+            <v-list-item-title class="sidenav-title">חזרה לדרייב</v-list-item-title>
+          </v-list-item>
+        </a>
+      </div>
+
       <div>
         <!-- <v-list-item>
           <v-list-item-icon>
@@ -154,7 +166,7 @@ export default {
   }),
   computed: {
     ...mapGetters(["version", "quota", "externalNetworkDests"]),
-    enableNetworks: function() {
+    enableNetworks: function () {
       return getEnabledNetworks();
     },
   },
@@ -191,23 +203,29 @@ export default {
   background-color: #072333;
   background-blend-mode: screen;
 }
+
 .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
   padding: 0 20px;
 }
+
 .v-list {
   padding: 0;
   min-height: calc(100% - 80px);
 }
+
 .v-list-item {
   height: 70px;
 }
+
 #logo-container {
   height: 86px;
   margin: 0 35px;
 }
+
 #logo {
   padding-bottom: 5px;
 }
+
 #yesodot {
   display: block;
   width: 70px;
@@ -215,37 +233,48 @@ export default {
   margin: 0 30px;
   margin: auto;
 }
+
 .v-list-item__icon {
   margin: auto;
 }
+
 .icons {
   width: 22px;
   height: 22px;
 }
+
 #version {
   text-align: center;
 }
+
 .sidenav-title {
   color: #fff9e5;
 }
+
 .sidenav-submenu-title {
   color: #fff9e5;
 }
+
 .white-icon {
   display: block;
 }
+
 .green-icon {
   display: none;
 }
+
 .route-active {
   background-color: #f0f3f8 !important;
 }
+
 .route-active .white-icon {
   display: none;
 }
+
 .route-active .green-icon {
   display: block;
 }
+
 .route-active .sidenav-title {
   color: #035c64 !important;
 }

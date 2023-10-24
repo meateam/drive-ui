@@ -5,7 +5,8 @@
   "Warning": "אזהרה",
   "me": "אני",
   "sidenav": {
-    "MyDrive": "הדרייב שלי",
+    "MyDrive": "הקבצים שלי",
+    "Back": "חזרה לדרייב",
     "ExternalTransferIncoming": "התקבל ממערכת חיצונית",
     "ExternalTransferIncomingName": "התקבל מ{networkName}",
     "ExternalTransferOutgoing": "נשלח למערכת חיצונית",
@@ -39,7 +40,7 @@
     "ExternalTransferDefault": "ממרחב חיצוני",
     "ExternalTransferred": "קבצים שהתקבלו מ{networkName}",
     "StatusTransferred": "סטטוס קבצים שנשלחו",
-    "MyDrive": "הדרייב שלי",
+    "MyDrive": "הקבצים שלי",
     "Search": "תוצאות החיפוש",
     "Favorites": "מועדפים"
   },
